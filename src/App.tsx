@@ -9,6 +9,7 @@ function App() {
     <>
       <div>
         <h1 className=' text-center text-lg bg-green-700'>hello world</h1>
+        <button className="btn btn-primary ">Primary</button>
       </div>
     </>
   )
