@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Roomdetail() {
+function RoomDetail() {
   return (
     <div>Roomdetail</div>
   )
 }
 
-export default Roomdetail
+export default RoomDetail
