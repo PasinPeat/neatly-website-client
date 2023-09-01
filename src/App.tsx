@@ -8,7 +8,7 @@ function App() {
         <h1 className="w-1/2 h-32 text-center text-headline2 font-noto-serif-display bg-clean">hello world</h1>
         <h1 className="w-1/2 h-32 text-center text-headline2 font-noto-serif-display bg-dirty">hello world</h1>
         <h1 className="w-1/2 h-32 text-center text-headline2 font-inter bg-inspected">hello world</h1>
-        <button className="btn btn-base-200">Primary</button>
+        <button className="btn Button">Book Now</button>
       </div>
     </>
   );
