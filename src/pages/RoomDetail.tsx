@@ -1,8 +1,20 @@
 import React from 'react'
+import Navbar from '../components/Navbar'
+import HorizontalSlidebar from '../components/HorizontalSlidebar'
+import RoomDetailPageContent from '../components/RoomDetailPageContent'
+import RoomDetailPageOtherRoom from '../components/RoomDetailPageOtherRoom'
+import Footer from '../components/Footer'
 
 function RoomDetail() {
   return (
-    <div>Roomdetail</div>
+    <>
+    <Navbar/>
+    <HorizontalSlidebar/>
+    <RoomDetailPageContent/>
+    <RoomDetailPageOtherRoom/>
+    <Footer/>
+
+    </>
   )
 }
 
