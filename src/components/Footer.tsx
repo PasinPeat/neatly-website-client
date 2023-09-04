@@ -19,7 +19,7 @@ function Footer() {
             </p>
           </div>
           <div className="w-[380px]">
-            <span className="footer-title text-white mt-3">CONTACT</span>
+            <span className="footer-title text-white text-body1 mt-3">CONTACT</span>
             <div className="flex justify-start mt-4">
               <div className=" mr-4">
                 <img
@@ -27,27 +27,27 @@ function Footer() {
                   alt="Icon"
                 />
               </div>
-              <span className=" text-white font-normal">+66 99 999 9999</span>
+              <span className=" text-white font-normal text-body2">+66 99 999 9999</span>
             </div>
             <div className="flex justify-start mt-5">
-              <div className=" mr-4">
+              <div className=" mr-4 flex ">
                 <img
                   src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/icon-email-green.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2ljb24tZW1haWwtZ3JlZW4uc3ZnIiwiaWF0IjoxNjkzNTYwNDg4LCJleHAiOjE3MjUwOTY0ODh9.Jx-TmU9pFrZEbX_-VONpWqx60ZF-N0PYCViSQBntQGY&t=2023-09-01T09%3A28%3A08.136Z"
                   alt="Icon"
                 />
               </div>
-              <span className=" text-white font-normal">
+              <span className=" text-white font-normal text-body1">
                 contact@neatlyhotel.com
               </span>
             </div>
-            <div className="flex justify-start mt-5">
-              <div className=" mr-4">
+            <div className="flex justify-start mt-5 ">
+              <div className=" mr-4 ">
                 <img
                   src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/icon-location-green.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2ljb24tbG9jYXRpb24tZ3JlZW4uc3ZnIiwiaWF0IjoxNjkzNTYwNDYxLCJleHAiOjE3MjUwOTY0NjF9.Rd5nDZ7HAJZl4aZ1jpJFpKqm1wnUR9YsKol-3mwl7C4&t=2023-09-01T09%3A27%3A40.935Z"
                   alt="Icon"
                 />
               </div>
-              <span className=" text-white font-normal">
+              <span className=" text-white font-normal text-body2">
                 188 Phaya Thai Rd, Thung Phaya Thai, <br />
                 Ratchathewi, Bangkok 10400
               </span>
