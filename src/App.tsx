@@ -1,16 +1,23 @@
 import "./App.css";
+import Home from "./pages/Home.tsx";
+import Login from "./pages/Login.tsx";
+import Register from "./pages/Register.tsx";
+import RoomDetail from "./pages/RoomDetail.tsx";
+import SearchResult from "./pages/SearchResult.tsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <>
-      <div data-theme="mytheme">
-        <h1 className="w-1/2 h-32 text-center text-headline2 font-noto-serif-display bg-gray-800">Neatly Hotel</h1>
-        <h1 className="w-1/2 h-32 text-center text-headline2 font-noto-serif-display bg-clean">hello world</h1>
-        <h1 className="w-1/2 h-32 text-center text-headline2 font-noto-serif-display bg-dirty">hello world</h1>
-        <h1 className="w-1/2 h-32 text-center text-headline2 font-inter bg-inspected">hello world</h1>
-        <button className="btn Button">Book Now</button>
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/room-detail" element={<RoomDetail />} />
+        <Route path="/search" element={<SearchResult />} />
+        {/* <Route path="/*" element={<NotFound />} /> */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 

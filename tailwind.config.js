@@ -110,7 +110,13 @@ export default {
     },
     fontFamily: {
       inter: ["Inter"],
-      'noto-serif-display': ['Noto Serif Display'],
+      "noto-serif-display": ["Noto Serif Display"],
+    },
+    extend: {
+      backgroundImage: {
+        coverLanding:
+          "url('https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/cover.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvY292ZXIuanBnIiwiaWF0IjoxNjkzODAzMDU0LCJleHAiOjE3MjUzMzkwNTR9.vc4mrlHZTd_8nB6VUcMRVC1NlGwzpz4hAZyGN2PhoYY&t=2023-09-04T04%3A50%3A53.775Z')",
+      },
     },
   },
 
