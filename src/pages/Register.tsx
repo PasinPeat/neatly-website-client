@@ -80,7 +80,7 @@ function Register() {
                 id="idNumber"
                 name="idNumber"
                 pattern="\d*"
-                maxLength="13"
+                maxLength={13}
                 placeholder="Enter your ID Number"
                 className="w-full Input"
                 required
@@ -153,7 +153,7 @@ function Register() {
                 id="cardNumber"
                 name="cardNumber"
                 pattern="\d*"
-                maxLength="10"
+                maxLength={10}
                 placeholder="Enter your card number"
                 className="w-full Input font-body1"
                 required
@@ -171,7 +171,7 @@ function Register() {
                 id="expried"
                 name="expried"
                 pattern="\d*"
-                maxLength="4"
+                maxLength={4}
                 placeholder="MM/YY"
                 className="w-full Input"
                 required
@@ -203,7 +203,7 @@ function Register() {
                 id="cvc"
                 name="cvc"
                 pattern="\d*"
-                maxLength="3"
+                maxLength={3}
                 placeholder="CVC/CVV"
                 className="w-full Input"
                 required
