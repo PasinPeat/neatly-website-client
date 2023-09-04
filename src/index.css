@@ -5,9 +5,14 @@
 
 @layer components {
   .Button {
-    @apply text-white bg-orange-600 hover:bg-orange-800;
+    @apply text-white bg-orange-600 hover:bg-orange-800 rounded font-inter text-body1 capitalize border-none;
   }
-  
+}
+
+@layer components {
+  .Input {
+    @apply text-gray-600 font-inter text-body1 bg-white border-gray-400 border-2 rounded p-3;
+  }
 }
 
 /* @layer utilities{
