@@ -61,13 +61,25 @@ function Footer() {
         <footer className="footer flex justify-between  py-[40px] border-t-[2px] mt-[90px] border-green-700 bg-green-800 text-base-content ">
           <div className="md:place-self-center md:justify-self-end">
             <div className="grid grid-flow-col gap-4">
-              <a className="scale-125 mx-1">
+              <a
+                className="scale-125 mx-1 hover:cursor-pointer "
+                href="https://www.facebook.com/"
+                target="_blank"
+              >
                 <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/Facebook.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL0ZhY2Vib29rLnN2ZyIsImlhdCI6MTY5MzgwMjgxMiwiZXhwIjoxNzI1MzM4ODEyfQ.TfigdLGJTpEzKqSo-HT23AxYpQVsvB5r0NcGTw50Zo4&t=2023-09-04T04%3A46%3A53.118Z" />
               </a>
-              <a className="scale-125 mx-1">
+              <a
+                className="scale-125 mx-1 hover:cursor-pointer"
+                href="https://www.instagram.com/"
+                target="_blank"
+              >
                 <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/Instagram.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL0luc3RhZ3JhbS5zdmciLCJpYXQiOjE2OTM4MDMyNTMsImV4cCI6MTcyNTMzOTI1M30._i57l-ilKkoHd6xV8Oe5lxgD6izM-S59DsBD0iPfkhM&t=2023-09-04T04%3A54%3A13.674Z" />
               </a>
-              <a className="scale-125 mx-1">
+              <a
+                className="scale-125 mx-1 hover:cursor-pointer"
+                href="https://twitter.com/?lang=en"
+                target="_blank"
+              >
                 <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/twitter.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL3R3aXR0ZXIuc3ZnIiwiaWF0IjoxNjkzODAzMjY2LCJleHAiOjE3MjUzMzkyNjZ9.ifO2aDvlRNIa0qJe0dy2pz1UTlvbAXiLd3CW100uH54&t=2023-09-04T04%3A54%3A26.760Z" />
               </a>
             </div>
