@@ -31,6 +31,7 @@ function Login() {
                   name="username"
                   placeholder="Enter username or email"
                   className="w-full Input"
+                  required
                 />
               </div>
 
@@ -44,6 +45,7 @@ function Login() {
                   name="password"
                   placeholder="Enter your Password"
                   className="w-full Input"
+                  required
                 />
               </div>
 

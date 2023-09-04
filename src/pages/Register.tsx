@@ -121,7 +121,6 @@ function Register() {
           </div>
 
           {/* Profile Picture*/}
-          {/* <br /> */}
           <div className="h-[0.2px] bg-gray-500"></div>
           <div className="flex flex-col items-start">
             <p className="text-gray-600 text-headline5 py-10">
@@ -138,7 +137,6 @@ function Register() {
           </div>
 
           {/* Credit Card */}
-          {/* <br /> */}
           <div className="h-[0.2px] bg-gray-500"></div>
           <p className="text-gray-600 text-headline5 py-10 text-start">
             Credit Card
