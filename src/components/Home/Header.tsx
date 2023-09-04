@@ -1,4 +1,4 @@
-import Navbar from "./Navbar.tsx";
+import Navbar from "../Navbar.tsx";
 import Search from "./Search.tsx";
 
 function Header() {
