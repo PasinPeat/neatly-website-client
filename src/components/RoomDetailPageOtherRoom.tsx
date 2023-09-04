@@ -2,9 +2,9 @@ import React from "react";
 
 function RoomDetailPageOtherRoom() {
   return (
-    <div className=" bg-green-200 h-[662px] flex flex-col items-center pt-[104px] pb-[104px] px-[160px]">
+    <div className=" bg-green-200  flex flex-col items-center pt-[90px] pb-[100px] px-[160px]">
       <div className="w-[1120px] ">
-        <h1 className="text-black text-headline4 text-center font-noto-serif-display mb-14">
+        <h1 className="text-black text-headline3 text-center font-noto-serif-display mb-14">
           Other Rooms
         </h1>
         <div className="flex flex-row w-full gap-6">

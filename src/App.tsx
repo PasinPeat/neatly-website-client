@@ -18,7 +18,7 @@ function App() {
           <Route path="/search" element={<SearchResult />} />
           {/* <Route path="/*" element={<NotFound />} /> */}
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> 
     </>
   );
 }
