@@ -1,5 +1,5 @@
-import Navbar from "../components/Navbar.tsx";
-import Search from "../components/Search.tsx";
+import Navbar from "./Navbar.tsx";
+import Search from "./Search.tsx";
 
 function Header() {
   return (
