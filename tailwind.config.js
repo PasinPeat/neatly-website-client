@@ -110,7 +110,17 @@ export default {
     },
     fontFamily: {
       inter: ["Inter"],
-      'noto-serif-display': ['Noto Serif Display'],
+      "noto-serif-display": ["Noto Serif Display"],
+    },
+    extend: {
+      backgroundImage: {
+        coverLanding:
+          "url('https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/cover.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvY292ZXIuanBnIiwiaWF0IjoxNjkzNjUzMTM2LCJleHAiOjE3MjUxODkxMzZ9.VuE0ucCLUgiPXxiK9H7L8Hl0_eHkMBe9WWyIQ0ZTQtU&t=2023-09-02T11%3A12%3A16.432Z')",
+        coverRegister:
+          "url('https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/cover.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvY292ZXIuanBnIiwiaWF0IjoxNjkzNTQ5ODk5LCJleHAiOjE3MjUwODU4OTl9.ofluVcHUiH6xRrL9B2g0lkzZoKQZEZhQNddOUH3q3FU&t=2023-09-01T06%3A31%3A39.778Z')",
+        coverLogin:
+          "url('https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/superior-garden-3?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvc3VwZXJpb3ItZ2FyZGVuLTMiLCJpYXQiOjE2OTM1NDk2NzksImV4cCI6MTcyNTA4NTY3OX0.s3rwwqDSUUgQ_o5RwmhBssmWOz0v3UR5w-ftMYaEJI4&t=2023-09-01T06%3A27%3A59.603Z')",
+      },
     },
   },
 
