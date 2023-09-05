@@ -1,7 +1,7 @@
 function Reviews() {
   return (
-    <div className="py-28 flex flex-col items-center justify-center  bg-green-200">
-      <div className="mb-6 font-noto-serif-display text-green-800 text-headline3">
+    <div className="py-28 flex flex-col items-center justify-center bg-green-200">
+      <div className="mb-6 font-noto-serif-display text-green-800 text-headline2">
         Our Customer Says
       </div>
       <div className="flex items-center">
