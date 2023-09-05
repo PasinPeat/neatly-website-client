@@ -70,14 +70,6 @@ function Register() {
   };
 
   //@ts-ignore
-  // const handleFileChange = (event) => {
-  //   const uniqueId = Date.now();
-  //   setAvatars({
-  //     ...avatars,
-  //     [uniqueId]: event.target.files[0],
-  //   });
-  // };
-
   const handleFileChange = (event) => {
     const uniqueId = Date.now();
     const file = event.target.files[0];
