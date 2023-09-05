@@ -18,6 +18,7 @@ function SlideBarLandingPage() {
         delay: 2500,
         disableOnInteraction: false,
       }}
+      speed={400}
       spaceBetween={150}
       slidesPerView={4}
     //   slidesOffsetBefore={50}
