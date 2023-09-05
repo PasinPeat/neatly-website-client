@@ -50,11 +50,11 @@ function Reviews() {
     </div>
 
     <Swiper
-    
+    className=" bg-white"
         style={
           {
             
-          '--swiper-navigation-color': '#fff',
+          
           '--swiper-pagination-color': '#fff',
         }}
         speed={600}
@@ -68,11 +68,8 @@ function Reviews() {
       >
         <div
           slot="container-start"
-          className="parallax-bg"
-          style={{
-            'background-image':
-              'url(https://swiperjs.com/demos/images/nature-1.jpg)',
-          }}
+          // className="parallax-bg"
+          className=" bg-white"
           data-swiper-parallax="-23%"
         ></div>
         <SwiperSlide>
