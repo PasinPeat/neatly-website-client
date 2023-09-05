@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import "../App.css"
+import "../App.css";
 
 function SlideBarLandingPage() {
   return (
@@ -21,13 +21,34 @@ function SlideBarLandingPage() {
       speed={400}
       spaceBetween={150}
       slidesPerView={4}
-    //   slidesOffsetBefore={50}
-    //   slidesOffsetAfter={40}
+      breakpoints={{
+        "@0.00": {
+          slidesPerView: 1,
+          spaceBetween: 20,
+          slidesOffsetBefore:30,
+        },
+        "@0.75": {
+          slidesPerView: 1,
+          spaceBetween: 400,
+          slidesOffsetBefore:70,
+          slidesOffsetAfter:40,
+        },
+        "@1.00": {
+          slidesPerView: 2,
+          spaceBetween: 50,
+          slidesOffsetBefore:-82,
+          // slidesOffsetAfter:80,
+        },
+        "@1.50": {
+          slidesPerView: 4,
+          spaceBetween: 150,
+        },
+      }}
+        slidesOffsetBefore={-85}
+      //   slidesOffsetAfter={40}
       centeredSlides={true}
       centeredSlidesBounds={true}
-      navigation 
-      onSwiper={(swiper) => console.log(swiper)}
-      onSlideChange={() => console.log("slide change")}
+      navigation
     >
       <SwiperSlide>
         <div className="w-[400px] h-[500px] ml-4">
