@@ -1,5 +1,6 @@
 import React from "react";
 import SlideBarLandingPage from "./SlideBarLandingPage.tsx";
+
 function About() {
   return (
     <div className=" bg-white">
@@ -28,8 +29,9 @@ function About() {
           </span>
         </div>
       </div>
-      {/* image slide */}
-      <div className="pt-36 pb-20 ">{/* <SlideBarLandingPage /> */}</div>
+      <div className="pt-36 pb-20 ">
+        <SlideBarLandingPage />
+      </div>
     </div>
   );
 }

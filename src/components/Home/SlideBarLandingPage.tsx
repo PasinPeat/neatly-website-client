@@ -1,16 +1,17 @@
 import React from "react";
 import { Navigation, Autoplay, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { RoomsProps } from "../../interfaces/RoomsProps.tsx";
-
+import { useContext } from "react";
+import { RoomsContext } from "../../App.tsx";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "../../App.css";
 
-function SlideBarLandingPage({ rooms }) {
-  // console.log(rooms);
+function SlideBarLandingPage() {
+  const context = useContext(RoomsContext);
+  // console.log(context.rooms);
   return (
     <Swiper
       className=" bg-white"
@@ -55,7 +56,7 @@ function SlideBarLandingPage({ rooms }) {
       // onSwiper={(swiper) => console.log(swiper)}
       // onSlideChange={() => console.log("slide change")}
     >
-      {rooms.map((room, index) => {
+      {context.rooms.map((room, index) => {
         console.log(room.room_images[0]);
         return (
           <div>
