@@ -4,10 +4,10 @@ function About() {
   return (
     <div className=" bg-white">
       <div className="pt-36 px-40">
-        <div className="mb-12 text-headline2 font-noto-serif-display">
+        <div className="mb-12 text-headline2 font-noto-serif-display text-green-800">
           Neatly Hotel
         </div>
-        <div className="ml-36 text-body1 flex flex-col justify-end ">
+        <div className="ml-36 text-body1 text-gray-700 flex flex-col justify-end ">
           <span>
             Set in Bangkok, Thailand. Neatly Hotel offers 5-star accommodation
             with an outdoor pool, kids' club, sports facilities and a fitness
