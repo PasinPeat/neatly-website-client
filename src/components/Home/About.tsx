@@ -29,10 +29,10 @@ function About() {
         </div>
       </div>
       {/* image slide */}
-      <div className="pt-36 pb-20">
-        <div className="h-[500px] bg-gray-300">
-          <SlideBarLandingPage/>
-        </div>
+      <div className="pt-36 pb-20 ">
+        
+          <SlideBarLandingPage />
+        
       </div>
     </div>
   );
