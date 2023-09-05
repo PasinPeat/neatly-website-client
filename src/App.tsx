@@ -43,6 +43,7 @@ function App() {
         <Route path="/room-detail" element={<RoomDetail />} />
         <Route path="/search" element={<SearchResult />} />
         {/* <Route path="/*" element={<NotFound />} /> */}
+        <Route path="/popup" element={<RoomDetailPopup />} />
       </Routes>
     </BrowserRouter>
     // </RoomDetailContext.Provider>

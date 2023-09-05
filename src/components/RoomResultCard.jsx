@@ -18,11 +18,14 @@ function RoomResultCard() {
                   Superior Garden View
                 </h2>
                 <div className="pb-8">
-                  <span>2 Guests</span>
-                  <span> | </span>
-                  <span>1 Double bed</span>
-                  <span> | </span>
-                  <span>32 sqm</span>
+                  <span className="text-gray-800">2</span>
+                  <span> Guests</span>
+                  <span className="px-4"> | </span>
+                  <span className="text-gray-800">1 </span>
+                  <span> Double bed</span>
+                  <span className="px-4"> | </span>
+                  <span className="text-gray-800">32</span>
+                  <span> sqm</span>
                 </div>
                 <p className="text-body1">
                   Rooms (36sqm) with full garden views, 1 single bed, bathroom
