@@ -5,7 +5,7 @@
 
 @layer components {
   .Button {
-    @apply text-white bg-orange-600 hover:bg-orange-800 rounded font-inter text-body1 capitalize;
+    @apply text-white bg-orange-600 hover:bg-orange-800 rounded font-inter text-body1 capitalize border-none;
   }
   .Service-container {
     @apply w-44 flex flex-col items-center justify-center;
