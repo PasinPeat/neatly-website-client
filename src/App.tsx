@@ -5,6 +5,7 @@ import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
 import RoomDetail from "./pages/RoomDetail.tsx";
 import SearchResult from "./pages/SearchResult.tsx";
+import RoomDetailPopup from "./components/RoomDetailPopup.tsx";
 import axios from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useParams, useNavigate } from "react-router-dom";

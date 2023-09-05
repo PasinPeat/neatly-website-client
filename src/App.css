@@ -7,3 +7,31 @@
 body {
   font-family: inter;
 }
+
+#swiper-color {
+  position: relative;
+}
+
+#swiper-color .swiper-button-next {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  right: 180px;
+  background-image: url("https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/slidebar-arrow-next.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL3NsaWRlYmFyLWFycm93LW5leHQuc3ZnIiwiaWF0IjoxNjkzODkwMjkzLCJleHAiOjE3MjU0MjYyOTN9.qifYEDUvnsjj_Yd2aDJbIxTHsHNHWS5ALGQg68xXzeo&t=2023-09-05T05%3A04%3A52.119Z%22");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  color: transparent;
+}
+
+#swiper-color .swiper-button-prev {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  left: 180px;
+  background-image: url("https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/slidebar-arrow-prev.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL3NsaWRlYmFyLWFycm93LXByZXYuc3ZnIiwiaWF0IjoxNjkzODkwOTQ3LCJleHAiOjE3MjU0MjY5NDd9.hZnYXZUQfiOsHLTgvHveD2397LTxOV8MaVqIjdKyvr8&t=2023-09-05T05%3A15%3A46.342Z%22");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  color: transparent;
+}
