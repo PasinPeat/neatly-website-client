@@ -22,7 +22,6 @@ function SlideBarLandingPage({ rooms }) {
       }}
       spaceBetween={150}
       slidesPerView={4}
-<<<<<<< HEAD:src/components/SlideBarLandingPage.tsx
       breakpoints={{
         "@0.00": {
           slidesPerView: 1,
@@ -47,9 +46,8 @@ function SlideBarLandingPage({ rooms }) {
         },
       }}
       slidesOffsetBefore={-85}
-=======
       //   slidesOffsetBefore={50}
->>>>>>> 51ea937 (Fix: add interfaces):src/components/Home/SlideBarLandingPage.tsx
+      //   slidesOffsetBefore={50}
       //   slidesOffsetAfter={40}
       centeredSlides={true}
       centeredSlidesBounds={true}

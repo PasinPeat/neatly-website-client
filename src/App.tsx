@@ -10,6 +10,7 @@ import axios from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { RoomsProps } from "./interfaces/RoomsProps.tsx";
 // export const RoomDetailContext = React.createContext();
 
 function App() {
