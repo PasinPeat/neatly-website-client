@@ -9,18 +9,8 @@ import axios from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { RoomsProps } from "./interfaces/RoomsProps.tsx";
 // export const RoomDetailContext = React.createContext();
-
-interface Room {
-  room_type: string;
-  price: number;
-  promotion_price: number;
-  bed_types: string;
-  area: string;
-  amenity: string[];
-  description: string;
-  room_images: string[];
-}
 
 function App() {
   // const [rooms, setRooms] = useState<Room[]>([]);

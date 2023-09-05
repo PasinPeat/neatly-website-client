@@ -1,14 +1,16 @@
 import React from "react";
 import { Navigation, Autoplay, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { RoomsProps } from "../../interfaces/RoomsProps.tsx";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import "../App.css";
+import "../../App.css";
 
-function SlideBarLandingPage() {
+function SlideBarLandingPage({ rooms }) {
+  // console.log(rooms);
   return (
     <Swiper
       className=" bg-white"
@@ -18,39 +20,31 @@ function SlideBarLandingPage() {
         delay: 2500,
         disableOnInteraction: false,
       }}
-      speed={400}
       spaceBetween={150}
       slidesPerView={4}
-      breakpoints={{
-        "@0.00": {
-          slidesPerView: 1,
-          spaceBetween: 20,
-          slidesOffsetBefore:30,
-        },
-        "@0.75": {
-          slidesPerView: 1,
-          spaceBetween: 400,
-          slidesOffsetBefore:70,
-          slidesOffsetAfter:40,
-        },
-        "@1.00": {
-          slidesPerView: 2,
-          spaceBetween: 50,
-          slidesOffsetBefore:-82,
-          // slidesOffsetAfter:80,
-        },
-        "@1.50": {
-          slidesPerView: 4,
-          spaceBetween: 150,
-        },
-      }}
-        slidesOffsetBefore={-85}
+      //   slidesOffsetBefore={50}
       //   slidesOffsetAfter={40}
       centeredSlides={true}
       centeredSlidesBounds={true}
       navigation
     >
-      <SwiperSlide>
+      {rooms.map((room, index) => {
+        console.log(room.room_images[0]);
+        return (
+          <div>
+            <SwiperSlide>
+              <div className="w-[400px] h-[500px] ml-4">
+                <img
+                  className="w-full h-full object-cover"
+                  src={room.room_images[0]}
+                />
+              </div>
+            </SwiperSlide>
+          </div>
+        );
+      })}
+
+      {/* <SwiperSlide>
         <div className="w-[400px] h-[500px] ml-4">
           <img
             className="w-full h-full object-cover"
@@ -105,7 +99,9 @@ function SlideBarLandingPage() {
             src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/superior-garden-3?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvc3VwZXJpb3ItZ2FyZGVuLTMiLCJpYXQiOjE2OTM4ODcyODQsImV4cCI6MTcyNTQyMzI4NH0.xuJpO46fJEW71Biyxhed_tgar-G4PPUR_AVgpWJUVSo&t=2023-09-05T04%3A14%3A43.534Z"
           />
         </div>
-      </SwiperSlide>
+      </SwiperSlide> */}
+
+      {/* not use */}
       {/* <SwiperSlide>
         <div className="w-[400px] h-[500px] ">
           <img
