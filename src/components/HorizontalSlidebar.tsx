@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+
+import "@splidejs/react-splide/css";
 
 function HorizontalSlidebar() {
   return (
-    <div>HorizontalSlidebar</div>
-  )
+    <>
+    </>
+  );
 }
 
-export default HorizontalSlidebar
+export default HorizontalSlidebar;

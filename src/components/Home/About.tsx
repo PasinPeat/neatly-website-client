@@ -1,5 +1,5 @@
 import React from "react";
-
+import SlideBarLandingPage from "../SlideBarLandingPage";
 function About() {
   return (
     <div className=" bg-white">
@@ -30,7 +30,9 @@ function About() {
       </div>
       {/* image slide */}
       <div className="pt-36 pb-20">
-        <div className="h-[500px] bg-gray-300"></div>
+        <div className="h-[500px] bg-gray-300">
+          <SlideBarLandingPage/>
+        </div>
       </div>
     </div>
   );
