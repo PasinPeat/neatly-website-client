@@ -70,12 +70,35 @@ function Register() {
   };
 
   //@ts-ignore
+  // const handleFileChange = (event) => {
+  //   const uniqueId = Date.now();
+  //   setAvatars({
+  //     ...avatars,
+  //     [uniqueId]: event.target.files[0],
+  //   });
+  // };
+
   const handleFileChange = (event) => {
     const uniqueId = Date.now();
-    setAvatars({
-      ...avatars,
-      [uniqueId]: event.target.files[0],
-    });
+    const file = event.target.files[0];
+
+    if (file) {
+      const allowedExtensions = [".jpg", ".jpeg", ".png"];
+      const fileExtension = file.name.toLowerCase().slice(-4);
+      if (
+        file.size <= 2 * 1024 * 1024 &&
+        allowedExtensions.includes(fileExtension)
+      ) {
+        setAvatars({
+          ...avatars,
+          [uniqueId]: file,
+        });
+      } else {
+        alert(
+          "Your file is invalid. Please select a file that is no larger than 2 MB and is .jpg, .jpeg, or .png"
+        );
+      }
+    }
   };
 
   const fileUploaded = Object.keys(avatars).length > 0;
