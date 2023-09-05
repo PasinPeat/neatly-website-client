@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import RoomResultCard from "../components/RoomResultCard";
+import SearchBar from "../components/SearchBar";
 import Footer from "../components/Footer";
 
 function SearchResult() {
@@ -8,7 +9,10 @@ function SearchResult() {
     <div>
       <Navbar />
 
-      <div className="bg-bg  flex flex-col items-center pt-[90px] pb-[100px] px-[160px]">
+      <SearchBar />
+      <div className="bg-bg  flex flex-col items-center pt-[90px] pb-[300px] px-[100px]">
+        <RoomResultCard />
+        <RoomResultCard />
         <RoomResultCard />
         <RoomResultCard />
       </div>
