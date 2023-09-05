@@ -14,6 +14,7 @@ function Register() {
   const [email, setEmail] = useState("");
   const [birthDay, setBirthDay] = useState("");
   const [country, setCountry] = useState("");
+  const [avatars, setAvatars] = useState({});
 
   //user's credit card
   const [cardNumber, setCardNumber] = useState("");
@@ -22,19 +23,69 @@ function Register() {
   const [cardCode, setCardCode] = useState("");
 
   //handle form
+  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   const data: object = {
+  //     fullName,
+  //     username,
+  //     password,
+  //     idNumber,
+  //     email,
+  //     birthDay,
+  //     country,
+  //     avatars,
+  //   };
+  //   await axios.post("http://localhost:4000/auth/register", data, {
+  //     headers: { "Content-Type": "multipart/form-data" },
+  //   });
+  //   navigate("/login");
+  // };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data: object = {
-      fullName,
-      username,
-      password,
-      idNumber,
-      email,
-      birthDay,
-      country,
-    };
-    await axios.post("http://localhost:4000/auth/register", data);
-    navigate("/login");
+
+    const formData = new FormData();
+    formData.append("fullName", fullName);
+    formData.append("username", username);
+    formData.append("password", password);
+    formData.append("idNumber", idNumber);
+    formData.append("email", email);
+    formData.append("birthDay", birthDay);
+    formData.append("country", country);
+
+    for (let avatarKey in avatars) {
+      //@ts-ignore
+      formData.append("avatar", avatars[avatarKey]);
+    }
+
+    try {
+      await axios.post("http://localhost:4000/auth/register", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //@ts-ignore
+  const handleFileChange = (event) => {
+    const uniqueId = Date.now();
+    setAvatars({
+      ...avatars,
+      [uniqueId]: event.target.files[0],
+    });
+  };
+
+  const fileUploaded = Object.keys(avatars).length > 0;
+
+  //@ts-ignore
+  const handleRemoveImage = (event, avatarKey) => {
+    event.preventDefault();
+    //@ts-ignore
+    delete avatars[avatarKey];
+    setAvatars({ ...avatars });
   };
 
   return (
@@ -189,18 +240,53 @@ function Register() {
           </div>
 
           {/* Profile Picture*/}
-          <div className="h-[0.2px] bg-gray-500"></div>
           <div className="flex flex-col items-start">
             <p className="text-gray-600 text-headline5 py-10">
               Profile Picture
             </p>
+          </div>
+          <div className="flex flex-row">
             <div>
-              <button className="w-[197px] h-[167px] border-2 bg-gray-200 rounded mb-[60px]">
-                <p className="text-orange-500 text-sm font-medium">
-                  + <hr />
-                  Upload photo
-                </p>
-              </button>
+              <label htmlFor="upload">
+                <div className="w-[197px] h-[167px] border-2 bg-gray-200 rounded mb-[60px] flex flex-col justify-center items-center">
+                  <p className="text-orange-500 text-sm font-medium">+</p>
+                  <p className="text-orange-500 text-sm font-medium">
+                    Upload photo
+                  </p>
+                  <input
+                    id="upload"
+                    name="avatar"
+                    type="file"
+                    onChange={handleFileChange}
+                    disabled={fileUploaded}
+                    accept="image/jpg, image/jpeg, image/png"
+                    hidden
+                  />
+                </div>
+              </label>
+            </div>
+
+            {/* เอารูปภาพที่ผู้ใช้งานเลือกมาแสดงผล*/}
+            <div className="w-[197px] h-[167px] mb-[60px] ml-[60px] relative">
+              {Object.keys(avatars).map((avatarKey) => {
+                //@ts-ignore
+                const file = avatars[avatarKey];
+                return (
+                  <div key={avatarKey}>
+                    <img
+                      className="w-[197px] h-[167px] rounded object-cover"
+                      src={URL.createObjectURL(file)}
+                      alt={file.name}
+                    />
+                    <button
+                      className="h-[20px] w-[20px] rounded-full bg-[#B61515] flex items-center justify-center absolute -top-2 -right-2"
+                      onClick={(event) => handleRemoveImage(event, avatarKey)}
+                    >
+                      x
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
