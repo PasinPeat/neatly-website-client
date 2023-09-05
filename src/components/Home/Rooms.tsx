@@ -1,12 +1,13 @@
 import RoomCard from "./RoomCard.tsx";
 import { useContext } from "react";
-// import { RoomDetailContext } from "../../App.jsx";
+import { RoomDetailContext } from "../../App.jsx";
 
 function Rooms() {
-  // const context = useContext(RoomDetailContext);
+  const context = useContext(RoomDetailContext);
 
   return (
     // {context.room_images[0]}
+
     <div className="py-28 px-40 flex flex-col items-center justify-center bg-white">
       <div className="font-noto-serif-display text-green-800 text-headline2">
         Rooms & Suits
