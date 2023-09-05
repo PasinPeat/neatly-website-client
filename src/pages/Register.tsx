@@ -31,6 +31,9 @@ function Register() {
   const [passwordError, setPasswordError] = useState(false);
   const [creditCardError, setCreditCardError] = useState(false);
 
+  //invalid file
+  const [invalidFile, setInvalidFile] = useState("");
+
   //check full name handler
   const validateFullName = (name: string) => {
     const names = name.trim().split(" ");
@@ -140,50 +143,45 @@ function Register() {
       return;
     }
 
-    const data: Record<string, string> = {
-      fullName: String(fullName),
-      username: String(username),
-      password: String(password),
-      idNumber: String(idNumber),
-      email: String(email),
-      birth_day: String(birthDay),
-      country: String(country),
-      card_owner: String(cardOwner),
-      card_number: cleanedCardNumber,
-      cvc: String(cardCode),
-      expireDate: String(expireDate),
-    };
+    // const data: Record<string, string> = {
+    //   fullName: String(fullName),
+    //   username: String(username),
+    //   password: String(password),
+    //   idNumber: String(idNumber),
+    //   email: String(email),
+    //   birth_day: String(birthDay),
+    //   country: String(country),
+    //   card_owner: String(cardOwner),
+    //   card_number: cleanedCardNumber,
+    //   cvc: String(cardCode),
+    //   expireDate: String(expireDate),
+    // };
 
-    await axios.post("http://localhost:4000/auth/register", data);
-    navigate("/login");
-      };
-<!-- =======
     const formData = new FormData();
     formData.append("fullName", fullName);
     formData.append("username", username);
     formData.append("password", password);
     formData.append("idNumber", idNumber);
     formData.append("email", email);
-    formData.append("birthDay", birthDay);
+    formData.append("birth_day", birthDay);
     formData.append("country", country);
+    formData.append("card_owner", cardOwner);
+    formData.append("card_number", cleanedCardNumber);
+    formData.append("cvc", cardCode);
+    formData.append("expireDate", expireDate);
 
     for (let avatarKey in avatars) {
       //@ts-ignore
       formData.append("avatar", avatars[avatarKey]);
     }
 
-    try {
-      await axios.post("http://localhost:4000/auth/register", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+    await axios.post("http://localhost:4000/auth/register", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    navigate("/login");
+  };
 
-      navigate("/login");
-    } catch (error) {
-      console.log(error);
-    } -->
-
-
-<!--   //@ts-ignore
+  //@ts-ignore
   const handleFileChange = (event) => {
     const uniqueId = Date.now();
     const file = event.target.files[0];
@@ -199,8 +197,9 @@ function Register() {
           ...avatars,
           [uniqueId]: file,
         });
+        setInvalidFile("");
       } else {
-        alert(
+        setInvalidFile(
           "Your file is invalid. Please select a file that is no larger than 2 MB and is .jpg, .jpeg, or .png"
         );
       }
@@ -216,7 +215,7 @@ function Register() {
     delete avatars[avatarKey];
     setAvatars({ ...avatars });
   };
- -->
+
   return (
     <div className="flex flex-col items-center w-screen bg-coverRegister bg-cover">
       <Navbar />
@@ -395,7 +394,7 @@ function Register() {
           </div>
 
           {/* Profile Picture*/}
-<!--           <div className="flex flex-col items-start">
+          <div className="flex items-start">
             <p className="text-gray-600 text-headline5 py-10">
               Profile Picture
             </p>
@@ -403,7 +402,7 @@ function Register() {
           <div className="flex flex-row">
             <div>
               <label htmlFor="upload">
-                <div className="w-[197px] h-[167px] border-2 bg-gray-200 rounded mb-[60px] flex flex-col justify-center items-center">
+                <div className="w-[197px] h-[167px] border-2 bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center">
                   <p className="text-orange-500 text-sm font-medium">+</p>
                   <p className="text-orange-500 text-sm font-medium">
                     Upload photo
@@ -419,11 +418,11 @@ function Register() {
                   />
                 </div>
               </label>
-            </div> -->
+            </div>
 
             {/* เอารูปภาพที่ผู้ใช้งานเลือกมาแสดงผล*/}
-            <div className="w-[197px] h-[167px] mb-[60px] ml-[60px] relative">
-<!--               {Object.keys(avatars).map((avatarKey) => {
+            <div className="w-[197px] h-[167px] mb-[25px] ml-[60px] relative">
+              {Object.keys(avatars).map((avatarKey) => {
                 //@ts-ignore
                 const file = avatars[avatarKey];
                 return (
@@ -437,12 +436,17 @@ function Register() {
                       className="h-[20px] w-[20px] rounded-full bg-[#B61515] flex items-center justify-center absolute -top-2 -right-2"
                       onClick={(event) => handleRemoveImage(event, avatarKey)}
                     >
-                      x
+                      <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/X.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL1guc3ZnIiwiaWF0IjoxNjkzOTI4MDgyLCJleHAiOjE3MjU0NjQwODJ9.t222UE-9r9-MjxyWxgHvvGtwhg7AEAvphm2mY-VVfg0&t=2023-09-05T15%3A34%3A21.534Z" />
                     </button>
                   </div>
                 );
-              })} -->
+              })}
             </div>
+          </div>
+          <div className="h-[35px]">
+            {invalidFile && (
+              <p className="text-body3 text-red">{invalidFile}</p>
+            )}
           </div>
 
           {/* Credit Card */}
