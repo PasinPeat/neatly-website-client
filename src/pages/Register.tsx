@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 function Register() {
   const navigate = useNavigate();
+
   //user's profile
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
@@ -17,22 +18,142 @@ function Register() {
 
   //user's credit card
   const [cardNumber, setCardNumber] = useState("");
+  // eslint-disable-next-line
+  let [expireDate, setExpireDate] = useState("");
   const [cardOwner, setCardOwner] = useState("");
-  const [expireDate, setExpireDate] = useState("");
   const [cardCode, setCardCode] = useState("");
+
+  //validation
+  const [fullNameError, setFullNameError] = useState(false);
+  const [usernameError, setUsernameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [creditCardError, setCreditCardError] = useState(false);
+
+  //check full name handler
+  const validateFullName = (name: string) => {
+    const names = name.trim().split(" ");
+    if (
+      names.length !== 2 ||
+      !/^[a-zA-Z]*$/.test(names[0]) ||
+      !/^[a-zA-Z]*$/.test(names[1])
+    ) {
+      setFullNameError(true);
+    } else {
+      setFullNameError(false);
+    }
+  };
+
+  //check password handler
+  const isPasswordValid = (password: string) => {
+    if (password.length < 6 || password.length > 15) {
+      setPasswordError(true);
+    } else {
+      setPasswordError(false);
+    }
+  };
+
+  //check credit card number
+  const creditCardNumberRegex = /^\d{4} ?\d{4} ?\d{4} ?\d{4}$/;
+  const cvvRegex = /^\d{3}$/;
+
+  const validateCreditCard = (cardNumber: string, cvv: string) => {
+    const cleanedCardNumber = cardNumber.replace(/[^\d]/g, "");
+
+    const isCardNumberValid = creditCardNumberRegex.test(cleanedCardNumber);
+    const isCvvValid = cvvRegex.test(cvv);
+
+    return isCardNumberValid && isCvvValid;
+  };
 
   //handle form
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data: object = {
-      fullName,
-      username,
-      password,
-      idNumber,
-      email,
-      birthDay,
-      country,
+
+    //check full name
+    validateFullName(fullName);
+    validateFullName(cardOwner);
+
+    //check username
+    const queryParamsUsername = `?username=${username}`;
+    const validUsername = await axios.get(
+      `http://localhost:4000/validUser/username${queryParamsUsername}`
+    );
+    if (validUsername.data.data.length === 1) {
+      setUsernameError(true);
+    } else {
+      setUsernameError(false);
+    }
+
+    //check email
+    const queryParamsEmail = `?email=${email}`;
+    const validEmail = await axios.get(
+      `http://localhost:4000/validUser/email${queryParamsEmail}`
+    );
+    if (validEmail.data.data.length === 1) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
+
+    //check password
+    isPasswordValid(password);
+
+    // credit card number valiation
+    const cleanedCardNumber = cardNumber.replace(/\s/g, "");
+    if (isNaN(Number(cleanedCardNumber))) {
+      setCreditCardError(true);
+      return;
+    }
+    const isCreditCardValid = validateCreditCard(cardNumber, cardCode);
+    if (!isCreditCardValid) {
+      setCreditCardError(true);
+    } else {
+      setCreditCardError(false);
+    }
+
+    //check credit card expire date
+    // eslint-disable-next-line
+    let [enteredMonth, enteredYear] = expireDate
+      .split("/")
+      .map((part) => part.trim());
+    const currentYear = new Date().getFullYear() % 100;
+    if (
+      expireDate.length !== 5 ||
+      !/^\d{2}\/\d{2}$/.test(expireDate) ||
+      +enteredMonth < 1 ||
+      +enteredMonth > 12 ||
+      +enteredYear < currentYear
+    ) {
+      enteredMonth = "12";
+    }
+    expireDate = `${enteredMonth}/${enteredYear}`;
+
+    if (
+      fullNameError ||
+      passwordError ||
+      emailError ||
+      usernameError ||
+      creditCardError ||
+      creditCardError
+    ) {
+      return;
+    }
+
+    const data: Record<string, string> = {
+      fullName: String(fullName),
+      username: String(username),
+      password: String(password),
+      idNumber: String(idNumber),
+      email: String(email),
+      birth_day: String(birthDay),
+      country: String(country),
+      card_owner: String(cardOwner),
+      card_number: cleanedCardNumber,
+      cvc: String(cardCode),
+      expireDate: String(expireDate),
     };
+
     await axios.post("http://localhost:4000/auth/register", data);
     navigate("/login");
   };
@@ -55,6 +176,12 @@ function Register() {
           <div>
             <label htmlFor="fname">
               <p className="font-body1 text-gray-900  text-start">Full Name</p>
+              {fullNameError && (
+                <span className="text-body3 text-red">
+                  The full name should include both the first name and the last
+                  name and cannot contain any numbers.
+                </span>
+              )}
             </label>
             <input
               type="text"
@@ -66,7 +193,6 @@ function Register() {
               }}
               placeholder="Enter your name and lastname"
               className="w-full Input mb-10"
-              required
             />
           </div>
 
@@ -87,6 +213,11 @@ function Register() {
                 className="w-full Input"
                 required
               />
+              {usernameError && (
+                <span className="text-body3 text-red">
+                  Username already in use. Please choose a different username.
+                </span>
+              )}
             </div>
 
             <div>
@@ -105,6 +236,11 @@ function Register() {
                 className="w-full Input"
                 required
               />
+              {emailError && (
+                <span className="text-body3 text-red">
+                  Email already in use. Please choose a different email.
+                </span>
+              )}
             </div>
 
             <div>
@@ -123,6 +259,11 @@ function Register() {
                 className="w-full Input"
                 required
               />
+              {passwordError && (
+                <span className="text-body3 text-red">
+                  Password must be between 6 and 15 characters long.
+                </span>
+              )}
             </div>
 
             <div>
@@ -159,9 +300,14 @@ function Register() {
                 value={birthDay}
                 name="birthDate"
                 onChange={(e) => {
-                  setBirthDay(e.target.value);
+                  const cleanedValue = e.target.value
+                    .replace(/[^0-9-]/g, "")
+                    .substring(0, 10);
+
+                  setBirthDay(cleanedValue);
                 }}
                 placeholder="Select your date of birth"
+                maxLength={10}
                 className="w-full Input"
                 required
               />
@@ -178,12 +324,13 @@ function Register() {
                 onChange={(e) => {
                   setCountry(e.target.value);
                 }}
-                placeholder="Select your country"
                 className="w-full Input"
               >
-                <option value="thailand">Thailand</option>
-                <option value="japan">Japan</option>
-                <option value="china">China</option>
+                <option value="">-- Select Country --</option>{" "}
+                {/* Default option */}
+                <option value="Thailand">Thailand</option>
+                <option value="Japan">Japan</option>
+                <option value="China">China</option>
               </select>
             </div>
           </div>
@@ -217,19 +364,30 @@ function Register() {
                 </p>
               </label>
               <input
-                type="tel"
+                type="text"
                 id="cardNumber"
                 name="cardNumber"
                 value={cardNumber}
-                pattern="\d*"
+                pattern="(\d{4} ?){4}"
                 onChange={(e) => {
-                  setCardNumber(e.target.value);
+                  const cleanedValue = e.target.value.replace(/[^\d]/g, "");
+
+                  const formattedValue = cleanedValue
+                    .replace(/(\d{4})/g, "$1 ")
+                    .trim();
+
+                  setCardNumber(formattedValue);
                 }}
-                maxLength={10}
+                maxLength={19}
                 placeholder="Enter your card number"
                 className="w-full Input font-body1"
                 required
               />
+              {creditCardError && (
+                <span className="text-body3 text-red">
+                  Invalid Credit Card number
+                </span>
+              )}
             </div>
 
             <div>
@@ -243,11 +401,18 @@ function Register() {
                 id="expried"
                 value={expireDate}
                 onChange={(e) => {
-                  setExpireDate(e.target.value);
+                  const cleanedValue = e.target.value.replace(/\D/g, "");
+                  const formattedValue = cleanedValue.replace(
+                    /^(\d{2})(\d{0,2})/,
+                    (_, month, year) => {
+                      const maxMonth = month > 12 ? "12" : month;
+                      return `${maxMonth}${year ? "/" : ""}${year}`;
+                    }
+                  );
+                  setExpireDate(formattedValue);
                 }}
                 name="expried"
-                pattern="\d*"
-                maxLength={4}
+                maxLength={5}
                 placeholder="MM/YY"
                 className="w-full Input"
                 required
@@ -272,6 +437,12 @@ function Register() {
                 className="w-full Input font-body1"
                 required
               />
+              {fullNameError && (
+                <span className="text-body3 text-red">
+                  Card Owner's name should include both first name and last
+                  name.
+                </span>
+              )}
             </div>
 
             <div>
