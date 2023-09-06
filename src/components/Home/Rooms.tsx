@@ -10,19 +10,19 @@ function Rooms() {
         <div className="grid col-span-5 h-[540px]">
           <RoomCard roomType={"Superior Garden View"} />
         </div>
-        <div className="grid col-span-3 row-start-2 h-[400px] bg-cover bg-center bg-[url('https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/deluxe?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvZGVsdXhlIiwiaWF0IjoxNjkzODM5MDIyLCJleHAiOjE3MjUzNzUwMjJ9.uQ6nIjwjOgzhyhmg_JmX9Lg9yKfce0gtfTWyR_3yBc8&t=2023-09-04T14%3A50%3A20.836Z')]">
+        <div className="grid col-span-3 row-start-2 h-[400px]">
           <RoomCard roomType={"Deluxe"} />
         </div>
-        <div className="grid col-span-2 row-span-2 col-start-1 row-start-3 bg-cover bg-center bg-[url('https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/premium?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvcHJlbWl1bSIsImlhdCI6MTY5MzgzOTIxNywiZXhwIjoxNzI1Mzc1MjE3fQ.Wi6XS0OIymr5SD0lye8tM-p1DC5ITXbBh2wqODQcAg0&t=2023-09-04T14%3A53%3A36.330Z')]">
+        <div className="grid col-span-2 row-span-2 col-start-1 row-start-3">
           <RoomCard roomType={"Premier Sea View"} />
         </div>
-        <div className="grid col-span-3 col-start-3 row-start-3 h-[338px] bg-cover bg-center bg-[url('https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/supreme?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvc3VwcmVtZSIsImlhdCI6MTY5MzgzOTM1MiwiZXhwIjoxNzI1Mzc1MzUyfQ.evAvuthb6NOlwLY9uM8d109gFqZrjX-HNCzZhuFC1_g&t=2023-09-04T14%3A55%3A50.793Z')]">
+        <div className="grid col-span-3 col-start-3 row-start-3 h-[338px]">
           <RoomCard roomType={"Supreme"} />
         </div>
-        <div className="grid col-span-3 col-start-3 row-start-4 h-[338px] bg-cover bg-center bg-[url('https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/suite?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvc3VpdGUiLCJpYXQiOjE2OTM4Mzk1MTMsImV4cCI6MTcyNTM3NTUxM30.3ar_gYe2n9lAOLpJFHHuOQrWtIv1VbxaLoGnhbNMtbY&t=2023-09-04T14%3A58%3A31.440Z')]">
+        <div className="grid col-span-3 col-start-3 row-start-4 h-[338px]">
           <RoomCard roomType={"Suite"} />
         </div>
-        <div className="grid col-span-2 col-start-4 row-start-2h-[400px] bg-cover bg-center bg-[url('https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/superior?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvc3VwZXJpb3IiLCJpYXQiOjE2OTM4Mzk1NzMsImV4cCI6MTcyNTM3NTU3M30.BW7mqoWrn9mlEXbj2l2jXb_YVVzf19rC_vEkUIIZKck&t=2023-09-04T14%3A59%3A31.976Z')]">
+        <div className="grid col-span-2 col-start-4 row-start-2h-[400px]">
           <RoomCard roomType={"Superior"} />
         </div>
       </div>
