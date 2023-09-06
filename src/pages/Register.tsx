@@ -409,9 +409,9 @@ function Register() {
             {Object.keys(avatars).length === 0 ? (
               <div>
                 <label htmlFor="upload">
-                  <div className="w-[197px] h-[167px] border-2 bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center">
-                    <p className="text-orange-500 text-sm font-medium">+</p>
-                    <p className="text-orange-500 text-sm font-medium">
+                  <div className="w-[197px] h-[167px] bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center border-2 hover:border-orange-500 active:border-orange-700">
+                    <p className="text-orange-500 text-sm font-medium text-center">
+                      + <br />
                       Upload photo
                     </p>
                     <input
@@ -443,7 +443,7 @@ function Register() {
                     alt={file.name}
                   />
                   <button
-                    className="h-[20px] w-[20px] rounded-full bg-[#B61515] flex items-center justify-center absolute -top-2 -right-2"
+                    className="h-[20px] w-[20px] rounded-full bg-orange-500 flex items-center justify-center absolute -top-2 -right-2 hover:bg-orange-700 active:bg-orange-800"
                     onClick={(event) => handleRemoveImage(event, avatarKey)}
                   >
                     <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/X.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL1guc3ZnIiwiaWF0IjoxNjkzOTI4MDgyLCJleHAiOjE3MjU0NjQwODJ9.t222UE-9r9-MjxyWxgHvvGtwhg7AEAvphm2mY-VVfg0&t=2023-09-05T15%3A34%3A21.534Z" />
