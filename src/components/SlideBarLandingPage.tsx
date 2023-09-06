@@ -25,18 +25,18 @@ function SlideBarLandingPage() {
         "@0.00": {
           slidesPerView: 1,
           spaceBetween: 20,
-          slidesOffsetBefore:30,
+          slidesOffsetBefore: 30,
         },
         "@0.75": {
           slidesPerView: 1,
           spaceBetween: 400,
-          slidesOffsetBefore:70,
-          slidesOffsetAfter:40,
+          slidesOffsetBefore: 70,
+          slidesOffsetAfter: 40,
         },
         "@1.00": {
           slidesPerView: 2,
           spaceBetween: 50,
-          slidesOffsetBefore:-82,
+          slidesOffsetBefore: -82,
           // slidesOffsetAfter:80,
         },
         "@1.50": {
@@ -44,7 +44,7 @@ function SlideBarLandingPage() {
           spaceBetween: 150,
         },
       }}
-        slidesOffsetBefore={-85}
+      slidesOffsetBefore={-85}
       //   slidesOffsetAfter={40}
       centeredSlides={true}
       centeredSlidesBounds={true}
