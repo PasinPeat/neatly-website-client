@@ -1,7 +1,57 @@
-import React from "react";
 import Navbar from "../components/Navbar";
+import { useState } from "react";
+import axios, { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const [loginIdentifier, setLoginIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+  const [authError, setAuthError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === "loginIdentifier") {
+      setLoginIdentifier(value);
+    } else if (name === "password") {
+      setPassword(value);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = {
+      loginIdentifier,
+      password,
+    };
+
+    try {
+      const response = await axios.post(
+        `http://localhost:4000/auth/login`,
+        data
+      );
+      if (response.data.message === "Login successful") {
+        console.log("Login successful");
+        setPasswordError(false);
+        setAuthError(false);
+        navigate("/");
+      } else {
+        console.log("Login failed:", response.data.message);
+      }
+    } catch (error) {
+      console.error("An error occurred", error);
+      const axiosError = error as AxiosError;
+      if (axiosError.response.data.message === "User not found") {
+        console.log("invalid username");
+        setAuthError(true);
+      } else if (axiosError.response.data.message === "Password not valid") {
+        console.log("invalid password");
+        setPasswordError(true);
+      }
+    }
+  };
   return (
     <div className="flex flex-col justify-center items-center ">
       <Navbar />
@@ -18,7 +68,7 @@ function Login() {
             <h1 className="text-[68px] font-noto-serif-display font-medium text-green-800 mb-[60px]">
               Log In
             </h1>
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label className="label">
                   <span className="font-body1 text-gray-900">
@@ -27,12 +77,19 @@ function Login() {
                 </label>
                 <input
                   type="text"
-                  id="username"
-                  name="username"
+                  id="loginIdentifier"
+                  name="loginIdentifier"
+                  value={loginIdentifier}
+                  onChange={handleChange}
                   placeholder="Enter username or email"
                   className="w-full Input"
                   required
                 />
+                {authError && (
+                  <span className="text-body3 text-red">
+                    Username or Email might be not correct.
+                  </span>
+                )}
               </div>
 
               <div>
@@ -43,10 +100,17 @@ function Login() {
                   type="password"
                   id="password"
                   name="password"
+                  value={password}
+                  onChange={handleChange}
                   placeholder="Enter your Password"
                   className="w-full Input"
                   required
                 />
+                {passwordError && (
+                  <span className="text-body3 text-red">
+                    password might be wrong.
+                  </span>
+                )}
               </div>
 
               <div>
