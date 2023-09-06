@@ -2,7 +2,7 @@ import React from "react";
 
 function RoomDetailPageContent() {
   return (
-    <div className="flex justify-center bg-white pb-[222px] pt-[80px]">
+    <div className="flex justify-center bg-gray-200 pb-[222px] pt-[80px]">
       <div>
         <div className="flex flex-col gap-14 pb-20 border-b-2 border-indigo-500">
           <h1 className=" text-black text-headline3 text-left font-noto-serif-display">
