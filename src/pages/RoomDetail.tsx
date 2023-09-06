@@ -1,11 +1,9 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-
-import RoomDetailPageContent from "../components/RoomDetailPageContent";
-import RoomDetailPageOtherRoom from "../components/RoomDetailPageOtherRoom";
-import RoomDetailSlidebar from "../components/RoomDetailSlidebar";
+import RoomDetailSlidebar from "../components/RoomDetail/RoomDetailSlidebar";
+import RoomDetailPageContent from "../components/RoomDetail/RoomDetailPageContent";
+import RoomDetailPageOtherRoom from "../components/RoomDetail/RoomDetailPageOtherRoom";
 import Footer from "../components/Footer";
-import SingleSlidebar from "../components/SingleSlidebar";
 
 function RoomDetail() {
   return (
@@ -14,7 +12,6 @@ function RoomDetail() {
       <RoomDetailSlidebar />
       <RoomDetailPageContent />
       <RoomDetailPageOtherRoom />
-      <SingleSlidebar/>
       <Footer />
     </>
   );

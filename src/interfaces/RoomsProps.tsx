@@ -1,4 +1,5 @@
 export interface RoomsProps {
+  room_id: number;
   room_type: string;
   price: number;
   promotion_price: number;
