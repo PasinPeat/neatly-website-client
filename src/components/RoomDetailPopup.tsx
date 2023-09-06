@@ -1,4 +1,5 @@
 import React from "react";
+import RoomDetailSlidebar from "../components/RoomDetailSlidebar";
 
 function RoomDetailPopup() {
   return (
@@ -25,9 +26,16 @@ function RoomDetailPopup() {
           </button>
         </div>
 
-        <div className="overflow-y-scroll pl-20 pr-10 pt-4 pb-[60px]">
+        <div
+          className="overflow-y-scroll scrollbar-thin scrollbar-thumb-green-300 scrollbar-track-none pl-20 pr-10 pt-4 pb-[60px]"
+          // style={{
+          //   width: "8px",
+          //   borderRadius: "50%",
+          // }}
+        >
           {/* Photo Slide */}
           <div>
+            {/* <RoomDetailSlidebar /> */}
             <div className="w-[640px] h-[400px] rounded bg-cover bg-[url('https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/superior-graden-2?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvc3VwZXJpb3ItZ3JhZGVuLTIiLCJpYXQiOjE2OTM1NTYxMjMsImV4cCI6MTcyNTA5MjEyM30.MAuhRFQuQ_RgNd6NTNFDOR5Eygp-vv_7pfB1Biot2KQ&t=2023-09-01T08%3A15%3A23.657Z')]"></div>
           </div>
 
@@ -37,7 +45,7 @@ function RoomDetailPopup() {
               <span className="text-gray-800">2</span>
               <span> Person</span>
               <span className="px-4"> | </span>
-              <span className="text-gray-800">1 </span>
+              <span className="text-gray-800">1</span>
               <span> Double bed</span>
               <span className="px-4"> | </span>
               <span className="text-gray-800">32</span>
