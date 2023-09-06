@@ -2,7 +2,7 @@ import React from "react";
 import SlideBarLandingPage from "../SlideBarLandingPage";
 function About() {
   return (
-    <div className=" bg-white">
+    <div className=" bg-white" id="about">
       <div className="pt-36 px-40">
         <div className="mb-12 text-headline2 font-noto-serif-display text-green-800">
           Neatly Hotel
@@ -30,9 +30,7 @@ function About() {
       </div>
       {/* image slide */}
       <div className="pt-36 pb-20 ">
-        
-          <SlideBarLandingPage />
-        
+        <SlideBarLandingPage />
       </div>
     </div>
   );

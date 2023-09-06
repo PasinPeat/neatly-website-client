@@ -2,7 +2,10 @@ import React from "react";
 
 function Search() {
   return (
-    <div className="py-14 flex justify-center items-end w-[1120px] rounded absolute top-72 bg-white">
+    <div
+      className="py-14 flex justify-center items-end w-[1120px] rounded absolute top-72 bg-white"
+      id="book"
+    >
       <div className="form-control">
         <label className="label">
           <span className="label-text">Check In</span>
