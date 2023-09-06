@@ -34,8 +34,30 @@ body {
   background-position: center;
   color: transparent;
 }
+#swiper-color2 .swiper-button-next {
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  right: 280px;
+  background-image: url("https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/slidebar-arrow-next-orange.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL3NsaWRlYmFyLWFycm93LW5leHQtb3JhbmdlLnN2ZyIsImlhdCI6MTY5MzkwNDg1MiwiZXhwIjoxNzI1NDQwODUyfQ.c-j0pITMKG3N9rA_ZqupRkNIG8qLsHxSZ0hCDtTlKMg&t=2023-09-05T09%3A07%3A31.482Z");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  color: transparent;
+}
 
 #swiper-color2 .swiper-button-prev {
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  left: 280px;
+  background-image: url("https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/slidebar-arrow-prev-orange.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL3NsaWRlYmFyLWFycm93LXByZXYtb3JhbmdlLnN2ZyIsImlhdCI6MTY5MzkwNDgwNywiZXhwIjoxNzI1NDQwODA3fQ.3OzbgN9qWLjZ5Qx35lnfTDY0lUv6X63EZ1AsavIuZRk&t=2023-09-05T09%3A06%3A46.596Z");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  color: transparent;
+}
+#swiper-color3 .swiper-button-prev {
   width: 60px;
   height: 60px;
   position: absolute;

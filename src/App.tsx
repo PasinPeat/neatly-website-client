@@ -12,17 +12,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 // export const RoomDetailContext = React.createContext();
 
-interface Room {
-  room_type: string;
-  price: number;
-  promotion_price: number;
-  bed_types: string;
-  area: string;
-  amenity: string[];
-  description: string;
-  room_images: string[];
-}
-
 function App() {
   // const [rooms, setRooms] = useState<Room[]>([]);
   // const params = useParams();
