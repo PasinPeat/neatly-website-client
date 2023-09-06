@@ -1,10 +1,6 @@
 import RoomCard from "./RoomCard.tsx";
-import { useContext } from "react";
-import { RoomsContext } from "../../App.tsx";
 
 function Rooms() {
-  const context = useContext(RoomsContext);
-
   return (
     <div className="py-28 px-40 flex flex-col items-center justify-center bg-white">
       <div className="font-noto-serif-display text-green-800 text-headline2">

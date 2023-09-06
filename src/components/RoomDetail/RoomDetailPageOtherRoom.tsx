@@ -1,7 +1,9 @@
 import React from "react";
 import OtherRoomCard from "./OtherRoomCard";
 
-function RoomDetailPageOtherRoom() {
+function RoomDetailPageOtherRoom({ randomRooms }) {
+  console.log(randomRooms);
+
   return (
     <div className=" bg-green-200  flex flex-col items-center pt-[90px] pb-[100px] px-[160px]">
       <div className="w-[1120px] ">
