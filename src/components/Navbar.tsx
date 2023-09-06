@@ -1,6 +1,5 @@
 import React from "react";
 
-
 function Navbar() {
   return (
     <div className="flex justify-between bg-white h-[100px] w-full px-40">
@@ -22,8 +21,6 @@ function Navbar() {
       </div>
     </div>
   );
-
 }
 
 export default Navbar;
-
