@@ -206,8 +206,6 @@ function Register() {
     }
   };
 
-  const fileUploaded = Object.keys(avatars).length > 0;
-
   //@ts-ignore
   const handleRemoveImage = (event, avatarKey) => {
     event.preventDefault();
@@ -400,49 +398,54 @@ function Register() {
             </p>
           </div>
           <div className="flex flex-row">
-            <div>
-              <label htmlFor="upload">
-                <div className="w-[197px] h-[167px] border-2 bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center">
-                  <p className="text-orange-500 text-sm font-medium">+</p>
-                  <p className="text-orange-500 text-sm font-medium">
-                    Upload photo
-                  </p>
-                  <input
-                    id="upload"
-                    name="avatar"
-                    type="file"
-                    onChange={handleFileChange}
-                    disabled={fileUploaded}
-                    accept="image/jpg, image/jpeg, image/png"
-                    hidden
-                  />
-                </div>
-              </label>
-            </div>
-
-            {/* เอารูปภาพที่ผู้ใช้งานเลือกมาแสดงผล*/}
-            <div className="w-[197px] h-[167px] mb-[25px] ml-[60px] relative">
-              {Object.keys(avatars).map((avatarKey) => {
-                //@ts-ignore
-                const file = avatars[avatarKey];
-                return (
-                  <div key={avatarKey}>
-                    <img
-                      className="w-[197px] h-[167px] rounded object-cover"
-                      src={URL.createObjectURL(file)}
-                      alt={file.name}
+            {Object.keys(avatars).length === 0 ? (
+              <div>
+                <label htmlFor="upload">
+                  <div className="w-[197px] h-[167px] border-2 bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center">
+                    <p className="text-orange-500 text-sm font-medium">+</p>
+                    <p className="text-orange-500 text-sm font-medium">
+                      Upload photo
+                    </p>
+                    <input
+                      id="upload"
+                      name="avatar"
+                      type="file"
+                      onChange={handleFileChange}
+                      disabled={Object.keys(avatars).length > 0}
+                      accept="image/jpg, image/jpeg, image/png"
+                      hidden
                     />
-                    <button
-                      className="h-[20px] w-[20px] rounded-full bg-[#B61515] flex items-center justify-center absolute -top-2 -right-2"
-                      onClick={(event) => handleRemoveImage(event, avatarKey)}
-                    >
-                      <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/X.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL1guc3ZnIiwiaWF0IjoxNjkzOTI4MDgyLCJleHAiOjE3MjU0NjQwODJ9.t222UE-9r9-MjxyWxgHvvGtwhg7AEAvphm2mY-VVfg0&t=2023-09-05T15%3A34%3A21.534Z" />
-                    </button>
                   </div>
-                );
-              })}
-            </div>
+                </label>
+              </div>
+            ) : null}
+
+            {/* Avatar Render */}
+            {Object.keys(avatars).map((avatarKey) => {
+              //@ts-ignore
+              const file = avatars[avatarKey];
+              return (
+                <div
+                  key={avatarKey}
+                  className="w-[197px] h-[167px] mb-[25px] relative"
+                >
+                  <img
+                    className="w-[197px] h-[167px] rounded object-cover"
+                    src={URL.createObjectURL(file)}
+                    alt={file.name}
+                  />
+                  <button
+                    className="h-[20px] w-[20px] rounded-full bg-[#B61515] flex items-center justify-center absolute -top-2 -right-2"
+                    onClick={(event) => handleRemoveImage(event, avatarKey)}
+                  >
+                    <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/X.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL1guc3ZnIiwiaWF0IjoxNjkzOTI4MDgyLCJleHAiOjE3MjU0NjQwODJ9.t222UE-9r9-MjxyWxgHvvGtwhg7AEAvphm2mY-VVfg0&t=2023-09-05T15%3A34%3A21.534Z" />
+                  </button>
+                </div>
+              );
+            })}
           </div>
+
+          {/* Invalid File */}
           <div className="h-[35px]">
             {invalidFile && (
               <p className="text-body3 text-red">{invalidFile}</p>
