@@ -34,7 +34,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/room-detail" element={<RoomDetail />} />
+          <Route path="/room/:roomId" element={<RoomDetail />} />
           <Route path="/search" element={<SearchResult />} />
           {/* <Route path="/*" element={<NotFound />} /> */}
         </Routes>
