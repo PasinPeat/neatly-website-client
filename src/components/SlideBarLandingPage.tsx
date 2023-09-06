@@ -25,8 +25,8 @@ function SlideBarLandingPage() {
       centeredSlides={true}
       centeredSlidesBounds={true}
       navigation
-      onSwiper={(swiper) => console.log(swiper)}
-      onSlideChange={() => console.log("slide change")}
+      // onSwiper={(swiper) => console.log(swiper)}
+      // onSlideChange={() => console.log("slide change")}
     >
       <SwiperSlide>
         <div className="w-[400px] h-[500px] ml-4">
