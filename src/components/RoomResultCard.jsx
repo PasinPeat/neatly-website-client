@@ -20,10 +20,10 @@ function RoomResultCard() {
                 <div className="pb-8">
                   <span className="text-gray-800">2</span>
                   <span> Guests</span>
-                  <span className="px-4"> | </span>
+                  <span className="px-3"> | </span>
                   <span className="text-gray-800">1 </span>
                   <span> Double bed</span>
-                  <span className="px-4"> | </span>
+                  <span className="px-3"> | </span>
                   <span className="text-gray-800">32</span>
                   <span> sqm</span>
                 </div>
