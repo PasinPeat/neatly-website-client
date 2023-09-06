@@ -34,6 +34,9 @@ function Register() {
   //invalid file
   const [invalidFile, setInvalidFile] = useState("");
 
+  //loading
+  const [isLoading, setIsLoading] = useState(false);
+
   //check full name handler
   const validateFullName = (name: string) => {
     const names = name.trim().split(" ");
@@ -72,6 +75,8 @@ function Register() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    setIsLoading(true);
 
     //check full name
     validateFullName(fullName);
@@ -178,6 +183,9 @@ function Register() {
     await axios.post("http://localhost:4000/auth/register", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
+
+    setIsLoading(false);
+
     navigate("/login");
   };
 
@@ -568,8 +576,16 @@ function Register() {
           </div>
 
           <div>
-            <button className="btn Button w-full mt-[60px] mb-4" type="submit">
-              Register
+            <button
+              className="btn Button w-full mt-[60px] mb-4"
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <span className="loading loading-spinner w-7 bg-orange-600"></span>
+              ) : (
+                "Register"
+              )}
             </button>
 
             <span className="text-gray-700 font-body1">
