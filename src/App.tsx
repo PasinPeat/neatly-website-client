@@ -6,6 +6,7 @@ import Register from "./pages/Register.tsx";
 import RoomDetail from "./pages/RoomDetail.tsx";
 import SearchResult from "./pages/SearchResult.tsx";
 import RoomDetailPopup from "./components/RoomDetailPopup.tsx";
+import NotFound from "./pages/NotFound.tsx";
 import axios from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useParams, useNavigate } from "react-router-dom";
@@ -15,8 +16,6 @@ export const RoomsContext = React.createContext();
 
 function App() {
   const [rooms, setRooms] = useState<RoomsProps[]>([]);
-  // const params = useParams();
-  // const navigate = useNavigate();
 
   const getRooms = async () => {
     const results = await axios(`http://localhost:4000/room`);
@@ -37,7 +36,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/room/:roomId" element={<RoomDetail />} />
           <Route path="/search" element={<SearchResult />} />
-          {/* <Route path="/*" element={<NotFound />} /> */}
+          <Route path="/*" element={<NotFound />} />
           <Route path="/popup" element={<RoomDetailPopup />} />
         </Routes>
       </BrowserRouter>

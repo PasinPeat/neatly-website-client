@@ -1,16 +1,17 @@
 import Navbar from "../Navbar.tsx";
-import Search from "./Search.tsx";
+import Search from "../Search.tsx";
 
 function Header() {
   return (
-    <div className="h-screen w-screen bg-coverLanding bg-cover">
-      <Navbar />
-      <div className="relative mt-32 flex justify-center">
-        <div className="text-center font-noto-serif-display text-headline2 text-white">
+    <div className="h-screen w-full bg-coverLanding bg-cover">
+      <div className="relative flex justify-center">
+        <div className="mt-40 text-center font-noto-serif-display text-headline1 text-white">
           A Best Place for Your<br></br>
           Neatly Experience
         </div>
-        <Search />
+        <div className="py-14 px-14 top-[500px] rounded absolute bg-white">
+          <Search />
+        </div>
       </div>
     </div>
   );

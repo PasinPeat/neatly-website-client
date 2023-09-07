@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import { RoomsProps } from "../../interfaces/RoomsProps.tsx";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -18,15 +17,15 @@ function RoomDetailPageContent({
   return (
     <div className="flex justify-center bg-gray-200 pb-[222px] pt-[80px]">
       <div>
-        <div className="flex flex-col gap-14 pb-20 border-b-2 border-indigo-500">
-          <h1 className=" text-black text-headline3 text-left font-noto-serif-display">
+        <div className="w-[738px] flex flex-col gap-14 pb-20 border-b-2 border-indigo-500">
+          <h1 className="text-green-800 text-headline2 text-left font-noto-serif-display">
             {roomType}
           </h1>
           <div className="justify-between items-start gap-14 inline-flex">
             <div className="flex flex-col items-start gap-14">
               <div className="w-96 text-left ">{description}</div>
               <div className="">
-                <span>2 person</span>
+                <span>2 Person</span>
                 <span> | </span>
                 <span>{bedType}</span>
                 <span> | </span>
@@ -36,10 +35,10 @@ function RoomDetailPageContent({
             <div className="flex flex-col gap-10 w-36 h-36">
               <div className="">
                 <div className="text-base text-right font-extralight line-through">
-                  {price.toLocaleString()}
+                  THB {price.toFixed(2).toLocaleString()}
                 </div>
                 <div className="text-xl text-right text-black font-semibold">
-                  {promotionPrice.toLocaleString()}
+                  THB {promotionPrice.toFixed(2).toLocaleString()}
                 </div>
               </div>
               <div className="flex justify-end">
@@ -53,8 +52,7 @@ function RoomDetailPageContent({
             </div>
           </div>
         </div>
-        {/* <br className="w-full border-solid border-r-green-800 "/ > */}
-        <div className="flex flex-col">
+        <div className="flex flex-col border-t-2 border-gray-300">
           <div className=" text-left text-xl text-black font-bold mb-6 mt-10">
             <p>Room Amenities</p>
           </div>

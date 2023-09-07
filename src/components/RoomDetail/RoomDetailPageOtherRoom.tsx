@@ -1,18 +1,19 @@
 import React from "react";
-import OtherRoomCard from "./OtherRoomCard";
+import RoomCard from "../Home/RoomCard";
 
-function RoomDetailPageOtherRoom({ randomRooms }) {
-  console.log(randomRooms);
-
+function RoomDetailPageOtherRoom({ otherRooms }) {
   return (
     <div className=" bg-green-200  flex flex-col items-center pt-[90px] pb-[100px] px-[160px]">
-      <div className="w-[1120px] ">
+      <div>
         <h1 className="text-black text-headline3 text-center font-noto-serif-display mb-14">
           Other Rooms
         </h1>
-        <div className="flex flex-row w-full gap-6">
-          <OtherRoomCard />
-          <OtherRoomCard />
+        <div className="flex flex-row gap-6">
+          {otherRooms.map((room) => (
+            <div className="flex h-[340px]">
+              <RoomCard roomType={room.room_type} cardWidth={"548px"} />
+            </div>
+          ))}
         </div>
       </div>
     </div>

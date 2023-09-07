@@ -29,7 +29,7 @@ function About() {
           </span>
         </div>
       </div>
-      <div className="pt-36 pb-20 ">
+      <div className="pt-36 pb-20">
         <SlideBarLandingPage />
       </div>
     </div>

@@ -8,13 +8,13 @@ import { useContext } from "react";
 import { RoomsContext } from "../App.tsx";
 import { RoomsProps } from "../interfaces/RoomsProps.tsx";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function RoomDetail() {
   const [roomDetail, setRoomDetail] = useState<RoomsProps | null>(null);
-  const [randomRooms, setRandomRooms] = useState<RoomsProps[]>([]);
-  const params = useParams<{ roomId: string }>();
+  const params = useParams();
+  const navigate = useNavigate();
   const context = useContext(RoomsContext);
 
   const getRoomId = async () => {
@@ -25,6 +25,7 @@ function RoomDetail() {
       setRoomDetail(res.data.data);
     } catch (error) {
       console.error("Error fetching room data:", error);
+      navigate("/NotFound");
     }
   };
 
@@ -32,43 +33,25 @@ function RoomDetail() {
     getRoomId();
   }, [params.roomId]);
 
-  // Move this useEffect block outside of any condition
-  useEffect(() => {
-    if (roomDetail !== null) {
-      const otherRoom = context.rooms.filter(
-        (room) => room.room_id !== params.roomId
-      );
-      const randomIndex = Math.floor(Math.random() * otherRoom.length);
-      setRandomRooms([otherRoom[randomIndex]]);
-      console.log(randomRooms);
+  let otherRooms = [];
+
+  if (roomDetail !== null) {
+    const unselectedRooms = context.rooms.filter(
+      (room) => room.room_id !== Number(params.roomId)
+    );
+
+    for (let i = 0; i < 2; i++) {
+      const randomIndex = Math.floor(Math.random() * unselectedRooms.length);
+      if (!otherRooms.includes(unselectedRooms[randomIndex])) {
+        otherRooms.push(unselectedRooms[randomIndex]);
+      }
     }
-  }, [roomDetail, context.rooms, params.roomId]);
+    // console.log(otherRooms);
+  }
 
   if (roomDetail === null) {
     return <div className="flex justify-center">Loading...</div>;
   }
-
-  if (!roomDetail.room_type) {
-    return <div>Room Not Found</div>;
-  }
-  console.log(randomRooms);
-  // const otherRoom = context.rooms.filter(
-  //   (room) => room.room_id !== params.roomId
-  // );
-
-  // useEffect(() => {
-  //   const randomIndex = Math.floor(Math.random() * otherRoom.length);
-  //   setRandomRooms([otherRoom[randomIndex]]);
-  //   console.log(randomRooms);
-  // }, [otherRoom]);
-
-  //random other rooms
-
-  // console.log(context.rooms);
-  // console.log(params.roomId);
-  // console.log(otherRoom);
-
-  // console.log(roomDetail.room_type);
 
   return (
     <>
@@ -83,7 +66,7 @@ function RoomDetail() {
         promotionPrice={roomDetail.promotion_price}
         amenity={roomDetail.amenity}
       />
-      <RoomDetailPageOtherRoom randomRooms={randomRooms} />
+      <RoomDetailPageOtherRoom otherRooms={otherRooms} />
       <Footer />
     </>
   );
