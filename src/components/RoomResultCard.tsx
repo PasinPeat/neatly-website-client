@@ -13,21 +13,32 @@ function RoomResultCard() {
           </div>
           <div className="flex flex-col py-6 justify-between">
             <div className="flex gap-6">
+              {/* {Rooms.map((rooms,index) => 
+                return ())} */}
               <div className="w-[314px] text-left">
                 <h2 className="text-headline4 text-black">
                   Superior Garden View
+                  {/* {rooms.room_type} */}
                 </h2>
                 <div className="pb-8">
-                  <span className="text-gray-800">2</span>
+                  <span className="text-gray-800">
+                    2 {/* {rooms.room_type} */}
+                  </span>
                   <span> Guests</span>
                   <span className="px-3"> | </span>
-                  <span className="text-gray-800">1 </span>
+                  <span className="text-gray-800">
+                    1{/* {rooms.bed_type} */}
+                  </span>
                   <span> Double bed</span>
                   <span className="px-3"> | </span>
-                  <span className="text-gray-800">32</span>
+                  <span className="text-gray-800">
+                    32
+                    {/* {rooms.area} */}
+                  </span>
                   <span> sqm</span>
                 </div>
                 <p className="text-body1">
+                  {/* {rooms.descripton} */}
                   Rooms (36sqm) with full garden views, 1 single bed, bathroom
                   with bathtub & shower.
                 </p>
@@ -35,8 +46,14 @@ function RoomResultCard() {
 
               {/* right elements */}
               <div className="flex flex-col text-right text-body1 w-64">
-                <p className="line-through pt-2">THB 3,100.00</p>
-                <p className="text-headline5 text-black pb-3">THB 2,500.00</p>
+                <p className="line-through pt-2">
+                  THB 3,100.00
+                  {/* {rooms.price} */}
+                </p>
+                <p className="text-headline5 text-black pb-3">
+                  THB 2,500.00
+                  {/* {rooms.promotion_price} */}
+                </p>
                 <p>
                   Per Night
                   <br />
@@ -44,7 +61,10 @@ function RoomResultCard() {
                 </p>
                 <p className="pt-2">
                   Avialable
-                  <span>___</span>
+                  <span>
+                    ___
+                    {/* {rooms.amount_vacant} */}
+                  </span>
                   <span>rooms</span>
                 </p>
               </div>

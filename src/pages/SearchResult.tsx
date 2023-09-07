@@ -26,7 +26,7 @@ function SearchResult() {
         <RoomResultCard />
       </div>
       <Footer />
-    </div>
+    </>
   );
 }
 

@@ -34,8 +34,8 @@ function Search() {
           <option disabled selected>
             1 rooms, 2 guests
           </option>
-          <option>Han Solo</option>
-          <option>Greedo</option>
+          <option>Room</option>
+          <option>Guest</option>
         </select>
       </div>
       <button className="btn rounded bg-white text-orange-500 border-orange-500 border-2 px-8 py-4 capitalize font-semibold text-base hover:bg-white hover:border-orange-500">
