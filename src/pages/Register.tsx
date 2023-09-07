@@ -297,7 +297,7 @@ function Register() {
     <div className="flex flex-col items-center w-screen bg-coverRegister bg-cover">
       <Navbar />
 
-      <div className="w-[75%] flex flex-col justify-center items-start p-20 my-[90px] bg-bg shadow-md rounded">
+      <div className="w-[1440px] flex flex-col justify-center items-start p-20 my-[90px] bg-bg shadow-md rounded">
         <h1 className="text-[68px] font-noto-serif-display font-medium text-green-800">
           Register
         </h1>
@@ -308,7 +308,7 @@ function Register() {
             handleSubmit(event);
           }}
         >
-          <div>
+          <div className="relative">
             <label htmlFor="fname">
               <p className="font-body1 text-gray-900  text-start">Full Name</p>
             </label>
@@ -324,7 +324,7 @@ function Register() {
               className="w-full Input focus:outline-none focus:border-orange-500"
             />
             {fullNameError && (
-              <p className="text-body3 text-red">
+              <p className="text-body3 text-red absolute">
                 The full name should include both the first name and the last
                 name and cannot contain any numbers.
               </p>
@@ -332,7 +332,7 @@ function Register() {
           </div>
 
           <div className="grid grid-rows-3 grid-flow-col gap-10 mb-10 mt-10">
-            <div>
+            <div className="relative">
               <label htmlFor="username">
                 <p className="font-body1 text-gray-900 text-start">Username</p>
               </label>
@@ -345,17 +345,17 @@ function Register() {
                   setUsername(e.target.value);
                 }}
                 placeholder="Enter your username"
-                className="w-full Input focus:outline-none focus:border-orange-500"
+                className="w-[620px] Input focus:outline-none focus:border-orange-500"
                 required
               />
               {usernameError && (
-                <p className="text-body3 text-red">
+                <p className="text-body3 text-red absolute">
                   Username already in use. Please choose a different username.
                 </p>
               )}
             </div>
 
-            <div>
+            <div className="relative">
               <label htmlFor="password">
                 <p className="font-body1 text-gray-900  text-start">Password</p>
               </label>
@@ -372,13 +372,13 @@ function Register() {
                 required
               />
               {passwordError && (
-                <p className="text-body3 text-red">
+                <p className="text-body3 text-red absolute">
                   Password must be between 6 and 15 characters long.
                 </p>
               )}
             </div>
 
-            <div>
+            <div className="relative">
               <label htmlFor="birthDate">
                 <p className="font-body1 text-gray-900 text-start">
                   Date of Birth
@@ -398,17 +398,17 @@ function Register() {
                 }}
                 placeholder="Select your date of birth"
                 maxLength={10}
-                className="w-full Input focus:outline-none focus:border-orange-500"
+                className="w-[620px] Input focus:outline-none focus:border-orange-500"
                 required
               />
               {birthDayError && (
-                <span className="text-body3 text-red">
+                <span className="text-body3 text-red absolute left-0 -bottom-5">
                   You must be at least 18 years old to register.
                 </span>
               )}
             </div>
 
-            <div>
+            <div className="relative">
               <label htmlFor="email">
                 <p className="font-body1 text-gray-900  text-start">Email</p>
               </label>
@@ -421,17 +421,17 @@ function Register() {
                   setEmail(e.target.value);
                 }}
                 placeholder="Enter your Email"
-                className="w-full Input focus:outline-none focus:border-orange-500"
+                className="w-[620px] Input focus:outline-none focus:border-orange-500"
                 required
               />
               {emailError && (
-                <p className="text-body3 text-red">
+                <p className="text-body3 text-red absolute">
                   Email already in use. Please choose a different email.
                 </p>
               )}
             </div>
 
-            <div>
+            <div className="relative">
               <label htmlFor="idNumber">
                 <p className="font-body1 text-gray-900  text-start">
                   ID Number
@@ -448,17 +448,17 @@ function Register() {
                 pattern="\d*"
                 maxLength={13}
                 placeholder="Enter your ID Number"
-                className="w-full Input focus:outline-none focus:border-orange-500"
+                className="w-[620px] Input focus:outline-none focus:border-orange-500"
                 required
               />
               {idNumberError && (
-                <p className="text-body3 text-red">
+                <p className="text-body3 text-red absolute">
                   ID Number must be 13 digits.
                 </p>
               )}
             </div>
 
-            <div>
+            <div className="relative">
               <label htmlFor="country">
                 <p className="font-body1 text-gray-900 text-start">Country</p>
               </label>
@@ -469,7 +469,7 @@ function Register() {
                 onChange={(e) => {
                   setCountry(e.target.value);
                 }}
-                className="w-full Input focus:outline-none focus:border-orange-500"
+                className="w-[620px] Input focus:outline-none focus:border-orange-500"
               >
                 <option value="">Select your country</option>{" "}
                 {countries.map((country) => (
@@ -479,7 +479,7 @@ function Register() {
                 ))}
               </select>
               {countriesError && (
-                <span className="text-body3 text-red">
+                <span className="text-body3 text-red absolute left-0 -bottom-4">
                   Please select your country.
                 </span>
               )}
@@ -555,7 +555,7 @@ function Register() {
             Credit Card
           </p>
           <div className="grid grid-rows-2 grid-flow-col gap-10">
-            <div>
+            <div className="relative">
               <label htmlFor="cardNumber">
                 <p className="font-body1 text-gray-900 text-start">
                   Card Number
@@ -578,17 +578,17 @@ function Register() {
                 }}
                 maxLength={19}
                 placeholder="Enter your card number"
-                className="w-full Input font-body1 focus:outline-none focus:border-orange-500"
+                className="w-[620px] Input font-body1 focus:outline-none focus:border-orange-500"
                 required
               />
               {creditCardError && (
-                <p className="text-body3 text-red">
+                <p className="text-body3 text-red absolute">
                   Invalid Credit Card number
                 </p>
               )}
             </div>
 
-            <div>
+            <div className="relative">
               <label htmlFor="expried">
                 <p className="font-body1 text-gray-900 text-start">
                   Expiry Date
@@ -612,12 +612,12 @@ function Register() {
                 name="expried"
                 maxLength={5}
                 placeholder="MM/YY"
-                className="w-full Input focus:outline-none focus:border-orange-500"
+                className="w-[620px] Input focus:outline-none focus:border-orange-500"
                 required
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label htmlFor="cardOwner">
                 <p className="font-body1 text-gray-900 text-start">
                   Card Owner
@@ -632,18 +632,18 @@ function Register() {
                 }}
                 name="cardOwner"
                 placeholder="Enter your name"
-                className="w-full Input font-body1 focus:outline-none focus:border-orange-500"
+                className="w-[620px] Input font-body1 focus:outline-none focus:border-orange-500"
                 required
               />
               {fullNameErrorCredit && (
-                <p className="text-body3 text-red">
+                <p className="text-body3 text-red absolute">
                   Card Owner's name should include both first name and last
                   name.
                 </p>
               )}
             </div>
 
-            <div>
+            <div className="relative">
               <label htmlFor="cvc">
                 <p className="font-body1 text-gray-900 text-start">CVC/CVV</p>
               </label>
@@ -658,7 +658,7 @@ function Register() {
                 pattern="\d*"
                 maxLength={3}
                 placeholder="CVC/CVV"
-                className="w-full Input focus:outline-none focus:border-orange-500"
+                className="w-[620px] Input focus:outline-none focus:border-orange-500"
                 required
               />
             </div>
