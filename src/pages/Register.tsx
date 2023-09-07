@@ -37,6 +37,7 @@ function Register() {
   const [birthDayError, setBirthDayError] = useState(false);
   const [fullNameErrorCredit, setFullNameErrorCredit] = useState(false);
   const [idNumberError, setIdNumberError] = useState(false);
+  const [countriesError, setCountriesError] = useState(false);
 
   //invalid file
   const [invalidFile, setInvalidFile] = useState("");
@@ -112,6 +113,15 @@ function Register() {
     }
   };
 
+  // ฟังก์ชันเช็ค country ว่าถูกเลือกหรือไม่
+  const validateCountry = () => {
+    if (!country) {
+      setCountriesError(true);
+    } else {
+      setCountriesError(false);
+    }
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -121,6 +131,10 @@ function Register() {
     validateFullName(fullName);
     //check credit name
     validateFullNameCredit(cardOwner);
+
+    validateIDNumber();
+
+    validateCountry();
 
     //check username
     const queryParamsUsername = `?username=${username}`;
@@ -177,8 +191,6 @@ function Register() {
     }
     expireDate = `${enteredMonth}/${enteredYear}`;
 
-    validateIDNumber();
-
     const isAgeValid = validateBirthDay(birthDay);
     setBirthDayError(!isAgeValid);
 
@@ -209,7 +221,8 @@ function Register() {
       usernameError &&
       creditCardError &&
       birthDayError &&
-      idNumberError
+      idNumberError &&
+      countriesError
     ) {
       setIsLoading(false);
       return;
@@ -456,7 +469,7 @@ function Register() {
                 onChange={(e) => {
                   setCountry(e.target.value);
                 }}
-                className="w-full Input focus:outline-none focus:border-orange-500 h-[69%]"
+                className="w-full Input focus:outline-none focus:border-orange-500"
               >
                 <option value="">Select your country</option>{" "}
                 {countries.map((country) => (
@@ -465,6 +478,11 @@ function Register() {
                   </option>
                 ))}
               </select>
+              {countriesError && (
+                <span className="text-body3 text-red">
+                  Please select your country.
+                </span>
+              )}
             </div>
           </div>
 
