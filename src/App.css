@@ -81,3 +81,12 @@ body {
   background-position: center;
   color: transparent;
 }
+
+#datePicker {
+  border: 2px solid #D6D9E4;
+
+  background-color: white;
+
+  color: 9AA1B9;
+}
+

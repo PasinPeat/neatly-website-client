@@ -49,7 +49,8 @@ function Search({ buttonStyle }) {
             <span className="text-gray-900 text-body1">Check Out</span>
           </label>
           <input
-            type="date"
+          id="datePicker"
+          type="date"
             placeholder="Type here"
             className="input input-bordered w-60 text-gray-600"
             value={checkOutDate}
