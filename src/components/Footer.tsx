@@ -18,10 +18,8 @@ function Footer() {
               The best hotel for rising your experience
             </p>
           </div>
-          <div className="w-[380px]">
-            <span className="footer-title text-white text-body1 mt-3">
-              CONTACT
-            </span>
+          <div className="w-[380px] text-white">
+            <span className="mb-4 text-body1 mt-3">CONTACT</span>
             <div className="flex justify-start mt-4">
               <div className=" mr-4">
                 <img
@@ -29,9 +27,7 @@ function Footer() {
                   alt="Icon"
                 />
               </div>
-              <span className=" text-white font-normal text-body2">
-                +66 99 999 9999
-              </span>
+              <span className="font-normal text-body2">+66 99 999 9999</span>
             </div>
             <div className="flex justify-start mt-5">
               <div className=" mr-4 flex ">
@@ -40,7 +36,7 @@ function Footer() {
                   alt="Icon"
                 />
               </div>
-              <span className=" text-white font-normal text-body1">
+              <span className="font-normal text-body1">
                 contact@neatlyhotel.com
               </span>
             </div>
@@ -51,7 +47,7 @@ function Footer() {
                   alt="Icon"
                 />
               </div>
-              <span className=" text-white font-normal text-body2">
+              <span className="font-normal text-body2">
                 188 Phaya Thai Rd, Thung Phaya Thai, <br />
                 Ratchathewi, Bangkok 10400
               </span>
@@ -84,7 +80,7 @@ function Footer() {
               </a>
             </div>
           </div>
-          <div className="items-center grid-flow-col">
+          <div className="text-green-300 items-center grid-flow-col">
             <p>Copyright ©2022 Neatly Hotel</p>
           </div>
         </footer>

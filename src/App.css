@@ -82,6 +82,19 @@ body {
   color: transparent;
 }
 
+
+#datePicker {
+  border: 2px solid #d6d9e4;
+  background-color: white;
+  color: 9AA1B9;
+}
+
+#datePicker tbody>tr>td.slds-is-selected>.slds-day {
+  background: red;
+  color: pink;
+  font-weight: 700;
+}
+
 ::-webkit-calendar-picker-indicator {
   filter: invert(0.6);
 }

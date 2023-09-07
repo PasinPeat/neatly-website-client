@@ -87,14 +87,14 @@ export default {
         },
       ],
       headline3: [
-        "44px",
+        "38px",
         {
           lineHeight: "55px",
           fontWeight: "500",
         },
       ],
       headline2: [
-        "68px",
+        "64px",
         {
           lineHeight: "85px",
           fontWeight: "400",

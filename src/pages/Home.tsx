@@ -1,4 +1,5 @@
 import React from "react";
+import Navbar from "../components/Navbar.tsx";
 import Header from "../components/Home/Header.tsx";
 import About from "../components/Home/About.tsx";
 import Service from "../components/Home/Service.tsx";
@@ -9,6 +10,7 @@ import Footer from "../components/Footer.tsx";
 function Home() {
   return (
     <div>
+      <Navbar />
       <Header />
       <About />
       <Service />

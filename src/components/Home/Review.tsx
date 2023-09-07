@@ -39,7 +39,7 @@ function Reviews() {
           data-swiper-parallax="-23%"
         ></div>
         <SwiperSlide>
-          <div className=" py-28 flex flex-col items-center justify-center bg-green-200">
+          <div className="py-28 flex flex-col items-center justify-center bg-green-200">
             <div className="flex items-center">
               <div className="px-16 py-16 max-w-[840px] text-center">
                 “lorem ipsum dolor sit amet minim mollit non deserunt ullamco

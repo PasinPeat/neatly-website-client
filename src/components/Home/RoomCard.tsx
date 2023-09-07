@@ -3,7 +3,13 @@ import { RoomsContext } from "../../App.jsx";
 import { RoomsProps } from "../../interfaces/RoomsProps.tsx";
 import { Link } from "react-router-dom";
 
-function RoomCard({ roomType }: { roomType: string }) {
+function RoomCard({
+  roomType,
+  cardWidth,
+}: {
+  roomType: string;
+  cardWidth: string;
+}) {
   const context = useContext(RoomsContext);
   // console.log(context.rooms);
 
@@ -22,6 +28,7 @@ function RoomCard({ roomType }: { roomType: string }) {
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundImage: `url('${room.room_images[0]}')`,
+    width: `${cardWidth}`,
   };
 
   return (
@@ -36,7 +43,7 @@ function RoomCard({ roomType }: { roomType: string }) {
           </div>
           <div>
             <Link to={`/room/${room.room_id}`}>
-              <span className="text-white">Explore Room</span>
+              <span className="text-white text-body1">Explore Room</span>
             </Link>
             <img
               className="ml-2 inline"

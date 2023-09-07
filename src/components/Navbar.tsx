@@ -16,7 +16,7 @@ function Navbar() {
 
   if (location.pathname === "/") {
     return (
-      <div className="flex justify-between bg-white h-[100px] w-full px-40">
+      <div className="sticky z-50 top-[-1px] flex justify-between bg-white h-[100px] w-full px-40">
         <div className="flex flex-row items-center ">
           <button onClick={linkHomePage}>
             <img
