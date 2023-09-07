@@ -7,10 +7,14 @@ import Footer from "../components/Footer";
 import { RoomsProps } from "../interfaces/RoomsProps.tsx";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { RoomsContext } from "../App.tsx";
 import axios from "axios";
 
 function RoomDetail() {
   const [roomDetail, setRoomDetail] = useState<RoomsProps | null>(null);
+  const [otherRooms, setOtherRooms] = useState<RoomsProps[]>([]);
+  const context = useContext(RoomsContext);
   const params = useParams();
   const navigate = useNavigate();
 
@@ -30,26 +34,33 @@ function RoomDetail() {
     getRoomId();
   }, [params.roomId]);
 
-  // let otherRooms = [];
+  useEffect(() => {
+    if (roomDetail !== null && context.rooms.length > 0) {
+      const unselectedRooms = context.rooms.filter(
+        (room) => room.room_id !== Number(params.roomId)
+      );
 
-  // function getOtherRooms() {
-  //   if (roomDetail !== null) {
-  //     const unselectedRooms = context.rooms.filter(
-  //       (room) => room.room_id !== Number(params.roomId)
-  //     );
-  //     console.log(unselectedRooms);
-  //     for (let i = 0; i < 2; i++) {
-  //       const randomIndex = Math.floor(Math.random() * unselectedRooms.length);
-  //       if (!otherRooms.includes(unselectedRooms[randomIndex])) {
-  //         otherRooms.push(unselectedRooms[randomIndex]);
-  //       }
-  //     }
-  //     console.log(otherRooms);
-  //   }
-  // }
-  // getOtherRooms();
+      const selectedOtherRooms: RoomsProps[] = [];
 
-  if (roomDetail === null) {
+      if (unselectedRooms.length >= 2) {
+        while (selectedOtherRooms.length < 2) {
+          const randomIndex = Math.floor(
+            Math.random() * unselectedRooms.length
+          );
+          const selectedRoom = unselectedRooms[randomIndex];
+
+          if (!selectedOtherRooms.includes(selectedRoom)) {
+            selectedOtherRooms.push(selectedRoom);
+          }
+        }
+      } else {
+        selectedOtherRooms.push(...unselectedRooms);
+      }
+      setOtherRooms(selectedOtherRooms);
+    }
+  }, [roomDetail, context.rooms, params.roomId]);
+
+  if (roomDetail === null || !roomDetail.room_type) {
     return <div className="flex justify-center">Loading...</div>;
   }
 
@@ -66,7 +77,7 @@ function RoomDetail() {
         promotionPrice={roomDetail.promotion_price}
         amenity={roomDetail.amenity}
       />
-      <RoomDetailPageOtherRoom paramsId={params.roomId} />
+      <RoomDetailPageOtherRoom otherRooms={otherRooms} />
       <Footer />
     </>
   );
