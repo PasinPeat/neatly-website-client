@@ -38,6 +38,8 @@ function Register() {
   const [fullNameErrorCredit, setFullNameErrorCredit] = useState(false);
   const [idNumberError, setIdNumberError] = useState(false);
   const [countriesError, setCountriesError] = useState(false);
+  // ID Number ซ้ำ
+  const [idNumberValidError, setidNumberValidError] = useState(false);
 
   //invalid file
   const [invalidFile, setInvalidFile] = useState("");
@@ -122,6 +124,8 @@ function Register() {
     }
   };
 
+  console.log(idNumberError);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -143,6 +147,7 @@ function Register() {
     );
     if (validUsername.data.data.length === 1) {
       setUsernameError(true);
+      setIsLoading(false);
     } else {
       setUsernameError(false);
     }
@@ -154,9 +159,24 @@ function Register() {
     );
     if (validEmail.data.data.length === 1) {
       setEmailError(true);
+      setIsLoading(false);
     } else {
       setEmailError(false);
     }
+
+    //check idNumber
+    const queryParamsIdNumber = `?idNumber=${idNumber}`;
+    const validIdNumber = await axios.get(
+      `http://localhost:4000/validUser/idNumber${queryParamsIdNumber}`
+    );
+    if (validIdNumber.data.data.length === 1) {
+      setidNumberValidError(true);
+      setIsLoading(false);
+    } else {
+      setidNumberValidError(false);
+    }
+
+    setIsLoading(true);
 
     //check password
     isPasswordValid(password);
@@ -454,6 +474,11 @@ function Register() {
               {idNumberError && (
                 <p className="text-body3 text-red absolute">
                   ID Number must be 13 digits.
+                </p>
+              )}
+              {idNumberValidError && (
+                <p className="text-body3 text-red absolute">
+                  ID Number already in use. Please choose a different ID Number.
                 </p>
               )}
             </div>
