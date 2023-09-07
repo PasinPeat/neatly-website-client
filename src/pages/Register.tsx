@@ -387,7 +387,6 @@ function Register() {
               <input
                 type="date"
                 id="birthDate"
-                placeholder="Select your date of birth"
                 value={birthDay}
                 name="birthDate"
                 onChange={(e) => {
@@ -397,8 +396,9 @@ function Register() {
 
                   setBirthDay(cleanedValue);
                 }}
+                placeholder="Select your date of birth"
                 maxLength={10}
-                className="w-full focus:outline-none focus:border-orange-500 Input"
+                className="w-full Input focus:outline-none focus:border-orange-500"
                 required
               />
               {birthDayError && (
