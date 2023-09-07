@@ -2,7 +2,8 @@ import RoomCard from "./RoomCard.tsx";
 
 function Rooms() {
   return (
-    <div className="py-28 px-40 flex flex-col items-center justify-center bg-white">
+    <div className="py-28 px-40 flex flex-col items-center justify-center bg-white"
+    id="roomSuits">
       <div className="font-noto-serif-display text-green-800 text-headline2">
         Rooms & Suits
       </div>

@@ -2,7 +2,8 @@ import React from "react";
 
 function Service() {
   return (
-    <div className="py-24 flex flex-col items-center justify-center bg-green-700 text-white">
+    <div className="py-24 flex flex-col items-center justify-center bg-green-700 text-white"
+    id="services">
       <div className="font-noto-serif-display text-headline2">
         Service and Facilities
       </div>

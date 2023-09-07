@@ -3,7 +3,7 @@ import SlideBarLandingPage from "./SlideBarLandingPage.tsx";
 
 function About() {
   return (
-    <div className=" bg-white">
+    <div className=" bg-white" id="about">
       <div className="pt-36 px-40">
         <div className="mb-12 text-headline2 font-noto-serif-display text-green-800">
           Neatly Hotel
