@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +15,9 @@ function Register() {
   const [email, setEmail] = useState("");
   const [birthDay, setBirthDay] = useState("");
   const [country, setCountry] = useState("");
+  const [countries, setCountries] = useState<
+    { value: string; label: string }[]
+  >([]);
   const [avatars, setAvatars] = useState({});
 
   //user's credit card
@@ -30,6 +33,8 @@ function Register() {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [creditCardError, setCreditCardError] = useState(false);
+
+  const [birthDayError, setBirthDayError] = useState(false);
 
   //invalid file
   const [invalidFile, setInvalidFile] = useState("");
@@ -71,6 +76,15 @@ function Register() {
     const isCvvValid = cvvRegex.test(cvv);
 
     return isCardNumberValid && isCvvValid;
+  };
+
+  //check age
+  const validateBirthDay = (birthDay: string) => {
+    const dob = new Date(birthDay);
+    const currentDate = new Date();
+    const age = currentDate.getFullYear() - dob.getFullYear();
+
+    return age >= 18;
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -137,56 +151,50 @@ function Register() {
     }
     expireDate = `${enteredMonth}/${enteredYear}`;
 
+    const isAgeValid = validateBirthDay(birthDay);
+    setBirthDayError(!isAgeValid);
+
     if (
       fullNameError ||
       passwordError ||
       emailError ||
       usernameError ||
       creditCardError ||
-      creditCardError
+      birthDayError
     ) {
+      setIsLoading(false);
       return;
     }
 
-    // const data: Record<string, string> = {
-    //   fullName: String(fullName),
-    //   username: String(username),
-    //   password: String(password),
-    //   idNumber: String(idNumber),
-    //   email: String(email),
-    //   birth_day: String(birthDay),
-    //   country: String(country),
-    //   card_owner: String(cardOwner),
-    //   card_number: cleanedCardNumber,
-    //   cvc: String(cardCode),
-    //   expireDate: String(expireDate),
-    // };
-
-    const formData = new FormData();
-    formData.append("fullName", fullName);
-    formData.append("username", username);
-    formData.append("password", password);
-    formData.append("idNumber", idNumber);
-    formData.append("email", email);
-    formData.append("birth_day", birthDay);
-    formData.append("country", country);
-    formData.append("card_owner", cardOwner);
-    formData.append("card_number", cleanedCardNumber);
-    formData.append("cvc", cardCode);
-    formData.append("expireDate", expireDate);
+    const data: Record<string, string> = {
+      fullName: String(fullName),
+      username: String(username),
+      password: String(password),
+      idNumber: String(idNumber),
+      email: String(email),
+      birth_day: String(birthDay),
+      country: String(country),
+      card_owner: String(cardOwner),
+      card_number: cleanedCardNumber,
+      cvc: String(cardCode),
+      expireDate: String(expireDate),
+    };
 
     for (let avatarKey in avatars) {
       //@ts-ignore
-      formData.append("avatar", avatars[avatarKey]);
+      data.avatar = avatars[avatarKey];
     }
 
-    await axios.post("http://localhost:4000/auth/register", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-
-    setIsLoading(false);
-
-    navigate("/login");
+    try {
+      await axios.post("http://localhost:4000/auth/register", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setIsLoading(false);
+      navigate("/login");
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+    }
   };
 
   //@ts-ignore
@@ -222,6 +230,26 @@ function Register() {
     setAvatars({ ...avatars });
   };
 
+  useEffect(() => {
+    fetch("https://restcountries.com/v3.1/all")
+      .then((response) => response.json())
+      .then((data) => {
+        const countryOptions: { value: string; label: string }[] = data.map(
+          (country: { name: { common: string } }) => ({
+            value: country.name.common,
+            label: country.name.common,
+          })
+        );
+        const sortedCountries = countryOptions.sort((a, b) =>
+          a.label.localeCompare(b.label)
+        );
+        setCountries(sortedCountries);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+      });
+  }, []);
+
   return (
     <div className="flex flex-col items-center w-screen bg-coverRegister bg-cover">
       <Navbar />
@@ -255,8 +283,8 @@ function Register() {
               onChange={(e) => {
                 setFullName(e.target.value);
               }}
-              placeholder="Enter your name and lastname"
-              className="w-full Input mb-10"
+              placeholder="Enter your name and last name"
+              className="w-full Input mb-10 focus:outline-none focus:border-orange-500"
             />
           </div>
 
@@ -274,35 +302,12 @@ function Register() {
                   setUsername(e.target.value);
                 }}
                 placeholder="Enter your username"
-                className="w-full Input"
+                className="w-full Input focus:outline-none focus:border-orange-500"
                 required
               />
               {usernameError && (
                 <span className="text-body3 text-red">
                   Username already in use. Please choose a different username.
-                </span>
-              )}
-            </div>
-
-            <div>
-              <label htmlFor="email">
-                <p className="font-body1 text-gray-900  text-start">Email</p>
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                name="email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-                placeholder="Enter your Email"
-                className="w-full Input"
-                required
-              />
-              {emailError && (
-                <span className="text-body3 text-red">
-                  Email already in use. Please choose a different email.
                 </span>
               )}
             </div>
@@ -320,12 +325,65 @@ function Register() {
                   setPassword(e.target.value);
                 }}
                 placeholder="Enter your Password"
-                className="w-full Input"
+                className="w-full Input focus:outline-none focus:border-orange-500"
                 required
               />
               {passwordError && (
                 <span className="text-body3 text-red">
                   Password must be between 6 and 15 characters long.
+                </span>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="birthDate">
+                <p className="font-body1 text-gray-900 text-start">
+                  Date of Birth
+                </p>
+              </label>
+              <input
+                type="date"
+                id="birthDate"
+                value={birthDay}
+                name="birthDate"
+                onChange={(e) => {
+                  const cleanedValue = e.target.value
+                    .replace(/[^0-9-]/g, "")
+                    .substring(0, 10);
+
+                  setBirthDay(cleanedValue);
+                }}
+                placeholder="Select your date of birth"
+                maxLength={10}
+                className="w-full Input focus:outline-none focus:border-orange-500"
+                required
+              />
+              {birthDayError && (
+                <span className="text-body3 text-red">
+                  You must be at least 18 years old to register.
+                </span>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="email">
+                <p className="font-body1 text-gray-900  text-start">Email</p>
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                name="email"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+                placeholder="Enter your Email"
+                className="w-full Input focus:outline-none focus:border-orange-500"
+                required
+              />
+              {emailError && (
+                <span className="text-body3 text-red">
+                  Email already in use. Please choose a different email.
                 </span>
               )}
             </div>
@@ -347,32 +405,7 @@ function Register() {
                 pattern="\d*"
                 maxLength={13}
                 placeholder="Enter your ID Number"
-                className="w-full Input"
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="birthDate">
-                <p className="font-body1 text-gray-900  text-start">
-                  Date of Birth
-                </p>
-              </label>
-              <input
-                type="date"
-                id="birthDate"
-                value={birthDay}
-                name="birthDate"
-                onChange={(e) => {
-                  const cleanedValue = e.target.value
-                    .replace(/[^0-9-]/g, "")
-                    .substring(0, 10);
-
-                  setBirthDay(cleanedValue);
-                }}
-                placeholder="Select your date of birth"
-                maxLength={10}
-                className="w-full Input"
+                className="w-full Input focus:outline-none focus:border-orange-500"
                 required
               />
             </div>
@@ -388,13 +421,14 @@ function Register() {
                 onChange={(e) => {
                   setCountry(e.target.value);
                 }}
-                className="w-full Input"
+                className="w-full Input focus:outline-none focus:border-orange-500"
               >
-                <option value="">-- Select Country --</option>{" "}
-                {/* Default option */}
-                <option value="Thailand">Thailand</option>
-                <option value="Japan">Japan</option>
-                <option value="China">China</option>
+                <option value="">Select your country</option>{" "}
+                {countries.map((country) => (
+                  <option key={country.value} value={country.value}>
+                    {country.label}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -410,8 +444,10 @@ function Register() {
               <div>
                 <label htmlFor="upload">
                   <div className="w-[197px] h-[167px] bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center border-2 hover:border-orange-500 active:border-orange-700">
+                    <p className="text-orange-500 text-[30px] font-medium text-center">
+                      +
+                    </p>
                     <p className="text-orange-500 text-sm font-medium text-center">
-                      + <br />
                       Upload photo
                     </p>
                     <input
@@ -443,7 +479,7 @@ function Register() {
                     alt={file.name}
                   />
                   <button
-                    className="h-[20px] w-[20px] rounded-full bg-orange-500 flex items-center justify-center absolute -top-2 -right-2 hover:bg-orange-700 active:bg-orange-800"
+                    className="h-[24px] w-[24px] rounded-full bg-[#B61515] flex items-center justify-center absolute -top-2 -right-2 hover:bg-orange-700 active:bg-orange-800"
                     onClick={(event) => handleRemoveImage(event, avatarKey)}
                   >
                     <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/X.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL1guc3ZnIiwiaWF0IjoxNjkzOTI4MDgyLCJleHAiOjE3MjU0NjQwODJ9.t222UE-9r9-MjxyWxgHvvGtwhg7AEAvphm2mY-VVfg0&t=2023-09-05T15%3A34%3A21.534Z" />
@@ -489,7 +525,7 @@ function Register() {
                 }}
                 maxLength={19}
                 placeholder="Enter your card number"
-                className="w-full Input font-body1"
+                className="w-full Input font-body1 focus:outline-none focus:border-orange-500"
                 required
               />
               {creditCardError && (
@@ -523,7 +559,7 @@ function Register() {
                 name="expried"
                 maxLength={5}
                 placeholder="MM/YY"
-                className="w-full Input"
+                className="w-full Input focus:outline-none focus:border-orange-500"
                 required
               />
             </div>
@@ -543,7 +579,7 @@ function Register() {
                 }}
                 name="cardOwner"
                 placeholder="Enter your name"
-                className="w-full Input font-body1"
+                className="w-full Input font-body1 focus:outline-none focus:border-orange-500"
                 required
               />
               {fullNameError && (
@@ -569,34 +605,36 @@ function Register() {
                 pattern="\d*"
                 maxLength={3}
                 placeholder="CVC/CVV"
-                className="w-full Input"
+                className="w-full Input focus:outline-none focus:border-orange-500"
                 required
               />
             </div>
           </div>
 
-          <div>
-            <button
-              className="btn Button w-full mt-[60px] mb-4"
-              type="submit"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <span className="loading loading-spinner w-7 bg-orange-600"></span>
-              ) : (
-                "Register"
-              )}
-            </button>
-
-            <span className="text-gray-700 font-body1">
-              Already have an account?{" "}
-              <a
-                href="/login"
-                className="text-orange-500 font-semibold hover:underline"
+          <div className="columns-2 gap-10">
+            <div>
+              <button
+                className="btn Button w-full mt-[60px] mb-4"
+                type="submit"
+                disabled={isLoading}
               >
-                Login
-              </a>
-            </span>
+                {isLoading ? (
+                  <span className="loading loading-spinner w-7 bg-orange-600"></span>
+                ) : (
+                  "Register"
+                )}
+              </button>
+
+              <span className="text-gray-700 font-body1">
+                Already have an account?{" "}
+                <a
+                  href="/login"
+                  className="text-orange-500 font-semibold hover:underline"
+                >
+                  Login
+                </a>
+              </span>
+            </div>
           </div>
         </form>
       </div>
