@@ -10,7 +10,7 @@ function RoomDetailSlidebar({ roomImages }) {
   return (
     <div className="pt-20 bg-gray-200">
       <Swiper
-        className=" bg-gray-200"
+        className="bg-gray-200"
         id="swiper-color"
         modules={[Parallax, Autoplay, Pagination, Navigation]}
         autoplay={{

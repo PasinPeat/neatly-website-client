@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import RoomDetailPopup from "./RoomDetailPopup";
 
 function RoomResultCard({
   roomId,
@@ -12,9 +14,12 @@ function RoomResultCard({
   amenity,
   person,
   available,
+  onRoomDetail,
+  onFullImage,
 }) {
   // console.log(roomType);
   // console.log(person);
+  const navigate = useNavigate();
 
   const backgroundImage = {
     backgroundImage: `url('${roomImages[2]}')`,
@@ -29,7 +34,10 @@ function RoomResultCard({
               style={backgroundImage}
               className="w-[453px] h-[320px] rounded bg-cover bg-center"
             ></div>
-            <button className="absolute bottom-0 left-0 rounded-tr-lg opacity-60 bg-white p-2">
+            <button
+              onClick={() => onFullImage(roomId)}
+              className="absolute bottom-0 left-0 rounded-tr-lg opacity-60 bg-white p-2"
+            >
               <div className="w-6 h-6 opacity-60 bg-[url('https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/image.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2ltYWdlLnN2ZyIsImlhdCI6MTY5Mzg4NjI4NSwiZXhwIjoxNzI1NDIyMjg1fQ.44CiKMoxMLmc_20EW3RzoUJyldns-KueYSKKLT6HLy8&t=2023-09-05T03%3A58%3A05.908Z')]"></div>
             </button>
           </div>
@@ -70,10 +78,18 @@ function RoomResultCard({
             </div>
 
             <div className="flex justify-end gap-6">
-              <button className="btn capitalize bg-bg border-none font-semibold text-base  text-orange-500 hover:bg-bg">
+              <button
+                onClick={() => onRoomDetail(roomId)}
+                className="btn capitalize bg-bg border-none font-semibold text-base  text-orange-500 hover:bg-bg"
+              >
                 Room Detail
               </button>
-              <button className="btn Button px-8">Book now</button>
+              <button
+                className="btn Button"
+                onClick={() => navigate("/Payment")}
+              >
+                Book now
+              </button>
             </div>
           </div>
         </div>
