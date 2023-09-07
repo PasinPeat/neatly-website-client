@@ -296,7 +296,7 @@ function Register() {
     <div className="flex flex-col items-center w-screen bg-coverRegister bg-cover">
       <Navbar />
 
-      <div className="w-[75%] flex flex-col justify-center items-start p-20 my-[90px] bg-bg shadow-md rounded">
+      <div className="w-[1154px] flex flex-col justify-center items-start p-20 my-[90px] bg-bg shadow-md rounded">
         <h1 className="text-[68px] font-noto-serif-display font-medium text-green-800">
           Register
         </h1>
