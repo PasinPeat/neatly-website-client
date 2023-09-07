@@ -292,7 +292,6 @@ function Register() {
         console.error("Error fetching data: ", error);
       });
   }, []);
-
   return (
     <div className="flex flex-col items-center w-screen bg-coverRegister bg-cover">
       <Navbar />
@@ -301,16 +300,19 @@ function Register() {
         <h1 className="text-[68px] font-noto-serif-display font-medium text-green-800">
           Register
         </h1>
-        <p className="text-gray-600 text-headline5 py-10">Basic Information</p>
+        <p className="text-gray-600 text-headline5 py-10 ">Basic Information</p>
         <form
           className="w-full"
           onSubmit={(event) => {
             handleSubmit(event);
           }}
         >
-          <div>
-            <label htmlFor="fname">
-              <p className="font-body1 text-gray-900  text-start">Full Name</p>
+          <div className="mb-10">
+            <label
+              htmlFor="fname"
+              className="font-body1 text-gray-900 text-start mb-[4px]"
+            >
+              Full Name
             </label>
             <input
               type="text"
@@ -324,165 +326,177 @@ function Register() {
               className="w-full Input focus:outline-none focus:border-orange-500"
             />
             {fullNameError && (
-              <p className="text-body3 text-red">
+              <span className="text-body3 text-red block mt-2">
                 The full name should include both the first name and the last
                 name and cannot contain any numbers.
-              </p>
+              </span>
             )}
           </div>
 
-          <div className="grid grid-rows-3 grid-flow-col gap-10 mb-10 mt-10">
-            <div>
-              <label htmlFor="username">
-                <p className="font-body1 text-gray-900 text-start">Username</p>
-              </label>
-              <input
-                type="text"
-                value={username}
-                id="username"
-                name="username"
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-                placeholder="Enter your username"
-                className="w-full Input focus:outline-none focus:border-orange-500"
-                required
-              />
-              {usernameError && (
-                <p className="text-body3 text-red">
-                  Username already in use. Please choose a different username.
-                </p>
-              )}
+          <div className="flex flex-col ">
+            <div className="flex flex-row mb-[48px] justify-between">
+              <div>
+                <label htmlFor="username">
+                  <p className="font-body1 text-gray-900 text-start mb-[4px]">
+                    Username
+                  </p>
+                </label>
+                <input
+                  type="text"
+                  value={username}
+                  id="username"
+                  name="username"
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
+                  placeholder="Enter your username"
+                  className="Input w-[473px] focus:outline-none focus:border-orange-500"
+                  required
+                />
+                {usernameError && (
+                  <span className="block mt-[8px] text-body3 text-red">
+                    Username already in use. Please choose a different username.
+                  </span>
+                )}
+              </div>
+              <div>
+                <label htmlFor="email">
+                  <p className="font-body1 text-gray-900 text-start mb-[4px]">
+                    Email
+                  </p>
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  name="email"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  placeholder="Enter your Email"
+                  className="Input w-[473px] focus:outline-none focus:border-orange-500"
+                  required
+                />
+                {emailError && (
+                  <span className="block mt-[8px] text-body3 text-red">
+                    Email already in use. Please choose a different email.
+                  </span>
+                )}
+              </div>
             </div>
 
-            <div>
-              <label htmlFor="password">
-                <p className="font-body1 text-gray-900  text-start">Password</p>
-              </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                name="password"
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                placeholder="Enter your Password"
-                className="w-full Input focus:outline-none focus:border-orange-500"
-                required
-              />
-              {passwordError && (
-                <p className="text-body3 text-red">
-                  Password must be between 6 and 15 characters long.
-                </p>
-              )}
+            <div className="flex flex-row mb-[48px] justify-between">
+              <div>
+                <label htmlFor="password">
+                  <p className="font-body1 text-gray-900 text-start mb-[4px]">
+                    Password
+                  </p>
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  name="password"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  placeholder="Enter your Password"
+                  className="Input w-[473px] focus:outline-none focus:border-orange-500"
+                  required
+                />
+                {passwordError && (
+                  <span className="block mt-[8px] text-body3 text-red">
+                    Password must be between 6 and 15 characters long.
+                  </span>
+                )}
+              </div>
+              <div>
+                <label htmlFor="idNumber">
+                  <p className="font-body1 text-gray-900 text-start mb-[4px]">
+                    ID Number
+                  </p>
+                </label>
+                <input
+                  type="tel"
+                  id="idNumber"
+                  value={idNumber}
+                  name="idNumber"
+                  onChange={(e) => {
+                    setIdNumber(e.target.value);
+                  }}
+                  pattern="\d*"
+                  maxLength={13}
+                  placeholder="Enter your ID Number"
+                  className="Input w-[473px] focus:outline-none focus:border-orange-500"
+                  required
+                />
+                {idNumberError && (
+                  <p className="text-body3 text-red">
+                    ID Number must be 13 digits.
+                  </p>
+                )}
+              </div>
             </div>
 
-            <div>
-              <label htmlFor="birthDate">
-                <p className="font-body1 text-gray-900 text-start">
-                  Date of Birth
-                </p>
-              </label>
-              <input
-                type="date"
-                id="birthDate"
-                value={birthDay}
-                name="birthDate"
-                onChange={(e) => {
-                  const cleanedValue = e.target.value
-                    .replace(/[^0-9-]/g, "")
-                    .substring(0, 10);
+            <div className="flex flex-row mb-[48px] justify-between">
+              <div>
+                <label htmlFor="birthDate">
+                  <p className="font-body1 text-gray-900 text-start mb-[4px]">
+                    Date of Birth
+                  </p>
+                </label>
+                <input
+                  type="date"
+                  id="birthDate"
+                  value={birthDay}
+                  name="birthDate"
+                  onChange={(e) => {
+                    const cleanedValue = e.target.value
+                      .replace(/[^0-9-]/g, "")
+                      .substring(0, 10);
 
-                  setBirthDay(cleanedValue);
-                }}
-                placeholder="Select your date of birth"
-                maxLength={10}
-                className="w-full Input focus:outline-none focus:border-orange-500"
-                required
-              />
-              {birthDayError && (
-                <span className="text-body3 text-red">
-                  You must be at least 18 years old to register.
-                </span>
-              )}
-            </div>
+                    setBirthDay(cleanedValue);
+                  }}
+                  placeholder="Select your date of birth"
+                  maxLength={10}
+                  className=" Input w-[473px]  focus:outline-none focus:border-orange-500"
+                  required
+                />
+                {birthDayError && (
+                  <span className="block mt-[8px] text-body3 text-red">
+                    You must be at least 18 years old to register.
+                  </span>
+                )}
+              </div>
 
-            <div>
-              <label htmlFor="email">
-                <p className="font-body1 text-gray-900  text-start">Email</p>
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                name="email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-                placeholder="Enter your Email"
-                className="w-full Input focus:outline-none focus:border-orange-500"
-                required
-              />
-              {emailError && (
-                <p className="text-body3 text-red">
-                  Email already in use. Please choose a different email.
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label htmlFor="idNumber">
-                <p className="font-body1 text-gray-900  text-start">
-                  ID Number
-                </p>
-              </label>
-              <input
-                type="tel"
-                id="idNumber"
-                value={idNumber}
-                name="idNumber"
-                onChange={(e) => {
-                  setIdNumber(e.target.value);
-                }}
-                pattern="\d*"
-                maxLength={13}
-                placeholder="Enter your ID Number"
-                className="w-full Input focus:outline-none focus:border-orange-500"
-                required
-              />
-              {idNumberError && (
-                <p className="text-body3 text-red">
-                  ID Number must be 13 digits.
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label htmlFor="country">
-                <p className="font-body1 text-gray-900 text-start">Country</p>
-              </label>
-              <select
-                name="country"
-                id="country"
-                value={country}
-                onChange={(e) => {
-                  setCountry(e.target.value);
-                }}
-                className="w-full Input focus:outline-none focus:border-orange-500"
-              >
-                <option value="">Select your country</option>{" "}
-                {countries.map((country) => (
-                  <option key={country.value} value={country.value}>
-                    {country.label}
-                  </option>
-                ))}
-              </select>
-              {countriesError && (
-                <span className="text-body3 text-red">
-                  Please select your country.
-                </span>
-              )}
+              <div>
+                <label htmlFor="country">
+                  <p className="font-body1 text-gray-900 text-start mb-[4px]">
+                    Country
+                  </p>
+                </label>
+                <select
+                  name="country"
+                  id="country"
+                  value={country}
+                  onChange={(e) => {
+                    setCountry(e.target.value);
+                  }}
+                  className=" Input w-[473px] h-[52px] focus:outline-none focus:border-orange-500"
+                >
+                  <option value="">Select your country</option>{" "}
+                  {countries.map((country) => (
+                    <option key={country.value} value={country.value}>
+                      {country.label}
+                    </option>
+                  ))}
+                </select>
+                {countriesError && (
+                  <span className="block mt-[8px] text-body3 text-red">
+                    Please select your country.
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 
@@ -545,7 +559,9 @@ function Register() {
           {/* Invalid File */}
           <div className="h-[35px]">
             {invalidFile && (
-              <p className="text-body3 text-red">{invalidFile}</p>
+              <p className="block mt-[8px] text-body3 text-red">
+                {invalidFile}
+              </p>
             )}
           </div>
 
@@ -554,113 +570,119 @@ function Register() {
           <p className="text-gray-600 text-headline5 py-10 text-start">
             Credit Card
           </p>
-          <div className="grid grid-rows-2 grid-flow-col gap-10">
-            <div>
-              <label htmlFor="cardNumber">
-                <p className="font-body1 text-gray-900 text-start">
-                  Card Number
-                </p>
-              </label>
-              <input
-                type="text"
-                id="cardNumber"
-                name="cardNumber"
-                value={cardNumber}
-                pattern="(\d{4} ?){4}"
-                onChange={(e) => {
-                  const cleanedValue = e.target.value.replace(/[^\d]/g, "");
+          <div className="flex flex-col ">
+            <div className="flex flex-row mb-[48px] justify-between">
+              <div>
+                <label htmlFor="cardNumber">
+                  <p className="font-body1 text-gray-900 text-start mb-[4px]">
+                    Card Number
+                  </p>
+                </label>
+                <input
+                  type="text"
+                  id="cardNumber"
+                  name="cardNumber"
+                  value={cardNumber}
+                  pattern="(\d{4} ?){4}"
+                  onChange={(e) => {
+                    const cleanedValue = e.target.value.replace(/[^\d]/g, "");
 
-                  const formattedValue = cleanedValue
-                    .replace(/(\d{4})/g, "$1 ")
-                    .trim();
+                    const formattedValue = cleanedValue
+                      .replace(/(\d{4})/g, "$1 ")
+                      .trim();
 
-                  setCardNumber(formattedValue);
-                }}
-                maxLength={19}
-                placeholder="Enter your card number"
-                className="w-full Input font-body1 focus:outline-none focus:border-orange-500"
-                required
-              />
-              {creditCardError && (
-                <p className="text-body3 text-red">
-                  Invalid Credit Card number
-                </p>
-              )}
+                    setCardNumber(formattedValue);
+                  }}
+                  maxLength={19}
+                  placeholder="Enter your card number"
+                  className=" Input w-[473px] font-body1 focus:outline-none focus:border-orange-500"
+                  required
+                />
+                {creditCardError && (
+                  <span className="block mt-[8px] text-body3 text-red">
+                    Invalid Credit Card number
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="cardOwner">
+                  <p className="font-body1 text-gray-900 text-start mb-[4px]">
+                    Card Owner
+                  </p>
+                </label>
+                <input
+                  type="text"
+                  id="cardOwner"
+                  value={cardOwner}
+                  onChange={(e) => {
+                    setCardOwner(e.target.value);
+                  }}
+                  name="cardOwner"
+                  placeholder="Enter your name"
+                  className="Input w-[473px] font-body1 focus:outline-none focus:border-orange-500"
+                  required
+                />
+                {fullNameError && (
+                  <span className="block mt-[8px] text-body3 text-red">
+                    Card Owner's name should include both first name and last
+                    name.
+                  </span>
+                )}
+              </div>
             </div>
 
-            <div>
-              <label htmlFor="expried">
-                <p className="font-body1 text-gray-900 text-start">
-                  Expiry Date
-                </p>
-              </label>
-              <input
-                type="tel"
-                id="expried"
-                value={expireDate}
-                onChange={(e) => {
-                  const cleanedValue = e.target.value.replace(/\D/g, "");
-                  const formattedValue = cleanedValue.replace(
-                    /^(\d{2})(\d{0,2})/,
-                    (_, month, year) => {
-                      const maxMonth = month > 12 ? "12" : month;
-                      return `${maxMonth}${year ? "/" : ""}${year}`;
-                    }
-                  );
-                  setExpireDate(formattedValue);
-                }}
-                name="expried"
-                maxLength={5}
-                placeholder="MM/YY"
-                className="w-full Input focus:outline-none focus:border-orange-500"
-                required
-              />
-            </div>
+            <div className="flex flex-row mb-[48px] justify-between">
+              <div>
+                <label htmlFor="expried">
+                  <p className="font-body1 text-gray-900 text-start mb-[4px]">
+                    Expiry Date
+                  </p>
+                </label>
+                <input
+                  type="tel"
+                  id="expried"
+                  value={expireDate}
+                  onChange={(e) => {
+                    const cleanedValue = e.target.value.replace(/\D/g, "");
+                    const formattedValue = cleanedValue.replace(
+                      /^(\d{2})(\d{0,2})/,
+                      (_, month, year) => {
+                        const maxMonth = month > 12 ? "12" : month;
+                        return `${maxMonth}${year ? "/" : ""}${year}`;
+                      }
+                    );
+                    setExpireDate(formattedValue);
+                  }}
+                  name="expried"
+                  maxLength={5}
+                  placeholder="MM/YY"
+                  className=" Input w-[473px] focus:outline-none focus:border-orange-500"
+                  required
+                />
+              </div>
 
-            <div>
-              <label htmlFor="cardOwner">
-                <p className="font-body1 text-gray-900 text-start">
-                  Card Owner
-                </p>
-              </label>
-              <input
-                type="text"
-                id="cardOwner"
-                value={cardOwner}
-                onChange={(e) => {
-                  setCardOwner(e.target.value);
-                }}
-                name="cardOwner"
-                placeholder="Enter your name"
-                className="w-full Input font-body1 focus:outline-none focus:border-orange-500"
-                required
-              />
-              {fullNameErrorCredit && (
-                <p className="text-body3 text-red">
-                  Card Owner's name should include both first name and last
-                  name.
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label htmlFor="cvc">
-                <p className="font-body1 text-gray-900 text-start">CVC/CVV</p>
-              </label>
-              <input
-                type="tel"
-                id="cvc"
-                name="cvc"
-                value={cardCode}
-                onChange={(e) => {
-                  setCardCode(e.target.value);
-                }}
-                pattern="\d*"
-                maxLength={3}
-                placeholder="CVC/CVV"
-                className="w-full Input focus:outline-none focus:border-orange-500"
-                required
-              />
+              <div>
+                <label htmlFor="cvc">
+                  <p className="font-body1 text-gray-900 text-start mb-[4px]">
+                    CVC/CVV
+                  </p>
+                </label>
+                <input
+                  type="tel"
+                  id="cvc"
+                  name="cvc"
+                  value={cardCode}
+                  onChange={(e) => {
+                    setCardCode(e.target.value);
+                  }}
+                  pattern="\d*"
+                  maxLength={3}
+                  placeholder="CVC/CVV"
+                  className=" Input w-[473px] focus:outline-none focus:border-orange-500"
+                  required
+                />
+              </div>
             </div>
           </div>
 
