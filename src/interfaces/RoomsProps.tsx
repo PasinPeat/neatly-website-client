@@ -9,4 +9,5 @@ export interface RoomsProps {
   description: string;
   room_images: string[];
   room_status: boolean;
+  person: number;
 }
