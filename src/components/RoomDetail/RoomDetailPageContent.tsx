@@ -30,6 +30,7 @@ function RoomDetailPageContent({
                 <span>{bedType}</span>
                 <span> | </span>
                 <span>{area}</span>
+                <span> sqm </span>
               </div>
             </div>
             <div className="flex flex-col gap-10 w-36 h-36">

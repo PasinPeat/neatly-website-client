@@ -39,7 +39,7 @@ function Search({ buttonStyle }) {
             type="date"
             id="datePicker"
             placeholder="Type here"
-            className="input input-bordered w-60 text-gray-600"
+            className="input input-bordered w-60 text-gray-600 focus:outline-0"
             value={checkInDate}
             onChange={(e) => setCheckInDate(e.target.value)}
           />
@@ -53,7 +53,7 @@ function Search({ buttonStyle }) {
             id="datePicker"
             type="date"
             placeholder="Type here"
-            className="input input-bordered w-60 text-gray-600"
+            className="input input-bordered w-60 text-gray-600 focus:outline-0"
             value={checkOutDate}
             onChange={(e) => setCheckOutDate(e.target.value)}
           />
@@ -72,7 +72,7 @@ function Search({ buttonStyle }) {
             </button>
           </div>
           {isOpen && (
-            <div className="px-4 py-3 w-60 top-34 flex flex-col absolute rounded-md bg-white">
+            <div className="px-4 py-3 w-60 top-34 flex flex-col absolute rounded-md bg-white drop-shadow-lg">
               <div className="pt-2 flex items-center justify-between">
                 <div>Rooms</div>
                 <div className="flex items-center">
