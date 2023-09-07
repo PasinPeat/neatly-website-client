@@ -1,12 +1,35 @@
-import React from "react";
 import SingleSlidebar from "../components/SingleSlidebar";
+import { RoomsProps } from "../interfaces/RoomsProps.tsx";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function RoomDetailPopup() {
+  const [roomDetail, setRoomDetail] = useState<RoomsProps | null>(null);
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const getRoomId = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:4000/room/${params.roomId}`
+      );
+      setRoomDetail(res.data.data);
+    } catch (error) {
+      console.error("Error fetching room data:", error);
+      navigate("/NotFound");
+    }
+  };
+
+  useEffect(() => {
+    getRoomId();
+  }, [params.roomId]);
+
   return (
     <div className="w-screen h-screen flex items-center justify-center">
       <div className="w-[800px] h-[577px] flex flex-col items-center bg-white">
         <div className="w-[100%] flex justify-between items-center h-[60px] pl-20 border-b-[1px] border-gray-300">
-          <h2 className="text-black text-headline5">Superior Garden View</h2>
+          <h2 className="text-black text-headline5">{roomDetail?.room_type}</h2>
           <button>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -18,9 +41,9 @@ function RoomDetailPopup() {
               <path
                 d="M22 38L38 22M22 22L38 38"
                 stroke="#C8CCDB"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </button>
@@ -44,36 +67,22 @@ function RoomDetailPopup() {
               <span className="text-gray-800">2</span>
               <span> Person</span>
               <span className="px-4"> | </span>
-              <span className="text-gray-800">1</span>
+              <span className="text-gray-800">{roomDetail?.bed_types}</span>
               <span> Double bed</span>
               <span className="px-4"> | </span>
-              <span className="text-gray-800">32</span>
+              <span className="text-gray-800">{roomDetail?.area}</span>
               <span> sqm</span>
             </div>
-            <p className="pb-10">
-              Rooms (36sqm) with full garden views, 1 single bed, bathroom with
-              bathtub & shower.
-            </p>
+            <p className="pb-10">{roomDetail?.description}</p>
 
             <div>
               <p className="text-black py-4 border-t-[1px] border-gray-300">
                 Room Amenities
               </p>
               <ul className="columns-2 pl-6 list-disc break-inside-avoid-column">
-                <li>Safe in Room</li>
-                <li>Air Conditioning</li>
-                <li>High speed internet connection</li>
-
-                <li>Hairdryer</li>
-                <li>Shower</li>
-                <li>Bathroom amenities</li>
-                <li>Lamp</li>
-                <li>Minibar</li>
-                <li>Telephone</li>
-                <li>Ironing board</li>
-                <li>A floor only accessible via a guest room key</li>
-                <li>Alarm Clock</li>
-                <li>Bathrobe</li>
+                {roomDetail?.amenity.map((item, index) => {
+                  return <li key={index}>{item}</li>;
+                })}
               </ul>
             </div>
           </div>

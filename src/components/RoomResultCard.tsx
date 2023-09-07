@@ -1,6 +1,24 @@
 import React from "react";
+import { RoomsProps } from "../interfaces/RoomsProps.tsx";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function RoomResultCard() {
+  const [room, setRoom] = useState<RoomsProps | null>(null);
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const getRoom = async () => {
+    try {
+      const res = await axios.get(`http://localhost:4000/room`);
+      setRoom(res.data.data);
+    } catch (error) {
+      console.error("Error fetching room data:", error);
+      navigate("/NotFound");
+    }
+  };
+
   return (
     <div>
       <div className="justify-between items-start gap-14 inline-flex bg-bg border-b-[1px] border-gray-300 text-gray-700">
@@ -11,6 +29,7 @@ function RoomResultCard() {
               <div className="w-6 h-6 opacity-60 bg-[url('https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/image.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2ltYWdlLnN2ZyIsImlhdCI6MTY5Mzg4NjI4NSwiZXhwIjoxNzI1NDIyMjg1fQ.44CiKMoxMLmc_20EW3RzoUJyldns-KueYSKKLT6HLy8&t=2023-09-05T03%3A58%3A05.908Z')]"></div>
             </button>
           </div>
+
           <div className="flex flex-col py-6 justify-between">
             <div className="flex gap-6">
               {/* {Rooms.map((rooms,index) => 

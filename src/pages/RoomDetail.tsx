@@ -14,11 +14,10 @@ import axios from "axios";
 function RoomDetail() {
   const [roomDetail, setRoomDetail] = useState<RoomsProps | null>(null);
   const [otherRooms, setOtherRooms] = useState<RoomsProps[]>([]);
-  const context = useContext(RoomsContext);
-  const params = useParams();
+  const params = useParams<{ roomId: string }>();
   const navigate = useNavigate();
 
-  const getRoomId = async () => {
+  const getRoomData = async () => {
     try {
       const res = await axios.get(
         `http://localhost:4000/room/${params.roomId}`
@@ -31,7 +30,7 @@ function RoomDetail() {
   };
 
   useEffect(() => {
-    getRoomId();
+    getRoomData();
   }, [params.roomId]);
 
   useEffect(() => {
@@ -64,6 +63,9 @@ function RoomDetail() {
     return <div className="flex justify-center">Loading...</div>;
   }
 
+  console.log(roomDetail);
+  console.log(otherRooms);
+
   return (
     <>
       <Navbar />
@@ -78,6 +80,7 @@ function RoomDetail() {
         amenity={roomDetail.amenity}
       />
       <RoomDetailPageOtherRoom otherRooms={otherRooms} />
+
       <Footer />
     </>
   );

@@ -14,7 +14,7 @@ function SearchResult() {
   };
 
   return (
-    <div>
+    <>
       <Navbar />
       <div className="flex justify-center items-end bg-white py-10 px-[220px] drop-shadow-md border-t-[1px] border-gray-300">
         <Search buttonStyle={buttonStyle} />

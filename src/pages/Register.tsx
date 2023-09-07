@@ -575,28 +575,30 @@ function Register() {
             </div>
           </div>
 
-          <div>
-            <button
-              className="btn Button w-full mt-[60px] mb-4"
-              type="submit"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <span className="loading loading-spinner w-7 bg-orange-600"></span>
-              ) : (
-                "Register"
-              )}
-            </button>
-
-            <span className="text-gray-700 font-body1">
-              Already have an account?{" "}
-              <a
-                href="/login"
-                className="text-orange-500 font-semibold hover:underline"
+          <div className="columns-2 gap-10">
+            <div>
+              <button
+                className="btn Button w-full mt-[60px] mb-4"
+                type="submit"
+                disabled={isLoading}
               >
-                Login
-              </a>
-            </span>
+                {isLoading ? (
+                  <span className="loading loading-spinner w-7 bg-orange-600"></span>
+                ) : (
+                  "Register"
+                )}
+              </button>
+
+              <span className="text-gray-700 font-body1">
+                Already have an account?{" "}
+                <a
+                  href="/login"
+                  className="text-orange-500 font-semibold hover:underline"
+                >
+                  Login
+                </a>
+              </span>
+            </div>
           </div>
         </form>
       </div>
