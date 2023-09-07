@@ -13,6 +13,10 @@ function SearchResult() {
     borderWidth: "2px",
   };
 
+  function filterSearchResult() {
+    //เทียบข้อมูล user กับข้อมูลห้องทั้งหมด(rooms) แล้วคืนค่าเป็น array ห้องที่พักได้
+  }
+
   return (
     <div>
       <Navbar />
@@ -20,10 +24,11 @@ function SearchResult() {
         <Search buttonStyle={buttonStyle} />
       </div>
       <div className="bg-bg  flex flex-col items-center pt-[90px] pb-[300px] px-[100px]">
+        //เอา array มา map
         <RoomResultCard />
+        {/* <RoomResultCard />
         <RoomResultCard />
-        <RoomResultCard />
-        <RoomResultCard />
+        <RoomResultCard /> */}
       </div>
       <Footer />
     </div>

@@ -8,5 +8,6 @@ export interface RoomsProps {
   amenity: string[];
   description: string;
   room_images: string[];
-  room_status: boolean;
+  person: number;
+  room_amount: number;
 }
