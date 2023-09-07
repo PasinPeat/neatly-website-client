@@ -35,6 +35,8 @@ function Register() {
   const [creditCardError, setCreditCardError] = useState(false);
 
   const [birthDayError, setBirthDayError] = useState(false);
+  const [fullNameErrorCredit, setFullNameErrorCredit] = useState(false);
+  const [idNumberError, setIdNumberError] = useState(false);
 
   //invalid file
   const [invalidFile, setInvalidFile] = useState("");
@@ -53,6 +55,20 @@ function Register() {
       setFullNameError(true);
     } else {
       setFullNameError(false);
+    }
+  };
+
+  //check credit name handler
+  const validateFullNameCredit = (name: string) => {
+    const names = name.trim().split(" ");
+    if (
+      names.length !== 2 ||
+      !/^[a-zA-Z]*$/.test(names[0]) ||
+      !/^[a-zA-Z]*$/.test(names[1])
+    ) {
+      setFullNameErrorCredit(true);
+    } else {
+      setFullNameErrorCredit(false);
     }
   };
 
@@ -87,6 +103,15 @@ function Register() {
     return age >= 18;
   };
 
+  // สร้างฟังก์ชันเพื่อตรวจสอบ ID Number
+  const validateIDNumber = () => {
+    if (!/^\d{13}$/.test(idNumber)) {
+      setIdNumberError(true);
+    } else {
+      setIdNumberError(false);
+    }
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -94,7 +119,8 @@ function Register() {
 
     //check full name
     validateFullName(fullName);
-    validateFullName(cardOwner);
+    //check credit name
+    validateFullNameCredit(cardOwner);
 
     //check username
     const queryParamsUsername = `?username=${username}`;
@@ -151,20 +177,10 @@ function Register() {
     }
     expireDate = `${enteredMonth}/${enteredYear}`;
 
+    validateIDNumber();
+
     const isAgeValid = validateBirthDay(birthDay);
     setBirthDayError(!isAgeValid);
-
-    if (
-      fullNameError ||
-      passwordError ||
-      emailError ||
-      usernameError ||
-      creditCardError ||
-      birthDayError
-    ) {
-      setIsLoading(false);
-      return;
-    }
 
     const data: Record<string, string> = {
       fullName: String(fullName),
@@ -185,15 +201,29 @@ function Register() {
       data.avatar = avatars[avatarKey];
     }
 
-    try {
-      await axios.post("http://localhost:4000/auth/register", data, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+    if (
+      fullNameError &&
+      fullNameErrorCredit &&
+      passwordError &&
+      emailError &&
+      usernameError &&
+      creditCardError &&
+      birthDayError &&
+      idNumberError
+    ) {
       setIsLoading(false);
-      navigate("/login");
-    } catch (error) {
-      setIsLoading(false);
-      console.error(error);
+      return;
+    } else {
+      try {
+        await axios.post("http://localhost:4000/auth/register", data, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        setIsLoading(false);
+        navigate("/login");
+      } catch (error) {
+        setIsLoading(false);
+        console.error(error);
+      }
     }
   };
 
@@ -268,12 +298,6 @@ function Register() {
           <div>
             <label htmlFor="fname">
               <p className="font-body1 text-gray-900  text-start">Full Name</p>
-              {fullNameError && (
-                <span className="text-body3 text-red">
-                  The full name should include both the first name and the last
-                  name and cannot contain any numbers.
-                </span>
-              )}
             </label>
             <input
               type="text"
@@ -284,11 +308,17 @@ function Register() {
                 setFullName(e.target.value);
               }}
               placeholder="Enter your name and last name"
-              className="w-full Input mb-10 focus:outline-none focus:border-orange-500"
+              className="w-full Input focus:outline-none focus:border-orange-500"
             />
+            {fullNameError && (
+              <p className="text-body3 text-red">
+                The full name should include both the first name and the last
+                name and cannot contain any numbers.
+              </p>
+            )}
           </div>
 
-          <div className="grid grid-rows-3 grid-flow-col gap-10 mb-10">
+          <div className="grid grid-rows-3 grid-flow-col gap-10 mb-10 mt-10">
             <div>
               <label htmlFor="username">
                 <p className="font-body1 text-gray-900 text-start">Username</p>
@@ -306,9 +336,9 @@ function Register() {
                 required
               />
               {usernameError && (
-                <span className="text-body3 text-red">
+                <p className="text-body3 text-red">
                   Username already in use. Please choose a different username.
-                </span>
+                </p>
               )}
             </div>
 
@@ -329,9 +359,9 @@ function Register() {
                 required
               />
               {passwordError && (
-                <span className="text-body3 text-red">
+                <p className="text-body3 text-red">
                   Password must be between 6 and 15 characters long.
-                </span>
+                </p>
               )}
             </div>
 
@@ -382,9 +412,9 @@ function Register() {
                 required
               />
               {emailError && (
-                <span className="text-body3 text-red">
+                <p className="text-body3 text-red">
                   Email already in use. Please choose a different email.
-                </span>
+                </p>
               )}
             </div>
 
@@ -408,6 +438,11 @@ function Register() {
                 className="w-full Input focus:outline-none focus:border-orange-500"
                 required
               />
+              {idNumberError && (
+                <p className="text-body3 text-red">
+                  ID Number must be 13 digits.
+                </p>
+              )}
             </div>
 
             <div>
@@ -421,7 +456,7 @@ function Register() {
                 onChange={(e) => {
                   setCountry(e.target.value);
                 }}
-                className="w-full Input focus:outline-none focus:border-orange-500"
+                className="w-full Input focus:outline-none focus:border-orange-500 h-[69%]"
               >
                 <option value="">Select your country</option>{" "}
                 {countries.map((country) => (
@@ -529,9 +564,9 @@ function Register() {
                 required
               />
               {creditCardError && (
-                <span className="text-body3 text-red">
+                <p className="text-body3 text-red">
                   Invalid Credit Card number
-                </span>
+                </p>
               )}
             </div>
 
@@ -582,11 +617,11 @@ function Register() {
                 className="w-full Input font-body1 focus:outline-none focus:border-orange-500"
                 required
               />
-              {fullNameError && (
-                <span className="text-body3 text-red">
+              {fullNameErrorCredit && (
+                <p className="text-body3 text-red">
                   Card Owner's name should include both first name and last
                   name.
-                </span>
+                </p>
               )}
             </div>
 
