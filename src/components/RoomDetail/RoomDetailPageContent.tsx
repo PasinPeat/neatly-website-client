@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+import App from "../../App.css";
 function RoomDetailPageContent({
   roomType,
   bedType,
@@ -34,11 +34,19 @@ function RoomDetailPageContent({
             </div>
             <div className="flex flex-col gap-10 w-36 h-36">
               <div className="">
-                <div className="text-base text-right font-extralight line-through">
-                  THB {price.toFixed(2).toLocaleString()}
+                <div className=" text-md text-right font-extralight line-through">
+                  
+                  {price.toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "THB",
+                  })}
                 </div>
-                <div className="text-xl text-right text-black font-semibold">
-                  THB {promotionPrice.toFixed(2).toLocaleString()}
+                <div className=" text-headline5 text-right text-black font-semibold">
+                  
+                  {promotionPrice.toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "THB",
+                  })}
                 </div>
               </div>
               <div className="flex justify-end">
@@ -57,7 +65,7 @@ function RoomDetailPageContent({
             <p>Room Amenities</p>
           </div>
           <div className="">
-            <ul className="ml-4 list-disc">
+            <ul className={` list-disc grid grid-cols-1  gap-2 ${amenity.length > 8 ? 'md:grid-cols-2' : 'md:grid-cols-1'}`}>
               {amenity.map((item) => {
                 return <li>{item}</li>;
               })}
