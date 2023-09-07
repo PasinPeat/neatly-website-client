@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +15,9 @@ function Register() {
   const [email, setEmail] = useState("");
   const [birthDay, setBirthDay] = useState("");
   const [country, setCountry] = useState("");
+  const [countries, setCountries] = useState<
+    { value: string; label: string }[]
+  >([]);
   const [avatars, setAvatars] = useState({});
 
   //user's credit card
@@ -222,6 +225,26 @@ function Register() {
     setAvatars({ ...avatars });
   };
 
+  useEffect(() => {
+    fetch("https://restcountries.com/v3.1/all")
+      .then((response) => response.json())
+      .then((data) => {
+        const countryOptions: { value: string; label: string }[] = data.map(
+          (country: { name: { common: string } }) => ({
+            value: country.name.common,
+            label: country.name.common,
+          })
+        );
+        const sortedCountries = countryOptions.sort((a, b) =>
+          a.label.localeCompare(b.label)
+        );
+        setCountries(sortedCountries);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+      });
+  }, []);
+
   return (
     <div className="flex flex-col items-center w-screen bg-coverRegister bg-cover">
       <Navbar />
@@ -255,7 +278,7 @@ function Register() {
               onChange={(e) => {
                 setFullName(e.target.value);
               }}
-              placeholder="Enter your name and lastname"
+              placeholder="Enter your name and last name"
               className="w-full Input mb-10"
             />
           </div>
@@ -285,29 +308,6 @@ function Register() {
             </div>
 
             <div>
-              <label htmlFor="email">
-                <p className="font-body1 text-gray-900  text-start">Email</p>
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                name="email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-                placeholder="Enter your Email"
-                className="w-full Input"
-                required
-              />
-              {emailError && (
-                <span className="text-body3 text-red">
-                  Email already in use. Please choose a different email.
-                </span>
-              )}
-            </div>
-
-            <div>
               <label htmlFor="password">
                 <p className="font-body1 text-gray-900  text-start">Password</p>
               </label>
@@ -326,6 +326,54 @@ function Register() {
               {passwordError && (
                 <span className="text-body3 text-red">
                   Password must be between 6 and 15 characters long.
+                </span>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="birthDate">
+                <p className="font-body1 text-gray-900 text-start">
+                  Date of Birth
+                </p>
+              </label>
+              <input
+                type="date"
+                id="birthDate"
+                value={birthDay}
+                name="birthDate"
+                onChange={(e) => {
+                  const cleanedValue = e.target.value
+                    .replace(/[^0-9-]/g, "")
+                    .substring(0, 10);
+
+                  setBirthDay(cleanedValue);
+                }}
+                placeholder="Select your date of birth"
+                maxLength={10}
+                className="w-full Input"
+                required
+              />
+            </div>
+
+            <div>
+              <label htmlFor="email">
+                <p className="font-body1 text-gray-900  text-start">Email</p>
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                name="email"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+                placeholder="Enter your Email"
+                className="w-full Input"
+                required
+              />
+              {emailError && (
+                <span className="text-body3 text-red">
+                  Email already in use. Please choose a different email.
                 </span>
               )}
             </div>
@@ -353,31 +401,6 @@ function Register() {
             </div>
 
             <div>
-              <label htmlFor="birthDate">
-                <p className="font-body1 text-gray-900  text-start">
-                  Date of Birth
-                </p>
-              </label>
-              <input
-                type="date"
-                id="birthDate"
-                value={birthDay}
-                name="birthDate"
-                onChange={(e) => {
-                  const cleanedValue = e.target.value
-                    .replace(/[^0-9-]/g, "")
-                    .substring(0, 10);
-
-                  setBirthDay(cleanedValue);
-                }}
-                placeholder="Select your date of birth"
-                maxLength={10}
-                className="w-full Input"
-                required
-              />
-            </div>
-
-            <div>
               <label htmlFor="country">
                 <p className="font-body1 text-gray-900 text-start">Country</p>
               </label>
@@ -390,11 +413,12 @@ function Register() {
                 }}
                 className="w-full Input"
               >
-                <option value="">-- Select Country --</option>{" "}
-                {/* Default option */}
-                <option value="Thailand">Thailand</option>
-                <option value="Japan">Japan</option>
-                <option value="China">China</option>
+                <option value="">Select your country</option>{" "}
+                {countries.map((country) => (
+                  <option key={country.value} value={country.value}>
+                    {country.label}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -587,7 +611,7 @@ function Register() {
                 "Register"
               )}
             </button>
-
+            <br />
             <span className="text-gray-700 font-body1">
               Already have an account?{" "}
               <a
