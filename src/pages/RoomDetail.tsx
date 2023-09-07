@@ -4,8 +4,6 @@ import RoomDetailSlidebar from "../components/RoomDetail/RoomDetailSlidebar";
 import RoomDetailPageContent from "../components/RoomDetail/RoomDetailPageContent";
 import RoomDetailPageOtherRoom from "../components/RoomDetail/RoomDetailPageOtherRoom";
 import Footer from "../components/Footer";
-import { useContext } from "react";
-import { RoomsContext } from "../App.tsx";
 import { RoomsProps } from "../interfaces/RoomsProps.tsx";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -15,7 +13,6 @@ function RoomDetail() {
   const [roomDetail, setRoomDetail] = useState<RoomsProps | null>(null);
   const params = useParams();
   const navigate = useNavigate();
-  const context = useContext(RoomsContext);
 
   const getRoomId = async () => {
     try {
@@ -33,21 +30,24 @@ function RoomDetail() {
     getRoomId();
   }, [params.roomId]);
 
-  let otherRooms = [];
+  // let otherRooms = [];
 
-  if (roomDetail !== null) {
-    const unselectedRooms = context.rooms.filter(
-      (room) => room.room_id !== Number(params.roomId)
-    );
-
-    for (let i = 0; i < 2; i++) {
-      const randomIndex = Math.floor(Math.random() * unselectedRooms.length);
-      if (!otherRooms.includes(unselectedRooms[randomIndex])) {
-        otherRooms.push(unselectedRooms[randomIndex]);
-      }
-    }
-    // console.log(otherRooms);
-  }
+  // function getOtherRooms() {
+  //   if (roomDetail !== null) {
+  //     const unselectedRooms = context.rooms.filter(
+  //       (room) => room.room_id !== Number(params.roomId)
+  //     );
+  //     console.log(unselectedRooms);
+  //     for (let i = 0; i < 2; i++) {
+  //       const randomIndex = Math.floor(Math.random() * unselectedRooms.length);
+  //       if (!otherRooms.includes(unselectedRooms[randomIndex])) {
+  //         otherRooms.push(unselectedRooms[randomIndex]);
+  //       }
+  //     }
+  //     console.log(otherRooms);
+  //   }
+  // }
+  // getOtherRooms();
 
   if (roomDetail === null) {
     return <div className="flex justify-center">Loading...</div>;
@@ -66,7 +66,7 @@ function RoomDetail() {
         promotionPrice={roomDetail.promotion_price}
         amenity={roomDetail.amenity}
       />
-      <RoomDetailPageOtherRoom otherRooms={otherRooms} />
+      <RoomDetailPageOtherRoom paramsId={params.roomId} />
       <Footer />
     </>
   );
