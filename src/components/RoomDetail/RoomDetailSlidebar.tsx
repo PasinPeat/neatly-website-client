@@ -8,9 +8,9 @@ import { Parallax, Autoplay, Pagination, Navigation } from "swiper/modules";
 
 function RoomDetailSlidebar({ roomImages }) {
   return (
-    <div className="pt-20 bg-gray-200">
+    <div className= "bg-transparent">
       <Swiper
-        className="bg-gray-200"
+        className="bg-transparent"
         id="swiper-color"
         modules={[Parallax, Autoplay, Pagination, Navigation]}
         autoplay={{

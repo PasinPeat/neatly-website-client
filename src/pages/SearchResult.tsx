@@ -40,11 +40,14 @@ function SearchResult() {
       }
     });
     setDisable(isDisabled);
+    console.log(disable);
+    
+
   }
 
   //show room detail
   function handleRoomDetail(roomId) {
-    const room = rooms.find((room) => room.room_id === roomId);
+    const room = context.rooms.find((room) => room.room_id === roomId);
     if (room) {
       setSelectedRoom(room);
       setShowRoomDetail(true);
@@ -53,7 +56,7 @@ function SearchResult() {
 
   //show full image
   function handleFullImage(roomId) {
-    const room = rooms.find((room) => room.room_id === roomId);
+    const room = context.rooms.find((room) => room.room_id === roomId);
     if (room) {
       setSelectedRoom(room);
       setShowFullImage(true);

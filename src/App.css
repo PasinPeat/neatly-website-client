@@ -86,7 +86,7 @@ body {
 #datePicker {
   border: 2px solid #d6d9e4;
   background-color: white;
-  color: 9AA1B9;
+  color: #9AA1B9;
 }
 
 #datePicker tbody>tr>td.slds-is-selected>.slds-day {
