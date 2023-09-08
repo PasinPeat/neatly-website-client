@@ -124,8 +124,6 @@ function Register() {
     }
   };
 
-  console.log(idNumberError);
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 

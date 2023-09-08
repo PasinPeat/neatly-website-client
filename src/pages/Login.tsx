@@ -2,6 +2,8 @@ import Navbar from "../components/Navbar";
 import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/authen";
+import { useEffect } from "react";
 
 function Login() {
   const [loginIdentifier, setLoginIdentifier] = useState("");
@@ -9,7 +11,15 @@ function Login() {
   const [authError, setAuthError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if user is authenticated after login
+    if (isAuthenticated) {
+      navigate("/"); // Redirect to the home page or any other route
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -33,10 +43,9 @@ function Login() {
         data
       );
       if (response.data.message === "Login successful") {
-        console.log("Login successful");
+        login(data);
         setPasswordError(false);
         setAuthError(false);
-        navigate("/");
       } else {
         console.log("Login failed:", response.data.message);
       }
