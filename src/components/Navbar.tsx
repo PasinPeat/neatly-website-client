@@ -1,10 +1,14 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
+import { useAuth } from "../contexts/authen.jsx";
 
 function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const auth = useAuth();
+  const { logout } = useAuth();
+  //@ts-ignore
 
   const linkHomePage = () => {
     navigate("/");
@@ -43,19 +47,37 @@ function Navbar() {
             </li>
           </ul>
         </div>
-        <div className="flex flex-row items-center">
+        {auth.isAuthenticated ? (
           <button
-            className="px-6 text-body2 text-orange-500"
-            onClick={linkLogin}
+            onClick={() => {
+              logout();
+              navigate("/");
+            }}
           >
-            Log in
+            hello
           </button>
-          <button className="btn Button px-8">
-            <Link smooth to="#book">
-              Book Now
-            </Link>
-          </button>
-        </div>
+        ) : (
+          <div className="flex flex-row items-center">
+            <button
+              className="px-6 text-body2 text-orange-500"
+              onClick={linkLogin}
+            >
+              Log in
+            </button>
+            <button className="btn Button px-8">
+              <Link
+                smooth
+                to="#book"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/");
+                }}
+              >
+                Book Now
+              </Link>
+            </button>
+          </div>
+        )}
       </div>
     );
   } else {
@@ -108,26 +130,37 @@ function Navbar() {
             </li>
           </ul>
         </div>
-        <div className="flex flex-row items-center">
+        {auth.isAuthenticated ? (
           <button
-            className="px-6 text-body2 text-orange-500"
-            onClick={linkLogin}
+            onClick={() => {
+              logout();
+              navigate("/");
+            }}
           >
-            Log in
+            hello
           </button>
-          <button className="btn Button px-8">
-            <Link
-              smooth
-              to="#book"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate("/");
-              }}
+        ) : (
+          <div className="flex flex-row items-center">
+            <button
+              className="px-6 text-body2 text-orange-500"
+              onClick={linkLogin}
             >
-              Book Now
-            </Link>
-          </button>
-        </div>
+              Log in
+            </button>
+            <button className="btn Button px-8">
+              <Link
+                smooth
+                to="#book"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/");
+                }}
+              >
+                Book Now
+              </Link>
+            </button>
+          </div>
+        )}
       </div>
     );
   }

@@ -10,12 +10,13 @@ import RoomDetailPopup from "./components/SearchResult/RoomDetailPopup.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import axios from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { RoomsProps } from "./interfaces/RoomsProps.tsx";
+// import { useAuth } from "./contexts/authen.jsx";
 export const RoomsContext = React.createContext();
 
 function App() {
+  // const auth = useAuth();
   const [rooms, setRooms] = useState<RoomsProps[]>([]);
 
   const getRooms = async () => {
