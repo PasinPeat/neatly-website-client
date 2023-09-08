@@ -124,8 +124,6 @@ function Register() {
     }
   };
 
-  console.log(idNumberError);
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -341,13 +339,24 @@ function Register() {
                 setFullName(e.target.value);
               }}
               placeholder="Enter your name and last name"
-              className="w-full Input focus:outline-none focus:border-orange-500"
+              className={`w-full Input focus:outline-none focus:border-orange-500 ${
+                fullNameError ? "border-[#B61515]" : "focus:outline-none"
+              }`}
             />
             {fullNameError && (
-              <p className="text-body3 text-red absolute">
-                The full name should include both the first name and the last
-                name and cannot contain any numbers.
-              </p>
+              <>
+                <div className="absolute right-5 top-[50px] transform -translate-y-1/2">
+                  <img
+                    src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/123.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uLzEyMy5zdmciLCJpYXQiOjE2OTQxNjg2ODAsImV4cCI6MTcyNTcwNDY4MH0.p_CkT1rbBXUoggWNacczlqIqq5lHcnphLnOHkPXlDTQ&t=2023-09-08T10%3A24%3A33.645Z"
+                    alt="Error Icon"
+                    className="h-5 w-5"
+                  />
+                </div>
+                <p className="text-body3 text-red absolute">
+                  The full name should include both the first name and the last
+                  name and cannot contain any numbers.
+                </p>
+              </>
             )}
           </div>
 
@@ -365,13 +374,24 @@ function Register() {
                   setUsername(e.target.value);
                 }}
                 placeholder="Enter your username"
-                className="w-[620px] Input focus:outline-none focus:border-orange-500"
+                className={`w-[620px] Input focus:outline-none focus:border-orange-500 ${
+                  usernameError ? "border-[#B61515]" : "focus:outline-none"
+                }`}
                 required
               />
               {usernameError && (
-                <p className="text-body3 text-red absolute">
-                  Username already in use. Please choose a different username.
-                </p>
+                <>
+                  <div className="absolute right-5 top-[50px] transform -translate-y-1/2">
+                    <img
+                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/123.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uLzEyMy5zdmciLCJpYXQiOjE2OTQxNjg2ODAsImV4cCI6MTcyNTcwNDY4MH0.p_CkT1rbBXUoggWNacczlqIqq5lHcnphLnOHkPXlDTQ&t=2023-09-08T10%3A24%3A33.645Z"
+                      alt="Error Icon"
+                      className="h-5 w-5"
+                    />
+                  </div>
+                  <p className="text-body3 text-red absolute">
+                    Username already in use. Please choose a different username.
+                  </p>
+                </>
               )}
             </div>
 
@@ -388,13 +408,24 @@ function Register() {
                   setPassword(e.target.value);
                 }}
                 placeholder="Enter your Password"
-                className="w-full Input focus:outline-none focus:border-orange-500"
+                className={`w-[620px] Input focus:outline-none focus:border-orange-500 ${
+                  passwordError ? "border-[#B61515]" : "focus:outline-none"
+                }`}
                 required
               />
               {passwordError && (
-                <p className="text-body3 text-red absolute">
-                  Password must be between 6 and 15 characters long.
-                </p>
+                <>
+                  <div className="absolute right-5 top-[50px] transform -translate-y-1/2">
+                    <img
+                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/123.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uLzEyMy5zdmciLCJpYXQiOjE2OTQxNjg2ODAsImV4cCI6MTcyNTcwNDY4MH0.p_CkT1rbBXUoggWNacczlqIqq5lHcnphLnOHkPXlDTQ&t=2023-09-08T10%3A24%3A33.645Z"
+                      alt="Error Icon"
+                      className="h-5 w-5"
+                    />
+                  </div>
+                  <p className="text-body3 text-red absolute">
+                    Password must be between 6 and 15 characters long.
+                  </p>
+                </>
               )}
             </div>
 
@@ -418,7 +449,9 @@ function Register() {
                 }}
                 placeholder="Select your date of birth"
                 maxLength={10}
-                className="w-[620px] Input focus:outline-none focus:border-orange-500"
+                className={`w-[620px] Input focus:outline-none focus:border-orange-500 ${
+                  birthDayError ? "border-[#B61515]" : "focus:outline-none"
+                }`}
                 required
               />
               {birthDayError && (
@@ -441,13 +474,24 @@ function Register() {
                   setEmail(e.target.value);
                 }}
                 placeholder="Enter your Email"
-                className="w-[620px] Input focus:outline-none focus:border-orange-500"
+                className={`w-[620px] Input focus:outline-none focus:border-orange-500 ${
+                  emailError ? "border-[#B61515]" : "focus:outline-none"
+                }`}
                 required
               />
               {emailError && (
-                <p className="text-body3 text-red absolute">
-                  Email already in use. Please choose a different email.
-                </p>
+                <>
+                  <div className="absolute right-5 top-[50px] transform -translate-y-1/2">
+                    <img
+                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/123.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uLzEyMy5zdmciLCJpYXQiOjE2OTQxNjg2ODAsImV4cCI6MTcyNTcwNDY4MH0.p_CkT1rbBXUoggWNacczlqIqq5lHcnphLnOHkPXlDTQ&t=2023-09-08T10%3A24%3A33.645Z"
+                      alt="Error Icon"
+                      className="h-5 w-5"
+                    />
+                  </div>
+                  <p className="text-body3 text-red absolute">
+                    Email already in use. Please choose a different email.
+                  </p>
+                </>
               )}
             </div>
 
@@ -468,18 +512,41 @@ function Register() {
                 pattern="\d*"
                 maxLength={13}
                 placeholder="Enter your ID Number"
-                className="w-[620px] Input focus:outline-none focus:border-orange-500"
+                className={`w-[620px] Input focus:outline-none focus:border-orange-500 ${
+                  idNumberError || idNumberValidError
+                    ? "border-[#B61515]"
+                    : "focus:outline-none"
+                }`}
                 required
               />
               {idNumberError && (
-                <p className="text-body3 text-red absolute">
-                  ID Number must be 13 digits.
-                </p>
+                <>
+                  <div className="absolute right-5 top-[50px] transform -translate-y-1/2">
+                    <img
+                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/123.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uLzEyMy5zdmciLCJpYXQiOjE2OTQxNjg2ODAsImV4cCI6MTcyNTcwNDY4MH0.p_CkT1rbBXUoggWNacczlqIqq5lHcnphLnOHkPXlDTQ&t=2023-09-08T10%3A24%3A33.645Z"
+                      alt="Error Icon"
+                      className="h-5 w-5"
+                    />
+                  </div>
+                  <p className="text-body3 text-red absolute">
+                    ID Number must be 13 digits.
+                  </p>
+                </>
               )}
               {idNumberValidError && (
-                <p className="text-body3 text-red absolute">
-                  ID Number already in use. Please choose a different ID Number.
-                </p>
+                <>
+                  <div className="absolute right-5 top-[50px] transform -translate-y-1/2">
+                    <img
+                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/123.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uLzEyMy5zdmciLCJpYXQiOjE2OTQxNjg2ODAsImV4cCI6MTcyNTcwNDY4MH0.p_CkT1rbBXUoggWNacczlqIqq5lHcnphLnOHkPXlDTQ&t=2023-09-08T10%3A24%3A33.645Z"
+                      alt="Error Icon"
+                      className="h-5 w-5"
+                    />
+                  </div>
+                  <p className="text-body3 text-red absolute">
+                    ID Number already in use. Please choose a different ID
+                    Number.
+                  </p>
+                </>
               )}
             </div>
 
@@ -494,7 +561,9 @@ function Register() {
                 onChange={(e) => {
                   setCountry(e.target.value);
                 }}
-                className="w-[620px] Input focus:outline-none focus:border-orange-500"
+                className={`w-[620px] Input focus:outline-none focus:border-orange-500 ${
+                  countriesError ? "border-[#B61515]" : "focus:outline-none"
+                }`}
               >
                 <option value="">Select your country</option>{" "}
                 {countries.map((country) => (
@@ -521,7 +590,11 @@ function Register() {
             {Object.keys(avatars).length === 0 ? (
               <div>
                 <label htmlFor="upload">
-                  <div className="w-[197px] h-[167px] bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center border-2 hover:border-orange-500 active:border-orange-700">
+                  <div
+                    className={`w-[197px] h-[167px] bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center border-2 hover:border-orange-500 active:border-orange-700 ${
+                      invalidFile ? "border-[#B61515]" : "focus:outline-none"
+                    }`}
+                  >
                     <p className="text-orange-500 text-[30px] font-medium text-center">
                       +
                     </p>
@@ -603,7 +676,9 @@ function Register() {
                 }}
                 maxLength={19}
                 placeholder="Enter your card number"
-                className="w-[620px] Input font-body1 focus:outline-none focus:border-orange-500"
+                className={`w-[620px] Input focus:outline-none focus:border-orange-500 ${
+                  creditCardError ? "border-[#B61515]" : "focus:outline-none"
+                }`}
                 required
               />
               {creditCardError && (
@@ -657,14 +732,27 @@ function Register() {
                 }}
                 name="cardOwner"
                 placeholder="Enter your name"
-                className="w-[620px] Input font-body1 focus:outline-none focus:border-orange-500"
+                className={`w-[620px] Input focus:outline-none focus:border-orange-500 ${
+                  fullNameErrorCredit
+                    ? "border-[#B61515]"
+                    : "focus:outline-none"
+                }`}
                 required
               />
               {fullNameErrorCredit && (
-                <p className="text-body3 text-red absolute">
-                  Card Owner's name should include both first name and last
-                  name.
-                </p>
+                <>
+                  <div className="absolute right-5 top-[50px] transform -translate-y-1/2">
+                    <img
+                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/123.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uLzEyMy5zdmciLCJpYXQiOjE2OTQxNjg2ODAsImV4cCI6MTcyNTcwNDY4MH0.p_CkT1rbBXUoggWNacczlqIqq5lHcnphLnOHkPXlDTQ&t=2023-09-08T10%3A24%3A33.645Z"
+                      alt="Error Icon"
+                      className="h-5 w-5"
+                    />
+                  </div>
+                  <p className="text-body3 text-red absolute">
+                    Card Owner's name should include both first name and last
+                    name.
+                  </p>
+                </>
               )}
             </div>
 
