@@ -67,7 +67,10 @@ function RoomDetail() {
   return (
     <>
       <Navbar />
+      <div className="pt-20 bg-gray-200">
+
       <RoomDetailSlidebar roomImages={roomDetail.room_images} />
+      </div>
       <RoomDetailPageContent
         roomType={roomDetail.room_type}
         bedType={roomDetail.bed_types}

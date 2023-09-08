@@ -23,7 +23,7 @@ function ImageFullPopup({ roomImages, onClosePopup }) {
           </svg>
         </button>
       </div>
-      <div className="flex justify-center items-center">
+      <div className="">
         <RoomDetailSlidebar roomImages={roomImages} />
       </div>
     </div>

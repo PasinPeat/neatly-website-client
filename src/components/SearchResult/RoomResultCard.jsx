@@ -95,7 +95,7 @@ function RoomResultCard({
               >
                 Room Detail
               </button>
-              {disable ? (
+              {!disable ? (
                 <button
                   style={{
                     backgroundColor: "#F1F2F6",
