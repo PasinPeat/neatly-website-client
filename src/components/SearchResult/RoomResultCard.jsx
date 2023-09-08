@@ -61,14 +61,12 @@ function RoomResultCard({
               {/* right elements */}
               <div className="flex flex-col text-right text-body1 w-64">
                 <p className="line-through pt-2">
-                  THB{" "}
                   {price.toLocaleString("en-US", {
                     style: "currency",
                     currency: "THB",
                   })}
                 </p>
                 <p className="text-headline5 text-black pb-3">
-                  THB{" "}
                   {promotionPrice.toLocaleString("en-US", {
                     style: "currency",
                     currency: "THB",
