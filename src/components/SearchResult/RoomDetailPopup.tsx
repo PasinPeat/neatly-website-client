@@ -17,7 +17,7 @@ function RoomDetailPopup({
 }) {
   return (
     <div className="absolute bg-black bg-opacity-20 w-screen h-screen">
-      <div className="absolute top-[10%] left-1/4 w-[800px] h-[577px] flex flex-col items-center bg-white rounded-lg drop-shadow-md">
+      <div className="absolute m-auto left-0 right-0 top-40 to w-[800px] h-[577px] flex flex-col items-center bg-white rounded-lg drop-shadow-md">
         <div className="w-[100%] flex justify-between items-center h-[60px] pl-20 border-b-[1px] border-gray-300">
           <h2 className="text-black text-headline5">{roomType}</h2>
           <button onClick={onClosePopup}>

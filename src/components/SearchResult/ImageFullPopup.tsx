@@ -23,7 +23,11 @@ function ImageFullPopup({ roomImages, onClosePopup }) {
           </svg>
         </button>
       </div>
+<<<<<<< Updated upstream
       <div className="">
+=======
+      <div>
+>>>>>>> Stashed changes
         <RoomDetailSlidebar roomImages={roomImages} />
       </div>
     </div>
