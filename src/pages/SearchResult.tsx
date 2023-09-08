@@ -11,39 +11,33 @@ import { RoomsProps } from "../interfaces/RoomsProps.tsx";
 
 function SearchResult() {
   const context = useContext(RoomsContext);
-  const buttonStyle = {
-    borderStyle: "solid",
-    borderColor: "#E76B39",
-    color: "#E76B39",
-    backgroundColor: "white",
-    borderWidth: "2px",
-  };
+  const btnSearchResult = "Button-search-result";
+
   const [showRoomDetail, setShowRoomDetail] = useState(false);
   const [showFullImage, setShowFullImage] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<RoomsProps | null>(null);
   const [roomResult, setRoomResult] = useState<RoomsProps[]>(context.rooms);
   const [disable, setDisable] = useState(false);
+  const [userInput, setUserInput] = useState<RoomsProps | null>(null);
 
   //filter rooms
-  function handleSearchResult(result) {
-    const filteredRooms = context.rooms.filter(
-      (room) => room.person >= result.person
-    );
-    setRoomResult(filteredRooms);
+  // function handleSearchResult(result) {
+  //   const filteredRooms = context.rooms.filter(
+  //     (room) => room.person >= result.person
+  //   );
+  //   setRoomResult(filteredRooms);
 
-    let isDisabled = false;
+  //   let isDisabled = false;
 
-    filteredRooms.forEach((room) => {
-      console.log(room.available);
-      if (room.available < result.room || room.amount < result.room) {
-        isDisabled = true;
-      }
-    });
-    setDisable(isDisabled);
-    console.log(disable);
-    
-
-  }
+  //   filteredRooms.forEach((room) => {
+  //     console.log(room.available);
+  //     if (room.available < result.room || room.amount < result.room) {
+  //       isDisabled = true;
+  //     }
+  //   });
+  //   setDisable(isDisabled);
+  //   console.log(disable);
+  // }
 
   //show room detail
   function handleRoomDetail(roomId) {
@@ -98,7 +92,11 @@ function SearchResult() {
       )}
       <Navbar />
       <div className="flex justify-center items-end bg-white py-10 px-[220px] drop-shadow-md border-t-[1px] border-gray-300">
-        <Search buttonStyle={buttonStyle} onSearchResult={handleSearchResult} />
+        <Search
+          btnSearchResult={btnSearchResult}
+          // onSearchResult={handleSearchResult}
+          setUserInput={setUserInput}
+        />
       </div>
       <div className="bg-bg flex flex-col items-center pt-[90px] pb-[300px] px-[100px]">
         {roomResult.map((room) => (
@@ -117,6 +115,7 @@ function SearchResult() {
             onRoomDetail={handleRoomDetail}
             onFullImage={handleFullImage}
             disable={disable}
+            userInput={userInput}
           />
         ))}
       </div>
