@@ -16,6 +16,7 @@ function RoomResultCard({
   available,
   onRoomDetail,
   onFullImage,
+  disable,
 }) {
   // console.log(roomType);
   // console.log(person);
@@ -94,12 +95,25 @@ function RoomResultCard({
               >
                 Room Detail
               </button>
-              <button
-                className="btn Button"
-                onClick={() => navigate("/Payment")}
-              >
-                Book now
-              </button>
+              {disable ? (
+                <button
+                  style={{
+                    backgroundColor: "#F1F2F6",
+                    color: "#9AA1B9",
+                    cursor: "not-allowed",
+                  }}
+                  className="btn Button disabled"
+                >
+                  Book now
+                </button>
+              ) : (
+                <button
+                  className="btn Button"
+                  onClick={() => navigate("/Payment")}
+                >
+                  Book now
+                </button>
+              )}
             </div>
           </div>
         </div>

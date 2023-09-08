@@ -6,7 +6,7 @@ import Search from "../components/Search";
 import Footer from "../components/Footer";
 import ImageFullPopup from "../components/SearchResult/ImageFullPopup.tsx";
 import { useContext, useState } from "react";
-import { RoomsContext } from "../App.jsx";
+import { RoomsContext } from "../App.tsx";
 import { RoomsProps } from "../interfaces/RoomsProps.tsx";
 
 function SearchResult() {
@@ -21,30 +21,42 @@ function SearchResult() {
   const [showRoomDetail, setShowRoomDetail] = useState(false);
   const [showFullImage, setShowFullImage] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<RoomsProps | null>(null);
+  const [roomResult, setRoomResult] = useState<RoomsProps[]>(context.rooms);
+  const [disable, setDisable] = useState(false);
 
-  function filterSearchResult() {
-    //เทียบข้อมูล user กับข้อมูลห้องทั้งหมด(rooms) แล้วคืนค่าเป็น array ห้องที่พักได้
+  //filter rooms
+  function handleSearchResult(result) {
+    const filteredRooms = context.rooms.filter(
+      (room) => room.person >= result.person
+    );
+    setRoomResult(filteredRooms);
+
+    let isDisabled = false;
+
+    filteredRooms.forEach((room) => {
+      console.log(room.available);
+      if (room.available < result.room || room.amount < result.room) {
+        isDisabled = true;
+      }
+    });
+    setDisable(isDisabled);
   }
 
+  //show room detail
   function handleRoomDetail(roomId) {
-    const rooms = [...context.rooms];
-    if (rooms !== null) {
-      const room = rooms.find((room) => room.room_id === roomId);
-      if (room) {
-        setSelectedRoom(room);
-        setShowRoomDetail(true);
-      }
+    const room = rooms.find((room) => room.room_id === roomId);
+    if (room) {
+      setSelectedRoom(room);
+      setShowRoomDetail(true);
     }
   }
 
+  //show full image
   function handleFullImage(roomId) {
-    const rooms = [...context.rooms];
-    if (rooms !== null) {
-      const room = rooms.find((room) => room.room_id === roomId);
-      if (room) {
-        setSelectedRoom(room);
-        setShowFullImage(true);
-      }
+    const room = rooms.find((room) => room.room_id === roomId);
+    if (room) {
+      setSelectedRoom(room);
+      setShowFullImage(true);
     }
   }
 
@@ -83,11 +95,10 @@ function SearchResult() {
       )}
       <Navbar />
       <div className="flex justify-center items-end bg-white py-10 px-[220px] drop-shadow-md border-t-[1px] border-gray-300">
-        <Search buttonStyle={buttonStyle} />
+        <Search buttonStyle={buttonStyle} onSearchResult={handleSearchResult} />
       </div>
       <div className="bg-bg flex flex-col items-center pt-[90px] pb-[300px] px-[100px]">
-        {/* //เอา array มา map */}
-        {context.rooms.map((room) => (
+        {roomResult.map((room) => (
           <RoomResultCard
             roomId={room.room_id}
             roomType={room.room_type}
@@ -102,6 +113,7 @@ function SearchResult() {
             available={room.available}
             onRoomDetail={handleRoomDetail}
             onFullImage={handleFullImage}
+            disable={disable}
           />
         ))}
       </div>
