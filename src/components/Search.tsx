@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Search({ buttonStyle, onSearchResult }) {
+function Search({ btnSearchResult, setUserInput }) {
   const [checkInDate, setCheckInDate] = useState();
   const [checkOutDate, setCheckOutDate] = useState();
   let [room, setRoom] = useState(1);
@@ -24,7 +24,7 @@ function Search({ buttonStyle, onSearchResult }) {
       person,
     };
     console.log(result);
-    onSearchResult(result);
+    setUserInput(result);
 
     // setCheckIn("");
     // setCheckOut("");
@@ -82,29 +82,6 @@ function Search({ buttonStyle, onSearchResult }) {
                 <div className="flex items-center">
                   <button
                     style={
-                      room === 26
-                        ? { borderColor: "#9AA1B9", color: "#9AA1B9" }
-                        : {}
-                    }
-                    className="relative w-4 h-4 bg-white text-orange-600 rounded-full border border-solid border-orange-600"
-                  >
-                    <div
-                      className="absolute bottom-[-25%] right-[10%]"
-                      onClick={() => {
-                        if (room < 26) {
-                          room++;
-                          setRoom(room);
-                        }
-                      }}
-                    >
-                      +
-                    </div>
-                  </button>
-
-                  <div className="w-8 flex justify-center">{room}</div>
-
-                  <button
-                    style={
                       room < 2
                         ? { borderColor: "#9AA1B9", color: "#9AA1B9" }
                         : {}
@@ -123,14 +100,12 @@ function Search({ buttonStyle, onSearchResult }) {
                       -
                     </div>
                   </button>
-                </div>
-              </div>
-              <div className="pt-2 flex items-center justify-between">
-                <div>Guests</div>
-                <div className="flex items-center">
+
+                  <div className="w-8 flex justify-center">{room}</div>
+
                   <button
                     style={
-                      person === 100
+                      room === 26
                         ? { borderColor: "#9AA1B9", color: "#9AA1B9" }
                         : {}
                     }
@@ -139,17 +114,20 @@ function Search({ buttonStyle, onSearchResult }) {
                     <div
                       className="absolute bottom-[-25%] right-[10%]"
                       onClick={() => {
-                        if (room < 100) {
-                          person++;
-                          setPerson(person);
+                        if (room < 26) {
+                          room++;
+                          setRoom(room);
                         }
                       }}
                     >
                       +
                     </div>
                   </button>
-                  <div className="w-8 flex justify-center">{person}</div>
-
+                </div>
+              </div>
+              <div className="pt-2 flex items-center justify-between">
+                <div>Guests</div>
+                <div className="flex items-center">
                   <button
                     style={
                       person < 2
@@ -170,14 +148,35 @@ function Search({ buttonStyle, onSearchResult }) {
                       -
                     </div>
                   </button>
+
+                  <div className="w-8 flex justify-center">{person}</div>
+
+                  <button
+                    style={
+                      person === 4
+                        ? { borderColor: "#9AA1B9", color: "#9AA1B9" }
+                        : {}
+                    }
+                    className="relative w-4 h-4 bg-white text-orange-600 rounded-full border border-solid border-orange-600"
+                  >
+                    <div
+                      className="absolute bottom-[-25%] right-[10%]"
+                      onClick={() => {
+                        if (person < 4) {
+                          person++;
+                          setPerson(person);
+                        }
+                      }}
+                    >
+                      +
+                    </div>
+                  </button>
                 </div>
               </div>
             </div>
           )}
         </div>
-        <button className={`btn Button`} style={buttonStyle}>
-          Search
-        </button>
+        <button className={`btn Button ${btnSearchResult}`}>Search</button>
       </div>
     </form>
   );

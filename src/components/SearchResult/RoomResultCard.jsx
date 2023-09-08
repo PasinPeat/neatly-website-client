@@ -17,10 +17,13 @@ function RoomResultCard({
   onRoomDetail,
   onFullImage,
   disable,
+  userInput,
 }) {
   // console.log(roomType);
   // console.log(person);
   const navigate = useNavigate();
+  console.log(userInput);
+  let isAvailable = available <= 0 && room.available < userInput.room;
 
   const backgroundImage = {
     backgroundImage: `url('${roomImages[2]}')`,
@@ -77,7 +80,7 @@ function RoomResultCard({
                   <br />
                   (Including Taxes & Fees)
                 </p>
-                <p className="pt-2 text-black font-semibold">
+                <p className="pt-2 text-orange-500 font-semibold">
                   <span className="pr-1">{available}</span>
                   {available === 1 && <span>room</span>}
                   {available > 1 && <span>rooms</span>}
@@ -93,7 +96,7 @@ function RoomResultCard({
               >
                 Room Detail
               </button>
-              {!disable ? (
+              {isAvailable ? (
                 <button
                   style={{
                     backgroundColor: "#F1F2F6",
