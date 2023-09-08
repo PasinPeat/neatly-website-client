@@ -87,7 +87,7 @@ function Login() {
                 />
                 {authError && (
                   <span className="text-body3 text-red">
-                    Username or Email might be not correct.
+                    Username or email might not be correct.
                   </span>
                 )}
               </div>
@@ -108,7 +108,7 @@ function Login() {
                 />
                 {passwordError && (
                   <span className="text-body3 text-red">
-                    password might be wrong.
+                    Password might be wrong.
                   </span>
                 )}
               </div>
