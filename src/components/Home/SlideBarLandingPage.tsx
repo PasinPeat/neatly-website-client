@@ -23,8 +23,8 @@ function SlideBarLandingPage() {
         delay: 2500,
         disableOnInteraction: false,
       }}
-      spaceBetween={150}
-      slidesPerView={4}
+      spaceBetween={16}
+      slidesPerView={'auto'}
       breakpoints={{
         "@0.00": {
           slidesPerView: 1,
@@ -44,14 +44,15 @@ function SlideBarLandingPage() {
           // slidesOffsetAfter:80,
         },
         "@1.50": {
-          slidesPerView: 4,
-          spaceBetween: 150,
+          slidesPerView: 'auto',
+          spaceBetween: 16,
         },
       }}
-      slidesOffsetBefore={-85}
+      // slidesOffsetBefore={-85}
       //   slidesOffsetBefore={50}
       //   slidesOffsetBefore={50}
       //   slidesOffsetAfter={40}
+      initialSlide={2}
       centeredSlides={true}
       centeredSlidesBounds={true}
       navigation
@@ -62,11 +63,19 @@ function SlideBarLandingPage() {
         console.log(room.room_images[0]);
         return (
           <div>
-            <SwiperSlide>
+            <SwiperSlide className=" w-fit">
               <div className="w-[400px] h-[500px] ml-4">
                 <img
                   className="w-full h-full object-cover"
                   src={room.room_images[0]}
+                />
+              </div>
+            </SwiperSlide>
+            <SwiperSlide className=" w-fit">
+              <div className="w-[400px] h-[500px] ml-4">
+                <img
+                  className="w-full h-full object-cover"
+                  src={room.room_images[1]}
                 />
               </div>
             </SwiperSlide>

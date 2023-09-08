@@ -1,18 +1,26 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 
 function Footer() {
+  const navigate = useNavigate();
+
+  const linkHomePage = () => {
+    navigate("/");
+  };
   return (
     <>
       <footer className="px-[120px] pt-[56px] bg-green-800">
         <footer className="footer flex justify-between  bg-green-800 text-base-content">
           <div className="w-[383px]">
-            <div>
-              <img
-                src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/logo%20white.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvbG9nbyB3aGl0ZS5zdmciLCJpYXQiOjE2OTM1NjEyOTUsImV4cCI6MTcyNTA5NzI5NX0.rsBAS_CgCAh-wxK9ATUoNXQHhksFXHD2-ETG5s-Ruio&t=2023-09-01T09%3A41%3A34.755Z"
-                alt="Logo"
-              />
-            </div>
-
+          <Link smooth to={location.pathname === "/" ? "#about" : "/"} >
+              <button>
+                <img
+                  src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/logo%20white.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvbG9nbyB3aGl0ZS5zdmciLCJpYXQiOjE2OTM1NjEyOTUsImV4cCI6MTcyNTA5NzI5NX0.rsBAS_CgCAh-wxK9ATUoNXQHhksFXHD2-ETG5s-Ruio&t=2023-09-01T09%3A41%3A34.755Z"
+                  alt="Logo"
+                />
+              </button>
+            </Link>
             <p className=" text-headline5 text-white mt-8 mb-2">Neatly Hotel</p>
             <p className="text-white">
               The best hotel for rising your experience

@@ -3,8 +3,8 @@ import RoomDetailSlidebar from "../RoomDetail/RoomDetailSlidebar";
 function ImageFullPopup({ roomImages, onClosePopup }) {
   console.log(roomImages);
   return (
-    <div className="w-screen h-screen bg-black">
-      <div className="flex justify-end">
+    <div className="w-screen h-screen flex flex-col justify-center bg-black">
+      <div className="flex justify-end -mt-8">
         <button onClick={onClosePopup}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,7 @@ function ImageFullPopup({ roomImages, onClosePopup }) {
           </svg>
         </button>
       </div>
-      <div className="">
+      <div className="inset-y-1/2">
         <RoomDetailSlidebar roomImages={roomImages} />
       </div>
     </div>

@@ -53,9 +53,9 @@ function RoomDetailPageContent({
               <div className="flex justify-end">
                 <button
                   className="btn Button border-orange-600"
-                  onClick={() => navigate("/login")}
+                  onClick={() => navigate("/search")}
                 >
-                  Book now
+                  Find room
                 </button>
               </div>
             </div>

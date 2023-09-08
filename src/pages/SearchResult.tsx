@@ -71,7 +71,7 @@ function SearchResult() {
   return (
     <div>
       {showFullImage && (
-        <div className="fixed z-50 top-0 flex justify-center">
+        <div className="fixed z-50 top-0 flex justify-center ">
           <ImageFullPopup
             roomImages={selectedRoom.room_images}
             onClosePopup={handleClosePopup}

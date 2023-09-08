@@ -21,12 +21,13 @@ function RoomDetailSlidebar({ roomImages }) {
         style={{
           "--swiper-pagination-color": "#fff",
         }}
-        spaceBetween={400}
-        slidesPerView={2}
+        spaceBetween={24}
+        slidesPerView={'auto'}
+        initialSlide={2}
         pagination={{
           clickable: true,
         }}
-        slidesOffsetBefore={-200}
+        // slidesOffsetBefore={-200}
         //   slidesOffsetAfter={40}
         centeredSlides={true}
         centeredSlidesBounds={true}
@@ -35,7 +36,7 @@ function RoomDetailSlidebar({ roomImages }) {
         {roomImages.map((image, index) => {
           return (
             <div key={index}>
-              <SwiperSlide>
+              <SwiperSlide className=" w-fit">
                 <div className="w-[930px] h-[580px] ml-4">
                   <img className="w-full h-full object-cover" src={image} />
                 </div>
