@@ -31,7 +31,7 @@ function App() {
     getRooms();
   }, []);
 
-  //filter rooms
+  /*filter rooms*/
   function handleSearchResult(result) {
     const filteredRooms = rooms.filter((room) => room.person >= result.person);
     setRoomResult(filteredRooms);
