@@ -16,14 +16,14 @@ function RoomResultCard({
   available,
   onRoomDetail,
   onFullImage,
-  disable,
   userInput,
 }) {
   // console.log(roomType);
   // console.log(person);
   const navigate = useNavigate();
-  console.log(userInput);
-  let isAvailable = available <= 0 && room.available < userInput.room;
+  let isAvailable = available > 0 && userInput.room <= available;
+
+  console.log(`userinput: ${userInput}`);
 
   const backgroundImage = {
     backgroundImage: `url('${roomImages[2]}')`,
@@ -80,7 +80,7 @@ function RoomResultCard({
                   <br />
                   (Including Taxes & Fees)
                 </p>
-                <p className="pt-2 text-orange-500 font-semibold">
+                <p className="pt-2 text-black font-semibold">
                   <span className="pr-1">{available}</span>
                   {available === 1 && <span>room</span>}
                   {available > 1 && <span>rooms</span>}
@@ -98,19 +98,19 @@ function RoomResultCard({
               </button>
               {isAvailable ? (
                 <button
+                  className="btn Button"
+                  onClick={() => navigate("/Payment")}
+                >
+                  Book now
+                </button>
+              ) : (
+                <button
                   style={{
                     backgroundColor: "#F1F2F6",
                     color: "#9AA1B9",
                     cursor: "not-allowed",
                   }}
                   className="btn Button disabled"
-                >
-                  Book now
-                </button>
-              ) : (
-                <button
-                  className="btn Button"
-                  onClick={() => navigate("/Payment")}
                 >
                   Book now
                 </button>
