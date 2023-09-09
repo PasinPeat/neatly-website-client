@@ -17,10 +17,13 @@ function RoomResultCard({
   onRoomDetail,
   onFullImage,
   disable,
+  userInput,
 }) {
   // console.log(roomType);
   // console.log(person);
   const navigate = useNavigate();
+  console.log(userInput);
+  let isAvailable = available <= 0 && room.available < userInput.room;
 
   const backgroundImage = {
     backgroundImage: `url('${roomImages[2]}')`,
@@ -61,14 +64,12 @@ function RoomResultCard({
               {/* right elements */}
               <div className="flex flex-col text-right text-body1 w-64">
                 <p className="line-through pt-2">
-                  THB{" "}
                   {price.toLocaleString("en-US", {
                     style: "currency",
                     currency: "THB",
                   })}
                 </p>
                 <p className="text-headline5 text-black pb-3">
-                  THB{" "}
                   {promotionPrice.toLocaleString("en-US", {
                     style: "currency",
                     currency: "THB",
@@ -79,7 +80,7 @@ function RoomResultCard({
                   <br />
                   (Including Taxes & Fees)
                 </p>
-                <p className="pt-2 text-black font-semibold">
+                <p className="pt-2 text-orange-500 font-semibold">
                   <span className="pr-1">{available}</span>
                   {available === 1 && <span>room</span>}
                   {available > 1 && <span>rooms</span>}
@@ -95,7 +96,7 @@ function RoomResultCard({
               >
                 Room Detail
               </button>
-              {!disable ? (
+              {isAvailable ? (
                 <button
                   style={{
                     backgroundColor: "#F1F2F6",
