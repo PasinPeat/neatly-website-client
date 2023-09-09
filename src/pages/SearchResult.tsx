@@ -9,31 +9,28 @@ import { useContext, useState } from "react";
 import { RoomsContext } from "../App.tsx";
 import { RoomsProps } from "../interfaces/RoomsProps.tsx";
 
-function SearchResult() {
+function SearchResult({
+  roomResult,
+  userInput,
+  setUserInput,
+  onSearchResult,
+  setRoomResult,
+}) {
   const context = useContext(RoomsContext);
-  const buttonStyle = {
-    borderStyle: "solid",
-    borderColor: "#E76B39",
-    color: "#E76B39",
-    backgroundColor: "white",
-    borderWidth: "2px",
-  };
+  const seachResultBtn = "Button-search-result";
   const [showRoomDetail, setShowRoomDetail] = useState(false);
   const [showFullImage, setShowFullImage] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<RoomsProps | null>(null);
-  const [roomResult, setRoomResult] = useState<RoomsProps[]>(context.rooms);
-  const [userInput, setUserInput] = useState<RoomsProps | null>(null);
-  console.log(context.rooms);
 
-  //filter rooms
-  function handleSearchResult(result) {
-    const filteredRooms = context.rooms.filter(
-      (room) => room.person >= result.person
-    );
-    setRoomResult(filteredRooms);
-  }
+  /*render all room cards*/
+  useEffect(() => {
+    if (userInput === null) {
+      setRoomResult(context.rooms);
+    }
+  }, [context.rooms, setRoomResult]);
+  // console.log(roomResult);
 
-  //show room detail
+  /*show room detail of selected card*/
   function handleRoomDetail(roomId) {
     const room = context.rooms.find((room) => room.room_id === roomId);
     if (room) {
@@ -42,7 +39,7 @@ function SearchResult() {
     }
   }
 
-  //show full image
+  /*show full image of selected card*/
   function handleFullImage(roomId) {
     const room = context.rooms.find((room) => room.room_id === roomId);
     if (room) {
@@ -51,6 +48,7 @@ function SearchResult() {
     }
   }
 
+  /*close full image and room detail*/
   function handleClosePopup() {
     setShowRoomDetail(false);
     setShowFullImage(false);
@@ -87,9 +85,9 @@ function SearchResult() {
       <Navbar />
       <div className="flex justify-center items-end bg-white py-10 px-[220px] drop-shadow-md border-t-[1px] border-gray-300">
         <Search
-          buttonStyle={buttonStyle}
-          onSearchResult={handleSearchResult}
+          seachResultBtn={seachResultBtn}
           setUserInput={setUserInput}
+          onSearchResult={onSearchResult}
         />
       </div>
       <div className="bg-bg flex flex-col items-center pt-[90px] pb-[300px] px-[100px]">

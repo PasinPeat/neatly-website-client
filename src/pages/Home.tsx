@@ -7,11 +7,11 @@ import Rooms from "../components/Home/Rooms.tsx";
 import Review from "../components/Home/Review.tsx";
 import Footer from "../components/Footer.tsx";
 
-function Home() {
+function Home({ onSearchResult, setUserInput }) {
   return (
     <div>
       <Navbar />
-      <Header />
+      <Header setUserInput={setUserInput} onSearchResult={onSearchResult} />
       <About />
       <Service />
       <Rooms />

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // setUserInput
-function Search({ btnSearchResult, onSearchResult, setUserInput }) {
+function Search({ seachResultBtn, onSearchResult, setUserInput }) {
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
   let [room, setRoom] = useState(1);
@@ -17,6 +17,7 @@ function Search({ btnSearchResult, onSearchResult, setUserInput }) {
 
   const navigate = useNavigate();
 
+  /*calculate date of tomorrow and the day after tomorrow*/
   const calculateDate = (num) => {
     const today = new Date();
     const plusedDate = new Date(today);
@@ -43,13 +44,8 @@ function Search({ btnSearchResult, onSearchResult, setUserInput }) {
     // console.log(result);
     onSearchResult(result);
     setUserInput(result);
-    console.log(result);
-    // navigate("/search");
 
-    setCheckInDate(calculateDate(1));
-    setCheckOutDate(calculateDate(2));
-    setRoom(1);
-    setPerson(2);
+    navigate("/search");
   }
 
   return (
@@ -196,7 +192,7 @@ function Search({ btnSearchResult, onSearchResult, setUserInput }) {
       <button
         type="submit"
         onClick={handleSubmit}
-        className={`btn Button ${btnSearchResult}`}
+        className={`btn Button ${seachResultBtn}`}
       >
         Search
       </button>

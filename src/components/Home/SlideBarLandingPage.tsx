@@ -24,7 +24,7 @@ function SlideBarLandingPage() {
         disableOnInteraction: false,
       }}
       spaceBetween={16}
-      slidesPerView={'auto'}
+      slidesPerView={"auto"}
       breakpoints={{
         "@0.00": {
           slidesPerView: 1,
@@ -44,7 +44,7 @@ function SlideBarLandingPage() {
           // slidesOffsetAfter:80,
         },
         "@1.50": {
-          slidesPerView: 'auto',
+          slidesPerView: "auto",
           spaceBetween: 16,
         },
       }}
@@ -60,7 +60,6 @@ function SlideBarLandingPage() {
       // onSlideChange={() => console.log("slide change")}
     >
       {context.rooms.map((room, index) => {
-        console.log(room.room_images[0]);
         return (
           <div>
             <SwiperSlide className=" w-fit">

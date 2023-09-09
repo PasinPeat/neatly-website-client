@@ -39,7 +39,7 @@ function RoomDetailPopup({
           </button>
         </div>
 
-        <div className="overflow-y-scroll pl-20 pr-10 pt-4 pb-[60px]">
+        <div className="overflow-y-scroll pl-20 pr-16 pt-4 pb-[60px]">
           {/* Photo Slide */}
           <SingleSlidebar roomImages={roomImages} />
           {/* description */}

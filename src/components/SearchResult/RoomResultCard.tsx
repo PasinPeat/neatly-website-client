@@ -18,12 +18,13 @@ function RoomResultCard({
   onFullImage,
   userInput,
 }) {
-  // console.log(roomType);
-  // console.log(person);
   const navigate = useNavigate();
-  let isAvailable = available > 0 && userInput.room <= available;
 
-  console.log(`userinput: ${userInput}`);
+  let isAvailable = available > 0;
+
+  if (userInput) {
+    isAvailable = available > 0 && userInput.room <= available;
+  }
 
   const backgroundImage = {
     backgroundImage: `url('${roomImages[2]}')`,
@@ -80,11 +81,16 @@ function RoomResultCard({
                   <br />
                   (Including Taxes & Fees)
                 </p>
-                <p className="pt-2 text-black font-semibold">
-                  <span className="pr-1">{available}</span>
-                  {available === 1 && <span>room</span>}
-                  {available > 1 && <span>rooms</span>}
-                  <span className="pl-1">available</span>
+                <p className="pt-2 text-orange-600 font-semibold">
+                  {available === 0 ? (
+                    <span className="pr-1">Full</span>
+                  ) : (
+                    <>
+                      <span className="pr-1">{available}</span>
+                      <span>{available > 1 ? "rooms" : "room"}</span>
+                      <span className="pl-1">available</span>
+                    </>
+                  )}
                 </p>
               </div>
             </div>
@@ -92,7 +98,7 @@ function RoomResultCard({
             <div className="flex justify-end gap-6">
               <button
                 onClick={() => onRoomDetail(roomId)}
-                className="btn capitalize bg-bg border-none font-semibold text-base  text-orange-500 hover:bg-bg"
+                className="btn capitalize bg-bg border-none font-semibold text-body1 text-base  text-orange-500 hover:bg-bg"
               >
                 Room Detail
               </button>
@@ -104,14 +110,7 @@ function RoomResultCard({
                   Book now
                 </button>
               ) : (
-                <button
-                  style={{
-                    backgroundColor: "#F1F2F6",
-                    color: "#9AA1B9",
-                    cursor: "not-allowed",
-                  }}
-                  className="btn Button disabled"
-                >
+                <button className="btn Button disabled Button-unavailable">
                   Book now
                 </button>
               )}

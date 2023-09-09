@@ -4,7 +4,7 @@ function ImageFullPopup({ roomImages, onClosePopup }) {
   console.log(roomImages);
   return (
     <div className="w-screen h-screen flex flex-col justify-center bg-black">
-      <div className="flex justify-end -mt-8">
+      <div className="absolute top-0 right-0">
         <button onClick={onClosePopup}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -23,9 +23,7 @@ function ImageFullPopup({ roomImages, onClosePopup }) {
           </svg>
         </button>
       </div>
-      <div className="inset-y-1/2">
-        <RoomDetailSlidebar roomImages={roomImages} />
-      </div>
+      <RoomDetailSlidebar roomImages={roomImages} />
     </div>
   );
 }
