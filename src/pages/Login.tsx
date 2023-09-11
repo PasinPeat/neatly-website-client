@@ -46,6 +46,7 @@ function Login({ roomResult }) {
         login(data);
         setPasswordError(false);
         setAuthError(false);
+        // handleUserProfileImage(data.email);
       } else {
         console.log("Login failed:", response.data.message);
       }
@@ -60,6 +61,8 @@ function Login({ roomResult }) {
         setPasswordError(true);
       }
     }
+
+    console.log(`email: ${data.loginIdentifier.exp}`);
   };
   return (
     <div className="flex h-screen w-screen">
