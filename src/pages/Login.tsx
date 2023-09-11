@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authen";
 import { useEffect } from "react";
 
-function Login() {
+function Login({ roomResult }) {
   const [loginIdentifier, setLoginIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState(false);

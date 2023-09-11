@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import RoomDetailPopup from "./RoomDetailPopup";
+import { useAuth } from "../../contexts/authen.jsx";
 
 function RoomResultCard({
   roomId,
@@ -19,6 +20,7 @@ function RoomResultCard({
   userInput,
 }) {
   const navigate = useNavigate();
+  const auth = useAuth();
 
   let isAvailable = available > 0;
 
@@ -102,10 +104,17 @@ function RoomResultCard({
               >
                 Room Detail
               </button>
-              {isAvailable ? (
+              {isAvailable && auth.isAuthenticated ? (
                 <button
                   className="btn Button"
                   onClick={() => navigate("/Payment")}
+                >
+                  Book now
+                </button>
+              ) : isAvailable ? (
+                <button
+                  className="btn Button"
+                  onClick={() => navigate("/Login")}
                 >
                   Book now
                 </button>

@@ -50,7 +50,7 @@ function App() {
               />
             }
           />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login roomResult={roomResult} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/room/:roomId" element={<RoomDetail />} />
           <Route
