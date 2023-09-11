@@ -10,6 +10,7 @@ function AuthProvider(props) {
     loading: null,
     error: null,
     user: null,
+    userData: null,
   });
 
   // make a login request
@@ -17,10 +18,13 @@ function AuthProvider(props) {
     const result = await axios.post("http://localhost:4000/auth/login", data);
     const token = result.data.token;
     localStorage.setItem("token", token);
+    const userData = result.data.userData;
     const userDataFromToken = jwtDecode(token);
-    setState({ ...state, user: userDataFromToken });
-    console.log(userDataFromToken);
-    console.log(state.user);
+    setState({
+      ...state,
+      user: userDataFromToken,
+      userData: userData,
+    });
   };
 
   const logout = () => {
