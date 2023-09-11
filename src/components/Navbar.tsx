@@ -51,16 +51,16 @@ function Navbar() {
           </ul>
         </div>
         {auth.isAuthenticated ? (
-          <div className="flex items-center">
-            <div className="dropdown dropdown-end ">
+          <div className="flex items-center drop-shadow-2xl">
+            <div className="dropdown dropdown-end">
               <label tabIndex={0} className="hover:cursor-pointer">
-                <div className="w-12 h-12 bg-green-700 rounded-full">
-                  <img src={userProfileImage}></img>
+                <div className="w-12 h-12">
+                  <img src={userProfileImage} className="rounded-full"></img>
                 </div>
               </label>
               <ul
                 tabIndex={0}
-                className="menu dropdown-content rounded-[4px] z-[1] shadow bg-base-100 w-52 mt-4 px-0 [&_li>*]:rounded-none"
+                className="menu dropdown-content rounded-[4px] z-[1] drop-shadow-2xl bg-base-100 w-52 mt-4 px-2 [&_li>*]:rounded-[4px]"
               >
                 <li>
                   <button className="py-2" onClick={() => logout()}>
