@@ -5,7 +5,8 @@ function ImageFullPopup({ roomImages, onClosePopup }) {
   return (
     <div className="w-screen h-screen flex flex-col justify-center bg-black">
       <div className="absolute top-0 right-0">
-        <button onClick={onClosePopup}>
+        <div className="w-screen h-screen" onClick={onClosePopup}></div>
+        <button className="absolute top-0 right-0" onClick={onClosePopup}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="60"

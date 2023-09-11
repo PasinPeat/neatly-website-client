@@ -91,7 +91,7 @@ function SearchResult({
         />
       </div>
       <div className="bg-bg flex flex-col items-center pt-[90px] pb-[300px] px-[100px]">
-        {roomResult.map((room) => (
+        {roomResult.map((room: any) => (
           <RoomResultCard
             roomId={room.room_id}
             roomType={room.room_type}
