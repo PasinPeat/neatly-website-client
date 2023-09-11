@@ -12,11 +12,11 @@ import axios from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { RoomsProps } from "./interfaces/RoomsProps.tsx";
-// import { useAuth } from "./contexts/authen.jsx";
+import { useAuth } from "./contexts/authen.jsx";
 export const RoomsContext = React.createContext();
 
 function App() {
-  // const auth = useAuth();
+  const auth = useAuth();
   const [rooms, setRooms] = useState<RoomsProps[]>([]);
   const [roomResult, setRoomResult] = useState<RoomsProps[]>([]);
   const [userInput, setUserInput] = useState<RoomsProps | null>(null);
@@ -26,6 +26,8 @@ function App() {
     setRooms(results.data.data);
     // console.log(results);
   };
+
+  console.log(auth.state.userData);
 
   useEffect(() => {
     getRooms();

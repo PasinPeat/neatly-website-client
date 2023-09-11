@@ -1,8 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
 import { useAuth } from "../contexts/authen.jsx";
-import axios from "axios";
-import { useEffect } from "react";
 
 function Navbar() {
   //@ts-ignore
@@ -10,22 +8,8 @@ function Navbar() {
   const location = useLocation();
   const auth = useAuth();
   const { logout } = useAuth();
-
-  // const [user, setUser] = useState(null);
-
-  // const getUser = async () => {
-  //   const res = await axios(`http://localhost:4000/profile/:profileId`);
-  //   setUser(res.data.data);
-  //   // console.log(results);
-  // };
-
-  function handleUserProfileImage(data) {
-    setUser(data.profile_image);
-  }
-
-  // useEffect(() => {
-  //   getUser();
-  // }, [auth]);
+  const userProfileImage = auth.state.userData.profile_image;
+  // console.log(auth.state.userData.profile_image);
 
   const linkHomePage = () => {
     navigate("/login");
@@ -70,14 +54,16 @@ function Navbar() {
           <div className="flex items-center">
             <div className="dropdown dropdown-end ">
               <label tabIndex={0} className="hover:cursor-pointer">
-                <div className="w-12 h-12 bg-green-600 rounded-full"></div>
+                <div className="w-12 h-12 bg-green-700 rounded-full">
+                  <img src={userProfileImage}></img>
+                </div>
               </label>
               <ul
                 tabIndex={0}
-                className="menu dropdown-content rounded-[4px] z-[1] shadow bg-base-100 w-52 mt-4 menu-hover:rounded-none"
+                className="menu dropdown-content rounded-[4px] z-[1] shadow bg-base-100 w-52 mt-4 px-0 [&_li>*]:rounded-none"
               >
                 <li>
-                  <button onClick={() => logout()}>
+                  <button className="py-2" onClick={() => logout()}>
                     <img
                       className="w-4 h-4"
                       src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/profile.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL3Byb2ZpbGUuc3ZnIiwiaWF0IjoxNjk0NDA0NTg3LCJleHAiOjE3MjU5NDA1ODd9.vDd8aSTyukskfIfkrxEkLxUXT4FmUzE-tprRpxC3Y2Y&t=2023-09-11T03%3A56%3A25.801Z"
@@ -86,7 +72,7 @@ function Navbar() {
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => logout()}>
+                  <button className="py-2" onClick={() => logout()}>
                     <img
                       className="w-4 h-4"
                       src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/credit.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NyZWRpdC5zdmciLCJpYXQiOjE2OTQ0MDU3MDUsImV4cCI6MTcyNTk0MTcwNX0.wwSq3XrBgaEqb4U3QeRXYhQjKItIn7FSStx40IDj7jE&t=2023-09-11T04%3A15%3A04.217Z"
@@ -95,7 +81,7 @@ function Navbar() {
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => logout()}>
+                  <button className="py-2" onClick={() => logout()}>
                     <img
                       className="w-4 h-4"
                       src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/booking_history.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2Jvb2tpbmdfaGlzdG9yeS5zdmciLCJpYXQiOjE2OTQ0MDU3MzksImV4cCI6MTcyNTk0MTczOX0.8Fjox_ROepJ6S3GYITg9FKlG2s1Wzk6ahtnEXYmWnI8&t=2023-09-11T04%3A15%3A38.237Z"
@@ -105,7 +91,7 @@ function Navbar() {
                 </li>
                 <hr className="mt-2 border-gray-400"></hr>
                 <li>
-                  <button onClick={() => logout()}>
+                  <button className="py-2" onClick={() => logout()}>
                     <img
                       className="w-4 h-4"
                       src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/logout.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2xvZ291dC5zdmciLCJpYXQiOjE2OTQ0MDUyMjcsImV4cCI6MTcyNTk0MTIyN30.QQWg08pQQG_UXibP0RzqSxor94ssvDnTFV7t5oh56QE&t=2023-09-11T04%3A07%3A05.943Z"
