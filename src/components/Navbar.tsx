@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
 import { useAuth } from "../contexts/authen.jsx";
@@ -48,14 +47,10 @@ function Navbar() {
           </ul>
         </div>
         {auth.isAuthenticated ? (
-          <button
-            onClick={() => {
-              logout();
-              navigate("/");
-            }}
-          >
-            hello
-          </button>
+          <div className="flex items-center">
+            <button onClick={() => logout()}>Log Out</button>
+            <div className="w-12 h-12 bg-green-600 rounded-full"></div>
+          </div>
         ) : (
           <div className="flex flex-row items-center">
             <button
@@ -64,17 +59,14 @@ function Navbar() {
             >
               Log in
             </button>
-            <button className="btn Button px-8">
-              <Link
-                smooth
-                to="#book"
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate("/");
-                }}
-              >
-                Book Now
-              </Link>
+            <button
+              className="btn Button"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/search");
+              }}
+            >
+              Find Room
             </button>
           </div>
         )}
@@ -131,32 +123,28 @@ function Navbar() {
           </ul>
         </div>
         {auth.isAuthenticated ? (
-          <button
-            onClick={() => {
-              logout();
-              navigate("/");
-            }}
-          >
-            hello
-          </button>
+          <div className="flex items-center">
+            <button onClick={() => logout()}>Log Out</button>
+            <div className="w-12 h-12 bg-green-600 rounded-full"></div>
+          </div>
         ) : (
-          <div className="flex flex-row items-center">
+          <div className="flex flex-cols items-center">
             <button
               className="px-6 text-body2 text-orange-500"
               onClick={linkLogin}
             >
               Log in
             </button>
-            <button className="btn Button px-8">
+            <button className="btn Button">
               <Link
                 smooth
                 to="#book"
                 onClick={(e) => {
                   e.preventDefault();
-                  navigate("/");
+                  navigate("/search");
                 }}
               >
-                Book Now
+                Find Room
               </Link>
             </button>
           </div>

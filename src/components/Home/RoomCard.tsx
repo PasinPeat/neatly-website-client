@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { RoomsContext } from "../../App.jsx";
 import { RoomsProps } from "../../interfaces/RoomsProps.tsx";
-import { Link } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 
 function RoomCard({
   roomType,
@@ -32,20 +32,15 @@ function RoomCard({
   };
 
   return (
-    // 'https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/superior-graden-2?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvc3VwZXJpb3ItZ3JhZGVuLTIiLCJpYXQiOjE2OTM4MzUxMTksImV4cCI6MTcyNTM3MTExOX0.NCux_pItpHFf9WqMaPDsjukXHFofhBnpjglVo5aGJng&t=2023-09-04T13%3A45%3A17.758Z'
-    // {`flex bg-cover bg-center bg-[url('${room.room_images[0]}')]`}
-    // "flex bg-cover bg-center bg-[url('https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/superior-graden-2?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvc3VwZXJpb3ItZ3JhZGVuLTIiLCJpYXQiOjE2OTM4MzUxMTksImV4cCI6MTcyNTM3MTExOX0.NCux_pItpHFf9WqMaPDsjukXHFofhBnpjglVo5aGJng&t=2023-09-04T13%3A45%3A17.758Z')]"
-    <div style={backgroundImage}>
+    <Link to={`/room/${room.room_id}#top`} style={backgroundImage}>
       <div className="w-full bg-black bg-opacity-30 pl-16 pb-20 flex items-end justify-start">
-      <Link to={`/room/${room.room_id}`}>
         <div className="z-10">
           <div className="mb-3 font-noto-serif-display text-headline3 text-white transition ease-out delay-150 duration-200 hover:scale-105">
             {room.room_type}
           </div>
           <div className="transition ease-out delay-150 duration-200 hover:scale-105">
-            
-              <span className="text-white text-body1 ">Explore Room</span>
-            
+            <span className="text-white text-body1 ">Explore Room</span>
+
             <img
               className="ml-2 inline transition ease-out delay-150 duration-200 hover:scale-105"
               alt="arrow"
@@ -53,9 +48,8 @@ function RoomCard({
             ></img>
           </div>
         </div>
-    </Link>
       </div>
-    </div>
+    </Link>
   );
 }
 export default RoomCard;
