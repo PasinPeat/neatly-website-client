@@ -1,20 +1,27 @@
-import React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import useToggleState from "../hooks/useToggleState";
 
-function Search({ seachResultBtn, onSearchResult, setUserInput }) {
+function Search({
+  seachResultBtn,
+  onSearchResult,
+  setUserInput,
+  searchStateOnHome,
+  transferSearchState,
+}) {
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
   let [room, setRoom] = useState(1);
   let [person, setPerson] = useState(2);
-  const [isOpen, setIsOpen] = useState(false);
+  const [showDropdown, setShowDropdown] = useToggleState(false);
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCheckInDate(calculateDate(1));
     setCheckOutDate(calculateDate(2));
   }, []);
-
-  const navigate = useNavigate();
 
   /*calculate date of tomorrow and the day after tomorrow*/
   const calculateDate = (num) => {
@@ -43,12 +50,11 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
     // console.log(result);
     onSearchResult(result);
     setUserInput(result);
-
     navigate("/search");
   }
 
   return (
-    <div className="flex justify-center items-end">
+    <div className="flex justify-center items-end ">
       <div className="form-control">
         <label className="label">
           <span className="text-gray-900 text-body1">Check In</span>
@@ -85,11 +91,11 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
           <div>
             Rooms {room}, Guests {person}
           </div>
-          <button onClick={() => setIsOpen(!isOpen)}>
+          <button onClick={setShowDropdown}>
             <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/arrow_drop_down_black_24dp%202.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2Fycm93X2Ryb3BfZG93bl9ibGFja18yNGRwIDIuc3ZnIiwiaWF0IjoxNjk0MDgyNzE5LCJleHAiOjE3MjU2MTg3MTl9.8aoooHCf3UW3mfKGTeBYHLZbuUsFc8lpg9037s3QFnA&t=2023-09-07T10%3A31%3A58.813Z" />
           </button>
         </div>
-        {isOpen && (
+        {showDropdown && (
           <div className="px-4 py-3 w-60 top-34 flex flex-col absolute rounded-md bg-white drop-shadow-lg">
             <div className="pt-2 flex items-center justify-between">
               <div>Rooms</div>
