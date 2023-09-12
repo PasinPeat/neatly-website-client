@@ -5,11 +5,8 @@ import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
 import RoomDetail from "./pages/RoomDetail.tsx";
 import Payment from "./pages/Payment.tsx";
-
 import Profile from "./pages/Profile.tsx";
-
 import PaymentMethod from "./pages/PaymentMethod.tsx";
-
 import SearchResult from "./pages/SearchResult.tsx";
 import RoomDetailPopup from "./components/SearchResult/RoomDetailPopup.tsx";
 import NotFound from "./pages/NotFound.tsx";
@@ -71,14 +68,11 @@ function App() {
             }
           />
           <Route path="/payment" element={<Payment />} />
-
           <Route path="/profile/:profileID" element={<Profile />} />
-
           <Route
             path="/paymentmethod/:paymentmethodID"
             element={<PaymentMethod />}
           />
-
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

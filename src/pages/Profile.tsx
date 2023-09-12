@@ -101,7 +101,7 @@ function Profile() {
       [name]: value,
     });
   };
-
+  const { profile_image } = user;
   return (
     <div className="flex flex-col items-center w-screen  bg-bg">
       <Navbar />
@@ -220,12 +220,13 @@ function Profile() {
                         invalidFile ? "border-[#B61515]" : "focus:outline-none"
                       }`}
                     >
-                      <p className="text-orange-500 text-[30px] font-medium text-center">
-                        +
-                      </p>
-                      <p className="text-orange-500 text-sm font-medium text-center">
-                        Upload photo
-                      </p>
+                      {profile_image && (
+                        <img
+                          className="w-[197px] h-[167px] rounded object-cover"
+                          src={profile_image}
+                          alt="Profile"
+                        />
+                      )}
                       <input
                         id="upload"
                         name="avatar"
@@ -239,8 +240,6 @@ function Profile() {
                   </label>
                 </div>
               ) : null}
-
-              {/* Avatar Render */}
               {Object.keys(avatars).map((avatarKey) => {
                 const file = avatars[avatarKey];
                 return (
