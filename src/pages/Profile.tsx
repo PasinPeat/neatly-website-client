@@ -16,6 +16,37 @@ function Profile() {
     birthDate: "",
     country: "",
   });
+  const [avatars, setAvatars] = useState<{ [key: string]: File }>({});
+  const [invalidFile, setInvalidFile] = useState<string | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const uniqueId = Date.now();
+    const file = event.target.files?.[0];
+
+    if (file) {
+      const allowedExtensions = [".jpg", ".jpeg", ".png"];
+      const fileExtension = file.name.toLowerCase().slice(-4);
+      if (
+        file.size <= 2 * 1024 * 1024 &&
+        allowedExtensions.includes(fileExtension)
+      ) {
+        setAvatars({
+          ...avatars,
+          [uniqueId.toString()]: file,
+        });
+        setInvalidFile(null);
+      } else {
+        setInvalidFile(
+          "Your file is invalid. Please select a file that is no larger than 2 MB and is .jpg, .jpeg, or .png"
+        );
+      }
+    }
+  };
+
+  const handleRemoveImage = (avatarKey: string) => {
+    const { [avatarKey]: deletedAvatar, ...newAvatars } = avatars;
+    setAvatars(newAvatars);
+  };
 
   const getProfileID = async () => {
     try {
@@ -34,12 +65,26 @@ function Profile() {
     getProfileID();
   }, [params.profileID]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      const formData = new FormData();
+      formData.append("fullName", user.fullName);
+      formData.append("email", user.email);
+      formData.append("idNumber", user.idNumber);
+      formData.append("birthDate", user.birthDate);
+      formData.append("country", user.country);
+
+      for (let avatarKey in avatars) {
+        formData.append("avatar", avatars[avatarKey]);
+      }
+
       const response = await axios.put(
         `http://localhost:4000/profile/${params.profileID}`,
-        user
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
       console.log(response.data);
     } catch (error) {
@@ -47,11 +92,13 @@ function Profile() {
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setUser({
       ...user,
-      [name]: value, // อัพเดต property ของ user object ตามชื่อของฟิลด์
+      [name]: value,
     });
   };
 
@@ -164,13 +211,57 @@ function Profile() {
             <p className="text-headline5 mb-[38px] text-gray-600 ">
               Profile Picture
             </p>
-            <div>
-              <button className="w-[197px] h-[167px] border-2 bg-gray-200 rounded mb-[165px]">
-                <p className=" text-sm font-medium text-orange-500">
-                  + <br />
-                  Upload photo
-                </p>
-              </button>
+            <div className="flex flex-row">
+              {Object.keys(avatars).length === 0 ? (
+                <div>
+                  <label htmlFor="upload">
+                    <div
+                      className={`w-[197px] h-[167px] bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center border-2 hover:border-orange-500 active:border-orange-700 ${
+                        invalidFile ? "border-[#B61515]" : "focus:outline-none"
+                      }`}
+                    >
+                      <p className="text-orange-500 text-[30px] font-medium text-center">
+                        +
+                      </p>
+                      <p className="text-orange-500 text-sm font-medium text-center">
+                        Upload photo
+                      </p>
+                      <input
+                        id="upload"
+                        name="avatar"
+                        type="file"
+                        onChange={handleFileChange}
+                        disabled={Object.keys(avatars).length > 0}
+                        accept="image/jpg, image/jpeg, image/png"
+                        hidden
+                      />
+                    </div>
+                  </label>
+                </div>
+              ) : null}
+
+              {/* Avatar Render */}
+              {Object.keys(avatars).map((avatarKey) => {
+                const file = avatars[avatarKey];
+                return (
+                  <div
+                    key={avatarKey}
+                    className="w-[197px] h-[167px] mb-[25px] relative"
+                  >
+                    <img
+                      className="w-[197px] h-[167px] rounded object-cover"
+                      src={URL.createObjectURL(file)}
+                      alt={file.name}
+                    />
+                    <button
+                      className="h-[24px] w-[24px] rounded-full bg-[#B61515] flex items-center justify-center absolute -top-2 -right-2 hover:bg-orange-700 active:bg-orange-800"
+                      onClick={() => handleRemoveImage(avatarKey)}
+                    >
+                      X
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </form>
