@@ -8,20 +8,23 @@ import Payment from "./pages/Payment.tsx";
 import Profile from "./pages/Profile.tsx";
 import PaymentMethod from "./pages/PaymentMethod.tsx";
 import SearchResult from "./pages/SearchResult.tsx";
-import RoomDetailPopup from "./components/SearchResult/RoomDetailPopup.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import axios from "axios";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { RoomsProps } from "./interfaces/RoomsProps.tsx";
-import { useAuth } from "./contexts/authen.jsx";
 export const RoomsContext = React.createContext();
 
 function App() {
-  const auth = useAuth();
   const [rooms, setRooms] = useState<RoomsProps[]>([]);
   const [roomResult, setRoomResult] = useState<RoomsProps[]>([]);
   const [userInput, setUserInput] = useState<RoomsProps | null>(null);
+  const [searchStateOnHome, setSearchStateOnHome] = useState({
+    checkInDate: "",
+    checkOutDate: "",
+    room: 1,
+    person: 2,
+  });
 
   const getRooms = async () => {
     const results = await axios(`http://localhost:4000/room`);
@@ -29,11 +32,11 @@ function App() {
     // console.log(results);
   };
 
-  console.log(auth.state.userData);
-
   useEffect(() => {
     getRooms();
   }, []);
+
+  const navigate = useNavigate();
 
   /*filter rooms*/
   function handleSearchResult(result) {
@@ -41,8 +44,17 @@ function App() {
     setRoomResult(filteredRooms);
   }
 
+  /*transfer search state into search page*/
+  function transferSearchState(prevState) {
+    setSearchStateOnHome(prevState);
+    // Navigate to the search result page with the updated state
+    navigate("/search", { state: prevState });
+  }
+
   return (
-    <RoomsContext.Provider value={{ rooms }}>
+    <RoomsContext.Provider
+      value={{ rooms, navigate, transferSearchState, searchStateOnHome }}
+    >
       <BrowserRouter>
         <Routes>
           <Route
