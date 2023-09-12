@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -6,6 +7,12 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import dayjs, { Dayjs } from "dayjs";
 import { SxProps } from "@mui/system";
 import "../App.css";
+=======
+import { useLocation, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { RoomsContext } from "../App";
+import useToggleState from "../hooks/useToggleState";
+>>>>>>> fbe0d92a6d38e441021a77943c65ad79b8f52857
 
 // const calendarTheme = createTheme({
 //   palette: {
@@ -26,6 +33,7 @@ import "../App.css";
 //   },
 // });
 function Search({ seachResultBtn, onSearchResult, setUserInput }) {
+<<<<<<< HEAD
   const color: string = "#A0ACC3";
   const theme = createTheme({
     components: {
@@ -80,6 +88,25 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
   let [person, setPerson] = useState(2);
   const [isOpen, setIsOpen] = useState(false);
   // let onlyDate = e.$d.toISOString();
+=======
+  const location = useLocation();
+  const context = useContext(RoomsContext);
+  const navigate = useNavigate();
+  console.log(location.state);
+
+  const initialState = location.state || {
+    checkInDate: "",
+    checkOutDate: "",
+    room: 1,
+    person: 2,
+  };
+
+  const [checkInDate, setCheckInDate] = useState(initialState.checkInDate);
+  const [checkOutDate, setCheckOutDate] = useState(initialState.checkOutDate);
+  const [room, setRoom] = useState(initialState.room);
+  const [person, setPerson] = useState(initialState.person);
+  const [showDropdown, setShowDropdown] = useToggleState(false);
+>>>>>>> fbe0d92a6d38e441021a77943c65ad79b8f52857
 
   useEffect(() => {
     setCheckInDate(checkInDate);
@@ -87,7 +114,22 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
     console.log(checkInDate);
   }, []);
 
+<<<<<<< HEAD
   const navigate = useNavigate();
+=======
+  /*calculate date of tomorrow and the day after tomorrow*/
+  const calculateDate = (num) => {
+    const today = new Date();
+    const plusedDate = new Date(today);
+    plusedDate.setDate(today.getDate() + num);
+
+    const yyyy = plusedDate.getFullYear();
+    const mm = String(plusedDate.getMonth() + 1).padStart(2, "0");
+    const dd = String(plusedDate.getDate()).padStart(2, "0");
+
+    return `${yyyy}-${mm}-${dd}`;
+  };
+>>>>>>> fbe0d92a6d38e441021a77943c65ad79b8f52857
 
   function handleSubmit(e) {
     e.preventDefault();
