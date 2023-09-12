@@ -43,43 +43,6 @@ function App() {
         userInput,
       }}
     >
-<<<<<<< Updated upstream
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Home
-                setUserInput={setUserInput}
-                onSearchResult={handleSearchResult}
-              />
-            }
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/room/:roomId" element={<RoomDetail />} />
-          <Route
-            path="/search"
-            element={
-              <SearchResult
-                roomResult={roomResult}
-                userInput={userInput}
-                setUserInput={setUserInput}
-                onSearchResult={handleSearchResult}
-                setRoomResult={setRoomResult}
-              />
-            }
-          />
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/profile/:profileID" element={<Profile />} />
-          <Route
-            path="/paymentmethod/:paymentmethodID"
-            element={<PaymentMethod />}
-          />
-          <Route path="/*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-=======
       <Routes>
         <Route
           path="/"
@@ -110,9 +73,9 @@ function App() {
           path="/paymentmethod/:paymentmethodID"
           element={<PaymentMethod />}
         />
+        <Route path="/profile/:profileID" element={<Profile />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
->>>>>>> Stashed changes
     </RoomsContext.Provider>
   );
 }

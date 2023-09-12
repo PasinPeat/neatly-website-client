@@ -77,6 +77,8 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
     },
     "& .MuiTabs-root": { backgroundColor: "rgba(120, 120, 120, 0.4)" },
   };
+
+  //----------------------------------------------------------------
   const [checkInDate, setCheckInDate] = useState<Dayjs | null>(
     dayjs().add(1, "day")
   );
