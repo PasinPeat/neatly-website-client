@@ -88,6 +88,8 @@ function SearchResult({
           seachResultBtn={seachResultBtn}
           setUserInput={setUserInput}
           onSearchResult={onSearchResult}
+          searchStateOnHome={searchStateOnHome}
+          transferSearchState={transferSearchState}
         />
       </div>
       <div className="bg-bg flex flex-col items-center pt-[90px] pb-[300px] px-[100px]">

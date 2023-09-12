@@ -1,22 +1,27 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { RoomsContext } from "../App";
 import useToggleState from "../hooks/useToggleState";
 
-function Search({
-  seachResultBtn,
-  onSearchResult,
-  setUserInput,
-  searchStateOnHome,
-  transferSearchState,
-}) {
-  const [checkInDate, setCheckInDate] = useState("");
-  const [checkOutDate, setCheckOutDate] = useState("");
-  let [room, setRoom] = useState(1);
-  let [person, setPerson] = useState(2);
-  const [showDropdown, setShowDropdown] = useToggleState(false);
-
+function Search({ seachResultBtn, onSearchResult, setUserInput }) {
   const location = useLocation();
+  const context = useContext(RoomsContext);
   const navigate = useNavigate();
+  console.log(location.state);
+
+  const initialState = location.state || {
+    checkInDate: "",
+    checkOutDate: "",
+    room: 1,
+    person: 2,
+  };
+
+  const [checkInDate, setCheckInDate] = useState(initialState.checkInDate);
+  const [checkOutDate, setCheckOutDate] = useState(initialState.checkOutDate);
+  const [room, setRoom] = useState(initialState.room);
+  const [person, setPerson] = useState(initialState.person);
+  const [showDropdown, setShowDropdown] = useToggleState(false);
 
   useEffect(() => {
     setCheckInDate(calculateDate(1));
