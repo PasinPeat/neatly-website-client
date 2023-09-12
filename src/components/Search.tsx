@@ -1,33 +1,93 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import dayjs, { Dayjs } from "dayjs";
+import { SxProps } from "@mui/system";
+import "../App.css";
 
+// const calendarTheme = createTheme({
+//   palette: {
+//     MuiPickersDay: {
+//       day: {
+//         color: "#c44242",
+//       },
+//       daySelected: {
+//         backgroundColor: "#436E70",
+//       },
+//       dayDisabled: {
+//         color: "#436E70",
+//       },
+//       current: {
+//         color: "#436E70",
+//       },
+//     },
+//   },
+// });
 function Search({ seachResultBtn, onSearchResult, setUserInput }) {
-  const [checkInDate, setCheckInDate] = useState("");
-  const [checkOutDate, setCheckOutDate] = useState("");
+  const color: string = "#A0ACC3";
+  const theme = createTheme({
+    components: {
+      MuiIconButton: {
+        styleOverrides: {
+          sizeMedium: {
+            color,
+          },
+        },
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: {
+            color,
+          },
+        },
+      },
+      MuiInputLabel: {
+        styleOverrides: {
+          root: {
+            color,
+          },
+        },
+      },
+    },
+  });
+
+  const popperSx :SxProps = {
+    "& .MuiPaper-root": {
+      border: "1px solid black",
+      padding: 2,
+      marginTop: 1,
+      backgroundColor: "rgba(120, 120, 120, 0.2)"
+    },
+    "& .MuiCalendarPicker-root": {
+      backgroundColor: "rgba(45, 85, 255, 0.4)"
+    },
+    "& .PrivatePickersSlideTransition-root": {},
+    "& .MuiPickersDay-dayWithMargin": {
+      color: "rgb(229,228,226)",
+      backgroundColor: "rgba(50, 136, 153)"
+    },
+    "& .MuiTabs-root": { backgroundColor: "rgba(120, 120, 120, 0.4)" }
+  }
+  const [checkInDate, setCheckInDate] = useState<Dayjs | null>(
+    dayjs().add(1, "day")
+  );
+  const [checkOutDate, setCheckOutDate] = useState<Dayjs | null | string>(
+    dayjs().add(2, "day")
+  );
   let [room, setRoom] = useState(1);
   let [person, setPerson] = useState(2);
   const [isOpen, setIsOpen] = useState(false);
+  // let onlyDate = e.$d.toISOString();
 
   useEffect(() => {
-    setCheckInDate(calculateDate(1));
-    setCheckOutDate(calculateDate(2));
+    setCheckInDate(checkInDate);
+    setCheckOutDate(checkOutDate);
+    console.log(checkInDate);
   }, []);
 
   const navigate = useNavigate();
-
-  /*calculate date of tomorrow and the day after tomorrow*/
-  const calculateDate = (num) => {
-    const today = new Date();
-    const plusedDate = new Date(today);
-    plusedDate.setDate(today.getDate() + num);
-
-    const yyyy = plusedDate.getFullYear();
-    const mm = String(plusedDate.getMonth() + 1).padStart(2, "0");
-    const dd = String(plusedDate.getDate()).padStart(2, "0");
-
-    return `${yyyy}-${mm}-${dd}`;
-  };
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -40,7 +100,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
       room,
       person,
     };
-    // console.log(result);
+    console.log(result);
     onSearchResult(result);
     setUserInput(result);
 
@@ -53,29 +113,47 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
         <label className="label">
           <span className="text-gray-900 text-body1">Check In</span>
         </label>
-        <input
-          type="date"
-          id="datePicker"
-          placeholder="Type here"
-          className="input input-bordered w-60 text-gray-600 focus:outline-0"
-          value={checkInDate}
-          onChange={(e) => setCheckInDate(e.target.value)}
-        />
+
+        <DemoContainer components={["DatePicker"]}>
+          <ThemeProvider theme={theme}>
+            <DatePicker
+              showDaysOutsideCurrentMonth
+              fixedWeekNumber={6}
+              defaultValue={checkInDate}
+              value={checkInDate}
+              format="dd, DD-MM-YYYY"
+              disablePast
+              onChange={(e) => setCheckInDate(e.target.value)}
+              slotProps={{ textField: { size: "medium" } }}
+              
+            />
+          </ThemeProvider>
+        </DemoContainer>
       </div>
       <div className="px-8 py-4">-</div>
+
       <div className="form-control pr-10">
         <label className="label">
           <span className="text-gray-900 text-body1">Check Out</span>
         </label>
-        <input
-          id="datePicker"
-          type="date"
-          placeholder="Type here"
-          className="input input-bordered w-60 text-gray-600 focus:outline-0"
-          value={checkOutDate}
-          onChange={(e) => setCheckOutDate(e.target.value)}
-        />
+
+        <DemoContainer components={["DatePicker"]}>
+        <ThemeProvider theme={theme}>
+          <DatePicker
+            showDaysOutsideCurrentMonth
+            fixedWeekNumber={6}
+            defaultValue={checkOutDate}
+            value={checkOutDate}
+            format="dd, DD-MM-YYYY"
+            disablePast
+            onChange={(e) => setCheckOutDate(e.target.value)}
+            slotProps={{ textField: { size: "medium" } }}
+            PopperProps={{sx:popperSx}}
+          />
+          </ThemeProvider>
+        </DemoContainer>
       </div>
+
       <div className="pr-10">
         <label className="label">
           <span className="text-gray-900 text-body1">Rooms & Guests</span>
