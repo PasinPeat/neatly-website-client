@@ -82,14 +82,13 @@ body {
   color: transparent;
 }
 
-
 #datePicker {
   border: 2px solid #d6d9e4;
   background-color: white;
-  color: #9AA1B9;
+  color: #9aa1b9;
 }
 
-#datePicker tbody>tr>td.slds-is-selected>.slds-day {
+#datePicker tbody > tr > td.slds-is-selected > .slds-day {
   background: red;
   color: pink;
   font-weight: 700;
@@ -104,16 +103,21 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 .css-1u23akw-MuiButtonBase-root-MuiPickersDay-root.Mui-selected:hover {
-    will-change: background-color;
-    background-color: #c44242;
+  will-change: background-color;
+  background-color: #c44242;
 }
 
 .css-1u23akw-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
-    color: #fff;
-    background-color: #c44242;
-    font-weight: 500;
+  color: #fff;
+  background-color: #c44242;
+  font-weight: 500;
 }
 
 .css-jgls56-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected) {
-    border: 1px solid #c44242;
+  border: 1px solid #c44242;
+}
+
+input[type="checkbox"]:checked + label {
+  color: red;
+  text-decoration: line-through;
 }
