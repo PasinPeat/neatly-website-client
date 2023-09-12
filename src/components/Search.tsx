@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+<<<<<<< Updated upstream
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import dayjs, { Dayjs } from "dayjs";
 import { SxProps } from "@mui/system";
 import "../App.css";
+=======
+import { useContext } from "react";
+import { RoomsContext } from "../App";
+import useToggleState from "../hooks/useToggleState";
+>>>>>>> Stashed changes
 
 // const calendarTheme = createTheme({
 //   palette: {
@@ -26,6 +32,7 @@ import "../App.css";
 //   },
 // });
 function Search({ seachResultBtn, onSearchResult, setUserInput }) {
+<<<<<<< Updated upstream
   const color: string = "#A0ACC3";
   const theme = createTheme({
     components: {
@@ -85,6 +92,33 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
     setCheckInDate(checkInDate);
     setCheckOutDate(checkOutDate);
     console.log(checkInDate);
+=======
+  const context = useContext(RoomsContext);
+  const navigate = useNavigate();
+
+  const userInput = context.userInput;
+
+  const initialState = userInput || {
+    checkInDate: "",
+    checkOutDate: "",
+    room: 1,
+    person: 2,
+  };
+  // console.log(initialState);
+  // console.log(initialState.checkInDate);
+
+  const [checkInDate, setCheckInDate] = useState(initialState.checkInDate);
+  const [checkOutDate, setCheckOutDate] = useState(initialState.checkOutDate);
+  let [room, setRoom] = useState(initialState.room);
+  let [person, setPerson] = useState(initialState.person);
+  const [showDropdown, setShowDropdown] = useToggleState(false);
+
+  useEffect(() => {
+    if (!userInput) {
+      setCheckInDate(calculateDate(1));
+      setCheckOutDate(calculateDate(2));
+    }
+>>>>>>> Stashed changes
   }, []);
 
   const navigate = useNavigate();

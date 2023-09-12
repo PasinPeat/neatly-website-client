@@ -5,6 +5,7 @@ import RoomDetailPopup from "../components/SearchResult/RoomDetailPopup";
 import Search from "../components/Search";
 import Footer from "../components/Footer";
 import ImageFullPopup from "../components/SearchResult/ImageFullPopup.tsx";
+import { useLocation } from "react-router-dom";
 import { useContext, useState } from "react";
 import { RoomsContext } from "../App.tsx";
 import { RoomsProps } from "../interfaces/RoomsProps.tsx";
@@ -29,6 +30,8 @@ function SearchResult({
     }
   }, [context.rooms, setRoomResult]);
   // console.log(roomResult);
+
+  // const location = useLocation();
 
   /*show room detail of selected card*/
   function handleRoomDetail(roomId) {
@@ -88,8 +91,6 @@ function SearchResult({
           seachResultBtn={seachResultBtn}
           setUserInput={setUserInput}
           onSearchResult={onSearchResult}
-          searchStateOnHome={searchStateOnHome}
-          transferSearchState={transferSearchState}
         />
       </div>
       <div className="bg-bg flex flex-col items-center pt-[90px] pb-[300px] px-[100px]">
