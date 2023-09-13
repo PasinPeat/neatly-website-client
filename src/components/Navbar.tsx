@@ -1,7 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
 import { useAuth } from "../contexts/authen.jsx";
-import axios from "axios";
 import { useEffect } from "react";
 
 function Navbar() {
@@ -11,24 +10,15 @@ function Navbar() {
   const auth = useAuth();
   const { logout } = useAuth();
 
-  // const [user, setUser] = useState(null);
+  let userProfileImage;
 
-  // const getUser = async () => {
-  //   const res = await axios(`http://localhost:4000/profile/:profileId`);
-  //   setUser(res.data.data);
-  //   // console.log(results);
-  // };
-
-  function handleUserProfileImage(data) {
-    setUser(data.profile_image);
+  if (auth.isAuthenticated && auth.state.userData) {
+    userProfileImage = auth.state.userData.profile_image;
   }
-
-  // useEffect(() => {
-  //   getUser();
-  // }, [auth]);
+  console.log(auth.state.userData);
 
   const linkHomePage = () => {
-    navigate("/login");
+    navigate("/");
   };
 
   const linkLogin = () => {
@@ -68,16 +58,18 @@ function Navbar() {
         </div>
         {auth.isAuthenticated ? (
           <div className="flex items-center">
-            <div className="dropdown dropdown-end ">
+            <div className="dropdown dropdown-end">
               <label tabIndex={0} className="hover:cursor-pointer">
-                <div className="w-12 h-12 bg-green-600 rounded-full"></div>
+                <div className="w-12 h-12">
+                  <img src={userProfileImage} className="rounded-full"></img>
+                </div>
               </label>
               <ul
                 tabIndex={0}
-                className="menu dropdown-content rounded-[4px] z-[1] shadow bg-base-100 w-52 mt-4 menu-hover:rounded-none"
+                className="menu dropdown-content rounded-[4px] z-[1] drop-shadow-lg bg-base-100 w-52 mt-4 px-2 [&_li>*]:rounded-[4px]"
               >
                 <li>
-                  <button onClick={() => logout()}>
+                  <button className="py-2" onClick={() => logout()}>
                     <img
                       className="w-4 h-4"
                       src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/profile.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL3Byb2ZpbGUuc3ZnIiwiaWF0IjoxNjk0NDA0NTg3LCJleHAiOjE3MjU5NDA1ODd9.vDd8aSTyukskfIfkrxEkLxUXT4FmUzE-tprRpxC3Y2Y&t=2023-09-11T03%3A56%3A25.801Z"
@@ -86,7 +78,7 @@ function Navbar() {
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => logout()}>
+                  <button className="py-2" onClick={() => logout()}>
                     <img
                       className="w-4 h-4"
                       src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/credit.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NyZWRpdC5zdmciLCJpYXQiOjE2OTQ0MDU3MDUsImV4cCI6MTcyNTk0MTcwNX0.wwSq3XrBgaEqb4U3QeRXYhQjKItIn7FSStx40IDj7jE&t=2023-09-11T04%3A15%3A04.217Z"
@@ -95,7 +87,7 @@ function Navbar() {
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => logout()}>
+                  <button className="py-2" onClick={() => logout()}>
                     <img
                       className="w-4 h-4"
                       src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/booking_history.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2Jvb2tpbmdfaGlzdG9yeS5zdmciLCJpYXQiOjE2OTQ0MDU3MzksImV4cCI6MTcyNTk0MTczOX0.8Fjox_ROepJ6S3GYITg9FKlG2s1Wzk6ahtnEXYmWnI8&t=2023-09-11T04%3A15%3A38.237Z"
@@ -105,7 +97,7 @@ function Navbar() {
                 </li>
                 <hr className="mt-2 border-gray-400"></hr>
                 <li>
-                  <button onClick={() => logout()}>
+                  <button className="py-2" onClick={() => logout()}>
                     <img
                       className="w-4 h-4"
                       src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/logout.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2xvZ291dC5zdmciLCJpYXQiOjE2OTQ0MDUyMjcsImV4cCI6MTcyNTk0MTIyN30.QQWg08pQQG_UXibP0RzqSxor94ssvDnTFV7t5oh56QE&t=2023-09-11T04%3A07%3A05.943Z"
@@ -139,7 +131,7 @@ function Navbar() {
     );
   } else {
     return (
-      <div className="flex justify-between bg-white h-[100px] w-full px-40">
+      <div className="sticky z-50 top-0 flex justify-between bg-white h-[100px] w-full px-40">
         <div className="flex flex-row items-center ">
           <button onClick={linkHomePage}>
             <img
@@ -189,8 +181,55 @@ function Navbar() {
         </div>
         {auth.isAuthenticated ? (
           <div className="flex items-center">
-            <button onClick={() => logout()}>Log Out</button>
-            <div className="w-12 h-12 bg-green-600 rounded-full"></div>
+            <div className="dropdown dropdown-end">
+              <label tabIndex={0} className="hover:cursor-pointer">
+                <div className="w-12 h-12">
+                  <img src={userProfileImage} className="rounded-full"></img>
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="menu dropdown-content rounded-[4px] z-[1] drop-shadow-lg bg-base-100 w-52 mt-4 px-2 [&_li>*]:rounded-[4px]"
+              >
+                <li>
+                  <button className="py-2" onClick={() => logout()}>
+                    <img
+                      className="w-4 h-4"
+                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/profile.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL3Byb2ZpbGUuc3ZnIiwiaWF0IjoxNjk0NDA0NTg3LCJleHAiOjE3MjU5NDA1ODd9.vDd8aSTyukskfIfkrxEkLxUXT4FmUzE-tprRpxC3Y2Y&t=2023-09-11T03%3A56%3A25.801Z"
+                    ></img>
+                    <span className="text-gray-700">Profile</span>
+                  </button>
+                </li>
+                <li>
+                  <button className="py-2" onClick={() => logout()}>
+                    <img
+                      className="w-4 h-4"
+                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/credit.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NyZWRpdC5zdmciLCJpYXQiOjE2OTQ0MDU3MDUsImV4cCI6MTcyNTk0MTcwNX0.wwSq3XrBgaEqb4U3QeRXYhQjKItIn7FSStx40IDj7jE&t=2023-09-11T04%3A15%3A04.217Z"
+                    ></img>
+                    <span className="text-gray-700">Payment Method</span>
+                  </button>
+                </li>
+                <li>
+                  <button className="py-2" onClick={() => logout()}>
+                    <img
+                      className="w-4 h-4"
+                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/booking_history.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2Jvb2tpbmdfaGlzdG9yeS5zdmciLCJpYXQiOjE2OTQ0MDU3MzksImV4cCI6MTcyNTk0MTczOX0.8Fjox_ROepJ6S3GYITg9FKlG2s1Wzk6ahtnEXYmWnI8&t=2023-09-11T04%3A15%3A38.237Z"
+                    ></img>
+                    <span className="text-gray-700">Booking History</span>
+                  </button>
+                </li>
+                <hr className="mt-2 border-gray-400"></hr>
+                <li>
+                  <button className="py-2" onClick={() => logout()}>
+                    <img
+                      className="w-4 h-4"
+                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/logout.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2xvZ291dC5zdmciLCJpYXQiOjE2OTQ0MDUyMjcsImV4cCI6MTcyNTk0MTIyN30.QQWg08pQQG_UXibP0RzqSxor94ssvDnTFV7t5oh56QE&t=2023-09-11T04%3A07%3A05.943Z"
+                    ></img>
+                    <span className="text-gray-700">Log Out</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
         ) : (
           <div className="flex flex-cols items-center">
