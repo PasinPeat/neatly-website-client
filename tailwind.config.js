@@ -48,6 +48,8 @@ export default {
       clean: "#E5FFFA",
       dirty: "#FFE5E5",
       inspected: "#FFF9E5",
+      greencheck: "#4CBB17",
+      greenhover: "#00A86B",
     },
 
     fontSize: {
