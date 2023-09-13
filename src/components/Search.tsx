@@ -8,7 +8,6 @@ import dayjs, { Dayjs } from "dayjs";
 import { SxProps } from "@mui/system";
 import "../App.css";
 
-
 // const useStyles = makeStyles((theme) => ({
 //   customDatePicker: {
 //     '& .MuiPickersModal-dialog': {
@@ -83,8 +82,6 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
     },
   });
 
-  
-
   const initialState = userInput || {
     checkInDate: dayjs(),
     checkOutDate: dayjs(),
@@ -98,9 +95,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
   let [room, setRoom] = useState(initialState.room);
   let [person, setPerson] = useState(initialState.person);
   const [showDropdown, setShowDropdown] = useToggleState(false);
-    
 
-  
   // const [isOpen, setIsOpen] = useState(false);
   // let onlyDate = e.$d.toISOString();
 
@@ -110,10 +105,6 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
       setCheckOutDate(dayjs().add(2, "day"));
     }
   }, []);
-
-  useEffect(() => {
-    setCheckOutDate(checkInDate.add(1, "day"));
-  }, [checkInDate]);
 
   function handleSubmit(newValue) {
     newValue.preventDefault();
@@ -139,7 +130,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
           <span className="text-gray-900 text-body1">Check In</span>
         </label>
 
-        <DemoContainer components={["DatePicker"]} >
+        <DemoContainer components={["DatePicker"]}>
           <ThemeProvider theme={theme}>
             <DatePicker
               showDaysOutsideCurrentMonth
