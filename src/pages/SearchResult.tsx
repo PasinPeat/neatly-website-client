@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import Navbar from "../components/Navbar.tsx";
 import RoomResultCard from "../components/SearchResult/RoomResultCard";
 import RoomDetailPopup from "../components/SearchResult/RoomDetailPopup";
@@ -6,7 +6,6 @@ import Search from "../components/Search";
 import Footer from "../components/Footer";
 import ImageFullPopup from "../components/SearchResult/ImageFullPopup.tsx";
 import { useLocation } from "react-router-dom";
-import { useContext, useState } from "react";
 import { RoomsContext } from "../App.tsx";
 import { RoomsProps } from "../interfaces/RoomsProps.tsx";
 
@@ -30,6 +29,8 @@ function SearchResult({
     }
   }, [context.rooms, setRoomResult]);
   // console.log(roomResult);
+
+  console.log(userInput);
 
   // const location = useLocation();
 

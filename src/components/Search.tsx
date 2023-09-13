@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
+import { RoomsContext } from "../App.tsx";
 import { useNavigate } from "react-router-dom";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -6,33 +7,14 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import dayjs, { Dayjs } from "dayjs";
 import { SxProps } from "@mui/system";
 import "../App.css";
-
-//--------------------------------------------------------------
-import { useContext } from "react";
-import { RoomsContext } from "../App";
 import useToggleState from "../hooks/useToggleState";
 
-// const calendarTheme = createTheme({
-//   palette: {
-//     MuiPickersDay: {
-//       day: {
-//         color: "#c44242",
-//       },
-//       daySelected: {
-//         backgroundColor: "#436E70",
-//       },
-//       dayDisabled: {
-//         color: "#436E70",
-//       },
-//       current: {
-//         color: "#436E70",
-//       },
-//     },
-//   },
-// });
-
 function Search({ seachResultBtn, onSearchResult, setUserInput }) {
-<<<<<<< Updated upstream
+  const context = useContext(RoomsContext);
+  const navigate = useNavigate();
+  const userInput = context.userInput;
+  console.log(userInput);
+
   const color: string = "#A0ACC3";
   const theme = createTheme({
     components: {
@@ -78,37 +60,13 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
     "& .MuiTabs-root": { backgroundColor: "rgba(120, 120, 120, 0.4)" },
   };
 
-  //----------------------------------------------------------------
-  const [checkInDate, setCheckInDate] = useState<Dayjs | null>(
-    dayjs().add(1, "day")
-  );
-  const [checkOutDate, setCheckOutDate] = useState<Dayjs | null | string>(
-    dayjs().add(2, "day")
-  );
-  let [room, setRoom] = useState(1);
-  let [person, setPerson] = useState(2);
-  const [isOpen, setIsOpen] = useState(false);
-  // let onlyDate = e.$d.toISOString();
-
-  useEffect(() => {
-    setCheckInDate(checkInDate);
-    setCheckOutDate(checkOutDate);
-    console.log(checkInDate);
-
-//--------------------------------------------------------------
-  const context = useContext(RoomsContext);
-  const navigate = useNavigate();
-
-  const userInput = context.userInput;
-
   const initialState = userInput || {
-    checkInDate: "",
-    checkOutDate: "",
+    checkInDate: dayjs(),
+    checkOutDate: dayjs(),
     room: 1,
     person: 2,
   };
   // console.log(initialState);
-  // console.log(initialState.checkInDate);
 
   const [checkInDate, setCheckInDate] = useState(initialState.checkInDate);
   const [checkOutDate, setCheckOutDate] = useState(initialState.checkOutDate);
@@ -118,17 +76,17 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
 
   useEffect(() => {
     if (!userInput) {
-      setCheckInDate(calculateDate(1));
-      setCheckOutDate(calculateDate(2));
+      setCheckInDate(dayjs().add(1, "day"));
+      setCheckOutDate(dayjs().add(2, "day"));
     }
   }, []);
 
-//--------------------------------------------------------------
+  useEffect(() => {
+    setCheckOutDate(checkInDate.add(1, "day"));
+  }, [checkInDate]);
 
-  const navigate = useNavigate();
-
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit(newValue) {
+    newValue.preventDefault();
     if (room === 0) return;
     if (person === 0) return;
 
@@ -138,7 +96,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
       room,
       person,
     };
-    console.log(result);
+    // console.log(result);
     onSearchResult(result);
     setUserInput(result);
     navigate("/search");
@@ -160,7 +118,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
               value={checkInDate}
               format="dd, DD-MM-YYYY"
               disablePast
-              onChange={(e) => setCheckInDate(e.target.value)}
+              onChange={(newValue) => setCheckInDate(newValue)}
               slotProps={{ textField: { size: "medium" } }}
             />
           </ThemeProvider>
@@ -181,8 +139,9 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
               defaultValue={checkOutDate}
               value={checkOutDate}
               format="dd, DD-MM-YYYY"
+              minDate={checkInDate}
               disablePast
-              onChange={(e) => setCheckOutDate(e.target.value)}
+              onChange={(newValue) => setCheckOutDate(newValue)}
               slotProps={{ textField: { size: "medium" } }}
               PopperProps={{ sx: popperSx }}
             />
