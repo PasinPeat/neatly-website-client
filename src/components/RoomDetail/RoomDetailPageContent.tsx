@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 function RoomDetailPageContent({
   roomType,
   bedType,
@@ -7,6 +9,8 @@ function RoomDetailPageContent({
   promotionPrice,
   amenity,
 }) {
+  const navigate = useNavigate();
+
   return (
     <div className="flex justify-center bg-gray-200 pb-[222px] pt-[80px]">
       <div>
