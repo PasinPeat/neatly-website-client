@@ -65,9 +65,9 @@ function App() {
         }
       });
 
-      const filterAgain = updatedRooms.filter(
-        (room) => room.person >= result.person && room.available > 0
-      );
+      // const filterAgain = updatedRooms.filter(
+      //   (room) => room.person >= result.person && room.available > 0
+      // );
 
       updatedRooms.forEach((room) => {
         if (room.person < result.person || room.available === 0) {
@@ -75,7 +75,7 @@ function App() {
         }
       });
 
-      setRooms(filterAgain);
+      setRooms(updatedRooms);
     } catch (error) {
       console.log(error);
     }
