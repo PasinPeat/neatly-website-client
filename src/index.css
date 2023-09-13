@@ -43,9 +43,6 @@
   .InputSuccess {
     @apply text-black font-inter text-body1 bg-white border-gray-400 border-2 rounded p-3;
   }
-  .NumberStepper {
-    @apply text-white font-inter text-[28px] font-medium bg-orange-500 border-none rounded py-3;
-  }
 }
 
 /* @layer utilities{

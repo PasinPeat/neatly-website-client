@@ -4,25 +4,42 @@ function ButtonPayment(props) {
       onClick={props.onClick}
       className={
         props.isActive
-          ? "bg-white border-[1px] border-orange-500 rounded w-[200px] h-[80px] py-6 px-5 flex gap-2 items-center justify-center drop-shadow-lg"
-          : "bg-white border-[1px] border-gray-300 rounded w-[200px] h-[80px] py-6 px-5 flex gap-2 items-center justify-center drop-shadow-lg"
+          ? "bg-white border-[1px] border-orange-500 rounded w-[250px] h-[80px] py-6 flex gap-2 items-center justify-center drop-shadow-lg"
+          : "bg-white border-[1px] border-gray-300 rounded w-[250px] h-[80px] py-6 flex gap-2 items-center justify-center drop-shadow-lg"
       }
     >
-      {/* <img src={props.image} alt={props.title} className="h-8 w-8" /> */}
-      {/* {props.isActive ? (
-        <img src={props.imageActive} alt={props.title} className="h-8 w-8" />
-      ) : (
-        <img src={props.image} alt={props.title} className="h-8 w-8" />
-      )} */}
-
       {props.isActive ? (
-        <img
-          src={props.image}
-          alt={props.title}
-          className="h-8 w-8 text-orange-500"
-        />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="33"
+          height="32"
+          viewBox="0 0 33 32"
+          fill="none"
+        >
+          <path
+            d={props.image}
+            stroke="#E76B39"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
       ) : (
-        <img src={props.image} alt={props.title} className="h-8 w-8" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="33"
+          height="32"
+          viewBox="0 0 33 32"
+          fill="none"
+        >
+          <path
+            d={props.image}
+            stroke="#E4E6ED"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
       )}
 
       <p
