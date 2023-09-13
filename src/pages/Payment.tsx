@@ -6,32 +6,40 @@ import ReviewPayment from "../components/PaymentForm/ReviewPayment";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const steps = ["Basic Information", "Special Request", "Payment Method"];
-
-function getStepContent(step: number) {
-  switch (step) {
-    case 0:
-      return <StepBasicInfo />;
-    case 1:
-      return <StepSpecialRequest />;
-    case 2:
-      return <StepPayment />;
-    default:
-      throw new Error("Unknown step");
-  }
-}
-
-export default function Payment() {
-  const navigate = useNavigate();
+function Payment() {
+  const steps = ["Basic Information", "Special Request", "Payment Method"];
   const [activeStep, setActiveStep] = useState(0);
 
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
-  };
+  function getStepContent(step: number) {
+    switch (step) {
+      case 0:
+        return (
+          <StepBasicInfo
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+            steps={steps}
+          />
+        );
+      case 1:
+        return (
+          <StepSpecialRequest
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+            steps={steps}
+          />
+        );
+      case 2:
+        return (
+          <StepPayment
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+            steps={steps}
+          />
+        );
+      default:
+        throw new Error("Unknown step");
+    }
+  }
 
   return (
     <>
@@ -92,28 +100,7 @@ export default function Payment() {
                 <ReviewPayment />
               </div>
             ) : (
-              <div>
-                {getStepContent(activeStep)}
-                <div className="w-[740px] flex justify-between px-10">
-                  <button
-                    className="text-orange-500 text-base font-semibold"
-                    onClick={() => {
-                      if (activeStep !== 0) {
-                        handleBack();
-                      } else {
-                        navigate("/search");
-                      }
-                    }}
-                  >
-                    Back
-                  </button>
-                  <button className="Button py-4 px-2" onClick={handleNext}>
-                    {activeStep === steps.length - 1
-                      ? "Confirm Booking"
-                      : "Next"}
-                  </button>
-                </div>
-              </div>
+              <div>{getStepContent(activeStep)}</div>
             )}
           </div>
         </div>
@@ -121,3 +108,5 @@ export default function Payment() {
     </>
   );
 }
+
+export default Payment;

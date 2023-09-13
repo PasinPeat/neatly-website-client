@@ -1,9 +1,10 @@
 import ButtonPayment from "./ButtonPayment";
 import BookingDetail from "./BookingDetail";
 import BookingNote from "./BookingNote";
+import ButtonNavigation from "./ButtonNavigation";
 import { useState } from "react";
 
-function StepPayment() {
+function StepPayment({ steps, activeStep, setActiveStep }) {
   const [selectedPayment, setSelectedPayment] = useState(null);
 
   const creditButtonProps = {
@@ -120,6 +121,11 @@ function StepPayment() {
             </p>
           </div>
         )}
+        <ButtonNavigation
+          activeStep={activeStep}
+          setActiveStep={setActiveStep}
+          steps={steps}
+        />
       </div>
       <div className="flex flex-col gap-4">
         <BookingDetail />

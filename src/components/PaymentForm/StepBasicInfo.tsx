@@ -1,7 +1,8 @@
 import BookingDetail from "./BookingDetail";
 import BookingNote from "./BookingNote";
+import ButtonNavigation from "./ButtonNavigation";
 
-function BasicInfo() {
+function BasicInfo({ steps, activeStep, setActiveStep }) {
   return (
     <div className="flex gap-6">
       <div className="w-[740px] bg-white border border-gray-300 p-10">
@@ -80,6 +81,11 @@ function BasicInfo() {
             </select>
           </div>
         </form>
+        <ButtonNavigation
+          activeStep={activeStep}
+          setActiveStep={setActiveStep}
+          steps={steps}
+        />
       </div>
       <div className="flex flex-col gap-4">
         <BookingDetail />

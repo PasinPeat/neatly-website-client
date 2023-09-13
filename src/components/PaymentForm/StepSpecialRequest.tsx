@@ -1,7 +1,8 @@
 import BookingDetail from "./BookingDetail";
 import BookingNote from "./BookingNote";
+import ButtonNavigation from "./ButtonNavigation";
 
-function SpecialRequest() {
+function SpecialRequest({ steps, activeStep, setActiveStep }) {
   return (
     <div className="flex gap-6">
       <div className="w-[740px] bg-white border border-gray-300 rounded p-10">
@@ -75,6 +76,11 @@ function SpecialRequest() {
             className="h-20 w-full p-3 rounded bg-white border-2 border-gray-400 resize-none hover:border-orange-500 active:border-orange-700"
           ></textarea>
         </div>
+        <ButtonNavigation
+          activeStep={activeStep}
+          setActiveStep={setActiveStep}
+          steps={steps}
+        />
       </div>
       <div className="flex flex-col gap-4">
         <BookingDetail />
