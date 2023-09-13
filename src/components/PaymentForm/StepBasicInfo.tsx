@@ -17,6 +17,7 @@ function BasicInfo() {
               name="fname"
               // value={fullName}
               className="w-full InputSuccess"
+              disabled
             />
           </div>
 
