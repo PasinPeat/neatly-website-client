@@ -13,6 +13,8 @@ import axios from "axios";
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { RoomsProps } from "./interfaces/RoomsProps.tsx";
+import BookingHistory from "./pages/BookingHistory.tsx";
+// import { useAuth } from "./contexts/authen.jsx";
 export const RoomsContext = React.createContext();
 
 function App() {
@@ -74,6 +76,7 @@ function App() {
           element={<PaymentMethod />}
         />
         <Route path="/profile/:profileID" element={<Profile />} />
+          <Route path="/BookingHistory" element={<BookingHistory/>}/>
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </RoomsContext.Provider>

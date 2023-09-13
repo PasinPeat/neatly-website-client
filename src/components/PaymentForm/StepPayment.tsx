@@ -5,7 +5,7 @@ import ButtonNavigation from "./ButtonNavigation";
 import { useState } from "react";
 
 function StepPayment({ steps, activeStep, setActiveStep }) {
-  const [selectedPayment, setSelectedPayment] = useState(null);
+  const [selectedPayment, setSelectedPayment] = useState('credit');
 
   const creditButtonProps = {
     image:

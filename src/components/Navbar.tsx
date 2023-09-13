@@ -131,7 +131,7 @@ function Navbar() {
     );
   } else {
     return (
-      <div className="sticky z-50 top-0 flex justify-between bg-white h-[100px] w-full px-40">
+      <div className="flex justify-between bg-white h-[100px] w-full px-40">
         <div className="flex flex-row items-center ">
           <button onClick={linkHomePage}>
             <img
