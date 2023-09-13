@@ -116,8 +116,3 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .css-jgls56-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected) {
   border: 1px solid #c44242;
 }
-
-input[type="checkbox"]:checked + label {
-  color: red;
-  text-decoration: line-through;
-}
