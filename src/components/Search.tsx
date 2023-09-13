@@ -7,6 +7,24 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import dayjs, { Dayjs } from "dayjs";
 import { SxProps } from "@mui/system";
 import "../App.css";
+
+
+// const useStyles = makeStyles((theme) => ({
+//   customDatePicker: {
+//     '& .MuiPickersModal-dialog': {
+//       // Custom styles for the date picker dialog
+//       backgroundColor: 'lightblue',
+//     },
+//     '& .MuiPickersDay-day': {
+//       // Custom styles for individual date cells
+//       color: 'green',
+//       '&.MuiPickersDay-daySelected': {
+//         backgroundColor: 'blue',
+//         color: 'white',
+//       },
+//     },
+//   },
+// }));
 import useToggleState from "../hooks/useToggleState";
 
 function Search({ seachResultBtn, onSearchResult, setUserInput }) {
@@ -16,6 +34,8 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
   console.log(userInput);
 
   const color: string = "#A0ACC3";
+
+  // const classes = useStyles();
   const theme = createTheme({
     components: {
       MuiIconButton: {
@@ -40,25 +60,30 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
         },
       },
     },
+    palette: {
+      primary: {
+        main: "#E76B39",
+        light: "#E76B39",
+        dark: "#E76B39",
+      },
+      MuiPickersDay: {
+        day: {
+          color: "#c44242",
+        },
+        daySelected: {
+          backgroundColor: "#436E70",
+        },
+        dayDisabled: {
+          color: "#436E70",
+        },
+        current: {
+          color: "#436E70",
+        },
+      },
+    },
   });
 
-  const popperSx: SxProps = {
-    "& .MuiPaper-root": {
-      border: "1px solid black",
-      padding: 2,
-      marginTop: 1,
-      backgroundColor: "rgba(120, 120, 120, 0.2)",
-    },
-    "& .MuiCalendarPicker-root": {
-      backgroundColor: "rgba(45, 85, 255, 0.4)",
-    },
-    "& .PrivatePickersSlideTransition-root": {},
-    "& .MuiPickersDay-dayWithMargin": {
-      color: "rgb(229,228,226)",
-      backgroundColor: "rgba(50, 136, 153)",
-    },
-    "& .MuiTabs-root": { backgroundColor: "rgba(120, 120, 120, 0.4)" },
-  };
+  
 
   const initialState = userInput || {
     checkInDate: dayjs(),
@@ -73,6 +98,11 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
   let [room, setRoom] = useState(initialState.room);
   let [person, setPerson] = useState(initialState.person);
   const [showDropdown, setShowDropdown] = useToggleState(false);
+    
+
+  
+  // const [isOpen, setIsOpen] = useState(false);
+  // let onlyDate = e.$d.toISOString();
 
   useEffect(() => {
     if (!userInput) {
@@ -109,7 +139,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
           <span className="text-gray-900 text-body1">Check In</span>
         </label>
 
-        <DemoContainer components={["DatePicker"]}>
+        <DemoContainer components={["DatePicker"]} >
           <ThemeProvider theme={theme}>
             <DatePicker
               showDaysOutsideCurrentMonth
@@ -120,6 +150,9 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
               disablePast
               onChange={(newValue) => setCheckInDate(newValue)}
               slotProps={{ textField: { size: "medium" } }}
+              sx={{
+                width: 240,
+              }}
             />
           </ThemeProvider>
         </DemoContainer>
@@ -143,7 +176,11 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
               disablePast
               onChange={(newValue) => setCheckOutDate(newValue)}
               slotProps={{ textField: { size: "medium" } }}
-              PopperProps={{ sx: popperSx }}
+              sx={{
+                width: 240,
+                // height:200
+              }}
+              // PopperProps={{ sx: popperSx }}
             />
           </ThemeProvider>
         </DemoContainer>
