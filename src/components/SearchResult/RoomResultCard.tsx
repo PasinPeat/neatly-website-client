@@ -22,7 +22,7 @@ function RoomResultCard({
   const navigate = useNavigate();
   const auth = useAuth();
 
-  let isAvailable = available > 0;
+  let isAvailable = available === 0;
 
   if (userInput) {
     isAvailable = available > 0 && userInput.room <= available;

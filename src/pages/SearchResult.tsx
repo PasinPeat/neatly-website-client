@@ -5,7 +5,6 @@ import RoomDetailPopup from "../components/SearchResult/RoomDetailPopup";
 import Search from "../components/Search";
 import Footer from "../components/Footer";
 import ImageFullPopup from "../components/SearchResult/ImageFullPopup.tsx";
-import { useLocation } from "react-router-dom";
 import { RoomsContext } from "../App.tsx";
 import { RoomsProps } from "../interfaces/RoomsProps.tsx";
 
@@ -22,6 +21,10 @@ function SearchResult({
   const [showFullImage, setShowFullImage] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<RoomsProps | null>(null);
 
+  useEffect(() => {
+    setRoomResult(context.rooms);
+  }, []);
+
   /*render all room cards*/
   useEffect(() => {
     if (userInput === null) {
@@ -29,8 +32,6 @@ function SearchResult({
     }
   }, [context.rooms, setRoomResult]);
   // console.log(roomResult);
-
-  console.log(userInput);
 
   // const location = useLocation();
 
@@ -86,9 +87,9 @@ function SearchResult({
           />
         </div>
       )}
-      
+
       <Navbar />
-      
+
       <div className="flex justify-center items-end bg-white py-10 px-[220px] drop-shadow-md border-t-[1px] border-gray-300">
         <Search
           seachResultBtn={seachResultBtn}

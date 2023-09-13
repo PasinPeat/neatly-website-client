@@ -15,7 +15,6 @@ function Navbar() {
   if (auth.isAuthenticated && auth.state.userData) {
     userProfileImage = auth.state.userData.profile_image;
   }
-  console.log(auth.state.userData);
 
   const linkHomePage = () => {
     navigate("/");
