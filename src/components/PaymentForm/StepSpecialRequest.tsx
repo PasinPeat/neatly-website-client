@@ -6,6 +6,8 @@ import ButtonNavigation from "./ButtonNavigation";
 import { FormControlLabel, Checkbox } from "@mui/material";
 
 function SpecialRequest({ steps, activeStep, setActiveStep }) {
+  
+  //StandardRequest 
   const [StandardRequest, setStandardRequest] = useState({
     EarlyCheckin: false,
     LateCheckout: false,
@@ -13,7 +15,9 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
     ARoomOnTheHighFloor: false,
     AQuietRoom: false,
   });
+  const [StandardRequestSelected, setStandardRequestSelected] = useState<string[]>([])
 
+  //SpecialRequest
   const [SpecialRequest, setSpecialRequest] = useState({
     BabyCot: false,
     AirportTransfer: false,
@@ -22,6 +26,10 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
     PhoneChargersAndAdapters: false,
     Breakfast: false,
   });
+  const [SpecialRequestSelected, setSpecialRequestSelected] = useState<string[]>([])
+
+
+  const [totalCost, setTotalCost] = useState(0);
 
   const {
     EarlyCheckin,
@@ -40,18 +48,78 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
   } = SpecialRequest;
 
   const handleStandardRequestChange = (event) => {
+    const { name, checked, value } = event.target;
     setStandardRequest({
       ...StandardRequest,
-      [event.target.name]: event.target.checked,
+      [name]: checked,
     });
+
+    if (checked) {
+      setStandardRequestSelected((prevStandardRequestSelected)=>[
+        ...prevStandardRequestSelected,
+        value
+      ])
+    }else{
+      setStandardRequestSelected((prevStandardRequestSelected) =>
+      prevStandardRequestSelected.filter((str) => str !== value)
+      );
+    }
+
   };
+  // console.log(StandardRequestSelected);
+  // console.log(StandardRequest);
+  
 
   const handleSpecialRequestChange = (event) => {
+    const { name, checked, value } = event.target;
     setSpecialRequest({
       ...SpecialRequest,
-      [event.target.name]: event.target.checked,
+      [name]: checked,
     });
+
+    if (checked) {
+      setSpecialRequestSelected((prevSpecialRequestSelected)=>[
+        ...prevSpecialRequestSelected,
+        value
+      ])
+    }else{
+      setSpecialRequestSelected((prevSpecialRequestSelected) =>
+      prevSpecialRequestSelected.filter((str) => str !== value)
+      );
+    }
+
+    let valueToAdd = 0;
+
+    switch (name) {
+      case "BabyCot":
+        valueToAdd = checked ? 400 : -400;
+        break;
+      case "AirportTransfer":
+        valueToAdd = checked ? 200 : -200;
+        break;
+      case "ExtraBed":
+        valueToAdd = checked ? 500 : -500;
+        break;
+      case "ExtraPillows":
+        valueToAdd = checked ? 100 : -100;
+        break;
+      case "PhoneChargersAndAdapters":
+        valueToAdd = checked ? 100 : -100;
+        break;
+      case "Breakfast":
+        valueToAdd = checked ? 150 : -150;
+        break;
+      default:
+        break;
+    }
+    setTotalCost((prevTotalCost) => prevTotalCost + valueToAdd);
   };
+  // console.log(SpecialRequest);
+  console.log(totalCost);
+  console.log(SpecialRequest);
+  
+  console.log(SpecialRequestSelected);
+  
 
   return (
     <div className="flex gap-6">
@@ -68,6 +136,7 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
                   checked={EarlyCheckin}
                   onChange={handleStandardRequestChange}
                   name="EarlyCheckin"
+                  value="Early check-in"
                 />
               }
               label="Early check-in"
@@ -78,6 +147,7 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
                   checked={LateCheckout}
                   onChange={handleStandardRequestChange}
                   name="LateCheckout"
+                  value="Late check-out"
                 />
               }
               label="Late check-out"
@@ -88,6 +158,7 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
                   checked={NonSmokingRoom}
                   onChange={handleStandardRequestChange}
                   name="NonSmokingRoom"
+                  value="Non-smoking room"
                 />
               }
               label="Non-smoking room"
@@ -98,6 +169,7 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
                   checked={ARoomOnTheHighFloor}
                   onChange={handleStandardRequestChange}
                   name="ARoomOnTheHighFloor"
+                  value="A room on the high floor"
                 />
               }
               label="A room on the high floor"
@@ -108,9 +180,10 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
                   checked={AQuietRoom}
                   onChange={handleStandardRequestChange}
                   name="AQuietRoom"
+                  value="A quiet room"
                 />
               }
-              label="Early check-in"
+              label="A quiet room"
             />
             {/* <label className="cursor-pointer">
               <input type="checkbox" className="checkbox checkbox-accent" />
@@ -142,7 +215,74 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
             Additional charge may apply
           </p>
           <div className="form-control flex flex-col gap-6 text-body-1 text-gray-700">
-            <label className="cursor-pointer">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={BabyCot}
+                  onChange={handleSpecialRequestChange}
+                  name="BabyCot"
+                  value= "Baby cot"
+                />
+              }
+              label="Baby cot (+THB 400)"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={AirportTransfer}
+                  onChange={handleSpecialRequestChange}
+                  name="AirportTransfer"
+                  value="Airport transfer"
+                />
+              }
+              label="Airport transfer (+THB 200)"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={ExtraBed}
+                  onChange={handleSpecialRequestChange}
+                  name="ExtraBed"
+                  value="Extra bed"
+                />
+              }
+              label="Extra bed (+THB 500)"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={ExtraPillows}
+                  onChange={handleSpecialRequestChange}
+                  name="ExtraPillows"
+                  value="Extra pillows"
+                />
+              }
+              label="Extra pillows (+THB 100)"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={PhoneChargersAndAdapters}
+                  onChange={handleSpecialRequestChange}
+                  name="PhoneChargersAndAdapters"
+                  value="Phone chargers and adapters"
+                />
+              }
+              label="Phone chargers and adapters (+THB 100)"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={Breakfast}
+                  onChange={handleSpecialRequestChange}
+                  name="Breakfast"
+                  value="Breakfast"
+                />
+              }
+              label="Breakfast (+150)"
+            />
+
+            {/* <label className="cursor-pointer">
               <input type="checkbox" className="checkbox checkbox-accent" />
               <span>Baby cot (+THB 400)</span>
             </label>
@@ -165,7 +305,7 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
             <label className="cursor-pointer">
               <input type="checkbox" className="checkbox checkbox-accent" />
               <span className="checked:text-black">Breakfast (+150)</span>
-            </label>
+            </label> */}
           </div>
         </>
 
