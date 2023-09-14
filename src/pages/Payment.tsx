@@ -4,7 +4,6 @@ import StepSpecialRequest from "../components/PaymentForm/StepSpecialRequest";
 import StepPayment from "../components/PaymentForm/StepPayment";
 import ReviewPayment from "../components/PaymentForm/ReviewPayment";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 function Payment() {
   const steps = ["Basic Information", "Special Request", "Payment Method"];
@@ -45,55 +44,59 @@ function Payment() {
     <>
       <div className="w-screen h-screen">
         <Navbar />
-        <div className="bg-gray-200 flex justify-center py-10 ">
-          <div className="flex flex-col items-start">
-            <h1 className="font-noto-serif-display font-medium	text-[68px] text-black">
-              Booking Room
-            </h1>
-            <hr className="border-t-2 border-gray-300" />
-
+        <div className="bg-gray-200 flex justify-center py-16 ">
+          <div className="flex flex-col items-start ">
             {/* Stepper */}
-            <ul className="flex gap-16 py-10">
-              {steps.map((label, index) => (
-                <li key={label} className="flex items-center gap-4">
-                  <div
-                    className={
-                      index < activeStep
-                        ? "bg-orange-100 py-3 rounded w-12 h-12 flex justify-center items-center text-headline4"
-                        : index === activeStep
-                        ? "bg-orange-500 py-3 rounded w-12 h-12 flex justify-center items-center text-headline4"
-                        : "bg-gray-300 py-3 rounded w-12 h-12 flex justify-center items-center text-headline4"
-                    }
-                  >
-                    <p
-                      className={
-                        index < activeStep
-                          ? "text-headline5 text-orange-500"
-                          : index === activeStep
-                          ? "text-headline5 text-white"
-                          : "text-headline5 text-gray-600"
-                      }
-                    >
-                      {index + 1}
-                    </p>
-                  </div>
+            {activeStep < steps.length && (
+              <div>
+                <h1 className="font-noto-serif-display font-medium	text-[68px] text-black">
+                  Booking Room
+                </h1>
 
-                  <p
-                    className={
-                      index < activeStep
-                        ? "text-headline5 text-black"
-                        : index === activeStep
-                        ? "text-headline5 text-orange-500"
-                        : "text-headline5 text-gray-600"
-                    }
-                  >
-                    {label}
-                  </p>
-                </li>
-              ))}
-            </ul>
+                <ul className="flex gap-16 py-10">
+                  {steps.map((label, index) => (
+                    <li key={label} className="flex items-center gap-4">
+                      <div
+                        className={
+                          index < activeStep
+                            ? "bg-orange-100 py-3 rounded w-12 h-12 flex justify-center items-center text-headline4"
+                            : index === activeStep
+                            ? "bg-orange-500 py-3 rounded w-12 h-12 flex justify-center items-center text-headline4"
+                            : "bg-gray-300 py-3 rounded w-12 h-12 flex justify-center items-center text-headline4"
+                        }
+                      >
+                        <p
+                          className={
+                            index < activeStep
+                              ? "text-headline5 text-orange-500"
+                              : index === activeStep
+                              ? "text-headline5 text-white"
+                              : "text-headline5 text-gray-600"
+                          }
+                        >
+                          {index + 1}
+                        </p>
+                      </div>
 
-            <hr className="border-t-1 border-gray-300" />
+                      <p
+                        className={
+                          index < activeStep
+                            ? "text-headline5 text-black"
+                            : index === activeStep
+                            ? "text-headline5 text-orange-500"
+                            : "text-headline5 text-gray-600"
+                        }
+                      >
+                        {label}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+                <hr className="mb-10 border-t-2 border-gray-300 w-[1120px]" />
+              </div>
+            )}
+
+            {/* <hr className="border-t-1 border-gray-300" /> */}
             {activeStep === steps.length ? (
               // สรุปข้อมูลการจอง
               <div className="flex justify-center items-center">

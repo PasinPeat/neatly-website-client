@@ -65,7 +65,7 @@ function ReviewPayment() {
         </div>
       </div>
       {/* Button */}
-      <div className="flex gap-10 pt-16 justify-center">
+      <div className="flex gap-10 pt-14 justify-center">
         <button className="text-orange-500 text-base font-semibold">
           Check Booking Detail
         </button>
