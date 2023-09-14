@@ -88,33 +88,37 @@ function HistoryCard() {
                       unmountOnExit
                       className=" px-3"
                     >
-                      <List component="div" disablePadding sx={{ px: 2, py: 1 }}>
-                        
-                          <div className="flex justify-between w-full py-4">
-                            <p className="text-body1">2 Guest (1 Night)</p>
-                            <div className="flex">
-                              <p className="text-body1">Payment usccess via</p>
-                              <span className=" font-bold pl-1">
-                                Credit Card-*888
-                              </span>
-                            </div>
+                      <List
+                        component="div"
+                        disablePadding
+                        sx={{ px: 2, py: 1 }}
+                      >
+                        <div className="flex justify-between w-full py-4">
+                          <p className="text-body1">2 Guest (1 Night)</p>
+                          <div className="flex">
+                            <p className="text-body1">Payment usccess via</p>
+                            <span className=" font-bold pl-1">
+                              Credit Card-*888
+                            </span>
                           </div>
-                          {/* <ListItemText primary="Pay" />   */}
-                        
+                        </div>
+                        {/* <ListItemText primary="Pay" />   */}
                       </List>
-                      <List component="div" disablePadding sx={{ px: 2, py: 1 }}>
-                        
-                          <div className="flex justify-between w-full">
-                            <p className="text-body1">
-                              Superior Garden View Room
-                            </p>
+                      <List
+                        component="div"
+                        disablePadding
+                        sx={{ px: 2, py: 1 }}
+                      >
+                        <div className="flex justify-between w-full">
+                          <p className="text-body1">
+                            Superior Garden View Room
+                          </p>
 
-                            <p className="text-body1 font-bold text-black">
-                              2,500.00
-                            </p>
-                          </div>
-                          {/* <ListItemText primary="Pay" />   */}
-                        
+                          <p className="text-body1 font-bold text-black">
+                            2,500.00
+                          </p>
+                        </div>
+                        {/* <ListItemText primary="Pay" />   */}
                       </List>
                       <List
                         component="div"
@@ -144,37 +148,41 @@ function HistoryCard() {
                         </div>
                         {/* <ListItemText primary="Pay" />   */}
                       </List>
-                      <List component="div" disablePadding sx={{ px: 2, py: 1 }}>
-                        
-                          <div className="flex justify-between w-full border-t-[2px] border-green-300 py-4">
-                            <p className="text-body1 ">Total</p>
+                      <List
+                        component="div"
+                        disablePadding
+                        sx={{ px: 2, py: 1 }}
+                      >
+                        <div className="flex justify-between w-full border-t-[2px] border-green-300 py-4">
+                          <p className="text-body1 ">Total</p>
 
-                            <p className=" text-headline5 font-bold text-black">
-                              THB 2,300.00
-                            </p>
-                            {/* {price.toLocaleString("en-US", {
+                          <p className=" text-headline5 font-bold text-black">
+                            THB 2,300.00
+                          </p>
+                          {/* {price.toLocaleString("en-US", {
                     style: "currency",
                     currency: "THB",
                   })} */}
-                          </div>
-                          {/* <ListItemText primary="Pay" />   */}
-                        
-                        </List>
-                        <List component="div" disablePadding sx={{ px: 2, py: 1 , bgcolor: "#E4E6ED"}}>
-                        
-                          <div className="flex flex-col justify-between w-full py-4">
-                            <p className="text-body1 font-bold">Additional Request</p>
+                        </div>
+                        {/* <ListItemText primary="Pay" />   */}
+                      </List>
+                      <List
+                        component="div"
+                        disablePadding
+                        sx={{ px: 2, py: 1, bgcolor: "#E4E6ED" }}
+                      >
+                        <div className="flex flex-col justify-between w-full py-4">
+                          <p className="text-body1 font-bold">
+                            Additional Request
+                          </p>
 
-                            <p className=" text-body1 pt-2">
-                              THB 2,300.00
-                            </p>
-                            {/* {price.toLocaleString("en-US", {
+                          <p className=" text-body1 pt-2">THB 2,300.00</p>
+                          {/* {price.toLocaleString("en-US", {
                     style: "currency",
                     currency: "THB",
                   })} */}
-                          </div>
-                          {/* <ListItemText primary="Pay" />   */}
-                        
+                        </div>
+                        {/* <ListItemText primary="Pay" />   */}
                       </List>
                     </Collapse>
                   </List>
