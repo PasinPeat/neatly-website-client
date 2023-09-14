@@ -552,7 +552,9 @@ function Register() {
 
             <div className="relative">
               <label htmlFor="country">
-                <p className="font-body1 text-gray-900 text-start">Country</p>
+                <p className="font-body1 text-gray-900 text-start mb-[4px]">
+                  Country
+                </p>
               </label>
               <select
                 name="country"

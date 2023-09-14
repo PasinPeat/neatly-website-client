@@ -11,10 +11,8 @@ interface RouteParams {
 function PaymentMethod() {
   const [fullNameErrorCredit, setFullNameErrorCredit] = useState(false);
   const [creditCardError, setCreditCardError] = useState(false);
-
-  // //loading
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const params = useParams<RouteParams>();
   const [payment, setPayment] = useState({
     card_number: "",
@@ -23,7 +21,6 @@ function PaymentMethod() {
     cvc: "",
   });
 
-  // check credit name handler
   const validateFullNameCredit = (name: string) => {
     const names = name.trim().split(" ");
     if (
@@ -78,10 +75,11 @@ function PaymentMethod() {
         );
         console.log(response.data);
         setIsLoading(false);
-        window.location.reload();
+        setIsModalOpen(true);
       } catch (error) {
         console.error(error);
         setIsLoading(false);
+        setIsModalOpen(false);
       }
     } else {
       setIsLoading(false);
@@ -140,14 +138,15 @@ function PaymentMethod() {
   return (
     <div className="flex flex-col items-center w-screen bg-bg">
       <Navbar />
-      <div className="flex flex-col w-[70%] ">
+      <div className="flex flex-col w-[70%] mb-[480px] ">
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-row justify-between mt-[80px] items-center">
-            <h1 className="font-noto-serif-display text-[68px] font-medium text-green-800">
+          <div className="flex flex-row justify-between mt-[50px]  items-center">
+            <h1 className="font-noto-serif-display text-[68px] font-medium mb-[25px] text-green-800">
               Payment Method
             </h1>
             <button
-              className="btn Button w-[258px] h-[48px]"
+              className="btn Button  w-[258px] h-[48px]"
+              onClick={() => setIsModalOpen(true)}
               type="submit"
               disabled={isLoading}
             >
@@ -158,11 +157,11 @@ function PaymentMethod() {
               )}
             </button>
           </div>
-          <p className="text-headline5 mt-[58px] mb-[38px] text-gray-600">
+          <p className="text-headline5 mt-[58px] mb-[40px] text-gray-600">
             Credit Card
           </p>
 
-          <div className="grid grid-rows-2 grid-flow-col gap-x-[22px] mb-[38px]">
+          <div className="grid grid-rows-2 grid-flow-col gap-x-[38px] mb-[40px]">
             <div className="relative">
               <label htmlFor="cardNumber">
                 <p className="font-body1 text-gray-900  mb-[4px]">
@@ -270,6 +269,34 @@ function PaymentMethod() {
           </div>
         </form>
       </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="modal-box flex flex-col items-center  shadow-xl w-[400px] h-[440px]">
+            <img
+              src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/checkmark.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NoZWNrbWFyay5qcGciLCJpYXQiOjE2OTQ1OTgxOTIsImV4cCI6MTcyNjEzNDE5Mn0.2f1FaYT0UnMLGNCZU71UhHxe1ISE_6RtpsDhsZ6QOm4&t=2023-09-13T09%3A43%3A11.576Z"
+              alt="Check-Mark"
+              className="h-[150px] w-[150px]"
+            />
+            <h1 className="text-headline3 font-medium text-greencheck">
+              Success!
+            </h1>
+            <p className="py-4 font-bold text-[20px]  text-center">
+              Your payment details have <br /> been updated successfully. <br />
+            </p>
+            <div className="modal-action">
+              <button
+                className="btn w-[200px] h-[50px] bg-greencheck rounded-full hover:bg-greenhover  text-headline4  text-white "
+                onClick={() => {
+                  setIsModalOpen(false);
+                }}
+              >
+                OKAY
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

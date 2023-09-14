@@ -13,6 +13,54 @@ function AuthProvider(props) {
     user: null,
     userData: null,
   });
+  // useEffect(() => {
+  //   // Check for a token in local storage
+  //   const token = localStorage.getItem("token");
+
+  //   if (token) {
+  //     // Decode the token to obtain user data
+  //     const userDataFromToken = jwtDecode(token);
+
+  //     // Fetch additional user data using the user ID
+  //     axios
+  //       .get(`http://localhost:4000/validUser/${userDataFromToken.user_id}`)
+  //       .then((result) => {
+  //         console.log(result);
+
+  //         setState({
+  //           ...state,
+  //           user: userDataFromToken,
+  //           userData: result.data.user, // Assuming the data is nested under 'data'
+  //           loading: false,
+  //         });
+
+  //         localStorage.setItem("userData", JSON.stringify(result.data.user));
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching user data:", error);
+  //         setState({
+  //           ...state,
+  //           loading: false,
+  //           error: "Error fetching user data",
+  //         });
+  //       });
+  //   } else {
+  //     const storedUserData = localStorage.getItem("userData");
+  //     if (storedUserData) {
+  //       setState({
+  //         ...state,
+  //         user: jwtDecode(token),
+  //         userData: JSON.parse(storedUserData),
+  //         loading: false,
+  //       });
+  //     } else {
+  //       setState({
+  //         ...state,
+  //         loading: false,
+  //       });
+  //     }
+  //   }
+  // }, []);
 
   const fetchAuth = async () => {
     const token = localStorage.getItem("token");
