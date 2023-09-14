@@ -2,10 +2,45 @@ import ButtonPayment from "./ButtonPayment";
 import BookingDetail from "./BookingDetail";
 import BookingNote from "./BookingNote";
 import ButtonNavigation from "./ButtonNavigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useAuth } from "../../contexts/authen";
 
 function StepPayment({ steps, activeStep, setActiveStep }) {
-  const [selectedPayment, setSelectedPayment] = useState('credit');
+  const [selectedPayment, setSelectedPayment] = useState("credit");
+  const auth = useAuth();
+
+  const [payment, setPayment] = useState({
+    card_number: "",
+    expire_date: "",
+    card_owner: "",
+    cvc: "",
+  });
+
+  const getPaymentID = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/paymentmethod/${auth.state.userData.credit_card_id}`
+      );
+      console.log(response.data.data);
+      const data = response.data.data;
+
+      const formattedCardNumber = data.card_number
+        .replace(/[^\d]/g, "")
+        .replace(/(\d{4})/g, "$1 ")
+        .trim();
+      setPayment({
+        ...data,
+        card_number: formattedCardNumber,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getPaymentID();
+  }, [auth.state.userData.credit_card_id]);
 
   const creditButtonProps = {
     image:
@@ -51,7 +86,7 @@ function StepPayment({ steps, activeStep, setActiveStep }) {
                 name="card_number"
                 className="w-full InputSuccess mb-[38px]"
                 disabled
-                // value={payment.card_number}
+                value={payment.card_number}
               />
             </div>
             <div>
@@ -64,7 +99,7 @@ function StepPayment({ steps, activeStep, setActiveStep }) {
                 name="card_owner"
                 className="w-full InputSuccess mb-[38px]"
                 disabled
-                // value={payment.card_owner}
+                value={payment.card_owner}
               />
             </div>
             <div className="grid grid-cols-2 gap-10">
@@ -80,7 +115,7 @@ function StepPayment({ steps, activeStep, setActiveStep }) {
                   name="expire_date"
                   className="w-full InputSuccess mb-[38px]"
                   disabled
-                  // value={payment.expire_date}
+                  value={payment.expire_date}
                 />
               </div>
 
@@ -94,7 +129,7 @@ function StepPayment({ steps, activeStep, setActiveStep }) {
                   name="cvc"
                   className="w-full InputSuccess mb-[38px]"
                   disabled
-                  // value={payment.cvc}
+                  value={payment.cvc}
                 />
               </div>
             </div>
@@ -102,22 +137,24 @@ function StepPayment({ steps, activeStep, setActiveStep }) {
         )}
 
         {selectedPayment === "cash" && (
-          <div className="bg-gray-200 rounded flex flex-col justify-center items-center m-16 p-10">
+          <div className="bg-gray-300 rounded flex flex-col justify-center items-center m-16 p-[32px]">
             <img
               src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/cash.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2Nhc2guc3ZnIiwiaWF0IjoxNjk0NTkwNjAxLCJleHAiOjE3MjYxMjY2MDF9.NCT-YH7AyMJmZTVHCmaB_uw7V4nPcnX1UR-zLpq0pk8&t=2023-09-13T07%3A36%3A42.086Z"
-              className="w-48 h-48"
+              className="w-32"
             />
-            <p className="text-gray-600 text-center">
+            <p className="text-green-600 text-center">
               If you want to pay by cash,
               <br />
               you are required to make a cash payment
               <br />
-              upon arrival at the
+              upon arrival at the Neatly Hotel.
               <br />
-              <span className="font-noto-serif-display font-medium	text-[42px] text-green-700">
-                Neatly Hotel
-              </span>
             </p>
+            <img
+              className="h-14 pt-2"
+              alt="logo"
+              src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/logo%20color.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvbG9nbyBjb2xvci5zdmciLCJpYXQiOjE2OTM1NTQ1NzgsImV4cCI6MTcyNTA5MDU3OH0.XvlMNW7d055OdT9qXJ5FFOGAOm6r_Kz3stsZXlfV0e8&t=2023-09-01T07%3A49%3A37.938ZLogo"
+            />
           </div>
         )}
         <ButtonNavigation
