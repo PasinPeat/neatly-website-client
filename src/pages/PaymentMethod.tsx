@@ -2,6 +2,7 @@ import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../contexts/authen";
 
 interface RouteParams {
   paymentmethodID: string;
@@ -9,6 +10,7 @@ interface RouteParams {
 }
 
 function PaymentMethod() {
+  const auth = useAuth();
   const [fullNameErrorCredit, setFullNameErrorCredit] = useState(false);
   const [creditCardError, setCreditCardError] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,7 +40,7 @@ function PaymentMethod() {
     if (!fullNameErrorCredit && !creditCardError) {
       try {
         const response = await axios.get(
-          `http://localhost:4000/paymentmethod/${params.paymentmethodID}`
+          `http://localhost:4000/paymentmethod/${auth.state.userData.credit_card_id}`
         );
         console.log(response.data.data);
         const data = response.data.data;
@@ -59,7 +61,7 @@ function PaymentMethod() {
 
   useEffect(() => {
     getPaymentID();
-  }, [params.paymentmethodID]);
+  }, [auth.state.userData.credit_card_id]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
