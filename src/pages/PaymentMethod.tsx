@@ -274,7 +274,7 @@ function PaymentMethod() {
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="modal-box flex flex-col items-center  shadow-xl w-[400px] h-[440px]">
             <img
-              src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/checkmark.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NoZWNrbWFyay5qcGciLCJpYXQiOjE2OTQ1OTgxOTIsImV4cCI6MTcyNjEzNDE5Mn0.2f1FaYT0UnMLGNCZU71UhHxe1ISE_6RtpsDhsZ6QOm4&t=2023-09-13T09%3A43%3A11.576Z"
+              src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/checkmark-removebg-preview.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NoZWNrbWFyay1yZW1vdmViZy1wcmV2aWV3LnBuZyIsImlhdCI6MTY5NDY4MDYwNiwiZXhwIjoxNzI2MjE2NjA2fQ.Wz_CZaGiq3ddjcLSZ2nUdEPcdKAByClXptiYWXrCnYs&t=2023-09-14T08%3A36%3A46.749Z"
               alt="Check-Mark"
               className="h-[150px] w-[150px]"
             />
