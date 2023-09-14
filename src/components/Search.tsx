@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { RoomsContext } from "../App.tsx";
 import { useNavigate } from "react-router-dom";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -143,7 +143,10 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
               onChange={(newValue) => setCheckInDate(newValue)}
               slotProps={{ textField: { size: "medium" } }}
               sx={{
-                width: 240,
+                "& input": {
+                  padding: "12px",
+                  width: "170px",
+                },
               }}
             />
           </ThemeProvider>
@@ -155,7 +158,6 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
         <label className="label">
           <span className="text-gray-900 text-body1">Check Out</span>
         </label>
-
         <DemoContainer components={["DatePicker"]}>
           <ThemeProvider theme={theme}>
             <DatePicker
@@ -169,8 +171,10 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
               onChange={(newValue) => setCheckOutDate(newValue)}
               slotProps={{ textField: { size: "medium" } }}
               sx={{
-                width: 240,
-                // height:200
+                "& input": {
+                  padding: "12px",
+                  width: "170px",
+                },
               }}
               // PopperProps={{ sx: popperSx }}
             />
@@ -180,7 +184,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
 
       <div className="pr-10">
         <label className="label">
-          <span className="text-gray-900 text-body1">Rooms & Guests</span>
+          <span className="text-gray-900 text-body1 mb-2">Rooms & Guests</span>
         </label>
 
         <div className="px-4 w-60 h-12 flex items-center justify-between  rounded-md border border-solid border-gray-500 text-gray-600 text-body1">

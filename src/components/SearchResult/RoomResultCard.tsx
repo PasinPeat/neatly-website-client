@@ -85,7 +85,7 @@ function RoomResultCard({
                 </p>
                 <p className="pt-2 text-orange-600 font-semibold">
                   {available === 0 ? (
-                    <span className="pr-1">Full</span>
+                    <span className="pr-1">Unavaliable</span>
                   ) : (
                     <>
                       <span className="pr-1">{available}</span>

@@ -65,10 +65,6 @@ function App() {
         }
       });
 
-      // const filterAgain = updatedRooms.filter(
-      //   (room) => room.person >= result.person && room.available > 0
-      // );
-
       updatedRooms.forEach((room) => {
         if (room.person < result.person || room.available === 0) {
           room.disabled = true;
