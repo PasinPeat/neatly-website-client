@@ -79,6 +79,7 @@ function PaymentMethod() {
       } catch (error) {
         console.error(error);
         setIsLoading(false);
+        setIsModalOpen(false);
       }
     } else {
       setIsLoading(false);
@@ -144,7 +145,8 @@ function PaymentMethod() {
               Payment Method
             </h1>
             <button
-              className="btn Button onClick={() => setIsModalOpen(true)} w-[258px] h-[48px]"
+              className="btn Button  w-[258px] h-[48px]"
+              onClick={() => setIsModalOpen(true)}
               type="submit"
               disabled={isLoading}
             >
@@ -280,7 +282,7 @@ function PaymentMethod() {
               Success!
             </h1>
             <p className="py-4 font-bold text-[20px]  text-center">
-              Your payment details have <br /> been updated successfully.
+              Your payment details have <br /> been updated successfully. <br />
             </p>
             <div className="modal-action">
               <button
