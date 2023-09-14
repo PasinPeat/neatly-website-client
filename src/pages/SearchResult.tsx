@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import Navbar from "../components/Navbar.tsx";
 import RoomResultCard from "../components/SearchResult/RoomResultCard";
 import RoomDetailPopup from "../components/SearchResult/RoomDetailPopup";
 import Search from "../components/Search";
 import Footer from "../components/Footer";
 import ImageFullPopup from "../components/SearchResult/ImageFullPopup.tsx";
-import { useContext, useState } from "react";
 import { RoomsContext } from "../App.tsx";
 import { RoomsProps } from "../interfaces/RoomsProps.tsx";
 
@@ -22,6 +21,10 @@ function SearchResult({
   const [showFullImage, setShowFullImage] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<RoomsProps | null>(null);
 
+  useEffect(() => {
+    setRoomResult(context.rooms);
+  }, []);
+
   /*render all room cards*/
   useEffect(() => {
     if (userInput === null) {
@@ -29,6 +32,8 @@ function SearchResult({
     }
   }, [context.rooms, setRoomResult]);
   // console.log(roomResult);
+
+  // const location = useLocation();
 
   /*show room detail of selected card*/
   function handleRoomDetail(roomId) {
@@ -55,7 +60,7 @@ function SearchResult({
   }
 
   return (
-    <div>
+    <>
       {showFullImage && (
         <div className="fixed z-50 top-0 flex justify-center">
           <ImageFullPopup
@@ -82,7 +87,9 @@ function SearchResult({
           />
         </div>
       )}
+
       <Navbar />
+
       <div className="flex justify-center items-end bg-white py-10 px-[220px] drop-shadow-md border-t-[1px] border-gray-300">
         <Search
           seachResultBtn={seachResultBtn}
@@ -111,7 +118,7 @@ function SearchResult({
         ))}
       </div>
       <Footer />
-    </div>
+    </>
   );
 }
 

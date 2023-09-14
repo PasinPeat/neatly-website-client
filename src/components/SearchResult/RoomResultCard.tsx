@@ -22,7 +22,7 @@ function RoomResultCard({
   const navigate = useNavigate();
   const auth = useAuth();
 
-  let isAvailable = available > 0;
+  let isAvailable = available === 0;
 
   if (userInput) {
     isAvailable = available > 0 && userInput.room <= available;
@@ -85,7 +85,7 @@ function RoomResultCard({
                 </p>
                 <p className="pt-2 text-orange-600 font-semibold">
                   {available === 0 ? (
-                    <span className="pr-1">Full</span>
+                    <span className="pr-1">Unavaliable</span>
                   ) : (
                     <>
                       <span className="pr-1">{available}</span>

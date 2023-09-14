@@ -1,32 +1,38 @@
-import { useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
+import { RoomsContext } from "../App.tsx";
 import { useNavigate } from "react-router-dom";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import dayjs, { Dayjs } from "dayjs";
-import { SxProps } from "@mui/system";
+import dayjs from "dayjs";
 import "../App.css";
 
-// const calendarTheme = createTheme({
-//   palette: {
-//     MuiPickersDay: {
-//       day: {
-//         color: "#c44242",
-//       },
-//       daySelected: {
-//         backgroundColor: "#436E70",
-//       },
-//       dayDisabled: {
-//         color: "#436E70",
-//       },
-//       current: {
-//         color: "#436E70",
+// const useStyles = makeStyles((theme) => ({
+//   customDatePicker: {
+//     '& .MuiPickersModal-dialog': {
+//       // Custom styles for the date picker dialog
+//       backgroundColor: 'lightblue',
+//     },
+//     '& .MuiPickersDay-day': {
+//       // Custom styles for individual date cells
+//       color: 'green',
+//       '&.MuiPickersDay-daySelected': {
+//         backgroundColor: 'blue',
+//         color: 'white',
 //       },
 //     },
 //   },
-// });
+// }));
+import useToggleState from "../hooks/useToggleState";
+
 function Search({ seachResultBtn, onSearchResult, setUserInput }) {
+  const context = useContext(RoomsContext);
+  const navigate = useNavigate();
+  const userInput = context.userInput;
+
   const color: string = "#A0ACC3";
+
+  // const classes = useStyles();
   const theme = createTheme({
     components: {
       MuiIconButton: {
@@ -51,64 +57,75 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
         },
       },
     },
+    palette: {
+      primary: {
+        main: "#E76B39",
+        light: "#E76B39",
+        dark: "#E76B39",
+      },
+      MuiPickersDay: {
+        day: {
+          color: "#c44242",
+        },
+        daySelected: {
+          backgroundColor: "#436E70",
+        },
+        dayDisabled: {
+          color: "#436E70",
+        },
+        current: {
+          color: "#436E70",
+        },
+      },
+    },
   });
 
-  const popperSx :SxProps = {
-    "& .MuiPaper-root": {
-      border: "1px solid black",
-      padding: 2,
-      marginTop: 1,
-      backgroundColor: "rgba(120, 120, 120, 0.2)"
-    },
-    "& .MuiCalendarPicker-root": {
-      backgroundColor: "rgba(45, 85, 255, 0.4)"
-    },
-    "& .PrivatePickersSlideTransition-root": {},
-    "& .MuiPickersDay-dayWithMargin": {
-      color: "rgb(229,228,226)",
-      backgroundColor: "rgba(50, 136, 153)"
-    },
-    "& .MuiTabs-root": { backgroundColor: "rgba(120, 120, 120, 0.4)" }
-  }
-  const [checkInDate, setCheckInDate] = useState<Dayjs | null>(
-    dayjs().add(1, "day")
+  const initialState = userInput || {
+    checkInDate: dayjs(),
+    checkOutDate: dayjs().add(1, "day"),
+    room: 1,
+    person: 2,
+  };
+  // console.log(initialState);
+
+  const [checkInDate, setCheckInDate] = useState(
+    dayjs(initialState.checkInDate)
   );
-  const [checkOutDate, setCheckOutDate] = useState<Dayjs | null | string>(
-    dayjs().add(2, "day")
+  const [checkOutDate, setCheckOutDate] = useState(
+    dayjs(initialState.checkOutDate)
   );
-  let [room, setRoom] = useState(1);
-  let [person, setPerson] = useState(2);
-  const [isOpen, setIsOpen] = useState(false);
+  let [room, setRoom] = useState(initialState.room);
+  let [person, setPerson] = useState(initialState.person);
+  const [showDropdown, setShowDropdown] = useToggleState(false);
+
+  // const [isOpen, setIsOpen] = useState(false);
   // let onlyDate = e.$d.toISOString();
 
   useEffect(() => {
-    setCheckInDate(checkInDate);
-    setCheckOutDate(checkOutDate);
-    console.log(checkInDate);
+    if (!userInput) {
+      setCheckInDate(dayjs().add(1, "day"));
+      setCheckOutDate(dayjs().add(2, "day"));
+    }
   }, []);
 
-  const navigate = useNavigate();
-
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit(newValue) {
+    newValue.preventDefault();
     if (room === 0) return;
     if (person === 0) return;
 
     const result = {
-      checkInDate,
-      checkOutDate,
+      checkInDate: checkInDate.format("YYYY-MM-DD"),
+      checkOutDate: checkOutDate.format("YYYY-MM-DD"),
       room,
       person,
     };
-    console.log(result);
     onSearchResult(result);
     setUserInput(result);
-
     navigate("/search");
   }
 
   return (
-    <div className="flex justify-center items-end">
+    <div className="flex justify-center items-end ">
       <div className="form-control">
         <label className="label">
           <span className="text-gray-900 text-body1">Check In</span>
@@ -123,9 +140,14 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
               value={checkInDate}
               format="dd, DD-MM-YYYY"
               disablePast
-              onChange={(e) => setCheckInDate(e.target.value)}
+              onChange={(newValue) => setCheckInDate(newValue)}
               slotProps={{ textField: { size: "medium" } }}
-              
+              sx={{
+                "& input": {
+                  padding: "12px",
+                  width: "170px",
+                },
+              }}
             />
           </ThemeProvider>
         </DemoContainer>
@@ -136,38 +158,44 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
         <label className="label">
           <span className="text-gray-900 text-body1">Check Out</span>
         </label>
-
         <DemoContainer components={["DatePicker"]}>
-        <ThemeProvider theme={theme}>
-          <DatePicker
-            showDaysOutsideCurrentMonth
-            fixedWeekNumber={6}
-            defaultValue={checkOutDate}
-            value={checkOutDate}
-            format="dd, DD-MM-YYYY"
-            disablePast
-            onChange={(e) => setCheckOutDate(e.target.value)}
-            slotProps={{ textField: { size: "medium" } }}
-            PopperProps={{sx:popperSx}}
-          />
+          <ThemeProvider theme={theme}>
+            <DatePicker
+              showDaysOutsideCurrentMonth
+              fixedWeekNumber={6}
+              defaultValue={checkOutDate}
+              value={checkOutDate}
+              format="dd, DD-MM-YYYY"
+              minDate={checkInDate}
+              disablePast
+              onChange={(newValue) => setCheckOutDate(newValue)}
+              slotProps={{ textField: { size: "medium" } }}
+              sx={{
+                "& input": {
+                  padding: "12px",
+                  width: "170px",
+                },
+              }}
+              // PopperProps={{ sx: popperSx }}
+            />
           </ThemeProvider>
         </DemoContainer>
       </div>
 
       <div className="pr-10">
         <label className="label">
-          <span className="text-gray-900 text-body1">Rooms & Guests</span>
+          <span className="text-gray-900 text-body1 mb-2">Rooms & Guests</span>
         </label>
 
         <div className="px-4 w-60 h-12 flex items-center justify-between  rounded-md border border-solid border-gray-500 text-gray-600 text-body1">
           <div>
             Rooms {room}, Guests {person}
           </div>
-          <button onClick={() => setIsOpen(!isOpen)}>
+          <button onClick={setShowDropdown}>
             <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/arrow_drop_down_black_24dp%202.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2Fycm93X2Ryb3BfZG93bl9ibGFja18yNGRwIDIuc3ZnIiwiaWF0IjoxNjk0MDgyNzE5LCJleHAiOjE3MjU2MTg3MTl9.8aoooHCf3UW3mfKGTeBYHLZbuUsFc8lpg9037s3QFnA&t=2023-09-07T10%3A31%3A58.813Z" />
           </button>
         </div>
-        {isOpen && (
+        {showDropdown && (
           <div className="px-4 py-3 w-60 top-34 flex flex-col absolute rounded-md bg-white drop-shadow-lg">
             <div className="pt-2 flex items-center justify-between">
               <div>Rooms</div>
