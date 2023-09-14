@@ -2,6 +2,7 @@ import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../contexts/authen";
 
 interface RouteParams {
   profileID: string;
@@ -9,6 +10,7 @@ interface RouteParams {
 }
 
 function Profile() {
+  const auth = useAuth();
   const params = useParams<RouteParams>();
   const [user, setUser] = useState({
     fullName: "",
@@ -120,7 +122,7 @@ function Profile() {
   const getProfileID = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/profile/${params.profileID}`
+        `http://localhost:4000/profile/${auth.state.userData.id}`
       );
       console.log(response.data.data);
       const data = response.data.data;
@@ -132,7 +134,7 @@ function Profile() {
 
   useEffect(() => {
     getProfileID();
-  }, [params.profileID]);
+  }, [auth.state.userData.id]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -558,7 +560,7 @@ function Profile() {
           <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="modal-box flex flex-col items-center  shadow-xl w-[400px] h-[440px]">
               <img
-                src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/checkmark.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NoZWNrbWFyay5qcGciLCJpYXQiOjE2OTQ1OTgxOTIsImV4cCI6MTcyNjEzNDE5Mn0.2f1FaYT0UnMLGNCZU71UhHxe1ISE_6RtpsDhsZ6QOm4&t=2023-09-13T09%3A43%3A11.576Z"
+                src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/checkmark-removebg-preview.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NoZWNrbWFyay1yZW1vdmViZy1wcmV2aWV3LnBuZyIsImlhdCI6MTY5NDY4MDQ2NCwiZXhwIjoxNzI2MjE2NDY0fQ.M_qXd-pEhjGoD8hIY42PgJgRQsxNmy0O8PsfV9ErH_0&t=2023-09-14T08%3A34%3A24.444Z"
                 alt="Check-Mark"
                 className="h-[150px] w-[150px]"
               />
