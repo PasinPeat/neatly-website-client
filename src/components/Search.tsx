@@ -1,13 +1,11 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { RoomsContext } from "../App.tsx";
 import { useNavigate } from "react-router-dom";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import dayjs, { Dayjs } from "dayjs";
-import { SxProps } from "@mui/system";
+import dayjs from "dayjs";
 import "../App.css";
-
 
 // const useStyles = makeStyles((theme) => ({
 //   customDatePicker: {
@@ -31,7 +29,6 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
   const context = useContext(RoomsContext);
   const navigate = useNavigate();
   const userInput = context.userInput;
-  console.log(userInput);
 
   const color: string = "#A0ACC3";
 
@@ -83,24 +80,24 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
     },
   });
 
-  
-
   const initialState = userInput || {
     checkInDate: dayjs(),
-    checkOutDate: dayjs(),
+    checkOutDate: dayjs().add(1, "day"),
     room: 1,
     person: 2,
   };
   // console.log(initialState);
 
-  const [checkInDate, setCheckInDate] = useState(initialState.checkInDate);
-  const [checkOutDate, setCheckOutDate] = useState(initialState.checkOutDate);
+  const [checkInDate, setCheckInDate] = useState(
+    dayjs(initialState.checkInDate)
+  );
+  const [checkOutDate, setCheckOutDate] = useState(
+    dayjs(initialState.checkOutDate)
+  );
   let [room, setRoom] = useState(initialState.room);
   let [person, setPerson] = useState(initialState.person);
   const [showDropdown, setShowDropdown] = useToggleState(false);
-    
 
-  
   // const [isOpen, setIsOpen] = useState(false);
   // let onlyDate = e.$d.toISOString();
 
@@ -111,22 +108,17 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
     }
   }, []);
 
-  useEffect(() => {
-    setCheckOutDate(checkInDate.add(1, "day"));
-  }, [checkInDate]);
-
   function handleSubmit(newValue) {
     newValue.preventDefault();
     if (room === 0) return;
     if (person === 0) return;
 
     const result = {
-      checkInDate,
-      checkOutDate,
+      checkInDate: checkInDate.format("YYYY-MM-DD"),
+      checkOutDate: checkOutDate.format("YYYY-MM-DD"),
       room,
       person,
     };
-    // console.log(result);
     onSearchResult(result);
     setUserInput(result);
     navigate("/search");
@@ -139,7 +131,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
           <span className="text-gray-900 text-body1">Check In</span>
         </label>
 
-        <DemoContainer components={["DatePicker"]} >
+        <DemoContainer components={["DatePicker"]}>
           <ThemeProvider theme={theme}>
             <DatePicker
               showDaysOutsideCurrentMonth
@@ -151,7 +143,10 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
               onChange={(newValue) => setCheckInDate(newValue)}
               slotProps={{ textField: { size: "medium" } }}
               sx={{
-                width: 240,
+                "& input": {
+                  padding: "12px",
+                  width: "170px",
+                },
               }}
             />
           </ThemeProvider>
@@ -163,7 +158,6 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
         <label className="label">
           <span className="text-gray-900 text-body1">Check Out</span>
         </label>
-
         <DemoContainer components={["DatePicker"]}>
           <ThemeProvider theme={theme}>
             <DatePicker
@@ -177,8 +171,10 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
               onChange={(newValue) => setCheckOutDate(newValue)}
               slotProps={{ textField: { size: "medium" } }}
               sx={{
-                width: 240,
-                // height:200
+                "& input": {
+                  padding: "12px",
+                  width: "170px",
+                },
               }}
               // PopperProps={{ sx: popperSx }}
             />
@@ -188,7 +184,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
 
       <div className="pr-10">
         <label className="label">
-          <span className="text-gray-900 text-body1">Rooms & Guests</span>
+          <span className="text-gray-900 text-body1 mb-2">Rooms & Guests</span>
         </label>
 
         <div className="px-4 w-60 h-12 flex items-center justify-between  rounded-md border border-solid border-gray-500 text-gray-600 text-body1">
