@@ -5,6 +5,7 @@ import axios from "axios";
 
 interface RouteParams {
   profileID: string;
+  [key: string]: string | undefined;
 }
 
 function Profile() {
@@ -40,7 +41,6 @@ function Profile() {
   //loading
   const [isLoading, setIsLoading] = useState(false);
 
-  //check full name handler
   const validateFullName = (name: string) => {
     if (typeof name !== "string" || name.trim() === "") {
       setFullNameError(true);
@@ -68,7 +68,7 @@ function Profile() {
 
   // สร้างฟังก์ชันเพื่อตรวจสอบ ID Number
   const validateIDNumber = () => {
-    if (!/^\d{13}$/.test(idNumber)) {
+    if (!/^\d{13}$/.test(user.idNumber)) {
       setIdNumberError(true);
     } else {
       setIdNumberError(false);
@@ -103,7 +103,7 @@ function Profile() {
           ...avatars,
           [uniqueId.toString()]: file,
         });
-        setInvalidFile(null);
+        setInvalidFile("");
       } else {
         setInvalidFile(
           "Your file is invalid. Please select a file that is no larger than 2 MB and is .jpg, .jpeg, or .png"
@@ -137,41 +137,64 @@ function Profile() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    //check full name
+    // Check full name
     validateFullName(user.fullName);
     validateIDNumber();
     validateCountry();
 
-    //check email
-    const queryParamsEmail = `?email=${user.email}`;
-    const validEmail = await axios.get(
-      `http://localhost:4000/validUser/email${queryParamsEmail}`
-    );
-    if (validEmail.data.data.length === 1) {
-      setEmailError(true);
-      setIsLoading(false);
-      setIsModalOpen(true);
-    } else {
-      setEmailError(false);
-      setIsModalOpen(false);
-    }
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setIsLoading(true);
 
-    //check idNumber
-    const queryParamsIdNumber = `?idNumber=${user.idNumber}`;
-    const validIdNumber = await axios.get(
-      `http://localhost:4000/validUser/idNumber${queryParamsIdNumber}`
-    );
-    if (validIdNumber.data.data.length === 1) {
-      setidNumberValidError(true);
+      // Check full name
+      validateFullName(user.fullName);
+      validateIDNumber();
+      validateCountry();
+
+      // Check email
+      const queryParamsEmail = `?email=${user.email}`;
+      const validEmail = await axios.put(
+        `http://localhost:4000/validUser/email${queryParamsEmail}`
+      );
+
+      // Check idNumber
+      const queryParamsIdNumber = `?idNumber=${user.idNumber}`;
+      const validIdNumber = await axios.put(
+        `http://localhost:4000/validUser/idNumber${queryParamsIdNumber}`
+      );
+
+      if (validEmail.data.data.length > 0) {
+        setEmailError(true);
+        setIsLoading(false);
+        return;
+      } else {
+        setEmailError(false);
+      }
+
+      if (validIdNumber.data.data.length > 0) {
+        setidNumberValidError(true);
+        setIsLoading(false);
+        return;
+      } else {
+        setidNumberValidError(false);
+      }
       setIsLoading(false);
-    } else {
-      setidNumberValidError(false);
-    }
+    };
 
     setIsLoading(true);
 
+    // const isAgeValid = validateBirthDay(user.birthDate);
+    // setBirthDayError(!isAgeValid);
+
+    // Validate birthDate
     const isAgeValid = validateBirthDay(user.birthDate);
-    setBirthDayError(!isAgeValid);
+    if (!isAgeValid) {
+      setBirthDayError(true);
+      setIsLoading(false);
+      return;
+    } else {
+      setBirthDayError(false);
+    }
 
     // const data: Record<string, string> = {
     //   fullName: String(user.fullName),
@@ -193,10 +216,10 @@ function Profile() {
         formData.append("avatar", avatars[avatarKey]);
       }
       if (
-        fullNameError &&
-        emailError &&
-        birthDayError &&
-        idNumberError &&
+        fullNameError ||
+        emailError ||
+        birthDayError ||
+        idNumberError ||
         countriesError
       ) {
         setIsLoading(false);
@@ -211,9 +234,11 @@ function Profile() {
             }
           );
           setIsLoading(false);
+          setIsModalOpen(true);
           console.log(response.data);
         } catch (error) {
-          setIsLoading(false);
+          // setIsLoading(false);
+          setIsModalOpen(false);
           console.error(error);
         }
       }
@@ -290,7 +315,10 @@ function Profile() {
                 fullNameError ? "border-[#B61515]" : "focus:outline-none"
               }`}
               value={user.fullName}
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e);
+                validateFullName(e.target.value);
+              }}
               required
             />
             {fullNameError && (
@@ -337,6 +365,7 @@ function Profile() {
                       className="h-5 w-5"
                     />
                   </div>
+
                   <p className="text-body3 text-red absolute">
                     Email already in use. Please choose a different email.
                   </p>
@@ -412,6 +441,7 @@ function Profile() {
                       className="h-5 w-5"
                     />
                   </div>
+
                   <p className="text-body3 text-red absolute">
                     ID Number already in use. Please choose a different ID
                     Number.
