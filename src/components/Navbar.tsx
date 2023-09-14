@@ -15,7 +15,6 @@ function Navbar() {
   if (auth.isAuthenticated && auth.state.userData) {
     userProfileImage = auth.state.userData.profile_image;
   }
-
   const linkHomePage = () => {
     navigate("/");
   };
@@ -77,7 +76,14 @@ function Navbar() {
                   </button>
                 </li>
                 <li>
-                  <button className="py-2" onClick={() => logout()}>
+                  <button
+                    className="py-2"
+                    onClick={() =>
+                      navigate(
+                        `/paymentmethod/${auth.state.userData.credit_card_id}`
+                      )
+                    }
+                  >
                     <img
                       className="w-4 h-4"
                       src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/credit.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NyZWRpdC5zdmciLCJpYXQiOjE2OTQ0MDU3MDUsImV4cCI6MTcyNTk0MTcwNX0.wwSq3XrBgaEqb4U3QeRXYhQjKItIn7FSStx40IDj7jE&t=2023-09-11T04%3A15%3A04.217Z"
@@ -200,7 +206,14 @@ function Navbar() {
                   </button>
                 </li>
                 <li>
-                  <button className="py-2" onClick={() => logout()}>
+                  <button
+                    className="py-2"
+                    onClick={() =>
+                      navigate(
+                        `/paymentmethod/${auth.state.userData.credit_card_id}`
+                      )
+                    }
+                  >
                     <img
                       className="w-4 h-4"
                       src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/credit.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NyZWRpdC5zdmciLCJpYXQiOjE2OTQ0MDU3MDUsImV4cCI6MTcyNTk0MTcwNX0.wwSq3XrBgaEqb4U3QeRXYhQjKItIn7FSStx40IDj7jE&t=2023-09-11T04%3A15%3A04.217Z"
