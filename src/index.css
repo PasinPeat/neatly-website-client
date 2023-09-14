@@ -40,6 +40,9 @@
   .Input {
     @apply text-gray-600 font-inter text-body1 bg-white border-gray-400 border-2 rounded p-3;
   }
+  .InputSuccess {
+    @apply text-black font-inter text-body1 bg-white border-gray-400 border-2 rounded p-3;
+  }
 }
 
 /* @layer utilities{
