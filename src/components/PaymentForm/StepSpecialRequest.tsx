@@ -2,12 +2,12 @@ import BookingDetail from "./BookingDetail";
 import BookingNote from "./BookingNote";
 import { useState } from "react";
 import ButtonNavigation from "./ButtonNavigation";
-
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { FormControlLabel, Checkbox } from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 function SpecialRequest({ steps, activeStep, setActiveStep }) {
-  
-  //StandardRequest 
+  //StandardRequest
   const [StandardRequest, setStandardRequest] = useState({
     EarlyCheckin: false,
     LateCheckout: false,
@@ -15,7 +15,9 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
     ARoomOnTheHighFloor: false,
     AQuietRoom: false,
   });
-  const [StandardRequestSelected, setStandardRequestSelected] = useState<string[]>([])
+  const [StandardRequestSelected, setStandardRequestSelected] = useState<
+    string[]
+  >([]);
 
   //SpecialRequest
   const [SpecialRequest, setSpecialRequest] = useState({
@@ -26,8 +28,9 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
     PhoneChargersAndAdapters: false,
     Breakfast: false,
   });
-  const [SpecialRequestSelected, setSpecialRequestSelected] = useState<string[]>([])
-
+  const [SpecialRequestSelected, setSpecialRequestSelected] = useState<
+    string[]
+  >([]);
 
   const [totalCost, setTotalCost] = useState(0);
 
@@ -55,20 +58,18 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
     });
 
     if (checked) {
-      setStandardRequestSelected((prevStandardRequestSelected)=>[
+      setStandardRequestSelected((prevStandardRequestSelected) => [
         ...prevStandardRequestSelected,
-        value
-      ])
-    }else{
+        value,
+      ]);
+    } else {
       setStandardRequestSelected((prevStandardRequestSelected) =>
-      prevStandardRequestSelected.filter((str) => str !== value)
+        prevStandardRequestSelected.filter((str) => str !== value)
       );
     }
-
   };
-  // console.log(StandardRequestSelected);
-  // console.log(StandardRequest);
-  
+  console.log(StandardRequestSelected);
+  console.log(StandardRequest);
 
   const handleSpecialRequestChange = (event) => {
     const { name, checked, value } = event.target;
@@ -78,13 +79,13 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
     });
 
     if (checked) {
-      setSpecialRequestSelected((prevSpecialRequestSelected)=>[
+      setSpecialRequestSelected((prevSpecialRequestSelected) => [
         ...prevSpecialRequestSelected,
-        value
-      ])
-    }else{
+        value,
+      ]);
+    } else {
       setSpecialRequestSelected((prevSpecialRequestSelected) =>
-      prevSpecialRequestSelected.filter((str) => str !== value)
+        prevSpecialRequestSelected.filter((str) => str !== value)
       );
     }
 
@@ -114,12 +115,21 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
     }
     setTotalCost((prevTotalCost) => prevTotalCost + valueToAdd);
   };
+
+  // console.log(totalCost);
   // console.log(SpecialRequest);
-  console.log(totalCost);
-  console.log(SpecialRequest);
-  
-  console.log(SpecialRequestSelected);
-  
+
+  // console.log(SpecialRequestSelected);
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#E76B39",
+        light: "#E76B39",
+        dark: "#E76B39",
+      },
+    },
+  });
 
   return (
     <div className="flex gap-6">
@@ -130,82 +140,114 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
             These requests are not confirmed (Depend on the available room)
           </p>
           <div className="form-control flex flex-col gap-6 text-body-1 text-gray-700">
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={EarlyCheckin}
-                  onChange={handleStandardRequestChange}
-                  name="EarlyCheckin"
-                  value="Early check-in"
-                />
-              }
-              label="Early check-in"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={LateCheckout}
-                  onChange={handleStandardRequestChange}
-                  name="LateCheckout"
-                  value="Late check-out"
-                />
-              }
-              label="Late check-out"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={NonSmokingRoom}
-                  onChange={handleStandardRequestChange}
-                  name="NonSmokingRoom"
-                  value="Non-smoking room"
-                />
-              }
-              label="Non-smoking room"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={ARoomOnTheHighFloor}
-                  onChange={handleStandardRequestChange}
-                  name="ARoomOnTheHighFloor"
-                  value="A room on the high floor"
-                />
-              }
-              label="A room on the high floor"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={AQuietRoom}
-                  onChange={handleStandardRequestChange}
-                  name="AQuietRoom"
-                  value="A quiet room"
-                />
-              }
-              label="A quiet room"
-            />
-            {/* <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span>Early check-in</span>
-            </label>
-
-            <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span>Late check-out</span>
-            </label>
-            <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span>Non-smoking room</span>
-            </label>
-            <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span>A room on the high floor</span>
-            </label>
-            <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span>A quiet room</span>
-            </label> */}
+            <ThemeProvider theme={theme}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={EarlyCheckin}
+                    onChange={handleStandardRequestChange}
+                    name="EarlyCheckin"
+                    value="Early check-in"
+                    // {name: "Early check-in",value: 200}
+                  />
+                }
+                label={
+                  <Typography
+                    sx={
+                      EarlyCheckin
+                        ? { fontSize: 18, fontWeight: "bold", color: "#2A2E3F" }
+                        : { fontSize: 18, fontWeight: "regular" }
+                    }
+                  >
+                    Early check-in
+                  </Typography>
+                }
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={LateCheckout}
+                    onChange={handleStandardRequestChange}
+                    name="LateCheckout"
+                    value="Late check-out"
+                  />
+                }
+                label={
+                  <Typography
+                    sx={
+                      LateCheckout
+                        ? { fontSize: 18, fontWeight: "bold", color: "#2A2E3F" }
+                        : { fontSize: 18, fontWeight: "regular" }
+                    }
+                  >
+                    Late check-out
+                  </Typography>
+                }
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={NonSmokingRoom}
+                    onChange={handleStandardRequestChange}
+                    name="NonSmokingRoom"
+                    value="Non-smoking room"
+                  />
+                }
+                label={
+                  <Typography
+                    sx={
+                      NonSmokingRoom
+                        ? { fontSize: 18, fontWeight: "bold", color: "#2A2E3F" }
+                        : { fontSize: 18, fontWeight: "regular" }
+                    }
+                  >
+                    Non-smoking room
+                  </Typography>
+                }
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={ARoomOnTheHighFloor}
+                    onChange={handleStandardRequestChange}
+                    name="ARoomOnTheHighFloor"
+                    value="A room on the high floor"
+                  />
+                }
+                label={
+                  <Typography
+                    sx={
+                      ARoomOnTheHighFloor
+                        ? { fontSize: 18, fontWeight: "bold", color: "#2A2E3F" }
+                        : { fontSize: 18, fontWeight: "regular" }
+                    }
+                  >
+                    A room on the high floor
+                  </Typography>
+                }
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={AQuietRoom}
+                    onChange={handleStandardRequestChange}
+                    name="AQuietRoom"
+                    value="A quiet room"
+                  />
+                }
+                label={
+                  <Typography
+                    sx={
+                      AQuietRoom
+                        ? { fontSize: 18, fontWeight: "bold", color: "#2A2E3F" }
+                        : { fontSize: 18, fontWeight: "regular" }
+                    }
+                  >
+                    A quiet room
+                  </Typography>
+                }
+              />
+            </ThemeProvider>
           </div>
         </>
 
@@ -215,74 +257,135 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
             Additional charge may apply
           </p>
           <div className="form-control flex flex-col gap-6 text-body-1 text-gray-700">
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={BabyCot}
-                  onChange={handleSpecialRequestChange}
-                  name="BabyCot"
-                  value= "Baby cot"
-                />
-              }
-              label="Baby cot (+THB 400)"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={AirportTransfer}
-                  onChange={handleSpecialRequestChange}
-                  name="AirportTransfer"
-                  value="Airport transfer"
-                />
-              }
-              label="Airport transfer (+THB 200)"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={ExtraBed}
-                  onChange={handleSpecialRequestChange}
-                  name="ExtraBed"
-                  value="Extra bed"
-                />
-              }
-              label="Extra bed (+THB 500)"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={ExtraPillows}
-                  onChange={handleSpecialRequestChange}
-                  name="ExtraPillows"
-                  value="Extra pillows"
-                />
-              }
-              label="Extra pillows (+THB 100)"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={PhoneChargersAndAdapters}
-                  onChange={handleSpecialRequestChange}
-                  name="PhoneChargersAndAdapters"
-                  value="Phone chargers and adapters"
-                />
-              }
-              label="Phone chargers and adapters (+THB 100)"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={Breakfast}
-                  onChange={handleSpecialRequestChange}
-                  name="Breakfast"
-                  value="Breakfast"
-                />
-              }
-              label="Breakfast (+150)"
-            />
+            <ThemeProvider theme={theme}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={BabyCot}
+                    onChange={handleSpecialRequestChange}
+                    name="BabyCot"
+                    value="Baby cot"
+                  />
+                }
+                label={
+                  <Typography
+                    sx={
+                      BabyCot
+                        ? { fontSize: 18, fontWeight: "bold", color: "#2A2E3F" }
+                        : { fontSize: 18, fontWeight: "regular" }
+                    }
+                  >
+                    Baby cot (+THB 400)
+                  </Typography>
+                }
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={AirportTransfer}
+                    onChange={handleSpecialRequestChange}
+                    name="AirportTransfer"
+                    value="Airport transfer"
+                  />
+                }
+                label={
+                  <Typography
+                    sx={
+                      AirportTransfer
+                        ? { fontSize: 18, fontWeight: "bold", color: "#2A2E3F" }
+                        : { fontSize: 18, fontWeight: "regular" }
+                    }
+                  >
+                    Airport transfer (+THB 200)
+                  </Typography>
+                }
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={ExtraBed}
+                    onChange={handleSpecialRequestChange}
+                    name="ExtraBed"
+                    value="Extra bed"
+                  />
+                }
+                label={
+                  <Typography
+                    sx={
+                      ExtraBed
+                        ? { fontSize: 18, fontWeight: "bold", color: "#2A2E3F" }
+                        : { fontSize: 18, fontWeight: "regular" }
+                    }
+                  >
+                    Extra bed (+THB 500)
+                  </Typography>
+                }
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={ExtraPillows}
+                    onChange={handleSpecialRequestChange}
+                    name="ExtraPillows"
+                    value="Extra pillows"
+                  />
+                }
+                label={
+                  <Typography
+                    sx={
+                      ExtraPillows
+                        ? { fontSize: 18, fontWeight: "bold", color: "#2A2E3F" }
+                        : { fontSize: 18, fontWeight: "regular" }
+                    }
+                  >
+                    Extra pillows (+THB 100)
+                  </Typography>
+                }
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={PhoneChargersAndAdapters}
+                    onChange={handleSpecialRequestChange}
+                    name="PhoneChargersAndAdapters"
+                    value="Phone chargers and adapters"
+                  />
+                }
+                label={
+                  <Typography
+                    sx={
+                      PhoneChargersAndAdapters
+                        ? { fontSize: 18, fontWeight: "bold", color: "#2A2E3F" }
+                        : { fontSize: 18, fontWeight: "regular" }
+                    }
+                  >
+                    Phone chargers and adapters (+THB 100)
+                  </Typography>
+                }
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={Breakfast}
+                    onChange={handleSpecialRequestChange}
+                    name="Breakfast"
+                    value="Breakfast"
+                  />
+                }
+                label={
+                  <Typography
+                    sx={
+                      Breakfast
+                        ? { fontSize: 18, fontWeight: "bold", color: "#2A2E3F" }
+                        : { fontSize: 18, fontWeight: "regular" }
+                    }
+                  >
+                    Breakfast (+150)
+                  </Typography>
+                }
+              />
 
-            {/* <label className="cursor-pointer">
+              {/* <label className="cursor-pointer">
               <input type="checkbox" className="checkbox checkbox-accent" />
               <span>Baby cot (+THB 400)</span>
             </label>
@@ -306,6 +409,7 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
               <input type="checkbox" className="checkbox checkbox-accent" />
               <span className="checked:text-black">Breakfast (+150)</span>
             </label> */}
+            </ThemeProvider>
           </div>
         </>
 
@@ -314,7 +418,7 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
           <textarea
             name="additionRequest"
             id="additionRequest"
-            className="h-20 w-full p-3 rounded bg-white border-2 border-gray-400 resize-none hover:border-orange-500 active:border-orange-700"
+            className="h-20 w-full p-3 rounded bg-white border-2 border-gray-400 resize-none hover:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 "
           ></textarea>
         </div>
         <ButtonNavigation
