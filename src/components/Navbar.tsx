@@ -222,7 +222,10 @@ function Navbar() {
                   </button>
                 </li>
                 <li>
-                  <button className="py-2" onClick={() => logout()}>
+                  <button
+                    className="py-2"
+                    onClick={() => navigate(`/bookingHistory`)}
+                  >
                     <img
                       className="w-4 h-4"
                       src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/booking_history.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2Jvb2tpbmdfaGlzdG9yeS5zdmciLCJpYXQiOjE2OTQ0MDU3MzksImV4cCI6MTcyNTk0MTczOX0.8Fjox_ROepJ6S3GYITg9FKlG2s1Wzk6ahtnEXYmWnI8&t=2023-09-11T04%3A15%3A38.237Z"

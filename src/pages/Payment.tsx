@@ -49,7 +49,7 @@ function Payment() {
             {/* Stepper */}
             {activeStep < steps.length && (
               <div>
-                <h1 className="font-noto-serif-display font-medium	text-[68px] text-black">
+                <h1 className="font-noto-serif-display font-medium text-headline2 text-black">
                   Booking Room
                 </h1>
 

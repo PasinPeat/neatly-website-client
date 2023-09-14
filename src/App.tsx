@@ -9,11 +9,14 @@ import Profile from "./pages/Profile.tsx";
 import PaymentMethod from "./pages/PaymentMethod.tsx";
 import SearchResult from "./pages/SearchResult.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import BookingHistory from "./pages/BookingHistory.tsx";
+import ChangeDate from "./pages/ChangeDate.tsx";
+import Refund from "./pages/Refund.tsx";
 import axios from "axios";
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { RoomsProps } from "./interfaces/RoomsProps.tsx";
-import BookingHistory from "./pages/BookingHistory.tsx";
+
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./contexts/authen.jsx";
 export const RoomsContext = React.createContext();
@@ -114,7 +117,9 @@ function App() {
           element={<PaymentMethod />}
         />
         <Route path="/profile/:profileID" element={<Profile />} />
-        <Route path="/BookingHistory" element={<BookingHistory />} />
+        <Route path="/bookingHistory" element={<BookingHistory />} />
+        <Route path="/changeDate" element={<ChangeDate />} />
+        <Route path="/refund" element={<Refund />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </RoomsContext.Provider>
