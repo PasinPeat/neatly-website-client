@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 import { RoomsProps } from "./interfaces/RoomsProps.tsx";
 import BookingHistory from "./pages/BookingHistory.tsx";
 import { useNavigate } from "react-router-dom";
-// import { useAuth } from "./contexts/authen.jsx";
+import { useAuth } from "./contexts/authen.jsx";
 export const RoomsContext = React.createContext();
 
 function App() {
