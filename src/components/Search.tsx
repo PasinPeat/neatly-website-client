@@ -86,7 +86,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
     room: 1,
     person: 2,
   };
-  // console.log(initialState);
+  // console.log(initialState.checkInDate);
 
   const [checkInDate, setCheckInDate] = useState(
     dayjs(initialState.checkInDate)

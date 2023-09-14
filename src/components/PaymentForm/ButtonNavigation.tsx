@@ -25,7 +25,7 @@ function ButtonNavigation({ steps, activeStep, setActiveStep }) {
       >
         Back
       </button>
-      <button className="Button py-4 px-2" onClick={handleNext}>
+      <button className="Button py-4" onClick={handleNext}>
         {activeStep === steps.length - 1 ? "Confirm Booking" : "Next"}
       </button>
     </div>
