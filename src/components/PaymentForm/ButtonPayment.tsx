@@ -19,9 +19,9 @@ function ButtonPayment(props) {
           <path
             d={props.image}
             stroke="#E76B39"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       ) : (
@@ -35,9 +35,9 @@ function ButtonPayment(props) {
           <path
             d={props.image}
             stroke="#E4E6ED"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       )}
