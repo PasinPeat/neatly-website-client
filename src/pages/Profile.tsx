@@ -2,6 +2,7 @@ import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../contexts/authen";
 
 interface RouteParams {
   profileID: string;
@@ -9,6 +10,7 @@ interface RouteParams {
 }
 
 function Profile() {
+  const auth = useAuth();
   const params = useParams<RouteParams>();
   const [user, setUser] = useState({
     fullName: "",
@@ -120,7 +122,7 @@ function Profile() {
   const getProfileID = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/profile/${params.profileID}`
+        `http://localhost:4000/profile/${auth.state.userData.id}`
       );
       console.log(response.data.data);
       const data = response.data.data;
@@ -132,7 +134,7 @@ function Profile() {
 
   useEffect(() => {
     getProfileID();
-  }, [params.profileID]);
+  }, [auth.state.userData.id]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
