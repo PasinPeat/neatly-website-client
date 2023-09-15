@@ -85,6 +85,7 @@ function App() {
       value={{
         rooms,
         userInput,
+        setUserInput,
       }}
     >
       <Routes>

@@ -1,25 +1,29 @@
 import { useContext } from "react";
 import { RoomsContext } from "../../App";
+import { PaymentContext } from "../../pages/Payment";
 import dayjs from "dayjs";
+// import useFormattedDate from "../../hooks/useFormattedDate";
 
-function BookingDetail({
-  selectedStandard,
-  selectedSpecial,
-  totalPrice,
-  additional,
-}) {
-  const context = useContext(RoomsContext);
-  const userInput = context.userInput;
+function BookingDetail() {
+  //  const formatdate = useFormattedDate(date);
+  const roomsContext = useContext(RoomsContext);
+  const userInput = roomsContext.userInput;
 
-  let checkInDate = userInput.checkInDate;
-  let checkOutDate = userInput.checkOutDate;
+  const checkInDate = userInput.checkInDate;
+  const checkOutDate = userInput.checkOutDate;
+
+  const paymentContext = useContext(PaymentContext);
+  const totalPrice = paymentContext.totalPrice;
+  const selectedStandard = paymentContext.selectedStandard;
+  const selectedSpecial = paymentContext.selectedSpecial;
+  const additional = paymentContext.additional;
 
   function formattedDate(date) {
     return dayjs(date).format("dd, DD-MM-YYYY");
   }
 
-  checkInDate = formattedDate(checkInDate);
-  checkOutDate = formattedDate(checkOutDate);
+  const formattedCheckInDate = formattedDate(checkInDate);
+  const formattedCheckOutDate = formattedDate(checkOutDate);
 
   return (
     <>
@@ -47,12 +51,12 @@ function BookingDetail({
 
             <div className="flex flex-col">
               <div className="flex gap-2 text-body1">
-                <p>{checkInDate}</p>
+                <p>{formattedCheckInDate}</p>
                 <p>-</p>
-                <p>{checkOutDate}</p>
+                <p>{formattedCheckOutDate}</p>
               </div>
               <div className="py-1">
-                <span>2</span>
+                <span>{userInput.person}</span>
                 <span> Guests</span>
               </div>
             </div>
@@ -62,7 +66,7 @@ function BookingDetail({
                 <p className="text-body1 text-green-300">
                   Superior Garden View Room
                 </p>
-                <p className="text-base font-semibold">2,500.00</p>
+                <p className="text-base font-semibold">{userInput.price}</p>
               </div>
               {selectedStandard &&
                 selectedStandard.map((request) => {

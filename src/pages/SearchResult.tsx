@@ -60,14 +60,6 @@ function SearchResult({
     setShowFullImage(false);
   }
 
-  function addUserInput(roomId) {
-    const room = context.rooms.find((room) => room.room_id === roomId);
-    if (selectedRoom) {
-      console.log(selectedRoom);
-    }
-    navigate("/Payment");
-  }
-
   return (
     <>
       {showFullImage && (
@@ -123,7 +115,6 @@ function SearchResult({
             onRoomDetail={handleRoomDetail}
             onFullImage={handleFullImage}
             userInput={userInput}
-            onAddUserInput={addUserInput}
           />
         ))}
       </div>

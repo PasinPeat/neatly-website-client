@@ -1,71 +1,32 @@
 import BookingDetail from "./BookingDetail";
 import BookingNote from "./BookingNote";
-import { useState } from "react";
+import { useContext } from "react";
+import { PaymentContext } from "../../pages/Payment";
 import ButtonNavigation from "./ButtonNavigation";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { FormControlLabel, Checkbox } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
-function SpecialRequest2({ steps, activeStep, setActiveStep }) {
-  const standard = [
-    { name: "Early check-in", checked: false },
-    { name: "Late check-out", checked: false },
-    { name: "Non-smoking room", checked: false },
-    { name: "A room on the high floor", checked: false },
-    { name: "A quiet room", checked: false },
-  ];
+function SpecialRequest2({
+  steps,
+  activeStep,
+  setActiveStep,
+  standard,
+  special,
+}) {
+  const context = useContext(PaymentContext);
+  const handleToggleStandardRequest = context.handleToggleStandardRequest;
+  const handleToggleSpecialRequest = context.handleToggleSpecialRequest;
+  const handleAdditionalRequest = context.handleAdditionalRequest;
+  let selectedStandard;
+  let selectedSpecial;
 
-  const special = [
-    { name: "Baby cot", price: 400, checked: false },
-    { name: "Airport transfer", price: 200, checked: false },
-    { name: "Extra bed", price: 500, checked: false },
-    { name: "Extra pillows", price: 100, checked: false },
-    { name: "Phone chargers and adapters", price: 100, checked: false },
-    { name: "Breakfast", price: 150, checked: false },
-  ];
-
-  const [requests, setRequests] = useState(special);
-  const [standardRequests, setStandardRequests] = useState(standard);
-  const [additional, setAdditional] = useState("");
-
-  function handleToggleSpecialRequest(name) {
-    setRequests((requests) =>
-      requests.map((request) =>
-        request.name === name
-          ? { ...request, checked: !request.checked }
-          : request
-      )
-    );
+  if (selectedStandard) {
+    selectedStandard = context.selectedStandard;
   }
-
-  function handleToggleStandardRequest(name) {
-    setStandardRequests((requests) =>
-      requests.map((request) =>
-        request.name === name
-          ? { ...request, checked: !request.checked }
-          : request
-      )
-    );
+  if (selectedSpecial) {
+    selectedSpecial = context.selectedSpecial;
   }
-
-  function handleAdditionalRequest(e) {
-    setAdditional(e.target.value);
-  }
-
-  const selectedSpecial = requests.filter(
-    (request) => request.checked === true
-  );
-
-  const selectedStandard = standardRequests.filter(
-    (request) => request.checked === true
-  );
-
-  const totalPrice = selectedSpecial.reduce(
-    (acc, request) => acc + request.price,
-    2500
-  );
-
-  // const info = [];
 
   const theme = createTheme({
     palette: {
@@ -180,12 +141,7 @@ function SpecialRequest2({ steps, activeStep, setActiveStep }) {
         />
       </div>
       <div className="flex flex-col gap-4">
-        <BookingDetail
-          selectedStandard={selectedStandard}
-          totalPrice={totalPrice}
-          additional={additional}
-          selectedSpecial={selectedSpecial}
-        />
+        <BookingDetail />
         <BookingNote />
       </div>
     </div>

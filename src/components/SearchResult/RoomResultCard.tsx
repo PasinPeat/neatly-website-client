@@ -1,6 +1,7 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
 import RoomDetailPopup from "./RoomDetailPopup";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { RoomsContext } from "../../App.tsx";
 import { useAuth } from "../../contexts/authen.jsx";
 
 function RoomResultCard({
@@ -17,11 +18,12 @@ function RoomResultCard({
   available,
   onRoomDetail,
   onFullImage,
-  userInput,
-  onAddUserInput,
 }) {
   const navigate = useNavigate();
   const auth = useAuth();
+  const context = useContext(RoomsContext);
+  let userInput = context.userInput;
+  const setUserInput = context.setUserInput;
 
   let isAvailable = available === 0;
 
@@ -109,13 +111,21 @@ function RoomResultCard({
               >
                 Room Detail
               </button>
+
               {isAvailable && auth.isAuthenticated ? (
                 <button
                   className="btn Button"
-                  onClick={
-                    () => onAddUserInput(roomId)
-                    // navigate("/Payment")
-                  }
+                  onClick={() => {
+                    userInput = {
+                      ...userInput,
+                      roomId,
+                      price: promotionPrice,
+                      person,
+                    };
+                    console.log(userInput);
+                    setUserInput(userInput);
+                    navigate("/payment");
+                  }}
                 >
                   Book now
                 </button>
