@@ -28,9 +28,9 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
     PhoneChargersAndAdapters: false,
     Breakfast: false,
   });
-  const [SpecialRequestSelected, setSpecialRequestSelected] = useState<
-    string[]
-  >([]);
+  const [SpecialRequestSelected, setSpecialRequestSelected] = useState<any[]>(
+    []
+  );
 
   const [totalCost, setTotalCost] = useState(0);
 
@@ -50,6 +50,8 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
     Breakfast,
   } = SpecialRequest;
 
+  // const [{option,price}] = SpecialRequestSelected
+
   const handleStandardRequestChange = (event) => {
     const { name, checked, value } = event.target;
     setStandardRequest({
@@ -68,8 +70,8 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
       );
     }
   };
-  console.log(StandardRequestSelected);
-  console.log(StandardRequest);
+  // console.log(StandardRequestSelected);
+  // console.log(StandardRequest);
 
   const handleSpecialRequestChange = (event) => {
     const { name, checked, value } = event.target;
@@ -78,14 +80,30 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
       [name]: checked,
     });
 
+    const addSpecialRequestData = (value: string) => {
+      return value === "Baby cot"
+        ? { option: "Baby cot", price: 400 }
+        : value === "Airport transfer"
+        ? { option: "Airport transfer", price: 200 }
+        : value === "Extra bed"
+        ? { option: "Extra bed", price: 500 }
+        : value === "Extra pillows"
+        ? { option: "Extra pillows", price: 100 }
+        : value === "Phone chargers and adapters"
+        ? { option: "Phone chargers and adapters", price: 100 }
+        : value === "Breakfast"
+        ? { option: "Breakfast", price: 150 }
+        : undefined;
+    };
+
     if (checked) {
       setSpecialRequestSelected((prevSpecialRequestSelected) => [
         ...prevSpecialRequestSelected,
-        value,
+        addSpecialRequestData(value),
       ]);
     } else {
       setSpecialRequestSelected((prevSpecialRequestSelected) =>
-        prevSpecialRequestSelected.filter((str) => str !== value)
+        prevSpecialRequestSelected.filter((obj) => obj.option !== value)
       );
     }
 
@@ -119,7 +137,25 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
   // console.log(totalCost);
   // console.log(SpecialRequest);
 
+  console.log(SpecialRequestSelected);
+  // console.log(JSON.stringify(SpecialRequestSelected[0]));
   // console.log(SpecialRequestSelected);
+  // console.dir(SpecialRequestSelected[0])
+
+  // function printObject(obj) {
+  //   for (let key in obj) {
+  //     if (obj.hasOwnProperty(key)) {
+  //       if (typeof obj[key] === 'object') {
+  //         console.log(key + ':');
+  //         printObject(obj[key]); // Recursively print sub-objects
+  //       } else {
+  //         console.log(key + ': ' + obj[key]);
+  //       }
+  //     }
+  //   }
+  // }
+
+  // printObject(SpecialRequestSelected[0]);
 
   const theme = createTheme({
     palette: {
@@ -148,7 +184,6 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
                     onChange={handleStandardRequestChange}
                     name="EarlyCheckin"
                     value="Early check-in"
-                    // {name: "Early check-in",value: 200}
                   />
                 }
                 label={
@@ -265,8 +300,10 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
                     onChange={handleSpecialRequestChange}
                     name="BabyCot"
                     value="Baby cot"
+                    // value={{ option: "Baby cot", price: 400 }}
                   />
                 }
+                // value={{option:"Baby cot",price: 400}}
                 label={
                   <Typography
                     sx={
