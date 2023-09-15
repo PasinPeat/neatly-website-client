@@ -64,7 +64,7 @@ function BookingDetail() {
             <div className="mb-4">
               <div className="flex justify-between py-3">
                 <p className="text-body1 text-green-300">
-                  Superior Garden View Room
+                  {userInput.roomType}
                 </p>
                 <p className="text-base font-semibold">{userInput.price}</p>
               </div>

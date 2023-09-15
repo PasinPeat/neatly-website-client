@@ -118,9 +118,9 @@ function RoomResultCard({
                   onClick={() => {
                     userInput = {
                       ...userInput,
+                      roomType,
                       roomId,
                       price: promotionPrice,
-                      person,
                     };
                     console.log(userInput);
                     setUserInput(userInput);
