@@ -140,13 +140,8 @@ function PaymentMethod() {
       <Navbar />
       <div className="flex flex-col w-[70%] mb-[480px] ">
         <form onSubmit={handleSubmit}>
-<<<<<<< Updated upstream
           <div className="flex flex-row justify-between mt-[50px]  items-center">
             <h1 className="font-noto-serif-display text-[68px] font-medium mb-[25px] text-green-800">
-=======
-          <div className="flex flex-row justify-between mt-[80px] items-center">
-            <h1 className="font-noto-serif-display text-headline2 font-medium text-green-800">
->>>>>>> Stashed changes
               Payment Method
             </h1>
             <button

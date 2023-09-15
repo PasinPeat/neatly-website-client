@@ -1,6 +1,6 @@
 import Navbar from "../components/Navbar";
 import StepBasicInfo from "../components/PaymentForm/StepBasicInfo";
-import StepSpecialRequest from "../components/PaymentForm/StepSpecialRequest";
+import StepSpecialRequest2 from "../components/PaymentForm/StepSpecialRequest2";
 import StepPayment from "../components/PaymentForm/StepPayment";
 import ReviewPayment from "../components/PaymentForm/ReviewPayment";
 import { useState } from "react";
@@ -21,7 +21,7 @@ function Payment() {
         );
       case 1:
         return (
-          <StepSpecialRequest
+          <StepSpecialRequest2
             activeStep={activeStep}
             setActiveStep={setActiveStep}
             steps={steps}

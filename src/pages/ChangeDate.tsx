@@ -61,7 +61,7 @@ function ChangeDate() {
     <div>
       <Navbar />
       <div className="bg-bg flex flex-col items-center pt-20 pb-28">
-        <h1 className="mb-12 w-[1120px] font-noto-serif-display text-headline2 font-medium text-green-800">
+        <h1 className="mb-12 w-[1120px] font-noto-serif-display text-headline2 font-medium text-gray-900">
           Change Check-in
           <br></br>
           and Check-out Date

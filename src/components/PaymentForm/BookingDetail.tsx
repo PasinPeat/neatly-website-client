@@ -1,4 +1,26 @@
-function BookingDetail() {
+import { useContext } from "react";
+import { RoomsContext } from "../../App";
+import dayjs from "dayjs";
+
+function BookingDetail({
+  selectedStandard,
+  selectedSpecial,
+  totalPrice,
+  additional,
+}) {
+  const context = useContext(RoomsContext);
+  const userInput = context.userInput;
+
+  let checkInDate = userInput.checkInDate;
+  let checkOutDate = userInput.checkOutDate;
+
+  function formattedDate(date) {
+    return dayjs(date).format("dd, DD-MM-YYYY");
+  }
+
+  checkInDate = formattedDate(checkInDate);
+  checkOutDate = formattedDate(checkOutDate);
+
   return (
     <>
       <div className="w-[358px] text-white ">
@@ -25,9 +47,9 @@ function BookingDetail() {
 
             <div className="flex flex-col">
               <div className="flex gap-2 text-body1">
-                <p>Th, 19 Oct 2022</p>
+                <p>{checkInDate}</p>
                 <p>-</p>
-                <p>Fri, 20 Oct 2022</p>
+                <p>{checkOutDate}</p>
               </div>
               <div className="py-1">
                 <span>2</span>
@@ -35,17 +57,51 @@ function BookingDetail() {
               </div>
             </div>
 
-            <div className="flex justify-between py-3 mb-4">
-              <p className="text-body1 text-green-300">
-                Superior Garden View Room
-              </p>
-              <p className="text-base font-semibold">2,500.00</p>
+            <div className="mb-4">
+              <div className="flex justify-between py-3">
+                <p className="text-body1 text-green-300">
+                  Superior Garden View Room
+                </p>
+                <p className="text-base font-semibold">2,500.00</p>
+              </div>
+              {selectedStandard &&
+                selectedStandard.map((request) => {
+                  return (
+                    <div
+                      className="flex justify-between py-3"
+                      key={request.name}
+                    >
+                      <p className="text-body1 text-green-300">
+                        {request.name}
+                      </p>
+                    </div>
+                  );
+                })}
+              {selectedSpecial &&
+                selectedSpecial.map((request) => {
+                  return (
+                    <div
+                      className="flex justify-between py-3"
+                      key={request.name}
+                    >
+                      <p className="text-body1 text-green-300">
+                        {request.name}
+                      </p>
+                      <p className="text-base font-semibold">{request.price}</p>
+                    </div>
+                  );
+                })}
             </div>
           </div>
+
+          {additional && (
+            <div className="mb-4 py-3 text-body1 text-base">{additional}</div>
+          )}
+
           <hr className="border-t-2 border-green-600" />
           <div className="flex justify-between pt-6">
             <p className="text-body1 text-green-300">Total</p>
-            <p className="text-headline5">THB 2,500.00</p>
+            <p className="text-headline5">THB {totalPrice}</p>
           </div>
         </div>
       </div>

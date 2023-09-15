@@ -18,6 +18,7 @@ function RoomResultCard({
   onRoomDetail,
   onFullImage,
   userInput,
+  onAddUserInput,
 }) {
   const navigate = useNavigate();
   const auth = useAuth();
@@ -31,6 +32,10 @@ function RoomResultCard({
   const backgroundImage = {
     backgroundImage: `url('${roomImages[2]}')`,
   };
+
+  function handleInfo() {
+    userInput;
+  }
 
   return (
     <div>
@@ -107,7 +112,10 @@ function RoomResultCard({
               {isAvailable && auth.isAuthenticated ? (
                 <button
                   className="btn Button"
-                  onClick={() => navigate("/Payment")}
+                  onClick={
+                    () => onAddUserInput(roomId)
+                    // navigate("/Payment")
+                  }
                 >
                   Book now
                 </button>
