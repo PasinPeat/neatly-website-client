@@ -1,8 +1,10 @@
 import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../contexts/authen";
+import jwtDecode from "jwt-decode";
 
 interface RouteParams {
   profileID: string;
@@ -24,6 +26,7 @@ function Profile() {
     { value: string; label: string }[]
   >([]);
   const [avatars, setAvatars] = useState<{ [key: string]: File }>({});
+  const [checkUser, setCheckUser] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -42,6 +45,8 @@ function Profile() {
 
   //loading
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const validateFullName = (name: string) => {
     if (typeof name !== "string" || name.trim() === "") {
@@ -86,6 +91,24 @@ function Profile() {
     }
   };
 
+  //check user
+  const fetchAuth = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const userDataFromToken = jwtDecode(token);
+      const result = await axios.get(
+        `http://localhost:4000/validUser/${userDataFromToken.user_id}`
+      );
+      setCheckUser(result);
+    } else {
+      navigate("/");
+    }
+  };
+
+  useEffect(() => {
+    fetchAuth();
+  }, []);
+
   useEffect(() => {
     validateCountry();
   }, [user.country]);
@@ -120,21 +143,25 @@ function Profile() {
   };
 
   const getProfileID = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:4000/profile/${auth.state.userData.id}`
-      );
-      console.log(response.data.data);
-      const data = response.data.data;
-      setUser(data);
-    } catch (error) {
-      console.error(error);
+    const token = localStorage.getItem("token");
+    console.log(auth.state.userData);
+    if (token) {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/profile/${auth.state.userData.id}`
+        );
+        console.log(response.data.data);
+        const data = response.data.data;
+        setUser(data);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
   useEffect(() => {
     getProfileID();
-  }, [auth.state.userData.id]);
+  }, [checkUser]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
