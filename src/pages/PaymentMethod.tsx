@@ -1,8 +1,10 @@
 import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../contexts/authen";
+import jwtDecode from "jwt-decode";
 
 interface RouteParams {
   paymentmethodID: string;
@@ -22,6 +24,8 @@ function PaymentMethod() {
     card_owner: "",
     cvc: "",
   });
+  const [checkUser, setCheckUser] = useState(null);
+  const navigate = useNavigate();
 
   const validateFullNameCredit = (name: string) => {
     const names = name.trim().split(" ");
@@ -36,32 +40,54 @@ function PaymentMethod() {
     }
   };
 
-  const getPaymentID = async () => {
-    if (!fullNameErrorCredit && !creditCardError) {
-      try {
-        const response = await axios.get(
-          `http://localhost:4000/paymentmethod/${auth.state.userData.credit_card_id}`
-        );
-        console.log(response.data.data);
-        const data = response.data.data;
+  //check user
+  const fetchAuth = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const userDataFromToken = jwtDecode(token);
+      const result = await axios.get(
+        `http://localhost:4000/validUser/${userDataFromToken.credit_card_id}`
+      );
+      setCheckUser(result);
+    } else {
+      navigate("/");
+    }
+  };
 
-        const formattedCardNumber = data.card_number
-          .replace(/[^\d]/g, "")
-          .replace(/(\d{4})/g, "$1 ")
-          .trim();
-        setPayment({
-          ...data,
-          card_number: formattedCardNumber,
-        });
-      } catch (error) {
-        console.error(error);
+  useEffect(() => {
+    fetchAuth();
+  }, []);
+
+  const getPaymentID = async () => {
+    const token = localStorage.getItem("token");
+    console.log(auth.state.userData);
+    if (token) {
+      if (!fullNameErrorCredit && !creditCardError) {
+        try {
+          const response = await axios.get(
+            `http://localhost:4000/paymentmethod/${auth.state.userData.credit_card_id}`
+          );
+          console.log(response.data.data);
+          const data = response.data.data;
+
+          const formattedCardNumber = data.card_number
+            .replace(/[^\d]/g, "")
+            .replace(/(\d{4})/g, "$1 ")
+            .trim();
+          setPayment({
+            ...data,
+            card_number: formattedCardNumber,
+          });
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
   };
 
   useEffect(() => {
     getPaymentID();
-  }, [auth.state.userData.credit_card_id]);
+  }, [checkUser]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
