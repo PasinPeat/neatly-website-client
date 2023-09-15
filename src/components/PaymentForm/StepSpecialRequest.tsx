@@ -138,24 +138,11 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
   // console.log(SpecialRequest);
 
   console.log(SpecialRequestSelected);
-  // console.log(JSON.stringify(SpecialRequestSelected[0]));
+  
   // console.log(SpecialRequestSelected);
   // console.dir(SpecialRequestSelected[0])
 
-  // function printObject(obj) {
-  //   for (let key in obj) {
-  //     if (obj.hasOwnProperty(key)) {
-  //       if (typeof obj[key] === 'object') {
-  //         console.log(key + ':');
-  //         printObject(obj[key]); // Recursively print sub-objects
-  //       } else {
-  //         console.log(key + ': ' + obj[key]);
-  //       }
-  //     }
-  //   }
-  // }
-
-  // printObject(SpecialRequestSelected[0]);
+  
 
   const theme = createTheme({
     palette: {
@@ -300,10 +287,10 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
                     onChange={handleSpecialRequestChange}
                     name="BabyCot"
                     value="Baby cot"
-                    // value={{ option: "Baby cot", price: 400 }}
+                    
                   />
                 }
-                // value={{option:"Baby cot",price: 400}}
+                
                 label={
                   <Typography
                     sx={
@@ -422,30 +409,7 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
                 }
               />
 
-              {/* <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span>Baby cot (+THB 400)</span>
-            </label>
-            <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span>Airport transfer (+THB 200)</span>
-            </label>
-            <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span>Extra bed (+THB 500)</span>
-            </label>
-            <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span>Extra pillows (+THB 100)</span>
-            </label>
-            <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span>Phone chargers and adapters (+THB 100)</span>
-            </label>
-            <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span className="checked:text-black">Breakfast (+150)</span>
-            </label> */}
+              
             </ThemeProvider>
           </div>
         </>
