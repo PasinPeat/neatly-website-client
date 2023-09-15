@@ -17,9 +17,6 @@ import axios from "axios";
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { RoomsProps } from "./interfaces/RoomsProps.tsx";
-
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "./contexts/authen.jsx";
 export const RoomsContext = React.createContext();
 
 function App() {

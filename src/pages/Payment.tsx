@@ -15,8 +15,11 @@ function Payment() {
   const context = useContext(RoomsContext);
   const userInput = context.userInput;
 
-  console.log(userInput);
-  console.log(userInput.price);
+  // console.log(userInput);
+
+  /*confirm booking*/
+  if (activeStep > steps.length) {
+  }
 
   const standard = [
     { name: "Early check-in", checked: false },
