@@ -1,4 +1,9 @@
+import BookingsContext from "../../contexts/BookingContext";
+import { useContext } from "react";
+
 function BookingDetail() {
+  const { bookings } = useContext(BookingsContext);
+  console.log(bookings);
   return (
     <>
       <div className="w-[358px] text-white ">
