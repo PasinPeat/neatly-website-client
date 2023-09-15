@@ -16,6 +16,7 @@ import { RoomsProps } from "./interfaces/RoomsProps.tsx";
 import BookingHistory from "./pages/BookingHistory.tsx";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./contexts/authen.jsx";
+import { BookingsProvider } from "./contexts/BookingContext.jsx";
 export const RoomsContext = React.createContext();
 
 function App() {
@@ -77,47 +78,49 @@ function App() {
     }
   };
   return (
-    <RoomsContext.Provider
-      value={{
-        rooms,
-        userInput,
-      }}
-    >
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Home
-              setUserInput={setUserInput}
-              onSearchResult={handleSearchResult}
-            />
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/room/:roomId" element={<RoomDetail />} />
-        <Route
-          path="/search"
-          element={
-            <SearchResult
-              roomResult={roomResult}
-              userInput={userInput}
-              setUserInput={setUserInput}
-              onSearchResult={handleSearchResult}
-              setRoomResult={setRoomResult}
-            />
-          }
-        />
-        <Route path="/payment" element={<Payment />} />
-        <Route
-          path="/paymentmethod/:paymentmethodID"
-          element={<PaymentMethod />}
-        />
-        <Route path="/profile/:profileID" element={<Profile />} />
-        <Route path="/BookingHistory" element={<BookingHistory />} />
-        <Route path="/*" element={<NotFound />} />
-      </Routes>
-    </RoomsContext.Provider>
+    <BookingsProvider>
+      <RoomsContext.Provider
+        value={{
+          rooms,
+          userInput,
+        }}
+      >
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Home
+                setUserInput={setUserInput}
+                onSearchResult={handleSearchResult}
+              />
+            }
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/room/:roomId" element={<RoomDetail />} />
+          <Route
+            path="/search"
+            element={
+              <SearchResult
+                roomResult={roomResult}
+                userInput={userInput}
+                setUserInput={setUserInput}
+                onSearchResult={handleSearchResult}
+                setRoomResult={setRoomResult}
+              />
+            }
+          />
+          <Route path="/payment" element={<Payment />} />
+          <Route
+            path="/paymentmethod/:paymentmethodID"
+            element={<PaymentMethod />}
+          />
+          <Route path="/profile/:profileID" element={<Profile />} />
+          <Route path="/BookingHistory" element={<BookingHistory />} />
+          <Route path="/*" element={<NotFound />} />
+        </Routes>
+      </RoomsContext.Provider>
+    </BookingsProvider>
   );
 }
 
