@@ -97,6 +97,7 @@ function Payment() {
             )}
 
             {/* <hr className="border-t-1 border-gray-300" /> */}
+            {/* <hr className="border-t-1 border-gray-300" /> */}
             {activeStep === steps.length ? (
               // สรุปข้อมูลการจอง
               <div className="flex justify-center items-center">
