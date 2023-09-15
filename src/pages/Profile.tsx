@@ -262,6 +262,15 @@ function Profile() {
               headers: { "Content-Type": "multipart/form-data" },
             }
           );
+
+          // const response = await axios.delete(
+          //   `http://localhost:4000/profile/${params.profileID}`,
+          //   formData,
+          //   {
+          //     headers: { "Content-Type": "multipart/form-data" },
+          //   }
+          // );
+
           setIsLoading(false);
           setIsModalOpen(true);
           console.log(response.data);
@@ -547,6 +556,12 @@ function Profile() {
                         accept="image/jpg, image/jpeg, image/png"
                         hidden
                       />
+                      <button
+                        className="h-[24px] w-[24px] rounded-full bg-[#B61515] flex items-center justify-center absolute top-[60px] left-[180px] hover:bg-orange-700 active:bg-orange-800"
+                        onClick={() => handleRemoveImage(avatarKey)}
+                      >
+                        X
+                      </button>
                     </div>
                   </label>
                 </div>
@@ -572,6 +587,33 @@ function Profile() {
                   </div>
                 );
               })}
+              {Object.keys(avatars).length === 0 && (
+                <div>
+                  <label htmlFor="upload">
+                    <div
+                      className={`w-[197px] h-[167px] bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center border-2 hover:border-orange-500 active:border-orange-700 ${
+                        invalidFile ? "border-[#B61515]" : "focus:outline-none"
+                      }`}
+                    >
+                      <p className="text-orange-500 text-[30px] font-medium text-center">
+                        +
+                      </p>
+                      <p className="text-orange-500 text-sm font-medium text-center">
+                        Upload photo
+                      </p>
+                      <input
+                        id="upload"
+                        name="avatar"
+                        type="file"
+                        onChange={handleFileChange}
+                        disabled={Object.keys(avatars).length > 0}
+                        accept="image/jpg, image/jpeg, image/png"
+                        hidden
+                      />
+                    </div>
+                  </label>
+                </div>
+              )}
               {/* Invalid File */}
               <div className="h-[35px]">
                 {invalidFile && (
