@@ -32,7 +32,7 @@ function ReviewPayment() {
                 Fri, 20 Oct 2022
               </p>
             </div>
-            <p className="text-white text-body1">2 Guests</p>
+            <p className="text-white text-body1">{userInput.person} Guests</p>
           </div>
           <div className="flex gap-6">
             <div>
@@ -54,9 +54,9 @@ function ReviewPayment() {
           </div>
           <div className="flex justify-between py-3">
             {/* room_type */}
-            <p>Superior Garden View Room</p>
+            <p>{userInput.roomType}</p>
             <p className="text-white text-base font-semibold">
-              {userInput.price}
+              {userInput.pricePerRoom}
             </p>
           </div>
           <div className="flex justify-between py-3 mb-4">
@@ -67,7 +67,9 @@ function ReviewPayment() {
           <hr className="border-t-2 border-green-600" />
           <div className="flex justify-between pt-6">
             <p>Total</p>
-            <p className="text-white text-headline5">THB </p>
+            <p className="text-white text-headline5">
+              {userInput.totalPriceAfterAddReqs}
+            </p>
           </div>
         </div>
       </div>

@@ -16,14 +16,6 @@ function ButtonNavigation({ steps, activeStep, setActiveStep }) {
   const selectedSpecial = paymentContext.selectedSpecial;
   const additional = paymentContext.additional;
 
-  const selectedStandardName = selectedStandard.map((request) => request.name);
-  const selectedSpecialName = selectedSpecial.map((request) => request.name);
-  // console.log(selectedSpecialName);
-
-  // auth.state.userData.id;
-  // import { useAuth } from "./contexts/authen.jsx";
-  // const auth = useAuth();
-
   const handleNext = () => {
     setActiveStep(activeStep + 1);
     userInput = {
@@ -38,7 +30,7 @@ function ButtonNavigation({ steps, activeStep, setActiveStep }) {
   };
 
   const handleSubmitBookingData = async (e) => {
-    e.preventDefault();
+    setActiveStep(activeStep + 1);
     console.log(userInput);
 
     const standard_request = userInput.selectedStandard.map(
@@ -67,7 +59,6 @@ function ButtonNavigation({ steps, activeStep, setActiveStep }) {
     try {
       await axios.post(`http://localhost:4000/booking`, data);
       // console.log(response.data.data);
-      setActiveStep(activeStep + 1);
     } catch (error) {
       console.error(error);
     }
