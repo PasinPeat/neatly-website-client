@@ -116,7 +116,7 @@ function App() {
             element={<PaymentMethod />}
           />
           <Route path="/profile/:profileID" element={<Profile />} />
-          <Route path="/BookingHistory" element={<BookingHistory />} />
+          <Route path="/booking/user/:userId" element={<BookingHistory />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </RoomsContext.Provider>
