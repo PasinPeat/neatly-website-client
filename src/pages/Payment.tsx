@@ -4,7 +4,7 @@ import StepBasicInfo from "../components/PaymentForm/StepBasicInfo";
 import StepSpecialRequest2 from "../components/PaymentForm/StepSpecialRequest2";
 import StepPayment from "../components/PaymentForm/StepPayment";
 import ReviewPayment from "../components/PaymentForm/ReviewPayment";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { RoomsContext } from "../App.tsx";
 export const PaymentContext = React.createContext();
 import dayjs from "dayjs";
@@ -14,13 +14,37 @@ function Payment() {
   const [activeStep, setActiveStep] = useState(0);
 
   const context = useContext(RoomsContext);
-  const userInput = context.userInput;
 
-  // console.log(userInput);
+  const [userInput, setUserInput] = useState<object>({
+    checkInDate: "2023-09-16",
+    checkOutDate: "2023-09-17",
+    person: 2,
+    price: 3000,
+    room: 1,
+    roomId: 3,
+    roomType: "Deluxe",
+  });
 
-  /*confirm booking*/
-  if (activeStep > steps.length) {
-  }
+  useEffect(() => {
+    if (context) {
+      setUserInput(context.userInput);
+    } if(!context) {
+      setUserInput({
+        checkInDate: "2023-09-16",
+        checkOutDate: "2023-09-17",
+        person: 2,
+        price: 3000,
+        room: 1,
+        roomId: 3,
+        roomType: "Deluxe",
+      });
+    }
+  }, [context]);
+
+  // const userInput = context.userInput;
+
+  console.log(userInput);
+  // console.log(userInput.price);
 
   const standard = [
     { name: "Early check-in", checked: false },

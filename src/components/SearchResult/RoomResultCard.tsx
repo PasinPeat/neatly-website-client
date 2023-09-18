@@ -116,16 +116,24 @@ function RoomResultCard({
                 <button
                   className="btn Button"
                   onClick={() => {
-                    userInput = {
-                      ...userInput,
+                    setUserInput((prevUserInput) => ({
+                      ...prevUserInput,
                       roomType,
                       roomId,
                       totalPrice:
                         promotionPrice * userInput.night * userInput.room,
                       pricePerNight: promotionPrice,
-                    };
-                    console.log(userInput);
-                    setUserInput(userInput);
+                    }));
+                    localStorage.setItem(
+                      "userInput",
+                      JSON.stringify({
+                        ...userInput,
+                        roomType,
+                        roomId,
+                        price: promotionPrice,
+                      })
+                    );
+
                     navigate("/payment");
                   }}
                 >

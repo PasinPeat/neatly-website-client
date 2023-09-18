@@ -33,9 +33,15 @@ function App() {
   };
 
   useEffect(() => {
+    const storedUserInput = localStorage.getItem("userInput");
+
+    if (storedUserInput) {
+      setUserInput(JSON.parse(storedUserInput));
+    }
+
+    // Fetch rooms
     getRooms();
   }, []);
-
   const handleSearchResult = async (result) => {
     try {
       const results = await axios.get(

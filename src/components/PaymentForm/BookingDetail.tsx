@@ -1,16 +1,19 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { RoomsContext } from "../../App";
 import { PaymentContext } from "../../pages/Payment";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 // import useFormattedDate from "../../hooks/useFormattedDate";
 
 function BookingDetail() {
   //  const formatdate = useFormattedDate(date);
   const roomsContext = useContext(RoomsContext);
-  const userInput = roomsContext.userInput;
+  // const userInput = roomsContext.userInput;
 
-  const checkInDate = userInput.checkInDate;
-  const checkOutDate = userInput.checkOutDate;
+  // const checkInDate = userInput.checkInDate;
+  // const checkOutDate = userInput.checkOutDate;
+  const [userInput, setUserInput] = useState({});
+  const [checkInDate, setCheckInDate] = useState<Dayjs | null | string>(null);
+  const [checkOutDate, setCheckOutDate] = useState<Dayjs | null | string>(null);
 
   const paymentContext = useContext(PaymentContext);
   const totalPriceAfterAddReqs = paymentContext.totalPriceAfterAddReqs;
@@ -18,12 +21,47 @@ function BookingDetail() {
   const selectedSpecial = paymentContext.selectedSpecial;
   const additional = paymentContext.additional;
 
-  function formattedDate(date) {
-    return dayjs(date).format("dd, DD-MM-YYYY");
+  function formattedDate(date: Dayjs | string) {
+    return date ? dayjs(date).format("dd, DD-MM-YYYY") : "";
   }
+  useEffect(() => {
+    const storedUserInput = localStorage.getItem("userInput");
 
-  const formattedCheckInDate = formattedDate(checkInDate);
-  const formattedCheckOutDate = formattedDate(checkOutDate);
+    if (storedUserInput) {
+      setUserInput(JSON.parse(storedUserInput));
+    }
+  }, []);
+  useEffect(() => {
+    if (paymentContext) {
+      setTotalPrice(paymentContext.totalPrice);
+      setSelectedStandard(paymentContext.selectedStandard);
+      setSelectedSpecial(paymentContext.selectedSpecial);
+      setAdditional(paymentContext.additional);
+    } else {
+      setTotalPrice(0);
+      setSelectedStandard([]);
+      setSelectedSpecial([]);
+      setAdditional("");
+    }
+  }, [
+    paymentContext,
+    totalPrice,
+    selectedStandard,
+    selectedSpecial,
+    additional,
+  ]);
+
+  useEffect(() => {
+    if (userInput) {
+      setCheckInDate(formattedDate(userInput.checkInDate));
+      setCheckOutDate(formattedDate(userInput.checkOutDate));
+    } else {
+      setCheckInDate(dayjs().add(1, "day").format("dd, DD-MM-YYYY"));
+      setCheckOutDate(dayjs().add(2, "day").format("dd, DD-MM-YYYY"));
+    }
+  }, [userInput, checkInDate, checkOutDate]);
+  // const formattedCheckInDate = formattedDate(checkInDate);
+  // const formattedCheckOutDate = formattedDate(checkOutDate);
 
   return (
     <>
@@ -51,9 +89,9 @@ function BookingDetail() {
 
             <div className="flex flex-col">
               <div className="flex gap-2 text-body1">
-                <p>{formattedCheckInDate}</p>
+                <p>{checkInDate}</p>
                 <p>-</p>
-                <p>{formattedCheckOutDate}</p>
+                <p>{checkOutDate}</p>
               </div>
               <div className="flex gap-[77px]">
                 <div className="py-1">
