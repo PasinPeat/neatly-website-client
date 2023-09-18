@@ -17,7 +17,6 @@ function SearchResult({
   setRoomResult,
 }) {
   const context = useContext(RoomsContext);
-  const navigate = useNavigate();
   const seachResultBtn = "Button-search-result";
   const [showRoomDetail, setShowRoomDetail] = useState(false);
   const [showFullImage, setShowFullImage] = useState(false);

@@ -22,7 +22,7 @@ function StepPayment({ steps, activeStep, setActiveStep }) {
       const response = await axios.get(
         `http://localhost:4000/paymentmethod/${auth.state.userData.credit_card_id}`
       );
-      console.log(response.data.data);
+      // console.log(response.data.data);
       const data = response.data.data;
 
       const formattedCardNumber = data.card_number

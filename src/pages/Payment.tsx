@@ -7,6 +7,7 @@ import ReviewPayment from "../components/PaymentForm/ReviewPayment";
 import { useState, useContext } from "react";
 import { RoomsContext } from "../App.tsx";
 export const PaymentContext = React.createContext();
+import dayjs from "dayjs";
 
 function Payment() {
   const steps = ["Basic Information", "Special Request", "Payment Method"];
@@ -38,7 +39,7 @@ function Payment() {
     { name: "Breakfast", price: 150, checked: false },
   ];
 
-  const [requests, setRequests] = useState(special);
+  const [specialRequests, setSpecialRequests] = useState(special);
   const [standardRequests, setStandardRequests] = useState(standard);
   const [additional, setAdditional] = useState("");
 
@@ -59,7 +60,7 @@ function Payment() {
 
   /*toggle special requests*/
   function handleToggleSpecialRequest(name) {
-    setRequests((requests) =>
+    setSpecialRequests((requests) =>
       requests.map((request) =>
         request.name === name
           ? { ...request, checked: !request.checked }
@@ -68,7 +69,7 @@ function Payment() {
     );
   }
 
-  const selectedSpecial = requests.filter(
+  const selectedSpecial = specialRequests.filter(
     (request) => request.checked === true
   );
 
@@ -78,12 +79,12 @@ function Payment() {
   }
 
   /*find total Price*/
-  let totalPrice = userInput.price;
+  let totalPriceAfterAddReqs = userInput.totalPrice;
 
   if (selectedSpecial) {
-    totalPrice = selectedSpecial.reduce(
+    totalPriceAfterAddReqs = selectedSpecial.reduce(
       (acc, request) => acc + request.price,
-      userInput.price
+      userInput.totalPrice
     );
   }
 
@@ -103,8 +104,8 @@ function Payment() {
             activeStep={activeStep}
             setActiveStep={setActiveStep}
             steps={steps}
-            standard={standard}
-            special={special}
+            standardRequests={standardRequests}
+            specialRequests={specialRequests}
           />
         );
       case 2:
@@ -120,13 +121,45 @@ function Payment() {
     }
   }
 
+  /*confirm booking*/
+  // if (activeStep === steps.length) {
+  //   const standard_request = userInput.selectedStandard.map(
+  //     (request) => request.name
+  //   );
+  //   const special_request = userInput.selectedSpecial.map(
+  //     (request) => request.name
+  //   );
+
+  //   const bookingData = {
+  //     booking_date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+  //     // booking_date: null,
+  //     amount_room: userInput.room,
+  //     amount_stay: userInput.person,
+  //     check_in: userInput.checkInDate,
+  //     check_out: userInput.checkOutDate,
+  //     room_id: userInput.roomId,
+  //     user_id: null,
+  //     total_price: userInput.totalPriceAfterAddReqs,
+  //     update_booking_date: null,
+  //     standard_request,
+  //     special_request,
+  //     additional_request: userInput.additional,
+  //     room_avaliable_id: null,
+  //   };
+  //   console.log(bookingData);
+
+  // const response  await axios.post(
+  //   `http://localhost:4000/booking/${bookingData}`,
+  //   { ...payment, card_number: cleanedCardNumber }
+  // );
+
   return (
     <PaymentContext.Provider
       value={{
         selectedStandard,
         selectedSpecial,
         additional,
-        totalPrice,
+        totalPriceAfterAddReqs,
         handleToggleStandardRequest,
         handleToggleSpecialRequest,
         handleAdditionalRequest,
