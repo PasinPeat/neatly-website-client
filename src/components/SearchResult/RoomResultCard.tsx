@@ -120,7 +120,9 @@ function RoomResultCard({
                       ...userInput,
                       roomType,
                       roomId,
-                      price: promotionPrice,
+                      totalPrice:
+                        promotionPrice * userInput.night * userInput.room,
+                      pricePerNight: promotionPrice,
                     };
                     console.log(userInput);
                     setUserInput(userInput);

@@ -13,7 +13,7 @@ function BookingDetail() {
   const checkOutDate = userInput.checkOutDate;
 
   const paymentContext = useContext(PaymentContext);
-  const totalPrice = paymentContext.totalPrice;
+  const totalPriceAfterAddReqs = paymentContext.totalPriceAfterAddReqs;
   const selectedStandard = paymentContext.selectedStandard;
   const selectedSpecial = paymentContext.selectedSpecial;
   const additional = paymentContext.additional;
@@ -55,9 +55,15 @@ function BookingDetail() {
                 <p>-</p>
                 <p>{formattedCheckOutDate}</p>
               </div>
-              <div className="py-1">
-                <span>{userInput.person}</span>
-                <span> Guests</span>
+              <div className="flex gap-[77px]">
+                <div className="py-1">
+                  <span>{userInput.person}</span>
+                  <span> {userInput.person > 1 ? `Guests` : `Guest`}</span>
+                </div>
+                <div className="py-1">
+                  <span>{userInput.room}</span>
+                  <span> {userInput.room > 1 ? `Rooms` : `Room`}</span>
+                </div>
               </div>
             </div>
 
@@ -66,7 +72,14 @@ function BookingDetail() {
                 <p className="text-body1 text-green-300">
                   {userInput.roomType}
                 </p>
-                <p className="text-base font-semibold">{userInput.price}</p>
+                <p className="text-base font-semibold">
+                  {userInput.pricePerNight
+                    .toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "THB",
+                    })
+                    .replace("THB", "")}
+                </p>
               </div>
               {selectedStandard &&
                 selectedStandard.map((request) => {
@@ -91,7 +104,14 @@ function BookingDetail() {
                       <p className="text-body1 text-green-300">
                         {request.name}
                       </p>
-                      <p className="text-base font-semibold">{request.price}</p>
+                      <p className="text-base font-semibold">
+                        {request.price
+                          .toLocaleString("en-US", {
+                            style: "currency",
+                            currency: "THB",
+                          })
+                          .replace("THB", "")}
+                      </p>
                     </div>
                   );
                 })}
@@ -105,7 +125,12 @@ function BookingDetail() {
           <hr className="border-t-2 border-green-600" />
           <div className="flex justify-between pt-6">
             <p className="text-body1 text-green-300">Total</p>
-            <p className="text-headline5">THB {totalPrice}</p>
+            <p className="text-headline5">
+              {totalPriceAfterAddReqs.toLocaleString("en-US", {
+                style: "currency",
+                currency: "THB",
+              })}
+            </p>
           </div>
         </div>
       </div>

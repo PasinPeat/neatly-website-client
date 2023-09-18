@@ -11,8 +11,8 @@ function SpecialRequest2({
   steps,
   activeStep,
   setActiveStep,
-  standard,
-  special,
+  standardRequests,
+  specialRequests,
 }) {
   const context = useContext(PaymentContext);
   const handleToggleStandardRequest = context.handleToggleStandardRequest;
@@ -48,7 +48,7 @@ function SpecialRequest2({
           </p>
           <div className="form-control flex flex-col gap-3 text-body-1 text-gray-700">
             <ThemeProvider theme={theme}>
-              {standard.map((request) => {
+              {standardRequests.map((request) => {
                 return (
                   <FormControlLabel
                     control={
@@ -58,6 +58,7 @@ function SpecialRequest2({
                         }
                         name={request.name}
                         value={request.checked}
+                        checked={request.checked}
                       />
                     }
                     label={
@@ -88,7 +89,7 @@ function SpecialRequest2({
           </p>
           <div className="form-control flex flex-col gap-3 text-body-1 text-gray-700">
             <ThemeProvider theme={theme}>
-              {special.map((request) => {
+              {specialRequests.map((request) => {
                 return (
                   <FormControlLabel
                     control={
@@ -98,6 +99,7 @@ function SpecialRequest2({
                         }
                         name={request.name}
                         value={request.checked}
+                        checked={request.checked}
                       />
                     }
                     label={

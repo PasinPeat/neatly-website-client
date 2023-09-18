@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { RoomsContext } from "../../App";
 import { PaymentContext } from "../../pages/Payment";
+import axios from "axios";
 
 function ButtonNavigation({ steps, activeStep, setActiveStep }) {
   const navigate = useNavigate();
@@ -10,14 +11,14 @@ function ButtonNavigation({ steps, activeStep, setActiveStep }) {
   const setUserInput = roomsContext.setUserInput;
 
   const paymentContext = useContext(PaymentContext);
-  const totalPrice = paymentContext.totalPrice;
+  const totalPriceAfterAddReqs = paymentContext.totalPriceAfterAddReqs;
   const selectedStandard = paymentContext.selectedStandard;
   const selectedSpecial = paymentContext.selectedSpecial;
   const additional = paymentContext.additional;
 
   const selectedStandardName = selectedStandard.map((request) => request.name);
   const selectedSpecialName = selectedSpecial.map((request) => request.name);
-  console.log(selectedSpecialName);
+  // console.log(selectedSpecialName);
 
   // auth.state.userData.id;
   // import { useAuth } from "./contexts/authen.jsx";
@@ -26,32 +27,50 @@ function ButtonNavigation({ steps, activeStep, setActiveStep }) {
   const handleNext = () => {
     setActiveStep(activeStep + 1);
     userInput = {
-      // bookingDate: dayjs().format("YYYY-MM-DD HH:mm:ss"),
       ...userInput,
-      totalPrice,
+      totalPriceAfterAddReqs,
       selectedStandard,
       selectedSpecial,
       additional,
     };
-    // console.log(selectedSpecialName);
-
-    // userInput = {
-    //   booking_date: null,
-    //   amount_room: userInput.room,
-    //   amount_stay: userInput.person,
-    //   check_in: userInput.checkInDate,
-    //   check_out: userInput.checkOutDate,
-    //   room_id: userInput.roomId,
-    //   user_id: null,
-    //   total_price: userInput.totalPrice,
-    //   update_booking_date: null,
-    //   standard_request: userInput.selectedStandardName,
-    //   special_request: userInput.selectedSpecialName,
-    //   additional_request: userInput.additional,
-    //   room_avaliable_id: null,
-    // };
     setUserInput(userInput);
     console.log(userInput);
+  };
+
+  const handleSubmitBookingData = async (e) => {
+    e.preventDefault();
+    console.log(userInput);
+
+    const standard_request = userInput.selectedStandard.map(
+      (request) => request.name
+    );
+    const special_request = userInput.selectedSpecial.map(
+      (request) => request.name
+    );
+
+    const data = {
+      // booking_date: null,
+      amount_room: userInput.room,
+      amount_stay: userInput.person,
+      check_in: userInput.checkInDate,
+      check_out: userInput.checkOutDate,
+      room_id: userInput.roomId,
+      user_id: null,
+      total_price: userInput.totalPriceAfterAddReqs,
+      standard_request,
+      special_request,
+      additional_request: userInput.additional,
+      room_avaliable_id: null,
+    };
+
+    console.log(data);
+    try {
+      await axios.post(`http://localhost:4000/booking`, data);
+      // console.log(response.data.data);
+      setActiveStep(activeStep + 1);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleBack = () => {
@@ -72,9 +91,16 @@ function ButtonNavigation({ steps, activeStep, setActiveStep }) {
       >
         Back
       </button>
-      <button className="Button py-4" onClick={handleNext}>
-        {activeStep === steps.length - 1 ? "Confirm Booking" : "Next"}
-      </button>
+
+      {activeStep === steps.length - 1 ? (
+        <button className="Button py-4" onClick={handleSubmitBookingData}>
+          Confirm Booking
+        </button>
+      ) : (
+        <button className="Button py-4" onClick={handleNext}>
+          Next
+        </button>
+      )}
     </div>
   );
 }

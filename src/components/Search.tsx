@@ -118,9 +118,11 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
       checkOutDate: checkOutDate.format("YYYY-MM-DD"),
       room,
       person,
+      night: Math.abs(checkOutDate.diff(checkInDate, "day")),
     };
     onSearchResult(result);
     setUserInput(result);
+    console.log(result);
     navigate("/search");
   }
 
