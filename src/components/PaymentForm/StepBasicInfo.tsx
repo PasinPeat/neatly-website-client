@@ -16,7 +16,7 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
     fullName = auth.state.userData.fullName;
     email = auth.state.userData.email;
     dateOfBirth = auth.state.userData.birthDate;
-    idNumber = auth.state.userData.credit_card_id;
+    idNumber = auth.state.userData.idNumber;
     country = auth.state.userData.country;
   }
   // console.log(auth.state.userData);
