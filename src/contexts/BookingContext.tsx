@@ -4,11 +4,11 @@ import { useAuth } from "./authen";
 
 const BookingsContext = createContext();
 
-export function BookingsProvider({ children }) {
+export function BookingsProvider({ children }: any) {
   const [bookingsHistory, setBookingsHistory] = useState([]);
   const auth = useAuth();
 
-  console.log(bookingsHistory);
+  // console.log(bookingsHistory);
 
   const getBookingsHistory = async () => {
     const userId = auth.state.userData.id;
@@ -18,7 +18,7 @@ export function BookingsProvider({ children }) {
       );
 
       setBookingsHistory(results.data.data);
-      console.log(bookingsHistory);
+      // console.log(bookingsHistory);
     } catch (error) {
       console.error("Error fetching room data:", error);
     }
