@@ -6,13 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-// import { useAuth } from "../../contexts/authen.jsx";
-// import ListSubheader from "@mui/material/ListSubheader";
-// import ListItemIcon from "@mui/material/ListItemIcon";
-// import InboxIcon from "@mui/icons-material/MoveToInbox";
-// import DraftsIcon from "@mui/icons-material/Drafts";
-// import SendIcon from "@mui/icons-material/Send";
-// import StarBorder from "@mui/icons-material/StarBorder";
+import { useAuth } from "../../contexts/authen.jsx";
 
 function HistoryCard({
   bookId,
@@ -34,7 +28,7 @@ function HistoryCard({
   const [open, setOpen] = React.useState(false);
 
   const navigate = useNavigate();
-  // const auth = useAuth();
+  const auth = useAuth();
 
   // date formatt
   const checkInDate = new Date(`${checkIn}`);
@@ -99,23 +93,10 @@ function HistoryCard({
                     sx={{ width: "100%", bgcolor: "#F1F2F6" }}
                     component="nav"
                     aria-labelledby="nested-list-subheader"
-                    // subheader={
-                    //   <ListSubheader
-                    //     component="div"
-                    //     id="nested-list-subheader"
-                    //     className=" text-headline3"
-                    //   >
-                    //     Booking Detail
-                    //   </ListSubheader>
-                    // }
                   >
                     <ListItemButton onClick={handleClick} sx={{ px: 4 }}>
                       <p className="font-bold text-grey-800">Booking Detail</p>
-                      {/* <ListItemIcon>
-                        <InboxIcon />
-                      </ListItemIcon> */}
                       <ListItemText primary="" />
-
                       {open ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                     <Collapse
@@ -134,18 +115,18 @@ function HistoryCard({
                             {person}
                             <span> Guest</span>{" "}
                             <span>
-                              (<span>1</span> Night)
+                              {/* fix: fix to fetch *nights* from detabase */}(
+                              <span>1</span> Night)
                             </span>
                           </p>
                           <div className="flex">
                             <p className="text-body1">Payment usccess via</p>
                             <span className=" font-bold pl-1">
                               Credit Card - *
-                              {/* <span>{auth.state.userData.credit_card_id}</span> */}
+                              <span>{auth.state.userData.credit_card_id}</span>
                             </span>
                           </div>
                         </div>
-                        {/* <ListItemText primary="Pay" />   */}
                       </List>
                       <List
                         component="div"
@@ -155,10 +136,9 @@ function HistoryCard({
                         <div className="flex justify-between w-full">
                           <p className="text-body1">{roomType}</p>
                           <p className="text-body1 font-bold text-black">
-                            {/* {price} */}
+                            {price}
                           </p>
                         </div>
-                        {/* <ListItemText primary="Pay" />   */}
                       </List>
                       <List component="div" disablePadding sx={{ px: 2 }}>
                         {special &&
@@ -169,18 +149,11 @@ function HistoryCard({
                             >
                               <p className="text-body1">{item}</p>
                               <p className="text-body1 font-bold text-black">
+                                {/* fix: fix to fetch *price* from detabase */}
                                 200.00
                               </p>
                             </div>
                           ))}
-
-                        {/* <div className="flex justify-between w-full">
-                          <p className="text-body1">Airport tranfer</p>
-                          <p className="text-body1 font-bold text-black">
-                            200.00
-                          </p>
-                        </div> */}
-                        {/* <ListItemText primary="Pay" />   */}
                       </List>
 
                       <List component="div" disablePadding sx={{ px: 2 }}>
@@ -192,25 +165,13 @@ function HistoryCard({
                             >
                               <p className="text-body1">{item}</p>
                               <p className="text-body1 font-bold text-black">
+                                {/* fix: fix to fetch *price* from detabase */}
                                 00.00
                               </p>
                             </div>
                           ))}
                       </List>
-                      {/* <List
-                        component="div"
-                        disablePadding
-                        sx={{ px: 2, py: 1 }}
-                      >
-                        <div className="flex justify-between w-full">
-                          <p className="text-body1">Promotion Code</p>
 
-                          <p className="text-body1 font-bold text-black">
-                            -400.00
-                          </p>
-                        </div> */}
-                      {/* <ListItemText primary="Pay" />   */}
-                      {/* </List> */}
                       <List
                         component="div"
                         disablePadding
@@ -225,7 +186,6 @@ function HistoryCard({
                             })}
                           </p>
                         </div>
-                        {/* <ListItemText primary="Pay" />   */}
                       </List>
                       <List
                         component="div"
@@ -240,7 +200,6 @@ function HistoryCard({
                             {additional ? additional : "No additional Request"}
                           </p>
                         </div>
-                        {/* <ListItemText primary="Pay" />   */}
                       </List>
                     </Collapse>
                   </List>
@@ -251,6 +210,8 @@ function HistoryCard({
 
           <div className="flex justify-between -ml-4">
             <button className="btn capitalize bg-bg border-none font-semibold text-body1 text-orange-500 hover:bg-bg">
+              {/* fix: cancel Bookin Path */}
+              {/* onClick={() => navigate("/ChangeDate")} */}
               Cancel Booking
             </button>
             <div className="flex">
