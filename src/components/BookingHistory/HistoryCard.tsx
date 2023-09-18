@@ -49,13 +49,12 @@ function HistoryCard({
     const currentDate = new Date();
     const millisecondsIn24Hours = 24 * 60 * 60 * 1000;
 
-    // Initialize an object to store button visibility states
     const updatedButtonVisibilities = {};
 
     bookIds.forEach((id) => {
       const book = bookingsHistory.find((book) => book.book_id === id);
       if (book) {
-        const checkInDateCheck = new Date(book.check_in); // Parse the date correctly
+        const checkInDateCheck = new Date(book.check_in);
 
         if (checkInDateCheck < currentDate) {
           updatedButtonVisibilities[id] = false;
@@ -70,7 +69,6 @@ function HistoryCard({
       }
     });
 
-    // Set the buttonVisibilities state based on updatedButtonVisibilities
     setButtonVisibilities(updatedButtonVisibilities);
   }, [bookIds, bookingsHistory]);
 
@@ -112,7 +110,6 @@ function HistoryCard({
                   <div>
                     <span>{formattedCheckIn}</span>
                     <span> |</span>
-                    {/* fix: fix to fetch *After* from the database */}
                     <span> After 2:00 PM</span>
                   </div>
                 </div>
@@ -121,7 +118,6 @@ function HistoryCard({
                   <div>
                     <span>{formattedCheckOut}</span>
                     <span> |</span>
-                    {/* fix: fix to fetch *Before* from the database */}
                     <span> Before 12:00 PM</span>
                   </div>
                 </div>
