@@ -86,6 +86,7 @@ function App() {
         value={{
           rooms,
           userInput,
+          setUserInput,
         }}
       >
         <Routes>
@@ -120,6 +121,9 @@ function App() {
           />
           <Route path="/profile/:profileID" element={<Profile />} />
           <Route path="/booking/user/:userId" element={<BookingHistory />} />
+          <Route path="/changeDate" element={<ChangeDate />} />
+          <Route path="/refund" element={<Refund />} />
+          <Route path="/cancleBooking" element={<CancleBooking />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </RoomsContext.Provider>
