@@ -1,7 +1,10 @@
 import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../contexts/authen";
+import jwtDecode from "jwt-decode";
 
 interface RouteParams {
   paymentmethodID: string;
@@ -9,6 +12,7 @@ interface RouteParams {
 }
 
 function PaymentMethod() {
+  const auth = useAuth();
   const [fullNameErrorCredit, setFullNameErrorCredit] = useState(false);
   const [creditCardError, setCreditCardError] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,6 +24,8 @@ function PaymentMethod() {
     card_owner: "",
     cvc: "",
   });
+  const [checkUser, setCheckUser] = useState(null);
+  const navigate = useNavigate();
 
   const validateFullNameCredit = (name: string) => {
     const names = name.trim().split(" ");
@@ -34,32 +40,54 @@ function PaymentMethod() {
     }
   };
 
-  const getPaymentID = async () => {
-    if (!fullNameErrorCredit && !creditCardError) {
-      try {
-        const response = await axios.get(
-          `http://localhost:4000/paymentmethod/${params.paymentmethodID}`
-        );
-        console.log(response.data.data);
-        const data = response.data.data;
+  //check user
+  const fetchAuth = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const userDataFromToken = jwtDecode(token);
+      const result = await axios.get(
+        `http://localhost:4000/validUser/${userDataFromToken.credit_card_id}`
+      );
+      setCheckUser(result);
+    } else {
+      navigate("/");
+    }
+  };
 
-        const formattedCardNumber = data.card_number
-          .replace(/[^\d]/g, "")
-          .replace(/(\d{4})/g, "$1 ")
-          .trim();
-        setPayment({
-          ...data,
-          card_number: formattedCardNumber,
-        });
-      } catch (error) {
-        console.error(error);
+  useEffect(() => {
+    fetchAuth();
+  }, []);
+
+  const getPaymentID = async () => {
+    const token = localStorage.getItem("token");
+    console.log(auth.state.userData);
+    if (token) {
+      if (!fullNameErrorCredit && !creditCardError) {
+        try {
+          const response = await axios.get(
+            `http://localhost:4000/paymentmethod/${auth.state.userData.credit_card_id}`
+          );
+          console.log(response.data.data);
+          const data = response.data.data;
+
+          const formattedCardNumber = data.card_number
+            .replace(/[^\d]/g, "")
+            .replace(/(\d{4})/g, "$1 ")
+            .trim();
+          setPayment({
+            ...data,
+            card_number: formattedCardNumber,
+          });
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
   };
 
   useEffect(() => {
     getPaymentID();
-  }, [params.paymentmethodID]);
+  }, [checkUser]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -146,7 +174,7 @@ function PaymentMethod() {
             </h1>
             <button
               className="btn Button  w-[258px] h-[48px]"
-              onClick={() => setIsModalOpen(true)}
+              // onClick={() => setIsModalOpen(true)}
               type="submit"
               disabled={isLoading}
             >
@@ -274,7 +302,7 @@ function PaymentMethod() {
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="modal-box flex flex-col items-center  shadow-xl w-[400px] h-[440px]">
             <img
-              src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/checkmark.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NoZWNrbWFyay5qcGciLCJpYXQiOjE2OTQ1OTgxOTIsImV4cCI6MTcyNjEzNDE5Mn0.2f1FaYT0UnMLGNCZU71UhHxe1ISE_6RtpsDhsZ6QOm4&t=2023-09-13T09%3A43%3A11.576Z"
+              src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/checkmark-removebg-preview.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NoZWNrbWFyay1yZW1vdmViZy1wcmV2aWV3LnBuZyIsImlhdCI6MTY5NDY4MDYwNiwiZXhwIjoxNzI2MjE2NjA2fQ.Wz_CZaGiq3ddjcLSZ2nUdEPcdKAByClXptiYWXrCnYs&t=2023-09-14T08%3A36%3A46.749Z"
               alt="Check-Mark"
               className="h-[150px] w-[150px]"
             />

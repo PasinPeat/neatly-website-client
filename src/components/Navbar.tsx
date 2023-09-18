@@ -1,7 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
 import { useAuth } from "../contexts/authen.jsx";
-import { useEffect } from "react";
 
 function Navbar() {
   //@ts-ignore
@@ -22,6 +21,11 @@ function Navbar() {
   const linkLogin = () => {
     navigate("/login");
   };
+
+  function logoutAndNavigate() {
+    logout();
+    navigate("/login");
+  }
 
   if (location.pathname === "/") {
     return (
@@ -67,7 +71,12 @@ function Navbar() {
                 className="menu dropdown-content rounded-[4px] z-[1] drop-shadow-lg bg-base-100 w-52 mt-4 px-2 [&_li>*]:rounded-[4px]"
               >
                 <li>
-                  <button className="py-2" onClick={() => logout()}>
+                  <button
+                    className="py-2"
+                    onClick={() =>
+                      navigate(`/profile/${auth.state.userData.id}`)
+                    }
+                  >
                     <img
                       className="w-4 h-4"
                       src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/profile.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL3Byb2ZpbGUuc3ZnIiwiaWF0IjoxNjk0NDA0NTg3LCJleHAiOjE3MjU5NDA1ODd9.vDd8aSTyukskfIfkrxEkLxUXT4FmUzE-tprRpxC3Y2Y&t=2023-09-11T03%3A56%3A25.801Z"
@@ -102,7 +111,7 @@ function Navbar() {
                 </li>
                 <hr className="mt-2 border-gray-400"></hr>
                 <li>
-                  <button className="py-2" onClick={() => logout()}>
+                  <button className="py-2" onClick={() => logoutAndNavigate()}>
                     <img
                       className="w-4 h-4"
                       src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/logout.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2xvZ291dC5zdmciLCJpYXQiOjE2OTQ0MDUyMjcsImV4cCI6MTcyNTk0MTIyN30.QQWg08pQQG_UXibP0RzqSxor94ssvDnTFV7t5oh56QE&t=2023-09-11T04%3A07%3A05.943Z"
@@ -194,10 +203,15 @@ function Navbar() {
               </label>
               <ul
                 tabIndex={0}
-                className="menu dropdown-content rounded-[4px] z-[1] drop-shadow-lg bg-base-100 w-52 mt-4 px-2 [&_li>*]:rounded-[4px]"
+                className="menu dropdown-content rounded-[4px] z-[1] drop-shadow-lg w-52 mt-4 px-2 [&_li>*]:rounded-[4px] bg-white"
               >
                 <li>
-                  <button className="py-2" onClick={() => logout()}>
+                  <button
+                    className="py-2"
+                    onClick={() =>
+                      navigate(`/profile/${auth.state.userData.id}`)
+                    }
+                  >
                     <img
                       className="w-4 h-4"
                       src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/profile.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL3Byb2ZpbGUuc3ZnIiwiaWF0IjoxNjk0NDA0NTg3LCJleHAiOjE3MjU5NDA1ODd9.vDd8aSTyukskfIfkrxEkLxUXT4FmUzE-tprRpxC3Y2Y&t=2023-09-11T03%3A56%3A25.801Z"
@@ -216,7 +230,7 @@ function Navbar() {
                   >
                     <img
                       className="w-4 h-4"
-                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/credit.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NyZWRpdC5zdmciLCJpYXQiOjE2OTQ0MDU3MDUsImV4cCI6MTcyNTk0MTcwNX0.wwSq3XrBgaEqb4U3QeRXYhQjKItIn7FSStx40IDj7jE&t=2023-09-11T04%3A15%3A04.217Z"
+                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/credit.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NyZWRpdC5zdmciLCJpYXQiOjE2OTUwMTY3OTYsImV4cCI6MTcyNjU1Mjc5Nn0.-yf1cXPo7kI1UmUzqxlNKB52Ljq-haxosjubFwsuWX4&t=2023-09-18T05%3A59%3A58.024Z"
                     ></img>
                     <span className="text-gray-700">Payment Method</span>
                   </button>
@@ -224,7 +238,9 @@ function Navbar() {
                 <li>
                   <button
                     className="py-2"
-                    onClick={() => navigate(`/bookingHistory`)}
+                    onClick={() =>
+                      navigate(`/booking/user/${auth.state.userData.id}`)
+                    }
                   >
                     <img
                       className="w-4 h-4"
@@ -235,7 +251,7 @@ function Navbar() {
                 </li>
                 <hr className="mt-2 border-gray-400"></hr>
                 <li>
-                  <button className="py-2" onClick={() => logout()}>
+                  <button className="py-2" onClick={() => logoutAndNavigate()}>
                     <img
                       className="w-4 h-4"
                       src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/logout.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2xvZ291dC5zdmciLCJpYXQiOjE2OTQ0MDUyMjcsImV4cCI6MTcyNTk0MTIyN30.QQWg08pQQG_UXibP0RzqSxor94ssvDnTFV7t5oh56QE&t=2023-09-11T04%3A07%3A05.943Z"

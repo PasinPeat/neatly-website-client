@@ -28,9 +28,9 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
     PhoneChargersAndAdapters: false,
     Breakfast: false,
   });
-  const [SpecialRequestSelected, setSpecialRequestSelected] = useState<
-    string[]
-  >([]);
+  const [SpecialRequestSelected, setSpecialRequestSelected] = useState<any[]>(
+    []
+  );
 
   const [totalCost, setTotalCost] = useState(0);
 
@@ -50,6 +50,8 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
     Breakfast,
   } = SpecialRequest;
 
+  // const [{option,price}] = SpecialRequestSelected
+
   const handleStandardRequestChange = (event) => {
     const { name, checked, value } = event.target;
     setStandardRequest({
@@ -68,8 +70,8 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
       );
     }
   };
-  console.log(StandardRequestSelected);
-  console.log(StandardRequest);
+  // console.log(StandardRequestSelected);
+  // console.log(StandardRequest);
 
   const handleSpecialRequestChange = (event) => {
     const { name, checked, value } = event.target;
@@ -78,14 +80,30 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
       [name]: checked,
     });
 
+    const addSpecialRequestData = (value: string) => {
+      return value === "Baby cot"
+        ? { option: "Baby cot", price: 400 }
+        : value === "Airport transfer"
+        ? { option: "Airport transfer", price: 200 }
+        : value === "Extra bed"
+        ? { option: "Extra bed", price: 500 }
+        : value === "Extra pillows"
+        ? { option: "Extra pillows", price: 100 }
+        : value === "Phone chargers and adapters"
+        ? { option: "Phone chargers and adapters", price: 100 }
+        : value === "Breakfast"
+        ? { option: "Breakfast", price: 150 }
+        : undefined;
+    };
+
     if (checked) {
       setSpecialRequestSelected((prevSpecialRequestSelected) => [
         ...prevSpecialRequestSelected,
-        value,
+        addSpecialRequestData(value),
       ]);
     } else {
       setSpecialRequestSelected((prevSpecialRequestSelected) =>
-        prevSpecialRequestSelected.filter((str) => str !== value)
+        prevSpecialRequestSelected.filter((obj) => obj.option !== value)
       );
     }
 
@@ -119,7 +137,12 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
   // console.log(totalCost);
   // console.log(SpecialRequest);
 
+  console.log(SpecialRequestSelected);
+  
   // console.log(SpecialRequestSelected);
+  // console.dir(SpecialRequestSelected[0])
+
+  
 
   const theme = createTheme({
     palette: {
@@ -148,7 +171,6 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
                     onChange={handleStandardRequestChange}
                     name="EarlyCheckin"
                     value="Early check-in"
-                    // {name: "Early check-in",value: 200}
                   />
                 }
                 label={
@@ -265,8 +287,10 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
                     onChange={handleSpecialRequestChange}
                     name="BabyCot"
                     value="Baby cot"
+                    
                   />
                 }
+                
                 label={
                   <Typography
                     sx={
@@ -385,30 +409,7 @@ function SpecialRequest({ steps, activeStep, setActiveStep }) {
                 }
               />
 
-              {/* <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span>Baby cot (+THB 400)</span>
-            </label>
-            <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span>Airport transfer (+THB 200)</span>
-            </label>
-            <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span>Extra bed (+THB 500)</span>
-            </label>
-            <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span>Extra pillows (+THB 100)</span>
-            </label>
-            <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span>Phone chargers and adapters (+THB 100)</span>
-            </label>
-            <label className="cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-accent" />
-              <span className="checked:text-black">Breakfast (+150)</span>
-            </label> */}
+              
             </ThemeProvider>
           </div>
         </>

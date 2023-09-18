@@ -1,7 +1,10 @@
 import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../contexts/authen";
+import jwtDecode from "jwt-decode";
 
 interface RouteParams {
   profileID: string;
@@ -9,6 +12,7 @@ interface RouteParams {
 }
 
 function Profile() {
+  const auth = useAuth();
   const params = useParams<RouteParams>();
   const [user, setUser] = useState({
     fullName: "",
@@ -22,6 +26,7 @@ function Profile() {
     { value: string; label: string }[]
   >([]);
   const [avatars, setAvatars] = useState<{ [key: string]: File }>({});
+  const [checkUser, setCheckUser] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -40,6 +45,8 @@ function Profile() {
 
   //loading
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const validateFullName = (name: string) => {
     if (typeof name !== "string" || name.trim() === "") {
@@ -75,6 +82,14 @@ function Profile() {
     }
   };
 
+  // const validateIDNumber = () => {
+  //   if (user.idNumber.length !== 13) {
+  //     setIdNumberError(true);
+  //   } else {
+  //     setIdNumberError(false);
+  //   }
+  // };
+
   // ฟังก์ชันเช็ค country ว่าถูกเลือกหรือไม่
   const validateCountry = () => {
     if (!user.country) {
@@ -83,6 +98,24 @@ function Profile() {
       setCountriesError(false);
     }
   };
+
+  //check user
+  const fetchAuth = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const userDataFromToken = jwtDecode(token);
+      const result = await axios.get(
+        `http://localhost:4000/validUser/${userDataFromToken.user_id}`
+      );
+      setCheckUser(result);
+    } else {
+      navigate("/");
+    }
+  };
+
+  useEffect(() => {
+    fetchAuth();
+  }, []);
 
   useEffect(() => {
     validateCountry();
@@ -118,73 +151,85 @@ function Profile() {
   };
 
   const getProfileID = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:4000/profile/${params.profileID}`
-      );
-      console.log(response.data.data);
-      const data = response.data.data;
-      setUser(data);
-    } catch (error) {
-      console.error(error);
+    const token = localStorage.getItem("token");
+    console.log(auth.state.userData);
+    if (token) {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/profile/${auth.state.userData.id}`
+        );
+        console.log(response.data.data);
+        const data = response.data.data;
+        setUser(data);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
   useEffect(() => {
     getProfileID();
-  }, [params.profileID]);
+  }, [checkUser]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
+
+    const isAvatarSelected = Object.keys(avatars).length > 0;
+
+    if (!isAvatarSelected && !user.profile_image) {
+      setInvalidFile("Please upload a profile picture before updating.");
+      setIsLoading(false);
+      return;
+    }
     // Check full name
     validateFullName(user.fullName);
+
+    // Validate ID Number
     validateIDNumber();
+
     validateCountry();
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      setIsLoading(true);
+    let isEmailChanged = false;
+    let isIdNumberChanged = false;
 
-      // Check full name
-      validateFullName(user.fullName);
-      validateIDNumber();
-      validateCountry();
+    if (user.email !== auth.state.userData.email) {
+      isEmailChanged = true;
+    }
 
-      // Check email
+    if (user.idNumber !== auth.state.userData.idNumber) {
+      isIdNumberChanged = true;
+    }
+
+    if (isEmailChanged) {
       const queryParamsEmail = `?email=${user.email}`;
-      const validEmail = await axios.put(
+      const validEmail = await axios.get(
         `http://localhost:4000/validUser/email${queryParamsEmail}`
       );
-
-      // Check idNumber
-      const queryParamsIdNumber = `?idNumber=${user.idNumber}`;
-      const validIdNumber = await axios.put(
-        `http://localhost:4000/validUser/idNumber${queryParamsIdNumber}`
-      );
-
-      if (validEmail.data.data.length > 0) {
+      if (validEmail.data.data.length === 1) {
         setEmailError(true);
         setIsLoading(false);
         return;
       } else {
         setEmailError(false);
       }
+    }
 
-      if (validIdNumber.data.data.length > 0) {
+    if (isIdNumberChanged) {
+      const queryParamsIdNumber = `?idNumber=${user.idNumber}`;
+      const validIdNumber = await axios.get(
+        `http://localhost:4000/validUser/idNumber${queryParamsIdNumber}`
+      );
+      if (validIdNumber.data.data.length === 1) {
         setidNumberValidError(true);
         setIsLoading(false);
         return;
       } else {
         setidNumberValidError(false);
       }
-      setIsLoading(false);
-    };
+    }
 
     setIsLoading(true);
-
-    // const isAgeValid = validateBirthDay(user.birthDate);
-    // setBirthDayError(!isAgeValid);
 
     // Validate birthDate
     const isAgeValid = validateBirthDay(user.birthDate);
@@ -195,14 +240,6 @@ function Profile() {
     } else {
       setBirthDayError(false);
     }
-
-    // const data: Record<string, string> = {
-    //   fullName: String(user.fullName),
-    //   idNumber: String(user.idNumber),
-    //   email: String(user.email),
-    //   birthDate: String(user.birthDate),
-    //   country: String(user.country),
-    // };
 
     try {
       const formData = new FormData();
@@ -216,10 +253,10 @@ function Profile() {
         formData.append("avatar", avatars[avatarKey]);
       }
       if (
+        idNumberError ||
         fullNameError ||
         emailError ||
         birthDayError ||
-        idNumberError ||
         countriesError
       ) {
         setIsLoading(false);
@@ -247,6 +284,7 @@ function Profile() {
       setIsLoading(false);
     }
   };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -288,7 +326,7 @@ function Profile() {
             </h1>
             <button
               className="btn Button  w-[258px] h-[48px] "
-              onClick={() => setIsModalOpen(true)}
+              // onClick={() => setIsModalOpen(true)}
               type="submit"
               disabled={isLoading}
             >
@@ -405,9 +443,10 @@ function Profile() {
               </label>
               <input
                 id="idNumber"
-                type="number"
+                type="tel"
                 name="idNumber"
                 pattern="\d*"
+                maxLength={13}
                 placeholder="Enter your ID Number"
                 className={`Input w-[453px] mb-[4px] text-black focus:outline-none focus:border-orange-500 ${
                   idNumberError || idNumberValidError
@@ -495,19 +534,28 @@ function Profile() {
             </p>
             <div className="flex flex-row  mb-[38px]">
               {Object.keys(avatars).length === 0 ? (
-                <div>
+                <div className="relative">
                   <label htmlFor="upload">
                     <div
                       className={`w-[197px] h-[167px] bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center border-2 hover:border-orange-500 active:border-orange-700 ${
                         invalidFile ? "border-[#B61515]" : "focus:outline-none"
                       }`}
                     >
-                      {user.profile_image && (
+                      {user.profile_image ? (
                         <img
-                          className="w-[197px] h-[167px]  rounded object-cover"
+                          className="w-[197px] h-[167px] rounded object-cover"
                           src={user.profile_image}
                           alt="Profile"
                         />
+                      ) : (
+                        <>
+                          <p className="text-orange-500 text-[30px] font-medium text-center">
+                            +
+                          </p>
+                          <p className="text-orange-500 text-sm font-medium text-center">
+                            Upload photo
+                          </p>
+                        </>
                       )}
                       <input
                         id="upload"
@@ -520,6 +568,16 @@ function Profile() {
                       />
                     </div>
                   </label>
+                  {user.profile_image && (
+                    <button
+                      className="h-[24px] w-[24px] rounded-full bg-[#B61515] flex items-center justify-center absolute -top-2 -right-2 hover:bg-orange-700 active:bg-orange-800"
+                      onClick={() => {
+                        setUser({ ...user, profile_image: "" });
+                      }}
+                    >
+                      X
+                    </button>
+                  )}
                 </div>
               ) : null}
               {Object.keys(avatars).map((avatarKey) => {
@@ -527,7 +585,7 @@ function Profile() {
                 return (
                   <div
                     key={avatarKey}
-                    className="w-[197px] h-[167px] mb-[25px] relative"
+                    className="w-[197px] h-[167px] mb-[25px]relative"
                   >
                     <img
                       className="w-[197px] h-[167px] rounded object-cover"
@@ -535,7 +593,7 @@ function Profile() {
                       alt={file.name}
                     />
                     <button
-                      className="h-[24px] w-[24px] rounded-full bg-[#B61515] flex items-center justify-center absolute -top-2 -right-2 hover:bg-orange-700 active:bg-orange-800"
+                      className="h-[24px] w-[24px] rounded-full bg-[#B61515] flex items-center justify-center absolute -mt-[181px] ml-[180px] hover:bg-orange-700 active:bg-orange-800"
                       onClick={() => handleRemoveImage(avatarKey)}
                     >
                       X
@@ -558,7 +616,7 @@ function Profile() {
           <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="modal-box flex flex-col items-center  shadow-xl w-[400px] h-[440px]">
               <img
-                src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/checkmark.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NoZWNrbWFyay5qcGciLCJpYXQiOjE2OTQ1OTgxOTIsImV4cCI6MTcyNjEzNDE5Mn0.2f1FaYT0UnMLGNCZU71UhHxe1ISE_6RtpsDhsZ6QOm4&t=2023-09-13T09%3A43%3A11.576Z"
+                src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/checkmark-removebg-preview.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NoZWNrbWFyay1yZW1vdmViZy1wcmV2aWV3LnBuZyIsImlhdCI6MTY5NDY4MDQ2NCwiZXhwIjoxNzI2MjE2NDY0fQ.M_qXd-pEhjGoD8hIY42PgJgRQsxNmy0O8PsfV9ErH_0&t=2023-09-14T08%3A34%3A24.444Z"
                 alt="Check-Mark"
                 className="h-[150px] w-[150px]"
               />
