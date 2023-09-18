@@ -74,21 +74,21 @@ function Profile() {
   };
 
   // สร้างฟังก์ชันเพื่อตรวจสอบ ID Number
-  const validateIDNumber = () => {
-    if (!/^\d{13}$/.test(user.idNumber)) {
-      setIdNumberError(true);
-    } else {
-      setIdNumberError(false);
-    }
-  };
-
   // const validateIDNumber = () => {
-  //   if (user.idNumber.length !== 13) {
+  //   if (!/^\d{13}$/.test(user.idNumber)) {
   //     setIdNumberError(true);
   //   } else {
   //     setIdNumberError(false);
   //   }
   // };
+
+  const validateIDNumber = () => {
+    if (user.idNumber.length !== 13) {
+      setIdNumberError(true);
+    } else {
+      setIdNumberError(false);
+    }
+  };
 
   // ฟังก์ชันเช็ค country ว่าถูกเลือกหรือไม่
   const validateCountry = () => {
@@ -186,7 +186,23 @@ function Profile() {
     validateFullName(user.fullName);
 
     // Validate ID Number
-    validateIDNumber();
+    // validateIDNumber();
+
+    if (!/^\d{13}$/.test(user.idNumber)) {
+      setIdNumberError(true);
+      setIsLoading(false);
+      return;
+    } else {
+      setIdNumberError(false);
+    }
+
+    // if (user.idNumber.length !== 13) {
+    //   setIdNumberError(true);
+    //   setIsLoading(false);
+    //   return;
+    // } else {
+    //   setIdNumberError(false);
+    // }
 
     validateCountry();
 
