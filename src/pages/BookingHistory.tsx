@@ -29,6 +29,12 @@ function BookingHistory() {
     setShowRoomDetail(false);
   }
 
+  function extractBookIds(bookingsHistory) {
+    return bookingsHistory.map((book) => book.book_id);
+  }
+
+  const bookIds = extractBookIds(bookingsHistory);
+
   return (
     <div>
       {showRoomDetail && (
@@ -54,7 +60,9 @@ function BookingHistory() {
       <div className="bg-bg pt-16 pb-32">
         {bookingsHistory.map((book: any, index: number) => (
           <HistoryCard
-            key={index}
+            bookingsHistory={bookingsHistory}
+            cardKey={index}
+            bookIds={bookIds}
             bookId={book.book_id}
             bookDate={book.booking_date}
             checkIn={book.check_in}
