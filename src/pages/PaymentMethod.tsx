@@ -174,7 +174,7 @@ function PaymentMethod() {
             </h1>
             <button
               className="btn Button  w-[258px] h-[48px]"
-              onClick={() => setIsModalOpen(true)}
+              // onClick={() => setIsModalOpen(true)}
               type="submit"
               disabled={isLoading}
             >
