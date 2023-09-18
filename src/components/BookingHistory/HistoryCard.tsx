@@ -1,225 +1,81 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/authen.jsx";
-import ListSubheader from "@mui/material/ListSubheader";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import DraftsIcon from "@mui/icons-material/Drafts";
-import SendIcon from "@mui/icons-material/Send";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import StarBorder from "@mui/icons-material/StarBorder";
-import useToggleState from "../../hooks/useToggleState";
+import { useState } from "react";
+import Navbar from "../components/Navbar";
+import HistoryCard from "../components/BookingHistory/HistoryCard";
+import Footer from "../components/Footer";
+import BookingsContext from "../contexts/BookingContext";
+import { useContext } from "react";
+import RoomDetailPopup from "../components/SearchResult/RoomDetailPopup.tsx";
+import { RoomsContext } from "../App.tsx";
+import { RoomsProps } from "../interfaces/RoomsProps.tsx";
 
-function HistoryCard() {
-  const navigate = useNavigate();
-  const auth = useAuth();
-  const [open, setOpen] = useToggleState(false);
+function BookingHistory() {
+  const { bookingsHistory } = useContext(BookingsContext);
+  const context = useContext(RoomsContext);
+
+  // find roomId
+  const [rooms, setRoom] = useState<RoomsProps | null>(null);
+  const [showRoomDetail, setShowRoomDetail] = useState(false);
+
+  function handleRoomDetail(roomId: number) {
+    const room = context.rooms.find((room) => room.room_id === roomId);
+    if (room) {
+      setRoom(room);
+      setShowRoomDetail(true);
+    }
+  }
+
+  /*close full image and room detail*/
+  function handleClosePopup() {
+    setShowRoomDetail(false);
+  }
 
   return (
     <div>
-      <div className="w-[1120px] border-b-[1px] border-gray-300 text-gray-700">
-        <div className="flex flex-col gap-12 py-10">
-          <div className="w-full flex justify-between">
-            <div>
-              <div className="w-[357px] h-[210px] rounded bg-cover bg-center">
-                <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/room_images/04%20Supreme/K-Studio_Lambs_Lions_CasaCookChania_022_GeorgRoske.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9yb29tX2ltYWdlcy8wNCBTdXByZW1lL0stU3R1ZGlvX0xhbWJzX0xpb25zX0Nhc2FDb29rQ2hhbmlhXzAyMl9HZW9yZ1Jvc2tlLmpwZyIsImlhdCI6MTY5NDUwODA0NSwiZXhwIjoxNzI2MDQ0MDQ1fQ.GPUAPR5qHYjoK9TqISz_AlCFcWJR0gvKKpu4gFkRw9k&t=2023-09-12T08%3A40%3A44.773Z" />
-              </div>
-            </div>
-            <div className="flex flex-col justify-between">
-              <div className="w-[715px]">
-                <div className="flex flex-row justify-between items-center">
-                  <h2 className="text-headline4 text-black">
-                    Superior Garden View
-                  </h2>
-                  <p className="text-body1">Booking date: Tue, 16 Oct 2022</p>
-                </div>
-                <div className=" flex gap-10 pt-6 pb-8">
-                  <div className="flex flex-col gap-1 ">
-                    <p className=" font-bold text-grey-800">Check-in</p>
-                    <div>
-                      <span>Th, 19 Oct 2022 </span>
-                      <span>|</span>
-                      <span> After 2:00 PM</span>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <p className="font-bold text-grey-800">Check-in</p>
-                    <div>
-                      <span>Th, 19 Oct 2022 </span>
-                      <span>|</span>
-                      <span> After 2:00 PM</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="pt-0">
-                  <List
-                    sx={{ width: "100%", bgcolor: "#F1F2F6" }}
-                    component="nav"
-                    aria-labelledby="nested-list-subheader"
-                    // subheader={
-                    //   <ListSubheader
-                    //     component="div"
-                    //     id="nested-list-subheader"
-                    //     className=" text-headline3"
-                    //   >
-                    //     Booking Detail
-                    //   </ListSubheader>
-                    // }
-                  >
-                    <ListItemButton
-                      onClick={setOpen}
-                      sx={{ px: 4, color: "#2A2E3F" }}
-                    >
-                      <p className="font-[500]">Booking Detail</p>
-                      {/* <ListItemIcon>
-                        <InboxIcon />
-                      </ListItemIcon> */}
-                      <ListItemText primary="" />
-
-                      {open ? <ExpandLess /> : <ExpandMore />}
-                    </ListItemButton>
-                    <Collapse
-                      in={open}
-                      timeout="auto"
-                      unmountOnExit
-                      className=" px-3"
-                    >
-                      <List
-                        component="div"
-                        disablePadding
-                        sx={{ px: 2, py: 1 }}
-                      >
-                        <div className="flex justify-between w-full py-4">
-                          <p className="text-body1">2 Guest (1 Night)</p>
-                          <div className="flex">
-                            <p className="text-body1">Payment success via</p>
-                            <span className=" font-bold pl-2">
-                              Credit Card-*888
-                            </span>
-                          </div>
-                        </div>
-                        {/* <ListItemText primary="Pay" />   */}
-                      </List>
-                      <List
-                        component="div"
-                        disablePadding
-                        sx={{ px: 2, py: 1 }}
-                      >
-                        <div className="flex justify-between w-full">
-                          <p className="text-body1">
-                            Superior Garden View Room
-                          </p>
-
-                          <p className="text-body1 font-bold text-gray-900">
-                            2,500.00
-                          </p>
-                        </div>
-                        {/* <ListItemText primary="Pay" />   */}
-                      </List>
-                      <List
-                        component="div"
-                        disablePadding
-                        sx={{ px: 2, py: 1 }}
-                      >
-                        <div className="flex justify-between w-full">
-                          <p className="text-body1">Airport tranfer</p>
-
-                          <p className="text-body1 font-bold text-gray-900">
-                            200.00
-                          </p>
-                        </div>
-                        {/* <ListItemText primary="Pay" />   */}
-                      </List>
-                      <List
-                        component="div"
-                        disablePadding
-                        sx={{ px: 2, py: 1 }}
-                      >
-                        <div className="flex justify-between w-full">
-                          <p className="text-body1">Promotion Code</p>
-
-                          <p className="text-body1 font-bold text-gray-900">
-                            -400.00
-                          </p>
-                        </div>
-                        {/* <ListItemText primary="Pay" />   */}
-                      </List>
-                      <List
-                        component="div"
-                        disablePadding
-                        sx={{ px: 2, py: 1 }}
-                      >
-                        <div className="flex justify-between w-full border-t-[2px] border-green-300 py-4">
-                          <p className="text-body1 ">Total</p>
-
-                          <p className=" text-headline5 font-bold text-gray-900">
-                            THB 2,300.00
-                          </p>
-                          {/* {price.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "THB",
-                  })} */}
-                        </div>
-                        {/* <ListItemText primary="Pay" />   */}
-                      </List>
-                      <List
-                        component="div"
-                        disablePadding
-                        sx={{ px: 2, py: 1, bgcolor: "#E4E6ED" }}
-                      >
-                        <div className="flex flex-col justify-between w-full py-4">
-                          <p className="text-body1 font-bold">
-                            Additional Request
-                          </p>
-
-                          <p className=" text-body1 pt-2">THB 2,300.00</p>
-                          {/* {price.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "THB",
-                  })} */}
-                        </div>
-                        {/* <ListItemText primary="Pay" />   */}
-                      </List>
-                    </Collapse>
-                  </List>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex justify-between -ml-4">
-            <button
-              // onClick={() => onRoomDetail(roomId)}
-              className="btn capitalize bg-bg border-none font-semibold text-body1 text-orange-500 hover:bg-bg"
-            >
-              Cancel Booking
-            </button>
-            <div className="flex">
-              <button
-                // onClick={() => onRoomDetail(roomId)}
-                className="mr-4 btn capitalize bg-bg border-none font-semibold text-body1 text-base text-orange-500 hover:bg-bg"
-              >
-                Room Detail
-              </button>
-              <div>
-                <button
-                  className="btn Button"
-                  onClick={() => navigate("/ChangeDate")}
-                >
-                  Change Date
-                </button>
-              </div>
-            </div>
-          </div>
+      {showRoomDetail && (
+        <div className="sticky z-50 top-0 flex justify-center">
+          <RoomDetailPopup
+            roomId={rooms.room_id}
+            roomType={rooms.room_type}
+            roomImages={rooms.room_images}
+            bedType={rooms.bed_types}
+            description={rooms.description}
+            area={rooms.area}
+            price={rooms.price}
+            promotionPrice={rooms.promotion_price}
+            amenity={rooms.amenity}
+            person={rooms.person}
+            available={rooms.available}
+            onClosePopup={handleClosePopup}
+          />
         </div>
+      )}
+
+      <Navbar />
+      <div className="bg-bg pt-16 pb-32">
+        {bookingsHistory.map((book: any, index: number) => (
+          <HistoryCard
+            key={index}
+            bookId={book.book_id}
+            bookDate={book.booking_date}
+            checkIn={book.check_in}
+            checkOut={book.check_out}
+            roomId={book.room_id}
+            userId={book.user_id}
+            totalPrice={book.total_price}
+            standard={book.standard_request}
+            special={book.special_request}
+            additional={book.additional_request}
+            onRoomDetail={handleRoomDetail}
+            roomType={book.room_details.room_type}
+            roomImages={book.room_details.room_images}
+            price={book.room_details.price}
+            person={book.room_details.person}
+          />
+        ))}
       </div>
+      <Footer />
     </div>
   );
 }
 
-export default HistoryCard;
+export default BookingHistory;
