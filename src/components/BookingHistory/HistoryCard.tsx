@@ -1,12 +1,12 @@
 import { useState } from "react";
-import Navbar from "../components/Navbar";
-import HistoryCard from "../components/BookingHistory/HistoryCard";
-import Footer from "../components/Footer";
-import BookingsContext from "../contexts/BookingContext";
+import Navbar from "../../components/Navbar";
+import HistoryCard from "../../components/BookingHistory/HistoryCard";
+import Footer from "../../components/Footer";
+import BookingsContext from "../../contexts/BookingContext";
 import { useContext } from "react";
-import RoomDetailPopup from "../components/SearchResult/RoomDetailPopup.tsx";
-import { RoomsContext } from "../App.tsx";
-import { RoomsProps } from "../interfaces/RoomsProps.tsx";
+import RoomDetailPopup from "../../components/SearchResult/RoomDetailPopup.tsx";
+import { RoomsContext } from "../../App.tsx";
+import { RoomsProps } from "../../interfaces/RoomsProps.tsx";
 
 function BookingHistory() {
   const { bookingsHistory } = useContext(BookingsContext);
