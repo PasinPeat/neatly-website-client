@@ -1,4 +1,30 @@
+import { useContext } from "react";
+import { RoomsContext } from "../../App";
+import { PaymentContext } from "../../pages/Payment";
+import dayjs from "dayjs";
+// import useFormattedDate from "../../hooks/useFormattedDate";
+
 function BookingDetail() {
+  //  const formatdate = useFormattedDate(date);
+  const roomsContext = useContext(RoomsContext);
+  const userInput = roomsContext.userInput;
+
+  const checkInDate = userInput.checkInDate;
+  const checkOutDate = userInput.checkOutDate;
+
+  const paymentContext = useContext(PaymentContext);
+  const totalPrice = paymentContext.totalPrice;
+  const selectedStandard = paymentContext.selectedStandard;
+  const selectedSpecial = paymentContext.selectedSpecial;
+  const additional = paymentContext.additional;
+
+  function formattedDate(date) {
+    return dayjs(date).format("dd, DD-MM-YYYY");
+  }
+
+  const formattedCheckInDate = formattedDate(checkInDate);
+  const formattedCheckOutDate = formattedDate(checkOutDate);
+
   return (
     <>
       <div className="w-[358px] text-white ">
@@ -25,27 +51,61 @@ function BookingDetail() {
 
             <div className="flex flex-col">
               <div className="flex gap-2 text-body1">
-                <p>Th, 19 Oct 2022</p>
+                <p>{formattedCheckInDate}</p>
                 <p>-</p>
-                <p>Fri, 20 Oct 2022</p>
+                <p>{formattedCheckOutDate}</p>
               </div>
               <div className="py-1">
-                <span>2</span>
+                <span>{userInput.person}</span>
                 <span> Guests</span>
               </div>
             </div>
 
-            <div className="flex justify-between py-3 mb-4">
-              <p className="text-body1 text-green-300">
-                Superior Garden View Room
-              </p>
-              <p className="text-base font-semibold">2,500.00</p>
+            <div className="mb-4">
+              <div className="flex justify-between py-3">
+                <p className="text-body1 text-green-300">
+                  {userInput.roomType}
+                </p>
+                <p className="text-base font-semibold">{userInput.price}</p>
+              </div>
+              {selectedStandard &&
+                selectedStandard.map((request) => {
+                  return (
+                    <div
+                      className="flex justify-between py-3"
+                      key={request.name}
+                    >
+                      <p className="text-body1 text-green-300">
+                        {request.name}
+                      </p>
+                    </div>
+                  );
+                })}
+              {selectedSpecial &&
+                selectedSpecial.map((request) => {
+                  return (
+                    <div
+                      className="flex justify-between py-3"
+                      key={request.name}
+                    >
+                      <p className="text-body1 text-green-300">
+                        {request.name}
+                      </p>
+                      <p className="text-base font-semibold">{request.price}</p>
+                    </div>
+                  );
+                })}
             </div>
           </div>
+
+          {additional && (
+            <div className="mb-4 py-3 text-body1 text-base">{additional}</div>
+          )}
+
           <hr className="border-t-2 border-green-600" />
           <div className="flex justify-between pt-6">
             <p className="text-body1 text-green-300">Total</p>
-            <p className="text-headline5">THB 2,500.00</p>
+            <p className="text-headline5">THB {totalPrice}</p>
           </div>
         </div>
       </div>

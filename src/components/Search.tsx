@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, useRef } from "react";
+import { useContext, useState, useEffect } from "react";
 import { RoomsContext } from "../App.tsx";
 import { useNavigate } from "react-router-dom";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -86,7 +86,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
     room: 1,
     person: 2,
   };
-  // console.log(initialState);
+  // console.log(initialState.checkInDate);
 
   const [checkInDate, setCheckInDate] = useState(
     dayjs(initialState.checkInDate)
@@ -127,7 +127,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
   return (
     <div className="flex justify-center items-end ">
       <div className="form-control">
-        <label className="label">
+        <label className="label py-0">
           <span className="text-gray-900 text-body1">Check In</span>
         </label>
 
@@ -146,6 +146,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
                 "& input": {
                   padding: "12px",
                   width: "170px",
+                  fontFamily: "inter",
                 },
               }}
             />
@@ -155,7 +156,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
       <div className="px-8 py-4">-</div>
 
       <div className="form-control pr-10">
-        <label className="label">
+        <label className="label py-0">
           <span className="text-gray-900 text-body1">Check Out</span>
         </label>
         <DemoContainer components={["DatePicker"]}>
@@ -174,6 +175,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
                 "& input": {
                   padding: "12px",
                   width: "170px",
+                  fontFamily: "inter",
                 },
               }}
               // PopperProps={{ sx: popperSx }}
@@ -183,13 +185,13 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
       </div>
 
       <div className="pr-10">
-        <label className="label">
+        <label className="label py-0">
           <span className="text-gray-900 text-body1 mb-2">Rooms & Guests</span>
         </label>
 
-        <div className="px-4 w-60 h-12 flex items-center justify-between  rounded-md border border-solid border-gray-500 text-gray-600 text-body1">
+        <div className="px-4 w-60 h-12 flex items-center justify-between rounded-[4px] border border-solid border-gray-500 text-gray-600 text-body1">
           <div>
-            Rooms {room}, Guests {person}
+            {room} Rooms, {person} Guests
           </div>
           <button onClick={setShowDropdown}>
             <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/arrow_drop_down_black_24dp%202.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2Fycm93X2Ryb3BfZG93bl9ibGFja18yNGRwIDIuc3ZnIiwiaWF0IjoxNjk0MDgyNzE5LCJleHAiOjE3MjU2MTg3MTl9.8aoooHCf3UW3mfKGTeBYHLZbuUsFc8lpg9037s3QFnA&t=2023-09-07T10%3A31%3A58.813Z" />

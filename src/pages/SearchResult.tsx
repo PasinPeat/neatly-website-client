@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar.tsx";
 import RoomResultCard from "../components/SearchResult/RoomResultCard";
 import RoomDetailPopup from "../components/SearchResult/RoomDetailPopup";
@@ -16,6 +17,7 @@ function SearchResult({
   setRoomResult,
 }) {
   const context = useContext(RoomsContext);
+  const navigate = useNavigate();
   const seachResultBtn = "Button-search-result";
   const [showRoomDetail, setShowRoomDetail] = useState(false);
   const [showFullImage, setShowFullImage] = useState(false);
@@ -31,7 +33,6 @@ function SearchResult({
       setRoomResult(context.rooms);
     }
   }, [context.rooms, setRoomResult]);
-  // console.log(roomResult);
 
   // const location = useLocation();
 

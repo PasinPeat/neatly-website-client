@@ -1,12 +1,30 @@
 import BookingDetail from "./BookingDetail";
 import BookingNote from "./BookingNote";
 import ButtonNavigation from "./ButtonNavigation";
+import { useAuth } from "../../contexts/authen.jsx";
 
 function BasicInfo({ steps, activeStep, setActiveStep }) {
+  const auth = useAuth();
+
+  let fullName;
+  let email;
+  let dateOfBirth;
+  let idNumber;
+  let country;
+
+  if (auth.isAuthenticated && auth.state.userData) {
+    fullName = auth.state.userData.fullName;
+    email = auth.state.userData.email;
+    dateOfBirth = auth.state.userData.birthDate;
+    idNumber = auth.state.userData.credit_card_id;
+    country = auth.state.userData.country;
+  }
+  // console.log(auth.state.userData);
+
   return (
     <div className="flex gap-6">
       <div className="w-[740px] bg-white border border-gray-300 p-10">
-        <p className="text-gray-600 text-headline5 pb-10">BasicInfo</p>
+        <p className="text-gray-600 text-headline5 pb-10">Basic Information</p>
         <form className="flex flex-col gap-10">
           <div>
             <label htmlFor="fname">
@@ -16,7 +34,7 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
               type="text"
               id="fname"
               name="fname"
-              // value={fullName}
+              value={fullName}
               className="w-full InputSuccess"
               disabled
             />
@@ -30,7 +48,7 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
               type="email"
               id="email"
               name="email"
-              // value={email}
+              value={email}
               className="w-full InputSuccess"
               disabled
             />
@@ -45,7 +63,7 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
             <input
               type="date"
               id="birthDate"
-              // value={birthDay}
+              value={dateOfBirth}
               name="birthDate"
               className="w-full InputSuccess"
               disabled
@@ -60,7 +78,7 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
               type="tel"
               id="idNumber"
               name="idNumber"
-              // value={idNumber}
+              value={idNumber}
               className="w-full InputSuccess"
               disabled
             />
@@ -73,11 +91,11 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
             <select
               name="country"
               id="country"
-              // value={country}
+              value={country}
               className="w-full InputSuccess"
               disabled
             >
-              <option value="">Select your country</option>
+              <option value={country}>{country}</option>
             </select>
           </div>
         </form>

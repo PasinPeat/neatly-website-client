@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { RoomsContext } from "../../App.tsx";
 
 function ReviewPayment() {
+  const context = useContext(RoomsContext);
+  const userInput = context.userInput;
+
   return (
     <div className="w-[738px] flex flex-col">
       {/* Header */}
@@ -50,7 +55,9 @@ function ReviewPayment() {
           <div className="flex justify-between py-3">
             {/* room_type */}
             <p>Superior Garden View Room</p>
-            <p className="text-white text-base font-semibold">2,500.00</p>
+            <p className="text-white text-base font-semibold">
+              {userInput.price}
+            </p>
           </div>
           <div className="flex justify-between py-3 mb-4">
             {/* speacial request */}
@@ -60,12 +67,12 @@ function ReviewPayment() {
           <hr className="border-t-2 border-green-600" />
           <div className="flex justify-between pt-6">
             <p>Total</p>
-            <p className="text-white text-headline5">THB 2,300.00</p>
+            <p className="text-white text-headline5">THB </p>
           </div>
         </div>
       </div>
       {/* Button */}
-      <div className="flex gap-10 pt-16 justify-center">
+      <div className="flex gap-10 pt-14 justify-center">
         <button className="text-orange-500 text-base font-semibold">
           Check Booking Detail
         </button>
