@@ -203,7 +203,7 @@ function Navbar() {
               </label>
               <ul
                 tabIndex={0}
-                className="menu dropdown-content rounded-[4px] z-[1] drop-shadow-lg bg-base-100 w-52 mt-4 px-2 [&_li>*]:rounded-[4px]"
+                className="menu dropdown-content rounded-[4px] z-[1] drop-shadow-lg w-52 mt-4 px-2 [&_li>*]:rounded-[4px] bg-white"
               >
                 <li>
                   <button
@@ -230,7 +230,7 @@ function Navbar() {
                   >
                     <img
                       className="w-4 h-4"
-                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/credit.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NyZWRpdC5zdmciLCJpYXQiOjE2OTQ0MDU3MDUsImV4cCI6MTcyNTk0MTcwNX0.wwSq3XrBgaEqb4U3QeRXYhQjKItIn7FSStx40IDj7jE&t=2023-09-11T04%3A15%3A04.217Z"
+                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/credit.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NyZWRpdC5zdmciLCJpYXQiOjE2OTUwMTY3OTYsImV4cCI6MTcyNjU1Mjc5Nn0.-yf1cXPo7kI1UmUzqxlNKB52Ljq-haxosjubFwsuWX4&t=2023-09-18T05%3A59%3A58.024Z"
                     ></img>
                     <span className="text-gray-700">Payment Method</span>
                   </button>
