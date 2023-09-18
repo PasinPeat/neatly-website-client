@@ -9,7 +9,6 @@ import Profile from "./pages/Profile.tsx";
 import PaymentMethod from "./pages/PaymentMethod.tsx";
 import SearchResult from "./pages/SearchResult.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import BookingHistory from "./pages/BookingHistory.tsx";
 import ChangeDate from "./pages/ChangeDate.tsx";
 import Refund from "./pages/Refund.tsx";
 import CancleBooking from "./pages/CancleBooking.tsx";
@@ -120,7 +119,7 @@ function App() {
             element={<PaymentMethod />}
           />
           <Route path="/profile/:profileID" element={<Profile />} />
-          <Route path="/BookingHistory" element={<BookingHistory />} />
+          <Route path="/booking/user/:userId" element={<BookingHistory />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </RoomsContext.Provider>
