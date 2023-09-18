@@ -50,9 +50,9 @@ function HistoryCard({
   const formattedCheckOut = checkOutDate.toLocaleDateString("en-US", options);
   const formattedBookDate = checkBookDate.toLocaleDateString("en-US", options);
 
-  // const backgroundImage = {
-  //   backgroundImage: `url('${roomImages[2]}')`,
-  // };
+  const backgroundImage = {
+    backgroundImage: `url('${roomImages[2]}')`,
+  };
 
   const handleClick = () => {
     setOpen(!open);
@@ -64,7 +64,7 @@ function HistoryCard({
           <div className="w-[1120px] flex justify-between">
             <div>
               <div
-                // style={backgroundImage}
+                style={backgroundImage}
                 className="w-[357px] h-[210px] rounded bg-cover bg-center"
               ></div>
             </div>
@@ -132,7 +132,7 @@ function HistoryCard({
                         <div className="flex justify-between w-full py-4">
                           <p className="text-body1">
                             {person}
-                            <span>Guest</span>{" "}
+                            <span> Guest</span>{" "}
                             <span>
                               (<span>1</span> Night)
                             </span>

@@ -66,10 +66,10 @@ function BookingHistory() {
             special={book.special_request}
             additional={book.additional_request}
             onRoomDetail={handleRoomDetail}
-            // roomType={rooms.room_type}
-            // roomImages={rooms.room_images}
-            // price={rooms.price}
-            // person={rooms.person}
+            roomType={book.room_details.room_type}
+            roomImages={book.room_details.room_images}
+            price={book.room_details.price}
+            person={book.room_details.person}
           />
         ))}
       </div>
