@@ -23,6 +23,7 @@ function HistoryCard({
 }: any) {
   const [timeRemaining, setTimeRemaining] = useState(false);
   const [buttonVisibilities, setButtonVisibilities] = useState({});
+  const [cancelVisible, setCancelVisible] = useState({});
 
   const navigate = useNavigate();
 
@@ -50,6 +51,7 @@ function HistoryCard({
     const millisecondsIn24Hours = 24 * 60 * 60 * 1000;
 
     const updatedButtonVisibilities = {};
+    const updateCancel = {};
 
     bookIds.forEach((id) => {
       const book = bookingsHistory.find((book) => book.book_id === id);
@@ -58,18 +60,22 @@ function HistoryCard({
 
         if (checkInDateCheck < currentDate) {
           updatedButtonVisibilities[id] = false;
+          updateCancel[id] = false;
         } else {
           const timeDifference = Math.abs(checkInDateCheck - currentDate);
           if (timeDifference < millisecondsIn24Hours) {
             updatedButtonVisibilities[id] = false;
+            updateCancel[id] = true;
           } else {
             updatedButtonVisibilities[id] = true;
+            updateCancel[id] = true;
           }
         }
       }
     });
 
     setButtonVisibilities(updatedButtonVisibilities);
+    setCancelVisible(updateCancel);
   }, [bookIds, bookingsHistory]);
 
   const handleClickChangeDate = () => {
@@ -91,7 +97,7 @@ function HistoryCard({
   return (
     <>
       <div className="flex flex-col items-center w-full bg-bg text-gray-700">
-        <div className=" flex flex-col pt-10 border-b-[1px] border-gray-300">
+        <div className=" flex flex-col py-10 border-b-[1px] border-gray-300">
           <div className="w-[1120px] flex justify-between">
             <div
               style={backgroundImage}
@@ -110,6 +116,7 @@ function HistoryCard({
                   <div>
                     <span>{formattedCheckIn}</span>
                     <span> |</span>
+                    {/* fix: fix to fetch *After* from detabase */}
                     <span> After 2:00 PM</span>
                   </div>
                 </div>
@@ -118,6 +125,7 @@ function HistoryCard({
                   <div>
                     <span>{formattedCheckOut}</span>
                     <span> |</span>
+                    {/* fix: fix to fetch *Before* from detabase */}
                     <span> Before 12:00 PM</span>
                   </div>
                 </div>
@@ -131,34 +139,31 @@ function HistoryCard({
                 price={price}
                 person={person}
               />
-              <div className="flex justify-between -ml-4 pt-5">
-                <div className="flex items-start">
-                  {buttonVisibilities[bookId] && (
-                    <button
-                      className="btn capitalize bg-bg border-none font-semibold text-body1 text-orange-500 hover:bg-bg"
-                      onClick={() => handleClickCancel()}
-                    >
-                      Cancel Booking
-                    </button>
-                  )}
-                </div>
-                <div className="flex items-end">
-                  <button
-                    onClick={() => onRoomDetail(roomId)}
-                    className="btn capitalize bg-bg border-none font-semibold text-body1 text-base  text-orange-500 hover:bg-bg"
-                  >
-                    Room Detail
-                  </button>
-                  {buttonVisibilities[bookId] && (
-                    <button
-                      className="btn Button"
-                      onClick={() => handleClickChangeDate()}
-                    >
-                      Change Date
-                    </button>
-                  )}
-                </div>
-              </div>
+            </div>
+          </div>
+          <div className="flex justify-between -ml-4 pt-5">
+            <div className="flex items-start">
+              {cancelVisible[bookId] && (
+                <button
+                  className="btn capitalize bg-bg border-none font-semibold text-body1 text-orange-500 hover:bg-bg"
+                  onClick={handleClickCancel}
+                >
+                  Cancel Booking
+                </button>
+              )}
+            </div>
+            <div className="flex items-end gap-6">
+              <button
+                onClick={() => onRoomDetail(roomId)}
+                className="btn capitalize bg-bg border-none font-semibold text-body1 text-base  text-orange-500 hover:bg-bg"
+              >
+                Room Detail
+              </button>
+              {buttonVisibilities[bookId] && (
+                <button className="btn Button" onClick={handleClickChangeDate}>
+                  Change Date
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -166,5 +171,4 @@ function HistoryCard({
     </>
   );
 }
-
 export default HistoryCard;
