@@ -4,10 +4,10 @@ import StepBasicInfo from "../components/PaymentForm/StepBasicInfo";
 import StepSpecialRequest2 from "../components/PaymentForm/StepSpecialRequest2";
 import StepPayment from "../components/PaymentForm/StepPayment";
 import ReviewPayment from "../components/PaymentForm/ReviewPayment";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { RoomsContext } from "../App.tsx";
+import dayjs, { Dayjs } from "dayjs";
 export const PaymentContext = React.createContext();
-import dayjs from "dayjs";
 
 function Payment() {
   const steps = ["Basic Information", "Special Request", "Payment Method"];
@@ -15,12 +15,38 @@ function Payment() {
 
   const context = useContext(RoomsContext);
   const userInput = context.userInput;
+  const setUserInput = context.setUserInput;
 
-  // console.log(userInput);
-
-  /*confirm booking*/
-  if (activeStep > steps.length) {
+  /*formatted date*/
+  function formattedDate(date: Dayjs | string) {
+    return date ? dayjs(date).format("dd, DD-MM-YYYY") : "";
   }
+
+  const checkInDate = formattedDate(userInput.checkInDate);
+  const checkOutDate = formattedDate(userInput.checkOutDate);
+
+  // const [userInput, setUserInput] = useState<object>({
+  //   checkInDate: "2023-09-16",
+  //   checkOutDate: "2023-09-17",
+  //   person: 2,
+  //   price: 3000,
+  //   room: 1,
+  //   roomId: 3,
+  //   roomType: "Deluxe",
+  // });
+
+  useEffect(() => {
+    if (context) {
+      setUserInput(context.userInput);
+    } else {
+      const storedUserInput = localStorage.getItem("userInput");
+      if (storedUserInput) {
+        setUserInput(JSON.parse(storedUserInput));
+      }
+    }
+  }, [context]);
+
+  console.log(userInput);
 
   const standard = [
     { name: "Early check-in", checked: false },
@@ -121,38 +147,6 @@ function Payment() {
     }
   }
 
-  /*confirm booking*/
-  // if (activeStep === steps.length) {
-  //   const standard_request = userInput.selectedStandard.map(
-  //     (request) => request.name
-  //   );
-  //   const special_request = userInput.selectedSpecial.map(
-  //     (request) => request.name
-  //   );
-
-  //   const bookingData = {
-  //     booking_date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-  //     // booking_date: null,
-  //     amount_room: userInput.room,
-  //     amount_stay: userInput.person,
-  //     check_in: userInput.checkInDate,
-  //     check_out: userInput.checkOutDate,
-  //     room_id: userInput.roomId,
-  //     user_id: null,
-  //     total_price: userInput.totalPriceAfterAddReqs,
-  //     update_booking_date: null,
-  //     standard_request,
-  //     special_request,
-  //     additional_request: userInput.additional,
-  //     room_avaliable_id: null,
-  //   };
-  //   console.log(bookingData);
-
-  // const response  await axios.post(
-  //   `http://localhost:4000/booking/${bookingData}`,
-  //   { ...payment, card_number: cleanedCardNumber }
-  // );
-
   return (
     <PaymentContext.Provider
       value={{
@@ -163,6 +157,9 @@ function Payment() {
         handleToggleStandardRequest,
         handleToggleSpecialRequest,
         handleAdditionalRequest,
+        setAdditional,
+        checkInDate,
+        checkOutDate,
       }}
     >
       <div className="w-screen h-screen">

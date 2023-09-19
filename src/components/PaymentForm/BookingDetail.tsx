@@ -1,29 +1,65 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { RoomsContext } from "../../App";
 import { PaymentContext } from "../../pages/Payment";
-import dayjs from "dayjs";
 // import useFormattedDate from "../../hooks/useFormattedDate";
 
 function BookingDetail() {
   //  const formatdate = useFormattedDate(date);
   const roomsContext = useContext(RoomsContext);
   const userInput = roomsContext.userInput;
+  const setUserInput = roomsContext.setUserInput;
 
-  const checkInDate = userInput.checkInDate;
-  const checkOutDate = userInput.checkOutDate;
+  // const checkInDate = userInput.checkInDate;
+  // const checkOutDate = userInput.checkOutDate;
+  // const [userInput, setUserInput] = useState({});
+  // const [checkInDate, setCheckInDate] = useState<Dayjs | null | string>(null);
+  // const [checkOutDate, setCheckOutDate] = useState<Dayjs | null | string>(null);
 
   const paymentContext = useContext(PaymentContext);
   const totalPriceAfterAddReqs = paymentContext.totalPriceAfterAddReqs;
   const selectedStandard = paymentContext.selectedStandard;
   const selectedSpecial = paymentContext.selectedSpecial;
   const additional = paymentContext.additional;
+  const checkInDate = paymentContext.checkInDate;
+  const checkOutDate = paymentContext.checkOutDate;
 
-  function formattedDate(date) {
-    return dayjs(date).format("dd, DD-MM-YYYY");
-  }
+  useEffect(() => {
+    const storedUserInput = localStorage.getItem("userInput");
 
-  const formattedCheckInDate = formattedDate(checkInDate);
-  const formattedCheckOutDate = formattedDate(checkOutDate);
+    if (storedUserInput) {
+      setUserInput(JSON.parse(storedUserInput));
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   if (paymentContext) {
+  //     setTotalPrice(paymentContext.totalPrice);
+  //     setSelectedStandard(paymentContext.selectedStandard);
+  //     setSelectedSpecial(paymentContext.selectedSpecial);
+  //     setAdditional(paymentContext.additional);
+  //   } else {
+  //     setTotalPrice(0);
+  //     setSelectedStandard([]);
+  //     setSelectedSpecial([]);
+  //     setAdditional("");
+  //   }
+  // }, [
+  //   paymentContext,
+  //   totalPrice,
+  //   selectedStandard,
+  //   selectedSpecial,
+  //   additional,
+  // ]);
+
+  // useEffect(() => {
+  //   if (userInput) {
+  //     setCheckInDate(formattedDate(userInput.checkInDate));
+  //     setCheckOutDate(formattedDate(userInput.checkOutDate));
+  //   } else {
+  //     setCheckInDate(dayjs().add(1, "day").format("dd, DD-MM-YYYY"));
+  //     setCheckOutDate(dayjs().add(2, "day").format("dd, DD-MM-YYYY"));
+  //   }
+  // }, [userInput, checkInDate, checkOutDate]);
 
   return (
     <>
@@ -51,29 +87,53 @@ function BookingDetail() {
 
             <div className="flex flex-col">
               <div className="flex gap-2 text-body1">
-                <p>{formattedCheckInDate}</p>
+                <p>{checkInDate}</p>
                 <p>-</p>
-                <p>{formattedCheckOutDate}</p>
+                <p>{checkOutDate}</p>
               </div>
-              <div className="flex gap-[77px]">
-                <div className="py-1">
+              <div className="flex py-2">
+                <div className="pr-3 border-r-2 border-green-800">
                   <span>{userInput.person}</span>
-                  <span> {userInput.person > 1 ? `Guests` : `Guest`}</span>
+                  <span className="pl-2">
+                    {userInput.person > 1 ? `Guests` : `Guest`}
+                  </span>
                 </div>
-                <div className="py-1">
+                <div className="px-3 border-r-2 border-green-800">
                   <span>{userInput.room}</span>
-                  <span> {userInput.room > 1 ? `Rooms` : `Room`}</span>
+                  <span className="pl-2">
+                    {userInput.room > 1 ? `Rooms` : `Room`}
+                  </span>
+                </div>
+                <div className="px-3">
+                  {userInput.night}
+                  <span className="pl-2">
+                    {userInput.night > 1 ? `Nights` : `Night`}
+                  </span>
                 </div>
               </div>
             </div>
 
             <div className="mb-4">
-              <div className="flex justify-between py-3">
+              <div className="flex justify-between py-1">
                 <p className="text-body1 text-green-300">
                   {userInput.roomType}
                 </p>
+              </div>
+              <div className="flex pb-3 text-body1 justify-between">
+                <div>
+                  (<span className="pl-1">{userInput.room}</span>
+                  <span className="pl-2">
+                    {userInput.room > 1 ? `rooms` : `room`}
+                  </span>
+                  <span className="px-2">x</span>
+                  {userInput.night}
+                  <span className="pl-2 pr-1">
+                    {userInput.night > 1 ? `nights` : `night`}
+                  </span>
+                  )
+                </div>
                 <p className="text-base font-semibold">
-                  {userInput.pricePerNight
+                  {userInput.totalPrice
                     .toLocaleString("en-US", {
                       style: "currency",
                       currency: "THB",

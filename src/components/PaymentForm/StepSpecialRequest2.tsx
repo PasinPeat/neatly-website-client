@@ -18,15 +18,15 @@ function SpecialRequest2({
   const handleToggleStandardRequest = context.handleToggleStandardRequest;
   const handleToggleSpecialRequest = context.handleToggleSpecialRequest;
   const handleAdditionalRequest = context.handleAdditionalRequest;
-  let selectedStandard;
-  let selectedSpecial;
+  // let selectedStandard;
+  // let selectedSpecial;
 
-  if (selectedStandard) {
-    selectedStandard = context.selectedStandard;
-  }
-  if (selectedSpecial) {
-    selectedSpecial = context.selectedSpecial;
-  }
+  // if (selectedStandard) {
+  //   selectedStandard = context.selectedStandard;
+  // }
+  // if (selectedSpecial) {
+  //   selectedSpecial = context.selectedSpecial;
+  // }
 
   const theme = createTheme({
     palette: {

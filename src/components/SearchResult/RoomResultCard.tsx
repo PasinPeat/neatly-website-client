@@ -22,7 +22,7 @@ function RoomResultCard({
   const navigate = useNavigate();
   const auth = useAuth();
   const context = useContext(RoomsContext);
-  let userInput = context.userInput;
+  const userInput = context.userInput;
   const setUserInput = context.setUserInput;
 
   let isAvailable = available === 0;
@@ -34,10 +34,6 @@ function RoomResultCard({
   const backgroundImage = {
     backgroundImage: `url('${roomImages[2]}')`,
   };
-
-  function handleInfo() {
-    userInput;
-  }
 
   return (
     <div>
@@ -116,16 +112,26 @@ function RoomResultCard({
                 <button
                   className="btn Button"
                   onClick={() => {
-                    userInput = {
-                      ...userInput,
+                    setUserInput((prevUserInput) => ({
+                      ...prevUserInput,
                       roomType,
                       roomId,
                       totalPrice:
                         promotionPrice * userInput.night * userInput.room,
                       pricePerNight: promotionPrice,
-                    };
-                    console.log(userInput);
-                    setUserInput(userInput);
+                    }));
+
+                    localStorage.setItem(
+                      "userInput",
+                      JSON.stringify({
+                        ...userInput,
+                        roomType,
+                        roomId,
+                        totalPrice:
+                          promotionPrice * userInput.night * userInput.room,
+                        pricePerNight: promotionPrice,
+                      })
+                    );
                     navigate("/payment");
                   }}
                 >
