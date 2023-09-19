@@ -1,19 +1,19 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { RoomsContext } from "../../App";
 import { PaymentContext } from "../../pages/Payment";
-import dayjs, { Dayjs } from "dayjs";
 // import useFormattedDate from "../../hooks/useFormattedDate";
 
 function BookingDetail() {
   //  const formatdate = useFormattedDate(date);
   const roomsContext = useContext(RoomsContext);
-  // const userInput = roomsContext.userInput;
+  const userInput = roomsContext.userInput;
+  const setUserInput = roomsContext.setUserInput;
 
   // const checkInDate = userInput.checkInDate;
   // const checkOutDate = userInput.checkOutDate;
-  const [userInput, setUserInput] = useState({});
-  const [checkInDate, setCheckInDate] = useState<Dayjs | null | string>(null);
-  const [checkOutDate, setCheckOutDate] = useState<Dayjs | null | string>(null);
+  // const [userInput, setUserInput] = useState({});
+  // const [checkInDate, setCheckInDate] = useState<Dayjs | null | string>(null);
+  // const [checkOutDate, setCheckOutDate] = useState<Dayjs | null | string>(null);
 
   const paymentContext = useContext(PaymentContext);
   const totalPriceAfterAddReqs = paymentContext.totalPriceAfterAddReqs;
@@ -23,9 +23,6 @@ function BookingDetail() {
   const checkInDate = paymentContext.checkInDate;
   const checkOutDate = paymentContext.checkOutDate;
 
-  function formattedDate(date: Dayjs | string) {
-    return date ? dayjs(date).format("dd, DD-MM-YYYY") : "";
-  }
   useEffect(() => {
     const storedUserInput = localStorage.getItem("userInput");
 
@@ -33,37 +30,36 @@ function BookingDetail() {
       setUserInput(JSON.parse(storedUserInput));
     }
   }, []);
-  useEffect(() => {
-    if (paymentContext) {
-      setTotalPrice(paymentContext.totalPrice);
-      setSelectedStandard(paymentContext.selectedStandard);
-      setSelectedSpecial(paymentContext.selectedSpecial);
-      setAdditional(paymentContext.additional);
-    } else {
-      setTotalPrice(0);
-      setSelectedStandard([]);
-      setSelectedSpecial([]);
-      setAdditional("");
-    }
-  }, [
-    paymentContext,
-    totalPrice,
-    selectedStandard,
-    selectedSpecial,
-    additional,
-  ]);
 
-  useEffect(() => {
-    if (userInput) {
-      setCheckInDate(formattedDate(userInput.checkInDate));
-      setCheckOutDate(formattedDate(userInput.checkOutDate));
-    } else {
-      setCheckInDate(dayjs().add(1, "day").format("dd, DD-MM-YYYY"));
-      setCheckOutDate(dayjs().add(2, "day").format("dd, DD-MM-YYYY"));
-    }
-  }, [userInput, checkInDate, checkOutDate]);
-  // const formattedCheckInDate = formattedDate(checkInDate);
-  // const formattedCheckOutDate = formattedDate(checkOutDate);
+  // useEffect(() => {
+  //   if (paymentContext) {
+  //     setTotalPrice(paymentContext.totalPrice);
+  //     setSelectedStandard(paymentContext.selectedStandard);
+  //     setSelectedSpecial(paymentContext.selectedSpecial);
+  //     setAdditional(paymentContext.additional);
+  //   } else {
+  //     setTotalPrice(0);
+  //     setSelectedStandard([]);
+  //     setSelectedSpecial([]);
+  //     setAdditional("");
+  //   }
+  // }, [
+  //   paymentContext,
+  //   totalPrice,
+  //   selectedStandard,
+  //   selectedSpecial,
+  //   additional,
+  // ]);
+
+  // useEffect(() => {
+  //   if (userInput) {
+  //     setCheckInDate(formattedDate(userInput.checkInDate));
+  //     setCheckOutDate(formattedDate(userInput.checkOutDate));
+  //   } else {
+  //     setCheckInDate(dayjs().add(1, "day").format("dd, DD-MM-YYYY"));
+  //     setCheckOutDate(dayjs().add(2, "day").format("dd, DD-MM-YYYY"));
+  //   }
+  // }, [userInput, checkInDate, checkOutDate]);
 
   return (
     <>
