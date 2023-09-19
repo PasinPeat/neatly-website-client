@@ -147,12 +147,12 @@ useEffect(() => {
                   )
                 </div>
                 <p className="text-base font-semibold">
-                  {/* {userInput.totalPrice
+                  {parseFloat(userInput.totalPrice)
                     .toLocaleString("en-US", {
                       style: "currency",
                       currency: "THB",
                     })
-                    .replace("THB", "")} */}
+                    .replace("THB", "")}
                     
                 </p>
               </div>
@@ -201,10 +201,11 @@ useEffect(() => {
           <div className="flex justify-between pt-6">
             <p className="text-body1 text-green-300">Total</p>
             <p className="text-headline5">
-              {/* {totalPriceAfterAddReqs.toLocaleString("en-US", {
+              {parseFloat(totalPriceAfterAddReqs).toLocaleString("en-US", {
                 style: "currency",
                 currency: "THB",
-              })} */}
+              })}
+
             </p>
           </div>
         </div>
