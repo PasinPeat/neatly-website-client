@@ -5,7 +5,7 @@ import StepSpecialRequest2 from "../components/PaymentForm/StepSpecialRequest2";
 import StepPayment from "../components/PaymentForm/StepPayment";
 import ReviewPayment from "../components/PaymentForm/ReviewPayment";
 import { useState, useContext, useEffect } from "react";
-import { RoomsContext } from "../App.tsx";
+// import { RoomsContext } from "../App.tsx";
 import dayjs, { Dayjs } from "dayjs";
 export const PaymentContext = React.createContext();
 
@@ -13,9 +13,22 @@ function Payment() {
   const steps = ["Basic Information", "Special Request", "Payment Method"];
   const [activeStep, setActiveStep] = useState(0);
 
-  const context = useContext(RoomsContext);
-  const userInput = context.userInput;
-  const setUserInput = context.setUserInput;
+  // const context = useContext(RoomsContext);
+  const [userInput, setUserInput] = useState({});
+  // const userInput = context.userInput;
+  // const setUserInput = context.setUserInput;
+  useEffect(() => {
+    try {
+      const storedUserInput = localStorage.getItem("userInput");
+      if (storedUserInput) {
+        setUserInput(JSON.parse(storedUserInput));
+      }
+    } catch (error) {
+      // Handle JSON parsing error, e.g., log or set a default value
+      console.error("Error parsing JSON:", error);
+    }
+  }, []);
+  console.log(userInput);
 
   /*formatted date*/
   function formattedDate(date: Dayjs | string) {
@@ -35,18 +48,16 @@ function Payment() {
   //   roomType: "Deluxe",
   // });
 
-  useEffect(() => {
-    if (context) {
-      setUserInput(context.userInput);
-    } else {
-      const storedUserInput = localStorage.getItem("userInput");
-      if (storedUserInput) {
-        setUserInput(JSON.parse(storedUserInput));
-      }
-    }
-  }, [context]);
+ 
 
-  console.log(userInput);
+
+  // useEffect(() => {
+  //   const storedUserInput = localStorage.getItem("userInput");
+
+  //   setUserInput(JSON.parse(storedUserInput));
+  // }, []);
+
+  
 
   const standard = [
     { name: "Early check-in", checked: false },
