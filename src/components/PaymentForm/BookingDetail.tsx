@@ -1,17 +1,17 @@
-import { useContext, useEffect } from "react";
-import { RoomsContext } from "../../App";
+import { useContext, useEffect, useState } from "react";
+// import { RoomsContext } from "../../App";
 import { PaymentContext } from "../../pages/Payment";
 // import useFormattedDate from "../../hooks/useFormattedDate";
 
 function BookingDetail() {
   //  const formatdate = useFormattedDate(date);
-  const roomsContext = useContext(RoomsContext);
-  const userInput = roomsContext.userInput;
-  const setUserInput = roomsContext.setUserInput;
+  // const roomsContext = useContext(RoomsContext);
+  // const userInput = roomsContext.userInput;
+  // const setUserInput = roomsContext.setUserInput;
 
   // const checkInDate = userInput.checkInDate;
   // const checkOutDate = userInput.checkOutDate;
-  // const [userInput, setUserInput] = useState({});
+  const [userInput, setUserInput] = useState({});
   // const [checkInDate, setCheckInDate] = useState<Dayjs | null | string>(null);
   // const [checkOutDate, setCheckOutDate] = useState<Dayjs | null | string>(null);
 
@@ -23,14 +23,28 @@ function BookingDetail() {
   const checkInDate = paymentContext.checkInDate;
   const checkOutDate = paymentContext.checkOutDate;
 
-  useEffect(() => {
-    const storedUserInput = localStorage.getItem("userInput");
-
-    if (storedUserInput) {
-      setUserInput(JSON.parse(storedUserInput));
+  
+useEffect(() => {
+    try {
+      const storedUserInput = localStorage.getItem("userInput");
+      // console.log(storedUserInput);
+      if (storedUserInput) {
+        setUserInput(JSON.parse(storedUserInput));
+      }
+    } catch (error) {
+      // Handle JSON parsing error, e.g., log or set a default value
+      console.error("Error parsing JSON:", error);
     }
   }, []);
 
+
+  // useEffect(() => {
+  //   const storedUserInput = localStorage.getItem("userInput");
+  //   setUserInput(JSON.parse(storedUserInput));
+    
+    
+  // },[]);
+  
   // useEffect(() => {
   //   if (paymentContext) {
   //     setTotalPrice(paymentContext.totalPrice);
@@ -133,12 +147,13 @@ function BookingDetail() {
                   )
                 </div>
                 <p className="text-base font-semibold">
-                  {userInput.totalPrice
+                  {/* {userInput.totalPrice
                     .toLocaleString("en-US", {
                       style: "currency",
                       currency: "THB",
                     })
-                    .replace("THB", "")}
+                    .replace("THB", "")} */}
+                    
                 </p>
               </div>
               {selectedStandard &&
@@ -186,10 +201,10 @@ function BookingDetail() {
           <div className="flex justify-between pt-6">
             <p className="text-body1 text-green-300">Total</p>
             <p className="text-headline5">
-              {totalPriceAfterAddReqs.toLocaleString("en-US", {
+              {/* {totalPriceAfterAddReqs.toLocaleString("en-US", {
                 style: "currency",
                 currency: "THB",
-              })}
+              })} */}
             </p>
           </div>
         </div>
