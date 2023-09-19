@@ -1,10 +1,16 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { RoomsContext } from "../../App.tsx";
+import { PaymentContext } from "../../pages/Payment.tsx";
 
 function ReviewPayment() {
-  const context = useContext(RoomsContext);
-  const userInput = context.userInput;
+  const roomsContext = useContext(RoomsContext);
+  const userInput = roomsContext.userInput;
+  const paymentContext = useContext(PaymentContext);
+  const checkInDate = paymentContext.checkInDate;
+  const checkOutDate = paymentContext.checkOutDate;
+  const selectedStandard = paymentContext.selectedStandard;
+  const selectedSpecial = paymentContext.selectedSpecial;
 
   return (
     <div className="w-[738px] flex flex-col">
@@ -25,14 +31,31 @@ function ReviewPayment() {
           <div>
             <div className="flex">
               <p className="text-white text-base font-semibold">
-                Th, 19 Oct 2022
+                {checkInDate}
               </p>
               <span className="px-2 text-body1">-</span>
               <p className="text-white text-base font-semibold">
-                Fri, 20 Oct 2022
+                {checkOutDate}
               </p>
             </div>
-            <p className="text-white text-body1">{userInput.person} Guests</p>
+            <div className="pr-3 border-r-2 border-green-800">
+              <span>{userInput.person}</span>
+              <span className="pl-2">
+                {userInput.person > 1 ? `Guests` : `Guest`}
+              </span>
+            </div>
+            <div className="px-3 border-r-2 border-green-800">
+              <span>{userInput.room}</span>
+              <span className="pl-2">
+                {userInput.room > 1 ? `Rooms` : `Room`}
+              </span>
+            </div>
+            <div className="px-3">
+              {userInput.night}
+              <span className="pl-2">
+                {userInput.night > 1 ? `Nights` : `Night`}
+              </span>
+            </div>
           </div>
           <div className="flex gap-6">
             <div>
@@ -52,18 +75,46 @@ function ReviewPayment() {
               Credit Card - *888
             </span>
           </div>
+
+          {/* room_type */}
+          <div>{userInput.roomType}</div>
           <div className="flex justify-between py-3">
-            {/* room_type */}
-            <p>{userInput.roomType}</p>
+            <div>
+              (<span className="pl-1">{userInput.room}</span>
+              <span className="pl-2">
+                {userInput.room > 1 ? `rooms` : `room`}
+              </span>
+              <span className="px-2">x</span>
+              {userInput.night}
+              <span className="pl-2 pr-1">
+                {userInput.night > 1 ? `nights` : `night`}
+              </span>
+              )
+            </div>
             <p className="text-white text-base font-semibold">
-              {userInput.pricePerRoom}
+              {userInput.totalPrice}
             </p>
           </div>
-          <div className="flex justify-between py-3 mb-4">
-            {/* speacial request */}
-            <p>Airport tranfer</p>
-            <p className="text-white text-base font-semibold">200.00</p>
-          </div>
+
+          {/* standard request */}
+          {selectedStandard.map((request) => {
+            return (
+              <div className="flex py-3 mb-4">
+                <p>{request.name}</p>
+              </div>
+            );
+          })}
+          {/* special request */}
+          {selectedSpecial.map((request) => {
+            return (
+              <div className="flex justify-between py-3 mb-4">
+                <p>{request.name}</p>
+                <p className="text-white text-base font-semibold">
+                  {request.price}
+                </p>
+              </div>
+            );
+          })}
           <hr className="border-t-2 border-green-600" />
           <div className="flex justify-between pt-6">
             <p>Total</p>

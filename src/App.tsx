@@ -33,6 +33,12 @@ function App() {
   };
 
   useEffect(() => {
+    const storedUserInput = localStorage.getItem("userInput");
+
+    if (storedUserInput) {
+      setUserInput(JSON.parse(storedUserInput));
+    }
+    // Fetch rooms
     getRooms();
   }, []);
 
