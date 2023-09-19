@@ -80,7 +80,7 @@ function HistoryCard({
 
   const handleClickChangeDate = () => {
     if (timeRemaining === true) {
-      navigate(`/ChangeDate/${bookId}`);
+      navigate(`/changeDate/${bookId}`);
     } else {
       setButtonVisibilities({ ...buttonVisibilities, [bookId]: true });
     }
