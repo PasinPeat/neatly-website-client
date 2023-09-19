@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { RoomsContext } from "../../App.tsx";
 import { PaymentContext } from "../../pages/Payment.tsx";
+import { useAuth } from "../../contexts/authen.jsx";
 
-function ReviewPayment() {
+function ReviewPayment({ lastCreditNum, selectedPayment }) {
+  const auth = useAuth();
+
   const roomsContext = useContext(RoomsContext);
   const userInput = roomsContext.userInput;
   const paymentContext = useContext(PaymentContext);
@@ -12,6 +15,9 @@ function ReviewPayment() {
   const checkInDate = paymentContext.checkInDate;
   const checkOutDate = paymentContext.checkOutDate;
   const totalPriceAfterAddReqs = paymentContext.totalPriceAfterAddReqs;
+  const checkInTime = paymentContext.checkInTime;
+  const checkOutTime = paymentContext.checkOutTime;
+  console.log(lastCreditNum);
 
   return (
     <div className="w-[738px] flex flex-col">
@@ -64,21 +70,27 @@ function ReviewPayment() {
           <div className="flex gap-6">
             <div>
               <p className="text-white text-base font-semibold">Check-in</p>
-              <p className="text-white text-body1 mt-2">After 2:00 PM</p>
+              <p className="text-white text-body1 mt-2">{checkInTime}</p>
             </div>
             <div>
               <p className="text-white text-base font-semibold">Check-out</p>
-              <p className="text-white text-body1 mt-2">Before 12:00 PM</p>
+              <p className="text-white text-body1 mt-2">{checkOutTime}</p>
             </div>
           </div>
         </div>
 
         <div className="text-green-300 text-body1">
           <div className="py-10 text-right">
-            <span>Payment success via</span>
-            <span className="text-white text-base font-semibold pl-4">
-              Credit Card - *888
-            </span>
+            {selectedPayment === "credit" ? (
+              <>
+                <span>Payment success via</span>
+                <span className="text-white text-base font-semibold pl-4">
+                  Credit Card - *{lastCreditNum}
+                </span>
+              </>
+            ) : (
+              <span>Payment on arrival</span>
+            )}
           </div>
 
           {/* room_type */}
@@ -120,14 +132,18 @@ function ReviewPayment() {
           {selectedSpecial.map((request) => {
             return (
               <div className="flex justify-between py-3">
-                <p>{request.name}</p>
+                <div>
+                  {userInput.room}
+                  <span className="px-2">x</span>
+                  <span>{request.name}</span>
+                </div>
                 <p className="text-white text-base font-semibold">
                   {request.price
                     .toLocaleString("en-US", {
                       style: "currency",
                       currency: "THB",
                     })
-                    .replace("THB", "")}
+                    .replace("THB", "") * userInput.room}
                 </p>
               </div>
             );
@@ -145,10 +161,12 @@ function ReviewPayment() {
         </div>
       </div>
       {/* Button */}
-      <div className="flex gap-10 pt-14 justify-center">
-        <button className="text-orange-500 text-base font-semibold">
-          Check Booking Detail
-        </button>
+      <div className="flex gap-10 pt-14 justify-center items-center">
+        <Link to={`/booking/user/${auth.state.userData.id}`}>
+          <button className="text-orange-500 text-base font-semibold">
+            Check Booking Detail
+          </button>
+        </Link>
         <Link to="/">
           <button className="Button px-8 py-4 w-48">Back to Home</button>
         </Link>
