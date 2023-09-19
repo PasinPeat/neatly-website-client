@@ -23,8 +23,7 @@ function BookingDetail() {
   const checkInDate = paymentContext.checkInDate;
   const checkOutDate = paymentContext.checkOutDate;
 
-  
-useEffect(() => {
+  useEffect(() => {
     try {
       const storedUserInput = localStorage.getItem("userInput");
       // console.log(storedUserInput);
@@ -36,44 +35,6 @@ useEffect(() => {
       console.error("Error parsing JSON:", error);
     }
   }, []);
-
-
-  // useEffect(() => {
-  //   const storedUserInput = localStorage.getItem("userInput");
-  //   setUserInput(JSON.parse(storedUserInput));
-    
-    
-  // },[]);
-  
-  // useEffect(() => {
-  //   if (paymentContext) {
-  //     setTotalPrice(paymentContext.totalPrice);
-  //     setSelectedStandard(paymentContext.selectedStandard);
-  //     setSelectedSpecial(paymentContext.selectedSpecial);
-  //     setAdditional(paymentContext.additional);
-  //   } else {
-  //     setTotalPrice(0);
-  //     setSelectedStandard([]);
-  //     setSelectedSpecial([]);
-  //     setAdditional("");
-  //   }
-  // }, [
-  //   paymentContext,
-  //   totalPrice,
-  //   selectedStandard,
-  //   selectedSpecial,
-  //   additional,
-  // ]);
-
-  // useEffect(() => {
-  //   if (userInput) {
-  //     setCheckInDate(formattedDate(userInput.checkInDate));
-  //     setCheckOutDate(formattedDate(userInput.checkOutDate));
-  //   } else {
-  //     setCheckInDate(dayjs().add(1, "day").format("dd, DD-MM-YYYY"));
-  //     setCheckOutDate(dayjs().add(2, "day").format("dd, DD-MM-YYYY"));
-  //   }
-  // }, [userInput, checkInDate, checkOutDate]);
 
   return (
     <>
@@ -153,7 +114,6 @@ useEffect(() => {
                       currency: "THB",
                     })
                     .replace("THB", "")}
-                    
                 </p>
               </div>
               {selectedStandard &&
@@ -205,7 +165,6 @@ useEffect(() => {
                 style: "currency",
                 currency: "THB",
               })}
-
             </p>
           </div>
         </div>
