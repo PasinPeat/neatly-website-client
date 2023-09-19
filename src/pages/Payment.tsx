@@ -25,16 +25,6 @@ function Payment() {
   const checkInDate = formattedDate(userInput.checkInDate);
   const checkOutDate = formattedDate(userInput.checkOutDate);
 
-  // const [userInput, setUserInput] = useState<object>({
-  //   checkInDate: "2023-09-16",
-  //   checkOutDate: "2023-09-17",
-  //   person: 2,
-  //   price: 3000,
-  //   room: 1,
-  //   roomId: 3,
-  //   roomType: "Deluxe",
-  // });
-
   useEffect(() => {
     if (context) {
       setUserInput(context.userInput);

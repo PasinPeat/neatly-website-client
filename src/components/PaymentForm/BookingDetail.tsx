@@ -9,12 +9,6 @@ function BookingDetail() {
   const userInput = roomsContext.userInput;
   const setUserInput = roomsContext.setUserInput;
 
-  // const checkInDate = userInput.checkInDate;
-  // const checkOutDate = userInput.checkOutDate;
-  // const [userInput, setUserInput] = useState({});
-  // const [checkInDate, setCheckInDate] = useState<Dayjs | null | string>(null);
-  // const [checkOutDate, setCheckOutDate] = useState<Dayjs | null | string>(null);
-
   const paymentContext = useContext(PaymentContext);
   const totalPriceAfterAddReqs = paymentContext.totalPriceAfterAddReqs;
   const selectedStandard = paymentContext.selectedStandard;
@@ -30,36 +24,6 @@ function BookingDetail() {
       setUserInput(JSON.parse(storedUserInput));
     }
   }, []);
-
-  // useEffect(() => {
-  //   if (paymentContext) {
-  //     setTotalPrice(paymentContext.totalPrice);
-  //     setSelectedStandard(paymentContext.selectedStandard);
-  //     setSelectedSpecial(paymentContext.selectedSpecial);
-  //     setAdditional(paymentContext.additional);
-  //   } else {
-  //     setTotalPrice(0);
-  //     setSelectedStandard([]);
-  //     setSelectedSpecial([]);
-  //     setAdditional("");
-  //   }
-  // }, [
-  //   paymentContext,
-  //   totalPrice,
-  //   selectedStandard,
-  //   selectedSpecial,
-  //   additional,
-  // ]);
-
-  // useEffect(() => {
-  //   if (userInput) {
-  //     setCheckInDate(formattedDate(userInput.checkInDate));
-  //     setCheckOutDate(formattedDate(userInput.checkOutDate));
-  //   } else {
-  //     setCheckInDate(dayjs().add(1, "day").format("dd, DD-MM-YYYY"));
-  //     setCheckOutDate(dayjs().add(2, "day").format("dd, DD-MM-YYYY"));
-  //   }
-  // }, [userInput, checkInDate, checkOutDate]);
 
   return (
     <>
