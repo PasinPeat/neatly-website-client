@@ -41,35 +41,35 @@ function ButtonNavigation({ steps, activeStep, setActiveStep }) {
     setUserInput(userInput);
     console.log(userInput);
 
-    // const standard_request = userInput.selectedStandard.map(
-    //   (request) => request.name
-    // );
-    // const special_request = userInput.selectedSpecial.map(
-    //   (request) => request.name
-    // );
+    const standard_request = userInput.selectedStandard.map(
+      (request) => request.name
+    );
+    const special_request = userInput.selectedSpecial.map(
+      (request) => request.name
+    );
 
-    // const data = {
-    //   // booking_date: null,
-    //   amount_room: userInput.room,
-    //   amount_stay: userInput.person,
-    //   check_in: userInput.checkInDate,
-    //   check_out: userInput.checkOutDate,
-    //   room_id: userInput.roomId,
-    //   user_id: null,
-    //   total_price: userInput.totalPriceAfterAddReqs,
-    //   standard_request,
-    //   special_request,
-    //   additional_request: userInput.additional,
-    //   room_avaliable_id: null,
-    // };
+    const data = {
+      // booking_date: null,
+      amount_room: userInput.room,
+      amount_stay: userInput.person,
+      check_in: userInput.checkInDate,
+      check_out: userInput.checkOutDate,
+      room_id: userInput.roomId,
+      user_id: null,
+      total_price: userInput.totalPriceAfterAddReqs,
+      standard_request,
+      special_request,
+      additional_request: userInput.additional,
+      room_avaliable_id: null,
+    };
 
-    // console.log(data);
-    // try {
-    //   await axios.post(`http://localhost:4000/booking`, data);
-    //   // console.log(response.data.data);
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    console.log(data);
+    try {
+      await axios.post(`http://localhost:4000/booking`, data);
+      // console.log(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleBack = () => {
