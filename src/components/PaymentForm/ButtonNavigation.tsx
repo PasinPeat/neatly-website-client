@@ -16,7 +16,7 @@ function ButtonNavigation({
   const navigate = useNavigate();
 
   const roomsContext = useContext(RoomsContext);
-  let userInput = roomsContext.userInput;
+  const userInput = roomsContext.userInput;
   const setUserInput = roomsContext.setUserInput;
   const paymentContext = useContext(PaymentContext);
   const totalPriceAfterAddReqs = paymentContext.totalPriceAfterAddReqs;

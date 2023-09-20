@@ -15,6 +15,8 @@ function DropDownList({
   roomType,
   price,
   person,
+  paymentMethod,
+  threeCreditCardNum,
 }: any) {
   const auth = useAuth();
   const [open, setOpen] = React.useState(false);
@@ -51,11 +53,17 @@ function DropDownList({
                   </span>
                 </p>
                 <div className="flex">
-                  <p className="text-body1">Payment usccess via</p>
-                  <span className=" font-bold pl-1">
-                    Credit Card - *
-                    <span>{auth.state.userData.credit_card_id}</span>
-                  </span>
+                  {paymentMethod === "credit" ? (
+                    <>
+                      <p className="text-body1">Payment usccess via</p>
+                      <span className=" font-bold pl-1">
+                        Credit Card - *{threeCreditCardNum}
+                        <span></span>
+                      </span>
+                    </>
+                  ) : (
+                    <p className="text-body1">Payment on arrival</p>
+                  )}
                 </div>
               </div>
             </List>

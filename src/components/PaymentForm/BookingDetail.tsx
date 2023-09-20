@@ -144,12 +144,12 @@ function BookingDetail() {
                         {request.name}
                       </p>
                       <p className="text-base font-semibold">
-                        {request.price
+                        {(request.price * userInput.room)
                           .toLocaleString("en-US", {
                             style: "currency",
                             currency: "THB",
                           })
-                          .replace("THB", "") * userInput.room}
+                          .replace("THB", "")}
                       </p>
                     </div>
                   );

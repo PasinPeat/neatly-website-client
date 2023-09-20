@@ -76,7 +76,8 @@ function BookingHistory() {
             checkIn={book.check_in}
             checkOut={book.check_out}
             roomId={book.room_id}
-            userId={book.user_id}
+            paymentMethod={book.payment_method}
+            threeCreditCardNum={book.three_credit_card_num}
             totalPrice={book.total_price}
             standard={book.standard_request}
             special={book.special_request}

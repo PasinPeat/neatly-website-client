@@ -10,7 +10,7 @@ function HistoryCard({
   checkIn,
   checkOut,
   roomId,
-  userId,
+  paymentMethod,
   totalPrice,
   standard,
   special,
@@ -141,6 +141,7 @@ function HistoryCard({
                 roomType={roomType}
                 price={price}
                 person={person}
+                paymentMethod={paymentMethod}
               />
             </div>
           </div>
