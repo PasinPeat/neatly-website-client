@@ -60,7 +60,7 @@ function App() {
       results.data.forEach((roomAvaliable) => {
         const { room_id, status } = roomAvaliable;
 
-        if (status === "Avaliable") {
+        if (results.data) {
           const roomToUpdate = updatedRooms.find(
             (room) => room.room_id === room_id
           );
