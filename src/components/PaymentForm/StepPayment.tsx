@@ -5,6 +5,7 @@ import ButtonNavigation from "./ButtonNavigation";
 import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { RoomsContext } from "../../App";
+import { PaymentContext } from "../../pages/Payment";
 import axios from "axios";
 import { useAuth } from "../../contexts/authen";
 
@@ -12,15 +13,12 @@ function StepPayment({
   steps,
   activeStep,
   setActiveStep,
-  setLastCreditNum,
   selectedPayment,
   setSelectedPayment,
+  lastThreeCardNumber,
+  setLastThreeCardNumber,
 }) {
   const auth = useAuth();
-
-  const context = useContext(RoomsContext);
-  const setUserInput = context.setUserInput;
-  const userInput = context.userInput;
 
   const [payment, setPayment] = useState({
     card_number: "",
@@ -45,7 +43,6 @@ function StepPayment({
         ...data,
         card_number: formattedCardNumber,
       });
-      setLastCreditNum(payment.card_number.slice(-3));
     } catch (error) {
       console.error(error);
     }
@@ -54,6 +51,10 @@ function StepPayment({
   useEffect(() => {
     getPaymentID();
   }, [auth.state.userData.credit_card_id]);
+
+  useEffect(() => {
+    setLastThreeCardNumber(payment.card_number.slice(-3));
+  }, [payment]);
 
   const creditButtonProps = {
     image:
@@ -175,6 +176,7 @@ function StepPayment({
           setActiveStep={setActiveStep}
           steps={steps}
           selectedPayment={selectedPayment}
+          lastThreeCardNumber={lastThreeCardNumber}
         />
       </div>
       <div className="flex flex-col gap-4">

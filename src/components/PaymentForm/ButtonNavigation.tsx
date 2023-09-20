@@ -10,6 +10,7 @@ function ButtonNavigation({
   activeStep,
   setActiveStep,
   selectedPayment,
+  lastThreeCardNumber,
 }) {
   const auth = useAuth();
   const navigate = useNavigate();
@@ -25,60 +26,55 @@ function ButtonNavigation({
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
-    userInput = {
+    const newUserInput = {
       ...userInput,
       totalPriceAfterAddReqs,
       selectedStandard,
       selectedSpecial,
       additional,
     };
-    setUserInput(userInput);
-    console.log(userInput);
+    setUserInput(newUserInput);
   };
 
-  const handleSubmitBookingData = async (e) => {
+  const handleSubmitBookingData = async () => {
     setActiveStep(activeStep + 1);
-    userInput = {
-      ...userInput,
-      totalPriceAfterAddReqs,
-      selectedStandard,
-      selectedSpecial,
-      additional,
-      paymentMethod: selectedPayment,
+
+    const standard_request = userInput.selectedStandard.map(
+      (request) => request.name
+    );
+    const special_request = userInput.selectedSpecial.map(
+      (request) => request.name
+    );
+
+    let data = {
+      amount_room: userInput.room,
+      amount_stay: userInput.person,
+      check_in: userInput.checkInDate,
+      check_out: userInput.checkOutDate,
+      room_id: userInput.roomId,
+      user_id: auth.state.userData.id,
+      total_price: userInput.totalPriceAfterAddReqs,
+      standard_request,
+      special_request,
+      additional_request: userInput.additional,
+      room_avaliable_id: null,
+      payment_method: selectedPayment,
     };
-    setUserInput(userInput);
-    console.log(userInput);
 
-    // const standard_request = userInput.selectedStandard.map(
-    //   (request) => request.name
-    // );
-    // const special_request = userInput.selectedSpecial.map(
-    //   (request) => request.name
-    // );
+    if (selectedPayment === "credit") {
+      data = {
+        ...data,
+        three_credit_card_num: lastThreeCardNumber,
+      };
+    }
 
-    // const data = {
-    //   amount_room: userInput.room,
-    //   amount_stay: userInput.person,
-    //   check_in: userInput.checkInDate,
-    //   check_out: userInput.checkOutDate,
-    //   room_id: userInput.roomId,
-    //   user_id: auth.state.userData.id,
-    //   total_price: userInput.totalPriceAfterAddReqs,
-    //   standard_request,
-    //   special_request,
-    //   additional_request: userInput.additional,
-    //   room_avaliable_id: null,
-    //   payment_method: userInput.paymentMethod,
-    //   credit_card_id: auth.state.userData.credit_card_id,
-    // };
-
-    // console.log(data);
-    // try {
-    //   await axios.post(`http://localhost:4000/booking`, data);
-    //   // console.log(response.data.data);
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    console.log(data);
+    try {
+      await axios.post(`http://localhost:4000/booking`, data);
+      console.log(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleBack = () => {

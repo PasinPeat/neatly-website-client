@@ -5,18 +5,17 @@ import StepSpecialRequest2 from "../components/PaymentForm/StepSpecialRequest2";
 import StepPayment from "../components/PaymentForm/StepPayment";
 import ReviewPayment from "../components/PaymentForm/ReviewPayment";
 import { useState, useContext, useEffect } from "react";
-// import { RoomsContext } from "../App.tsx";
+import { RoomsContext } from "../App.tsx";
 import dayjs, { Dayjs } from "dayjs";
 export const PaymentContext = React.createContext();
 
 function Payment() {
   const steps = ["Basic Information", "Special Request", "Payment Method"];
   const [activeStep, setActiveStep] = useState(0);
-  const [lastCreditNum, setLastCreditNum] = useState("");
+  const [lastThreeCardNumber, setLastThreeCardNumber] = useState("");
   const [selectedPayment, setSelectedPayment] = useState("credit");
 
-  console.log(lastCreditNum);
-  // const context = useContext(RoomsContext);
+  const context = useContext(RoomsContext);
   const [userInput, setUserInput] = useState({});
   // const userInput = context.userInput;
   // const setUserInput = context.setUserInput;
@@ -137,9 +136,9 @@ function Payment() {
   }
 
   /*handle payment method*/
-  function handlePaymentMethod(method) {
-    setUserInput({ ...userInput, paymentMethod: method });
-  }
+  // function handlePaymentMethod(method) {
+  //   setUserInput({ ...userInput, paymentMethod: method });
+  // }
 
   function getStepContent(step: number) {
     switch (step) {
@@ -167,7 +166,8 @@ function Payment() {
             activeStep={activeStep}
             setActiveStep={setActiveStep}
             steps={steps}
-            setLastCreditNum={setLastCreditNum}
+            lastThreeCardNumber={lastThreeCardNumber}
+            setLastThreeCardNumber={setLastThreeCardNumber}
             selectedPayment={selectedPayment}
             setSelectedPayment={setSelectedPayment}
           />
@@ -192,7 +192,6 @@ function Payment() {
         checkOutDate,
         checkInTime,
         checkOutTime,
-        handlePaymentMethod,
       }}
     >
       <div className="w-screen h-screen">
@@ -253,8 +252,8 @@ function Payment() {
               // สรุปข้อมูลการจอง
               <div className="flex justify-center items-center">
                 <ReviewPayment
-                  lastCreditNum={lastCreditNum}
                   selectedPayment={selectedPayment}
+                  lastThreeCardNumber={lastThreeCardNumber}
                 />
               </div>
             ) : (

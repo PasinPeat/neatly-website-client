@@ -4,7 +4,7 @@ import { RoomsContext } from "../../App.tsx";
 import { PaymentContext } from "../../pages/Payment.tsx";
 import { useAuth } from "../../contexts/authen.jsx";
 
-function ReviewPayment({ lastCreditNum, selectedPayment }) {
+function ReviewPayment({ selectedPayment, lastThreeCardNumber }) {
   const auth = useAuth();
 
   const roomsContext = useContext(RoomsContext);
@@ -17,24 +17,8 @@ function ReviewPayment({ lastCreditNum, selectedPayment }) {
   const totalPriceAfterAddReqs = paymentContext.totalPriceAfterAddReqs;
   const checkInTime = paymentContext.checkInTime;
   const checkOutTime = paymentContext.checkOutTime;
-  // console.log(lastCreditNum);
 
-  const getPaymentID = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:4000/paymentmethod/${auth.state.userData.credit_card_id}`
-      );
-      // console.log(response.data.data);
-      const data = response.data.data;
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getPaymentID();
-  }, []);
+  console.log(userInput);
 
   return (
     <div className="w-[738px] flex flex-col">
@@ -102,7 +86,7 @@ function ReviewPayment({ lastCreditNum, selectedPayment }) {
               <>
                 <span>Payment success via</span>
                 <span className="text-white text-base font-semibold pl-4">
-                  Credit Card - *{lastCreditNum}
+                  Credit Card - *{lastThreeCardNumber}
                 </span>
               </>
             ) : (
