@@ -21,7 +21,7 @@ function HistoryCard({
   price,
   person,
 }: any) {
-  const [timeRemaining, setTimeRemaining] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState({});
   const [buttonVisibilities, setButtonVisibilities] = useState({});
   const [cancelVisible, setCancelVisible] = useState({});
 
@@ -52,7 +52,7 @@ function HistoryCard({
 
     const updatedButtonVisibilities = {};
     const updateCancel = {};
-
+    const timeRemain = {};
     bookIds.forEach((id) => {
       const book = bookingsHistory.find((book) => book.book_id === id);
       if (book) {
@@ -69,6 +69,7 @@ function HistoryCard({
           } else {
             updatedButtonVisibilities[id] = true;
             updateCancel[id] = true;
+            timeRemain[id] = true;
           }
         }
       }
@@ -76,20 +77,22 @@ function HistoryCard({
 
     setButtonVisibilities(updatedButtonVisibilities);
     setCancelVisible(updateCancel);
+    setTimeRemaining(timeRemain);
   }, [bookIds, bookingsHistory]);
 
   const handleClickChangeDate = () => {
-    if (timeRemaining === true) {
+    if (timeRemaining[bookId] === true) {
       navigate(`/changeDate/${bookId}`);
     } else {
       setButtonVisibilities({ ...buttonVisibilities, [bookId]: true });
     }
   };
 
-  const handleClickCancel = () => {
-    if (timeRemaining === true) {
-      navigate(`/cancleBooking/${bookId}`);
+  const handleClickCancel = (bookId) => {
+    if (timeRemaining[bookId] === true) {
+      navigate(`/refund/${bookId}`);
     } else {
+      navigate(`/cancleBooking/${bookId}`);
       setButtonVisibilities({ ...buttonVisibilities, [bookId]: true });
     }
   };
@@ -146,7 +149,9 @@ function HistoryCard({
               {cancelVisible[bookId] && (
                 <button
                   className="btn capitalize bg-bg border-none font-semibold text-body1 text-orange-500 hover:bg-bg"
-                  onClick={handleClickCancel}
+                  onClick={() => {
+                    handleClickCancel(bookId);
+                  }}
                 >
                   Cancel Booking
                 </button>
