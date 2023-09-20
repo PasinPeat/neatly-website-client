@@ -52,7 +52,7 @@ function SlideBarLandingPage() {
       //   slidesOffsetBefore={50}
       //   slidesOffsetBefore={50}
       //   slidesOffsetAfter={40}
-      initialSlide={2}
+      initialSlide={3}
       centeredSlides={true}
       centeredSlidesBounds={true}
       navigation

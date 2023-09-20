@@ -59,8 +59,8 @@ function Navbar() {
           </ul>
         </div>
         {auth.isAuthenticated ? (
-          <div className="flex items-center">
-            <div className="dropdown dropdown-end">
+          <div className="flex items-center relative">
+            <div className="dropdown dropdown-end ">
               <label tabIndex={0} className="hover:cursor-pointer">
                 <div className="w-12 h-12">
                   <img src={userProfileImage} className="rounded-full"></img>
@@ -68,7 +68,7 @@ function Navbar() {
               </label>
               <ul
                 tabIndex={0}
-                className="menu dropdown-content rounded-[4px] z-[1] drop-shadow-lg bg-base-100 w-52 mt-4 px-2 [&_li>*]:rounded-[4px]"
+                className=" menu dropdown-content absolute top-[70px] -left-20 rounded-[4px] z-[1] drop-shadow-lg bg-white w-52 mt-4 px-2 [&_li>*]:rounded-[4px]"
               >
                 <li>
                   <button
@@ -199,7 +199,7 @@ function Navbar() {
           </ul>
         </div>
         {auth.isAuthenticated ? (
-          <div className="flex items-center">
+          <div className="flex items-center relative">
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="hover:cursor-pointer">
                 <div className="w-12 h-12">
@@ -208,7 +208,7 @@ function Navbar() {
               </label>
               <ul
                 tabIndex={0}
-                className="menu dropdown-content rounded-[4px] z-[1] drop-shadow-lg w-52 mt-4 px-2 [&_li>*]:rounded-[4px] bg-white"
+                className="menu dropdown-content absolute top-[65px] -left-20 rounded-[4px] z-[1] drop-shadow-lg w-52 mt-4 px-2 [&_li>*]:rounded-[4px] bg-white"
               >
                 <li>
                   <button
