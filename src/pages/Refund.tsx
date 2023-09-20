@@ -6,7 +6,7 @@ import "../App.css";
 import RefundSuccess from "../components/Refund/RefundSuccess";
 
 function Refund() {
-  const [complete, setComplete] = useState(true);
+  const [complete, setComplete] = useState(false);
   const navigate = useNavigate();
   const { bookId } = useParams();
 
@@ -19,6 +19,7 @@ function Refund() {
     booking_date: "",
     check_in: "",
     check_out: "",
+    total_price: "",
   });
 
   const [checkIn, setCheckIn] = useState("");
@@ -57,6 +58,14 @@ function Refund() {
   const formattedCheckIn = checkInDate.toLocaleDateString("en-US", options);
   const formattedCheckOut = checkOutDate.toLocaleDateString("en-US", options);
   const formattedBookDate = checkBookDate.toLocaleDateString("en-US", options);
+
+  // fomat total price
+  const formattedTotalPrice = parseFloat(
+    cancelBooking.total_price
+  ).toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 
   return (
     <div className="flex flex-col items-center w-screen bg-bg">
@@ -116,7 +125,7 @@ function Refund() {
                             </div>
                             <div className="mt-2">
                               <span className="text-headline5 text-gray-900">
-                                THB 2,300.00
+                                THB {formattedTotalPrice}
                               </span>
                             </div>
                           </div>
@@ -139,7 +148,7 @@ function Refund() {
                         className="btn Button mb-[400px]"
                         onClick={() => navigate("/ChangeDate")}
                       >
-                        Cancle and Refund this Booking
+                        Cancel and Refund this Booking
                       </button>
                     </div>
                   </div>

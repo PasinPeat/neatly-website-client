@@ -6,7 +6,7 @@ import "../App.css";
 import CancelSuccess from "../components/CancelBooking/CancelSuccess";
 
 function CancelBooking() {
-  const [complete, setComplete] = useState(true);
+  const [complete, setComplete] = useState(false);
   const navigate = useNavigate();
   const { bookId } = useParams();
 
