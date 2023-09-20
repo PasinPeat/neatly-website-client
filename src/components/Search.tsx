@@ -169,7 +169,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
               defaultValue={checkOutDate}
               value={checkOutDate}
               format="dd, DD-MM-YYYY"
-              minDate={checkInDate}
+              minDate={dayjs(checkInDate).add(1, "day")}
               disablePast
               onChange={(newValue) => setCheckOutDate(newValue)}
               slotProps={{ textField: { size: "medium" } }}
