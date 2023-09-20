@@ -45,6 +45,7 @@ function StepPayment({
         ...data,
         card_number: formattedCardNumber,
       });
+      setLastCreditNum(payment.card_number.slice(-3));
     } catch (error) {
       console.error(error);
     }
@@ -52,7 +53,6 @@ function StepPayment({
 
   useEffect(() => {
     getPaymentID();
-    setLastCreditNum(payment.card_number.slice(-3));
   }, [auth.state.userData.credit_card_id]);
 
   const creditButtonProps = {

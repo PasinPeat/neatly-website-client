@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { RoomsContext } from "../../App.tsx";
 import { PaymentContext } from "../../pages/Payment.tsx";
 import { useAuth } from "../../contexts/authen.jsx";
@@ -17,7 +17,24 @@ function ReviewPayment({ lastCreditNum, selectedPayment }) {
   const totalPriceAfterAddReqs = paymentContext.totalPriceAfterAddReqs;
   const checkInTime = paymentContext.checkInTime;
   const checkOutTime = paymentContext.checkOutTime;
-  console.log(lastCreditNum);
+  // console.log(lastCreditNum);
+
+  const getPaymentID = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/paymentmethod/${auth.state.userData.credit_card_id}`
+      );
+      // console.log(response.data.data);
+      const data = response.data.data;
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getPaymentID();
+  }, []);
 
   return (
     <div className="w-[738px] flex flex-col">

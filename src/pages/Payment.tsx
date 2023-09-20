@@ -15,6 +15,7 @@ function Payment() {
   const [lastCreditNum, setLastCreditNum] = useState("");
   const [selectedPayment, setSelectedPayment] = useState("credit");
 
+  console.log(lastCreditNum);
   // const context = useContext(RoomsContext);
   const [userInput, setUserInput] = useState({});
   // const userInput = context.userInput;
