@@ -82,7 +82,7 @@ function CancelSuccess() {
             <p className=" text-base font-semibold">{formattedCheckOut}</p>
           </div>
           <p className="text-white text-body1 py-1 ">
-            {cancelBooking.room_details.person}Guests
+            {cancelBooking.room_details.person} Guests
           </p>
           <div className="flex flex-col text-body1 text-green-300 mt-10">
             <p className=" py-1 ">Booking date: {formattedBookDate}</p>
