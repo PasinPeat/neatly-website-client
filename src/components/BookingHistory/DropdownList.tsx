@@ -9,12 +9,16 @@ import Collapse from "@mui/material/Collapse";
 
 function DropDownList({
   totalPrice,
+  totalPriceAddReqs,
   standard,
   special,
   additional,
   roomType,
-  price,
-  person,
+  personAmount,
+  roomAmount,
+  paymentMethod,
+  threeCreditCardNum,
+  night,
 }: any) {
   const auth = useAuth();
   const [open, setOpen] = React.useState(false);
@@ -22,6 +26,33 @@ function DropDownList({
   const handleClick = () => {
     setOpen(!open);
   };
+
+  function addSpecialReqPrice(req) {
+    switch (req) {
+      case "Baby cot":
+        return 400;
+      case "Airport transfer":
+        return 200;
+      case "Extra bed":
+        return 500;
+      case "Extra pillows":
+        return 100;
+      case "Phone chargers and adapters":
+        return 100;
+      case "Breakfast":
+        return 150;
+    }
+  }
+
+  // const specialReqs = [
+  //   { name: "Baby cot", price: 400 },
+  //   { name: "Airport transfer", price: 200 },
+  //   { name: "Extra bed", price: 500 },
+  //   { name: "Extra pillows", price: 100 },
+  //   { name: "Phone chargers and adapters", price: 100 },
+  //   { name: "Breakfast", price: 150 },
+  // ];
+
   return (
     <>
       <div className=" pt-5 ">
@@ -43,27 +74,36 @@ function DropDownList({
             <List component="div" disablePadding sx={{ px: 2, py: 1 }}>
               <div className="flex justify-between w-full py-4">
                 <p className="text-body1">
-                  {person}
-                  <span> Guest</span>{" "}
-                  <span>
-                    {/* fix: fix to fetch *nights* from detabase */}(
-                    <span>1</span> Night)
-                  </span>
+                  {personAmount}
+                  <span> Guest</span>
+                  <span className="pl-2">({night} Night)</span>
                 </p>
                 <div className="flex">
-                  <p className="text-body1">Payment usccess via</p>
-                  <span className=" font-bold pl-1">
-                    Credit Card - *
-                    <span>{auth.state.userData.credit_card_id}</span>
-                  </span>
+                  {paymentMethod === "credit" ? (
+                    <>
+                      <p className="text-body1">Payment success via</p>
+                      <span className="font-bold pl-2">
+                        Credit Card - *{threeCreditCardNum}
+                        <span></span>
+                      </span>
+                    </>
+                  ) : (
+                    <p className="text-body1">Payment on arrival</p>
+                  )}
                 </div>
               </div>
             </List>
             <List component="div" disablePadding sx={{ px: 2, py: 1 }}>
-              <div className="flex justify-between w-full">
-                <p className="text-body1">{roomType}</p>
+              <div className="flex justify-between items-end w-full">
+                <div>
+                  <p className="text-body1">{roomType}</p>
+                  <p>
+                    ({roomAmount} room<span className="px-2">x</span>
+                    {night} night)
+                  </p>
+                </div>
                 <p className="text-body1 font-bold text-black">
-                  {parseFloat(price).toLocaleString("en-US", {
+                  {parseFloat(totalPrice).toLocaleString("en-US", {
                     minimumFractionDigits: 2,
                   })}
                 </p>
@@ -75,11 +115,11 @@ function DropDownList({
                   <div className="flex justify-between w-full py-2" key={index}>
                     <p className="text-body1">{item}</p>
                     <p className="text-body1 font-bold text-black">
-                      {/* fix: fix to fetch *price* from detabase */}
-                      200.00
-                      {/* {parseFloat(price).toLocaleString("en-US", {
-                              minimumFractionDigits: 2,
-                            })} */}
+                      {parseFloat(
+                        addSpecialReqPrice(item) * roomAmount
+                      ).toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                      })}
                     </p>
                   </div>
                 ))}
@@ -87,22 +127,26 @@ function DropDownList({
 
             <List component="div" disablePadding sx={{ px: 2 }}>
               {standard &&
-                standard.map((item: string, index: number) => (
-                  <div className="flex justify-between w-full py-2" key={index}>
-                    <p className="text-body1">{item}</p>
-                    <p className="text-body1 font-bold text-black">
-                      {/* fix: fix to fetch *price* from detabase */}
-                      00.00
-                    </p>
-                  </div>
-                ))}
+                standard
+                  .filter(
+                    (item) =>
+                      item !== "Early check-in" && item !== "Late check-out"
+                  )
+                  .map((item: string, index: number) => (
+                    <div
+                      className="flex justify-between w-full py-2"
+                      key={index}
+                    >
+                      <p className="text-body1">{item}</p>
+                    </div>
+                  ))}
             </List>
 
             <List component="div" disablePadding sx={{ px: 2, py: 1 }}>
               <div className="flex justify-between w-full border-t-[2px] border-green-300 py-4">
                 <p className="text-body1">Total</p>
                 <p className=" text-headline5 font-bold text-black">
-                  {parseFloat(totalPrice).toLocaleString("en-US", {
+                  {parseFloat(totalPriceAddReqs).toLocaleString("en-US", {
                     style: "currency",
                     currency: "THB",
                   })}

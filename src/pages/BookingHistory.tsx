@@ -82,16 +82,19 @@ function BookingHistory() {
             checkIn={book.check_in}
             checkOut={book.check_out}
             roomId={book.room_id}
-            userId={book.user_id}
+            paymentMethod={book.payment_method}
+            threeCreditCardNum={book.three_credit_card_num}
             totalPrice={book.total_price}
+            totalPriceAddReqs={book.total_price_add_reqs}
             standard={book.standard_request}
             special={book.special_request}
             additional={book.additional_request}
             onRoomDetail={handleRoomDetail}
+            night={book.amount_night}
             roomType={book.room_details.room_type}
             roomImages={book.room_details.room_images}
-            price={book.room_details.price}
-            person={book.room_details.person}
+            personAmount={book.amount_stay}
+            roomAmount={book.amount_room}
             cancel_date={book.cancel_date}
           />
         ))}
