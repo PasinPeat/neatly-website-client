@@ -12,6 +12,10 @@ function BookingHistory() {
   const { bookingsHistory } = useContext(BookingsContext);
   const context = useContext(RoomsContext);
 
+  const sortedBookingsHistory = [...bookingsHistory].sort(
+    (a, b) => b.book_id - a.book_id
+  );
+
   // find roomId
   const [rooms, setRoom] = useState<RoomsProps | null>(null);
   const [showRoomDetail, setShowRoomDetail] = useState(false);
@@ -29,11 +33,15 @@ function BookingHistory() {
     setShowRoomDetail(false);
   }
 
-  function extractBookIds(bookingsHistory) {
+  function extractBookIds(sortedBookingsHistory) {
     return bookingsHistory.map((book) => book.book_id);
   }
 
-  const bookIds = extractBookIds(bookingsHistory);
+  let bookIds = extractBookIds(sortedBookingsHistory);
+
+  bookIds = bookIds.sort((a, b) => b - a);
+
+  console.log(sortedBookingsHistory);
 
   return (
     <div>
@@ -58,9 +66,9 @@ function BookingHistory() {
 
       <Navbar />
       <div className="bg-bg pt-16 pb-32">
-        {bookingsHistory.map((book: any, index: number) => (
+        {sortedBookingsHistory.map((book: any, index: number) => (
           <HistoryCard
-            bookingsHistory={bookingsHistory}
+            bookingsHistory={sortedBookingsHistory}
             cardKey={index}
             bookIds={bookIds}
             bookId={book.book_id}
