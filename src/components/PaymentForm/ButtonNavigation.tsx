@@ -4,6 +4,8 @@ import { RoomsContext } from "../../App";
 import { PaymentContext } from "../../pages/Payment";
 import { useAuth } from "../../contexts/authen";
 import axios from "axios";
+import stripe from "stripe";
+import "@stripe/stripe-js";
 
 function ButtonNavigation({
   steps,
@@ -72,8 +74,11 @@ function ButtonNavigation({
         three_credit_card_num: lastThreeCardNumber,
       };
     }
-
     try {
+      await axios.post("http://localhost:4000/checkout", {
+        total: data.total_price,
+      });
+
       await axios.post(`http://localhost:4000/booking`, data);
       localStorage.removeItem("userInput");
     } catch (error) {
