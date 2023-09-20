@@ -86,6 +86,7 @@ function BookingHistory() {
             roomImages={book.room_details.room_images}
             price={book.room_details.price}
             person={book.room_details.person}
+            cancel_date={book.cancel_date}
           />
         ))}
       </div>

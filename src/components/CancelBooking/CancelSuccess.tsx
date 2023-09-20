@@ -19,11 +19,13 @@ function CancelSuccess() {
     booking_date: "",
     check_in: "",
     check_out: "",
+    cancel_date: "",
   });
 
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [bookDate, setBookDate] = useState("");
+  const [cancelDate, setCancelDate] = useState("");
 
   const getData = async () => {
     try {
@@ -36,6 +38,7 @@ function CancelSuccess() {
       setCheckIn(data.check_in);
       setCheckOut(data.check_out);
       setBookDate(data.booking_date);
+      setCancelDate(data.cancel_date);
     } catch (error) {
       console.error(error);
     }
@@ -48,6 +51,7 @@ function CancelSuccess() {
   const checkInDate = new Date(`${checkIn}`);
   const checkOutDate = new Date(`${checkOut}`);
   const checkBookDate = new Date(`${bookDate}`);
+  const checkCancelDate = new Date(`${cancelDate}`);
   const options = {
     weekday: "short",
     day: "numeric",
@@ -57,7 +61,10 @@ function CancelSuccess() {
   const formattedCheckIn = checkInDate.toLocaleDateString("en-US", options);
   const formattedCheckOut = checkOutDate.toLocaleDateString("en-US", options);
   const formattedBookDate = checkBookDate.toLocaleDateString("en-US", options);
-
+  const formattedCancelDate = checkCancelDate.toLocaleDateString(
+    "en-US",
+    options
+  );
   //check user
   const fetchAuth = async () => {
     const token = localStorage.getItem("token");
@@ -75,7 +82,6 @@ function CancelSuccess() {
   useEffect(() => {
     fetchAuth();
   }, []);
-
   return (
     <div className="flex flex-col items-center  bg-bg">
       {/* <Navbar /> */}
@@ -101,11 +107,11 @@ function CancelSuccess() {
             <p className=" text-base font-semibold">{formattedCheckOut}</p>
           </div>
           <p className="text-white text-body1 py-1 ">
-            {cancelBooking.room_details.person} Guests
+            {cancelBooking.room_details.person}Guests
           </p>
           <div className="flex flex-col text-body1 text-green-300 mt-10">
             <p className=" py-1 ">Booking date: {formattedBookDate}</p>
-            <p className=" py-1 ">Cancellation date: Tue, 16 Oct 2022</p>
+            <p className=" py-1 ">Cancellation date: {formattedCancelDate}</p>
           </div>
         </div>
       </div>
