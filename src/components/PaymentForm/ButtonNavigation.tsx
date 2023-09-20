@@ -4,6 +4,8 @@ import { RoomsContext } from "../../App";
 import { PaymentContext } from "../../pages/Payment";
 import { useAuth } from "../../contexts/authen";
 import axios from "axios";
+import stripe from "stripe";
+import "@stripe/stripe-js";
 
 function ButtonNavigation({
   steps,
@@ -67,22 +69,22 @@ function ButtonNavigation({
     //   payment_method: selectedPayment,
     //   amount_night: userInput.night,
     // };
+    if (selectedPayment === "credit") {
+      data = {
+        ...data,
+        three_credit_card_num: lastThreeCardNumber,
+      };
+    }
+    try {
+      await axios.post("http://localhost:4000/checkout", {
+        total: data.total_price,
+      });
 
-    // if (selectedPayment === "credit") {
-    //   data = {
-    //     ...data,
-    //     three_credit_card_num: lastThreeCardNumber,
-    //   };
-    // }
-    // console.log(data);
-
-    // try {
-    //   await axios.post(`http://localhost:4000/booking`, data);
-    //   localStorage.removeItem("userInput");
-    //   console.log(data);
-    // } catch (error) {
-    //   console.error(error);
-    // }
+      await axios.post(`http://localhost:4000/booking`, data);
+      localStorage.removeItem("userInput");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleBack = () => {
