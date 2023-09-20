@@ -29,6 +29,8 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
   const context = useContext(RoomsContext);
   const navigate = useNavigate();
   const userInput = context.userInput;
+  const showUpdateButton = context.showUpdateButton;
+  const setShowUpdateButton = context.setShowUpdateButton;
 
   const color: string = "#A0ACC3";
 
@@ -110,6 +112,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
 
   function handleSubmit(newValue) {
     newValue.preventDefault();
+
     if (room === 0) return;
     if (person === 0) return;
 
@@ -122,7 +125,8 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
     };
     onSearchResult(result);
     setUserInput(result);
-    console.log(result);
+    // console.log(result);
+    setShowUpdateButton(!showUpdateButton);
     navigate("/search");
   }
 
@@ -194,14 +198,36 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
           <span className="text-gray-900 text-body1 mb-2">Rooms & Guests</span>
         </label>
 
-        <div className="px-4 w-60 h-12 flex items-center justify-between rounded-[4px] border border-solid border-gray-500 text-gray-600 text-body1">
-          <div>
-            {room} Rooms, {person} Guests
+        {showDropdown ? (
+          <div
+            className={
+              "px-4 w-60 h-12 flex items-center justify-between rounded-[4px] border border-solid border-orange-500 text-gray-600 text-body1"
+            }
+            onClick={setShowDropdown}
+          >
+            <div>
+              {room} Rooms, {person} Guests
+            </div>
+            <button>
+              <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/arrow_drop_down_black_24dp%202.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2Fycm93X2Ryb3BfZG93bl9ibGFja18yNGRwIDIuc3ZnIiwiaWF0IjoxNjk0MDgyNzE5LCJleHAiOjE3MjU2MTg3MTl9.8aoooHCf3UW3mfKGTeBYHLZbuUsFc8lpg9037s3QFnA&t=2023-09-07T10%3A31%3A58.813Z" />
+            </button>
           </div>
-          <button onClick={setShowDropdown}>
-            <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/arrow_drop_down_black_24dp%202.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2Fycm93X2Ryb3BfZG93bl9ibGFja18yNGRwIDIuc3ZnIiwiaWF0IjoxNjk0MDgyNzE5LCJleHAiOjE3MjU2MTg3MTl9.8aoooHCf3UW3mfKGTeBYHLZbuUsFc8lpg9037s3QFnA&t=2023-09-07T10%3A31%3A58.813Z" />
-          </button>
-        </div>
+        ) : (
+          <div
+            className={
+              "px-4 w-60 h-12 flex items-center justify-between rounded-[4px] hover:border-black hover:cursor-pointer border border-solid border-[#c4c4c4] text-gray-600 text-body1"
+            }
+            onClick={setShowDropdown}
+          >
+            <div>
+              {room} Rooms, {person} Guests
+            </div>
+            <button>
+              <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/arrow_drop_down_black_24dp%202.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2Fycm93X2Ryb3BfZG93bl9ibGFja18yNGRwIDIuc3ZnIiwiaWF0IjoxNjk0MDgyNzE5LCJleHAiOjE3MjU2MTg3MTl9.8aoooHCf3UW3mfKGTeBYHLZbuUsFc8lpg9037s3QFnA&t=2023-09-07T10%3A31%3A58.813Z" />
+            </button>
+          </div>
+        )}
+
         {showDropdown && (
           <div className="px-4 py-3 w-60 top-34 flex flex-col absolute font-medium rounded-md bg-white drop-shadow-lg">
             <div className="pt-2 flex items-center justify-between">
@@ -306,7 +332,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
         onClick={handleSubmit}
         className={`btn Button ${seachResultBtn}`}
       >
-        Search
+        {showUpdateButton ? "Update" : "Search"}
       </button>
     </div>
   );

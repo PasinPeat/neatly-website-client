@@ -18,6 +18,7 @@ function SpecialRequest2({
   const handleToggleStandardRequest = context.handleToggleStandardRequest;
   const handleToggleSpecialRequest = context.handleToggleSpecialRequest;
   const handleAdditionalRequest = context.handleAdditionalRequest;
+  const additional = context.additional;
 
   const theme = createTheme({
     palette: {
@@ -31,7 +32,7 @@ function SpecialRequest2({
 
   const CheckboxSx = {
     color: "#D6D9E4",
-    
+
     "&.Mui-checked": {
       color: "#E76B39",
     },
@@ -132,7 +133,7 @@ function SpecialRequest2({
           <textarea
             name="additionRequest"
             id="additionRequest"
-            // value={additional}
+            value={additional}
             onChange={(e) => handleAdditionalRequest(e)}
             className="h-20 w-full p-3 rounded bg-white border-2 border-gray-400 resize-none hover:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 "
           ></textarea>

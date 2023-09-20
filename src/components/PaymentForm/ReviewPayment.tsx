@@ -17,6 +17,7 @@ function ReviewPayment({ selectedPayment, lastThreeCardNumber }) {
   const totalPriceAfterAddReqs = paymentContext.totalPriceAfterAddReqs;
   const checkInTime = paymentContext.checkInTime;
   const checkOutTime = paymentContext.checkOutTime;
+  const additional = paymentContext.additional;
 
   console.log(userInput);
 
@@ -149,7 +150,15 @@ function ReviewPayment({ selectedPayment, lastThreeCardNumber }) {
               </div>
             );
           })}
+          <div className="flex flex-col justify-between w-full py-4">
+            <p className="text-body1 font-semibold">Additional Request</p>
+            <p className=" text-body1 pt-2 text-white">
+              {additional ? additional : "No additional Request"}
+            </p>
+          </div>
+
           <hr className="border-t-2 border-green-600 mt-4" />
+
           <div className="flex justify-between pt-6">
             <p>Total</p>
             <p className="text-white text-headline5">

@@ -18,7 +18,7 @@ function ButtonNavigation({
   const navigate = useNavigate();
 
   const roomsContext = useContext(RoomsContext);
-  let userInput = roomsContext.userInput;
+  const userInput = roomsContext.userInput;
   const setUserInput = roomsContext.setUserInput;
   const paymentContext = useContext(PaymentContext);
   const totalPriceAfterAddReqs = paymentContext.totalPriceAfterAddReqs;
@@ -41,33 +41,34 @@ function ButtonNavigation({
   const handleSubmitBookingData = async () => {
     setActiveStep(activeStep + 1);
 
-    const standard_request = userInput.selectedStandard.map(
-      (request) => request.name
-    );
-    const special_request = userInput.selectedSpecial.map(
-      (request) => request.name
-    );
+    // const standard_request = userInput.selectedStandard.map(
+    //   (request) => request.name
+    // );
+    // const special_request = userInput.selectedSpecial.map(
+    //   (request) => request.name
+    // );
 
-    const roomAvaliable = await axios.get(
-      `http://localhost:4000/avaliable/${userInput.roomId}`
-    );
+    // const roomAvaliable = await axios.get(
+    //   `http://localhost:4000/avaliable/${userInput.roomId}`
+    // );
 
-    console.log(roomAvaliable);
-    let data = {
-      amount_room: userInput.room,
-      amount_stay: userInput.person,
-      check_in: userInput.checkInDate,
-      check_out: userInput.checkOutDate,
-      room_id: userInput.roomId,
-      user_id: auth.state.userData.id,
-      total_price: userInput.totalPriceAfterAddReqs,
-      standard_request,
-      special_request,
-      additional_request: userInput.additional,
-      room_avaliable_id: roomAvaliable.data.data.room_avaliable_id,
-      payment_method: selectedPayment,
-    };
-
+    // console.log(roomAvaliable);
+    // let data = {
+    //   amount_room: userInput.room,
+    //   amount_stay: userInput.person,
+    //   check_in: userInput.checkInDate,
+    //   check_out: userInput.checkOutDate,
+    //   room_id: userInput.roomId,
+    //   user_id: auth.state.userData.id,
+    //   total_price: userInput.totalPrice,
+    //   total_price_add_reqs: userInput.totalPriceAfterAddReqs,
+    //   standard_request,
+    //   special_request,
+    //   additional_request: userInput.additional,
+    //   room_avaliable_id: roomAvaliable.data.data.room_avaliable_id,
+    //   payment_method: selectedPayment,
+    //   amount_night: userInput.night,
+    // };
     if (selectedPayment === "credit") {
       data = {
         ...data,

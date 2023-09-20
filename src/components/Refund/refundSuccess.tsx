@@ -19,6 +19,7 @@ function RefundSuccess() {
     booking_date: "",
     check_in: "",
     check_out: "",
+    total_price_add_reqs: "",
     cancel_date: "",
   });
 
@@ -68,10 +69,9 @@ function RefundSuccess() {
 
   // fomat total price
   const formattedTotalPrice = parseFloat(
-    cancelBooking.total_price
+    cancelBooking.total_price_add_reqs
   ).toLocaleString("en-US", {
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
   });
 
   //check user
@@ -91,6 +91,7 @@ function RefundSuccess() {
   useEffect(() => {
     fetchAuth();
   }, []);
+
   return (
     <div className="flex flex-col items-center  bg-bg">
       {/* <Navbar /> */}

@@ -26,6 +26,7 @@ function App() {
   const [rooms, setRooms] = useState<RoomsProps[]>([]);
   const [roomResult, setRoomResult] = useState<RoomsProps[]>([]);
   const [userInput, setUserInput] = useState<RoomsProps | null>(null);
+  const [showUpdateButton, setShowUpdateButton] = useState(false);
 
   const getRooms = async () => {
     const results = await axios(`http://localhost:4000/room`);
@@ -93,6 +94,8 @@ function App() {
           rooms,
           userInput,
           setUserInput,
+          showUpdateButton,
+          setShowUpdateButton,
         }}
       >
         <Routes>
