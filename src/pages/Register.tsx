@@ -3,6 +3,11 @@ import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import dayjs from "dayjs";
+// import { TextField } from "@mui/material";
 
 function Register() {
   const navigate = useNavigate();
@@ -311,6 +316,54 @@ function Register() {
       });
   }, []);
 
+  // const classes = useStyles();
+  const theme = createTheme({
+    components: {
+      MuiIconButton: {
+        styleOverrides: {
+          sizeMedium: {
+            color: "#9AA1B9",
+          },
+        },
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: {
+            color: "#D6D9E4",
+          },
+        },
+      },
+      MuiInputLabel: {
+        styleOverrides: {
+          root: {
+            color: "#9AA1B9",
+          },
+        },
+      },
+    },
+    palette: {
+      primary: {
+        main: "#E76B39",
+        light: "#E76B39",
+        dark: "#E76B39",
+      },
+      MuiPickersDay: {
+        day: {
+          color: "#c44242",
+        },
+        daySelected: {
+          backgroundColor: "#436E70",
+        },
+        dayDisabled: {
+          color: "#436E70",
+        },
+        current: {
+          color: "#436E70",
+        },
+      },
+    },
+  });
+
   return (
     <div className="flex flex-col items-center w-screen bg-coverRegister bg-cover">
       <Navbar />
@@ -428,8 +481,46 @@ function Register() {
                 </>
               )}
             </div>
-
             <div className="relative">
+              <label htmlFor="birthDate">
+                <p className="font-body1 text-gray-900 text-start">
+                  Date of Birth
+                </p>
+              </label>
+              <DemoContainer components={["DatePicker"]}>
+                <ThemeProvider theme={theme}>
+                  <DatePicker
+                    showDaysOutsideCurrentMonth
+                    fixedWeekNumber={6}
+                    value={birthDay}
+                    format="YYYY-MM-DD"
+                    disableFuture
+                    onChange={(selectedDate) => {
+                      const formattedDate =
+                        dayjs(selectedDate).format("YYYY-MM-DD");
+                      setBirthDay(formattedDate);
+                    }}
+                    slotProps={{ textField: { size: "medium" } }}
+                    sx={{
+                      "& input": {
+                        padding: "12px",
+                        width: "325px",
+                        fontFamily: "inter",
+                        background: "#FFF",
+                        color: "#2A2E3F",
+                      },
+                    }}
+                  />
+                </ThemeProvider>
+              </DemoContainer>
+              {birthDayError && (
+                <span className="text-body3 text-red absolute left-0 -bottom-5">
+                  You must be at least 18 years old to register.
+                </span>
+              )}
+            </div>
+
+            {/* <div className="relative">
               <label htmlFor="birthDate">
                 <p className="font-body1 text-gray-900 text-start">
                   Date of Birth
@@ -459,7 +550,7 @@ function Register() {
                   You must be at least 18 years old to register.
                 </span>
               )}
-            </div>
+            </div> */}
 
             <div className="relative">
               <label htmlFor="email">
