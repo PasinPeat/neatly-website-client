@@ -5,7 +5,7 @@ import App from "../../App";
 import { Link } from "react-router-dom";
 // import Navbar from "../Navbar";
 
-function RefundSuccess() {
+function CancelSuccess() {
   // const navigate = useNavigate();
   const { bookId } = useParams();
 
@@ -61,19 +61,18 @@ function RefundSuccess() {
     <div className="flex flex-col items-center  bg-bg">
       {/* <Navbar /> */}
       {/* Header */}
-      <div className="flex flex-col justify-center bg-green-800 rounded-t  w-[800px] h-[189px] mt-[80px] text-center">
+      <div className="flex flex-col justify-center bg-green-800 rounded-t  w-[738px] h-[189px] mt-[80px] text-center">
         <p className="font-noto-serif-display text-white text-[44px] font-medium">
-          Your Request has been Submitted
+          The Cancellation is Complete
         </p>
         <p className="text-body2 text-green-400 text-center pt-4 px-16">
           The cancellation is complete. <br />
-          You will recieve an email with a detail of cancellation within 24
-          hours.
+          You will recieve an email with a detail and refund within 48 hours.
         </p>
       </div>
       {/* body */}
-      <div className="flex flex-col justify-center items-center rounded-b w-[800px] mb-[60px] bg-green-700 ">
-        <div className="flex flex-col mt-6 rounded w-[720px] h-[254px] bg-green-600 p-6">
+      <div className="flex flex-col justify-center items-center rounded-b w-[738px] h-[318px] mb-[60px] bg-green-700 ">
+        <div className="flex flex-col rounded w-[658px] h-[254px] bg-green-600 p-6">
           <p className="text-white  text-headline5">
             {cancelBooking.room_details.room_type}
           </p>
@@ -83,18 +82,12 @@ function RefundSuccess() {
             <p className=" text-base font-semibold">{formattedCheckOut}</p>
           </div>
           <p className="text-white text-body1 py-1 ">
-            {" "}
-            {cancelBooking.room_details.person} Guests
+            {cancelBooking.room_details.person}Guests
           </p>
           <div className="flex flex-col text-body1 text-green-300 mt-10">
             <p className=" py-1 ">Booking date: {formattedBookDate}</p>
             <p className=" py-1 ">Cancellation date: Tue, 16 Oct 2022</p>
           </div>
-        </div>
-        <hr className=" w-[720px] mt-10 border-green-600 border-solid border-t-2" />
-        <div className="flex flex-row justify-between mt-7 mb-10 w-[720px] ">
-          <p className="text-green-300 text-body1">Total Refund</p>
-          <p className="text-white text-headline5">THB 2,300.00</p>
         </div>
       </div>
 
@@ -108,5 +101,4 @@ function RefundSuccess() {
     </div>
   );
 }
-
-export default RefundSuccess;
+export default CancelSuccess;

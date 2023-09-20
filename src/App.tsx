@@ -11,7 +11,7 @@ import SearchResult from "./pages/SearchResult.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import ChangeDate from "./pages/ChangeDate.tsx";
 import Refund from "./pages/Refund.tsx";
-import CancleBooking from "./pages/CancleBooking.tsx";
+import CancleBooking from "./pages/CancelBooking.tsx";
 import axios from "axios";
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -122,8 +122,8 @@ function App() {
           <Route path="/profile/:profileID" element={<Profile />} />
           <Route path="/booking/user/:userId" element={<BookingHistory />} />
           <Route path="/changeDate" element={<ChangeDate />} />
-          <Route path="/refund" element={<Refund />} />
-          <Route path="/cancleBooking" element={<CancleBooking />} />
+          <Route path="/refund/:bookId" element={<Refund />} />
+          <Route path="/cancleBooking/:bookId" element={<CancleBooking />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </RoomsContext.Provider>

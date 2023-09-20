@@ -88,7 +88,7 @@ function HistoryCard({
 
   const handleClickCancel = () => {
     if (timeRemaining === true) {
-      navigate("/Cancel");
+      navigate(`/cancleBooking/${bookId}`);
     } else {
       setButtonVisibilities({ ...buttonVisibilities, [bookId]: true });
     }
