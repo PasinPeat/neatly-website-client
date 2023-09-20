@@ -211,7 +211,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
                   style={
                     room < 2 ? { borderColor: "#9AA1B9", color: "#9AA1B9" } : {}
                   }
-                  className="relative w-4 h-4 bg-white text-orange-500 rounded-full border border-solid border-orange-500"
+                  className="AddandSubtract"
                 >
                   <div
                     className="absolute bottom-[-25%] right-[20%]"
@@ -234,7 +234,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
                       ? { borderColor: "#9AA1B9", color: "#9AA1B9" }
                       : {}
                   }
-                  className="relative w-4 h-4 bg-white text-orange-500  rounded-full border border-solid border-orange-500"
+                  className="AddandSubtract"
                 >
                   <div
                     className="absolute bottom-[-25%] right-[10%]"
@@ -259,7 +259,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
                       ? { borderColor: "#9AA1B9", color: "#9AA1B9" }
                       : {}
                   }
-                  className="relative w-4 h-4 bg-white text-orange-500 rounded-full border border-solid border-orange-500"
+                  className="AddandSubtract"
                 >
                   <div
                     className="absolute bottom-[-25%] right-[20%]"
@@ -282,7 +282,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
                       ? { borderColor: "#9AA1B9", color: "#9AA1B9" }
                       : {}
                   }
-                  className="relative w-4 h-4 bg-white text-orange-500 rounded-full border border-solid border-orange-500"
+                  className="AddandSubtract"
                 >
                   <div
                     className="absolute bottom-[-25%] right-[10%]"
