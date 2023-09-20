@@ -46,6 +46,11 @@ function ButtonNavigation({
       (request) => request.name
     );
 
+    const roomAvaliable = await axios.get(
+      `http://localhost:4000/avaliable/${userInput.roomId}`
+    );
+
+    console.log(roomAvaliable);
     let data = {
       amount_room: userInput.room,
       amount_stay: userInput.person,
@@ -57,7 +62,7 @@ function ButtonNavigation({
       standard_request,
       special_request,
       additional_request: userInput.additional,
-      room_avaliable_id: null,
+      room_avaliable_id: roomAvaliable.data.data.room_avaliable_id,
       payment_method: selectedPayment,
     };
 
@@ -68,10 +73,9 @@ function ButtonNavigation({
       };
     }
 
-    console.log(data);
     try {
       await axios.post(`http://localhost:4000/booking`, data);
-      console.log(response.data.data);
+      localStorage.removeItem("userInput");
     } catch (error) {
       console.error(error);
     }

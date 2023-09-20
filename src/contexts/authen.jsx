@@ -123,6 +123,7 @@ function AuthProvider(props) {
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("userInput");
     setState({ ...state, user: null, error: null });
   };
 
