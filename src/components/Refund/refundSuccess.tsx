@@ -57,6 +57,13 @@ function RefundSuccess() {
   const formattedCheckOut = checkOutDate.toLocaleDateString("en-US", options);
   const formattedBookDate = checkBookDate.toLocaleDateString("en-US", options);
 
+  // fomat total price
+  const formattedTotalPrice = parseFloat(
+    cancelBooking.total_price
+  ).toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
   return (
     <div className="flex flex-col items-center  bg-bg">
       {/* <Navbar /> */}
@@ -93,8 +100,13 @@ function RefundSuccess() {
         </div>
         <hr className=" w-[720px] mt-10 border-green-600 border-solid border-t-2" />
         <div className="flex flex-row justify-between mt-7 mb-10 w-[720px] ">
-          <p className="text-green-300 text-body1">Total Refund</p>
-          <p className="text-white text-headline5">THB 2,300.00</p>
+          <p className="text-green-300 text-body1 text-gray-900">
+            Total Refund
+          </p>
+          <p className="text-white text-headline5">
+            {" "}
+            THB {formattedTotalPrice}
+          </p>
         </div>
       </div>
 
