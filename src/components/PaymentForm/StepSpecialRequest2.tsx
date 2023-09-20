@@ -38,6 +38,14 @@ function SpecialRequest2({
     },
   });
 
+  const CheckboxSx = {
+    color: "#D6D9E4",
+    
+    "&.Mui-checked": {
+      color: "#E76B39",
+    },
+    "& .MuiSvgIcon-root": { fontSize: 33 },
+  };
   return (
     <div className="flex gap-6">
       <div className="w-[740px] bg-white border border-gray-300 rounded p-10">
@@ -59,6 +67,7 @@ function SpecialRequest2({
                         name={request.name}
                         value={request.checked}
                         checked={request.checked}
+                        sx={CheckboxSx}
                       />
                     }
                     label={
@@ -100,6 +109,7 @@ function SpecialRequest2({
                         name={request.name}
                         value={request.checked}
                         checked={request.checked}
+                        sx={CheckboxSx}
                       />
                     }
                     label={
