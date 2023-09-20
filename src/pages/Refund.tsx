@@ -9,6 +9,7 @@ function Refund() {
   const [complete, setComplete] = useState(false);
   const navigate = useNavigate();
   const { bookId } = useParams();
+  const [checkUser, setCheckUser] = useState(null);
 
   const [cancelBooking, setCancelBooking] = useState({
     room_details: {
@@ -42,6 +43,23 @@ function Refund() {
     }
   };
 
+  const updateData = async () => {
+    try {
+      const response = await axios.put(
+        `http://localhost:4000/booking/${bookId}`,
+        { ...cancelBooking }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleCancel = async () => {
+    await updateData();
+    setComplete(true);
+  };
+
   useEffect(() => {
     getData();
   }, [bookId]);
@@ -66,6 +84,24 @@ function Refund() {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+
+  //check user
+  const fetchAuth = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const userDataFromToken = jwtDecode(token);
+      const result = await axios.get(
+        `http://localhost:4000/validUser/${userDataFromToken.user_id}`
+      );
+      setCheckUser(result);
+    } else {
+      navigate("/");
+    }
+  };
+
+  useEffect(() => {
+    fetchAuth();
+  }, []);
 
   return (
     <div className="flex flex-col items-center w-screen bg-bg">
@@ -144,7 +180,7 @@ function Refund() {
                     <div>
                       <button
                         className="btn Button mb-[400px]"
-                        onClick={() => navigate("/ChangeDate")}
+                        onClick={handleCancel}
                       >
                         Cancel and Refund this Booking
                       </button>

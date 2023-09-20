@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 function RefundSuccess() {
   // const navigate = useNavigate();
   const { bookId } = useParams();
+  const [checkUser, setCheckUser] = useState(null);
 
   const [cancelBooking, setCancelBooking] = useState({
     room_details: {
@@ -19,11 +20,13 @@ function RefundSuccess() {
     check_in: "",
     check_out: "",
     total_price_add_reqs: "",
+    cancel_date: "",
   });
 
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [bookDate, setBookDate] = useState("");
+  const [cancelDate, setCancelDate] = useState("");
 
   const getData = async () => {
     try {
@@ -36,6 +39,7 @@ function RefundSuccess() {
       setCheckIn(data.check_in);
       setCheckOut(data.check_out);
       setBookDate(data.booking_date);
+      setCancelDate(data.cancel_date);
     } catch (error) {
       console.error(error);
     }
@@ -48,6 +52,7 @@ function RefundSuccess() {
   const checkInDate = new Date(`${checkIn}`);
   const checkOutDate = new Date(`${checkOut}`);
   const checkBookDate = new Date(`${bookDate}`);
+  const checkCancelDate = new Date(`${cancelDate}`);
   const options = {
     weekday: "short",
     day: "numeric",
@@ -57,6 +62,10 @@ function RefundSuccess() {
   const formattedCheckIn = checkInDate.toLocaleDateString("en-US", options);
   const formattedCheckOut = checkOutDate.toLocaleDateString("en-US", options);
   const formattedBookDate = checkBookDate.toLocaleDateString("en-US", options);
+  const formattedCancelDate = checkCancelDate.toLocaleDateString(
+    "en-US",
+    options
+  );
 
   // fomat total price
   const formattedTotalPrice = parseFloat(
@@ -64,6 +73,24 @@ function RefundSuccess() {
   ).toLocaleString("en-US", {
     minimumFractionDigits: 2,
   });
+
+  //check user
+  const fetchAuth = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const userDataFromToken = jwtDecode(token);
+      const result = await axios.get(
+        `http://localhost:4000/validUser/${userDataFromToken.user_id}`
+      );
+      setCheckUser(result);
+    } else {
+      navigate("/");
+    }
+  };
+
+  useEffect(() => {
+    fetchAuth();
+  }, []);
 
   return (
     <div className="flex flex-col items-center  bg-bg">
@@ -96,7 +123,7 @@ function RefundSuccess() {
           </p>
           <div className="flex flex-col text-body1 text-green-300 mt-10">
             <p className=" py-1 ">Booking date: {formattedBookDate}</p>
-            <p className=" py-1 ">Cancellation date: Tue, 16 Oct 2022</p>
+            <p className=" py-1 ">Cancellation date: {formattedCancelDate}</p>
           </div>
         </div>
         <hr className=" w-[720px] mt-10 border-green-600 border-solid border-t-2" />

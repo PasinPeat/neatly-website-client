@@ -23,6 +23,7 @@ function HistoryCard({
   roomAmount,
   personAmount,
   night,
+  cancel_date,
 }: any) {
   const [timeRemaining, setTimeRemaining] = useState({});
   const [buttonVisibilities, setButtonVisibilities] = useState({});
@@ -35,15 +36,21 @@ function HistoryCard({
   const checkInDate = new Date(`${checkIn}`);
   const checkOutDate = new Date(`${checkOut}`);
   const checkBookDate = new Date(`${bookDate}`);
+  const checkCancelDate = new Date(`${cancel_date}`);
   const options = {
     weekday: "short",
     day: "numeric",
     month: "short",
     year: "numeric",
   };
+
   const formattedCheckIn = checkInDate.toLocaleDateString("en-US", options);
   const formattedCheckOut = checkOutDate.toLocaleDateString("en-US", options);
   const formattedBookDate = checkBookDate.toLocaleDateString("en-US", options);
+  const formattedCancelDate = checkCancelDate.toLocaleDateString(
+    "en-US",
+    options
+  );
 
   const backgroundImage = {
     backgroundImage: `url('${roomImages[2]}')`,
@@ -125,9 +132,16 @@ function HistoryCard({
             <div className="flex flex-col py-6 justify-between w-[715px]">
               <div className="flex flex-row justify-between items-center mb-5">
                 <h2 className="text-headline4 text-black">{roomType}</h2>
-                <p className="text-body1">
-                  Booking date: <span>{formattedBookDate}</span>
-                </p>
+                <div className="flex flex-col items-end mb-2 text-body1 text-gray-600">
+                  <p>
+                    Booking date: <span>{formattedBookDate}</span>
+                  </p>
+                  {cancel_date !== null && (
+                    <p>
+                      Cancellation date: <span>{formattedCancelDate}</span>
+                    </p>
+                  )}
+                </div>
               </div>
               <div className=" flex gap-10">
                 <div className="flex flex-col gap-1">

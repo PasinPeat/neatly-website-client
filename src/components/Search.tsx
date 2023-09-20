@@ -146,7 +146,10 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
               value={checkInDate}
               format="dd, DD-MM-YYYY"
               disablePast
-              onChange={(newValue) => setCheckInDate(newValue)}
+              onChange={(newValue) =>{
+                setCheckInDate(newValue)
+                setCheckOutDate(newValue.add(1, "day"))
+              } }
               slotProps={{ textField: { size: "medium" } }}
               sx={{
                 "& input": {
@@ -173,7 +176,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
               defaultValue={checkOutDate}
               value={checkOutDate}
               format="dd, DD-MM-YYYY"
-              minDate={checkInDate}
+              minDate={dayjs(checkInDate).add(1, "day")}
               disablePast
               onChange={(newValue) => setCheckOutDate(newValue)}
               slotProps={{ textField: { size: "medium" } }}
@@ -226,7 +229,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
         )}
 
         {showDropdown && (
-          <div className="px-4 py-3 w-60 top-34 flex flex-col absolute rounded-md bg-white drop-shadow-lg">
+          <div className="px-4 py-3 w-60 top-34 flex flex-col absolute font-medium rounded-md bg-white drop-shadow-lg">
             <div className="pt-2 flex items-center justify-between">
               <div>Rooms</div>
               <div className="flex items-center">
@@ -234,7 +237,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
                   style={
                     room < 2 ? { borderColor: "#9AA1B9", color: "#9AA1B9" } : {}
                   }
-                  className="relative w-4 h-4 bg-white text-orange-600 rounded-full border border-solid border-orange-600"
+                  className="AddandSubtract"
                 >
                   <div
                     className="absolute bottom-[-25%] right-[20%]"
@@ -257,7 +260,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
                       ? { borderColor: "#9AA1B9", color: "#9AA1B9" }
                       : {}
                   }
-                  className="relative w-4 h-4 bg-white text-orange-600 rounded-full border border-solid border-orange-600"
+                  className="AddandSubtract"
                 >
                   <div
                     className="absolute bottom-[-25%] right-[10%]"
@@ -282,7 +285,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
                       ? { borderColor: "#9AA1B9", color: "#9AA1B9" }
                       : {}
                   }
-                  className="relative w-4 h-4 bg-white text-orange-600 rounded-full border border-solid border-orange-600"
+                  className="AddandSubtract"
                 >
                   <div
                     className="absolute bottom-[-25%] right-[20%]"
@@ -305,7 +308,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
                       ? { borderColor: "#9AA1B9", color: "#9AA1B9" }
                       : {}
                   }
-                  className="relative w-4 h-4 bg-white text-orange-600 rounded-full border border-solid border-orange-600"
+                  className="AddandSubtract"
                 >
                   <div
                     className="absolute bottom-[-25%] right-[10%]"
