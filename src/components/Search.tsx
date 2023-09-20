@@ -142,7 +142,10 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
               value={checkInDate}
               format="dd, DD-MM-YYYY"
               disablePast
-              onChange={(newValue) => setCheckInDate(newValue)}
+              onChange={(newValue) =>{
+                setCheckInDate(newValue)
+                setCheckOutDate(newValue.add(1, "day"))
+              } }
               slotProps={{ textField: { size: "medium" } }}
               sx={{
                 "& input": {
