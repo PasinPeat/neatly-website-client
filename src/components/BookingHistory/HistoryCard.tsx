@@ -134,7 +134,7 @@ function HistoryCard({
                   <p className=" font-bold text-grey-800">Check-in</p>
                   <div>
                     <span>{formattedCheckIn}</span>
-                    <span> |</span>
+                    <span className="px-2">|</span>
                     <span>{checkInTime}</span>
                   </div>
                 </div>
@@ -142,7 +142,7 @@ function HistoryCard({
                   <p className="font-bold text-grey-800">Check-out</p>
                   <div>
                     <span>{formattedCheckOut}</span>
-                    <span> |</span>
+                    <span className="px-2">|</span>
                     <span>{checkOutTime}</span>
                   </div>
                 </div>

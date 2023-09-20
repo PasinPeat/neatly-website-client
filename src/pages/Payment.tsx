@@ -182,7 +182,6 @@ function Payment() {
         handleToggleStandardRequest,
         handleToggleSpecialRequest,
         handleAdditionalRequest,
-        setAdditional,
         checkInDate,
         checkOutDate,
         checkInTime,

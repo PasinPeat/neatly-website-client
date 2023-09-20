@@ -75,16 +75,14 @@ function DropDownList({
               <div className="flex justify-between w-full py-4">
                 <p className="text-body1">
                   {personAmount}
-                  <span> Guest</span>{" "}
-                  <span>
-                    (<span>{night}</span> Night)
-                  </span>
+                  <span> Guest</span>
+                  <span className="pl-2">({night} Night)</span>
                 </p>
                 <div className="flex">
                   {paymentMethod === "credit" ? (
                     <>
                       <p className="text-body1">Payment success via</p>
-                      <span className=" font-bold pl-1">
+                      <span className="font-bold pl-2">
                         Credit Card - *{threeCreditCardNum}
                         <span></span>
                       </span>
@@ -100,7 +98,8 @@ function DropDownList({
                 <div>
                   <p className="text-body1">{roomType}</p>
                   <p>
-                    ({roomAmount} room x {night} night)
+                    ({roomAmount} room<span className="px-2">x</span>
+                    {night} night)
                   </p>
                 </div>
                 <p className="text-body1 font-bold text-black">

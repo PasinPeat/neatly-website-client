@@ -59,11 +59,12 @@ function RefundSuccess() {
 
   // fomat total price
   const formattedTotalPrice = parseFloat(
-    cancelBooking.total_price
+    cancelBooking.total_price_add_reqs
   ).toLocaleString("en-US", {
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
   });
+
+  console.log(cancelBooking);
   return (
     <div className="flex flex-col items-center  bg-bg">
       {/* <Navbar /> */}
