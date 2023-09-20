@@ -42,6 +42,23 @@ function Refund() {
     }
   };
 
+  const updateData = async () => {
+    try {
+      const response = await axios.put(
+        `http://localhost:4000/booking/${bookId}`,
+        { ...cancelBooking }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleCancel = async () => {
+    await updateData();
+    setComplete(true);
+  };
+
   useEffect(() => {
     getData();
   }, [bookId]);
@@ -146,7 +163,7 @@ function Refund() {
                     <div>
                       <button
                         className="btn Button mb-[400px]"
-                        onClick={() => navigate("/ChangeDate")}
+                        onClick={handleCancel}
                       >
                         Cancel and Refund this Booking
                       </button>
