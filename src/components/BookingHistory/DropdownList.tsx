@@ -33,7 +33,11 @@ function DropDownList({
           <ListItemButton onClick={handleClick} sx={{ px: 4 }}>
             <p className="font-bold text-grey-800">Booking Detail</p>
             <ListItemText primary="" />
-            {open ? <ExpandLess /> : <ExpandMore />}
+            {open ? (
+              <ExpandLess sx={{ color: "#2A2E3F" }} />
+            ) : (
+              <ExpandMore sx={{ color: "#E76B39" }} />
+            )}
           </ListItemButton>
           <Collapse in={open} timeout="auto" unmountOnExit className=" px-3">
             <List component="div" disablePadding sx={{ px: 2, py: 1 }}>
