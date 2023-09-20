@@ -1,21 +1,72 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import RefundSuccess from "../components/Refund/RefundSuccess";
 import "../App.css";
+import RefundSuccess from "../components/Refund/RefundSuccess";
 
 function Refund() {
-  const [complete, setComplete] = useState(false);
+  const [complete, setComplete] = useState(true);
+  const navigate = useNavigate();
+  const { bookId } = useParams();
+
+  const [cancelBooking, setCancelBooking] = useState({
+    room_details: {
+      room_images: [],
+      room_type: "",
+      person: "",
+    },
+    booking_date: "",
+    check_in: "",
+    check_out: "",
+  });
+
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+  const [bookDate, setBookDate] = useState("");
+
+  const getData = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/booking/${bookId}`
+      );
+      console.log(response.data.data);
+      const data = response.data.data;
+      setCancelBooking(data);
+      setCheckIn(data.check_in);
+      setCheckOut(data.check_out);
+      setBookDate(data.booking_date);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, [bookId]);
+
+  const checkInDate = new Date(`${checkIn}`);
+  const checkOutDate = new Date(`${checkOut}`);
+  const checkBookDate = new Date(`${bookDate}`);
+  const options = {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  };
+  const formattedCheckIn = checkInDate.toLocaleDateString("en-US", options);
+  const formattedCheckOut = checkOutDate.toLocaleDateString("en-US", options);
+  const formattedBookDate = checkBookDate.toLocaleDateString("en-US", options);
 
   return (
-    <div>
+    <div className="flex flex-col items-center w-screen bg-bg">
       <Navbar />
-      <div className="bg-bg flex flex-col items-center pt-20 pb-28">
+      <div className="flex flex-col w-[1120px]">
         {complete ? (
           <RefundSuccess />
         ) : (
           <>
-            <h1 className="mb-12 w-[1120px] font-noto-serif-display text-headline2 font-medium text-gray-900">
+            <h1 className="mt-20 mb-16 font-noto-serif-display font-medium text-[68px] leading-[85px] text-black">
               Request a Refund
             </h1>
             <div className="w-[1120px] border-b-[1px] text-gray-700">
@@ -23,29 +74,35 @@ function Refund() {
                 <div className="w-full flex justify-between mb-2">
                   <div>
                     <div className="w-[357px] h-[210px] rounded bg-cover bg-center">
-                      <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/room_images/04%20Supreme/K-Studio_Lambs_Lions_CasaCookChania_022_GeorgRoske.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9yb29tX2ltYWdlcy8wNCBTdXByZW1lL0stU3R1ZGlvX0xhbWJzX0xpb25zX0Nhc2FDb29rQ2hhbmlhXzAyMl9HZW9yZ1Jvc2tlLmpwZyIsImlhdCI6MTY5NDUwODA0NSwiZXhwIjoxNzI2MDQ0MDQ1fQ.GPUAPR5qHYjoK9TqISz_AlCFcWJR0gvKKpu4gFkRw9k&t=2023-09-12T08%3A40%3A44.773Z" />
+                      <img
+                        src={cancelBooking.room_details.room_images[0]}
+                        alt="Room"
+                        className="rounded"
+                      />
                     </div>
                   </div>
                   <div className="flex flex-col justify-between">
                     <div className="w-[715px]">
                       <div className="flex flex-row justify-between items-center">
                         <h2 className="text-headline4 text-black">
-                          Superior Garden View
+                          {cancelBooking.room_details.room_type}
                         </h2>
                         <p className="text-gray-600 text-body1">
-                          Booking date: Tue, 16 Oct 2022
+                          Booking date: {formattedBookDate}
                         </p>
                       </div>
                       <div className="flex justify-between">
-                        <div className="mt-8 flex flex-col">
+                        <div className="mt-10 flex flex-col  text-gray-700 text-body1">
                           <div>
                             <div>
-                              <span>Th, 19 Oct 2022 </span>
+                              <span>{formattedCheckIn} </span>
                               <span className="px-2">-</span>
-                              <span>Th, 19 Oct 2022 </span>
+                              <span>{formattedCheckOut} </span>
                             </div>
                             <div className="mt-2">
-                              <span>2 Guests</span>
+                              <span>
+                                {cancelBooking.room_details.person} Guests
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -53,7 +110,7 @@ function Refund() {
                         <div className="text-right mt-8 flex flex-col">
                           <div>
                             <div>
-                              <span className="text-gray-900">
+                              <span className="text-body1 text-gray-900 ">
                                 Total Refund
                               </span>
                             </div>
@@ -69,9 +126,9 @@ function Refund() {
                   </div>
                 </div>
 
-                <div className="flex justify-between -ml-4 pt-10 border-t-[1px] border-gray-300">
+                <div className="flex justify-between -ml-4 pt-10 border-t-[2px] border-gray-300">
                   <button
-                    // onClick={() => onRoomDetail(roomId)}
+                    onClick={() => navigate("/booking/user/${userId}")}
                     className="btn capitalize bg-bg border-none font-semibold text-body1 text-orange-500 hover:bg-bg"
                   >
                     Cancel
@@ -79,7 +136,7 @@ function Refund() {
                   <div className="flex">
                     <div>
                       <button
-                        className="btn Button"
+                        className="btn Button mb-[400px]"
                         onClick={() => navigate("/ChangeDate")}
                       >
                         Cancle and Refund this Booking
@@ -92,7 +149,6 @@ function Refund() {
           </>
         )}
       </div>
-      <Footer />
     </div>
   );
 }
