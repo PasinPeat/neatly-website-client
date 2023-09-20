@@ -109,6 +109,8 @@ function ChangeDate() {
       setBookingData(data);
       setCheckInDate(data.check_in);
       setCheckOutDate(data.check_out);
+      //@ts-ignore
+      setMaxDate(dayjs(data.check_out));
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -291,7 +293,6 @@ function ChangeDate() {
             </div>
           </div>
         </div>
-        {/* <HistoryCard /> */}
       </div>
       {showPopup && (
         <div className="fixed inset-0 flex justify-center items-center bg-opacity-25 bg-gray-900 z-50">
