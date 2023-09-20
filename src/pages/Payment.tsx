@@ -41,19 +41,16 @@ function Payment() {
   const checkInDate = formattedDate(userInput.checkInDate);
   const checkOutDate = formattedDate(userInput.checkOutDate);
 
-  // useEffect(() => {
-  //   if (context) {
-  //     setUserInput(context.userInput);
-  //   } else {
-  //     const storedUserInput = localStorage.getItem("userInput");
-  //     if (storedUserInput) {
-  //       setUserInput(JSON.parse(storedUserInput));
-  //     }
-  //   }
-  // }, [context]);
-
-  // useEffect(() => {
-  //   const storedUserInput = localStorage.getItem("userInput");
+  useEffect(() => {
+    if (context) {
+      setUserInput(context.userInput);
+    } else {
+      const storedUserInput = localStorage.getItem("userInput");
+      if (storedUserInput) {
+        setUserInput(JSON.parse(storedUserInput));
+      }
+    }
+  }, [context]);
 
   //   setUserInput(JSON.parse(storedUserInput));
   // }, []);
