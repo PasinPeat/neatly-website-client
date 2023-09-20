@@ -13,7 +13,6 @@ import { IoCloseOutline } from "react-icons/io5";
 function ChangeDate() {
   const color: string = "#A0ACC3";
 
-  // const classes = useStyles();
   const theme = createTheme({
     components: {
       MuiIconButton: {
@@ -81,6 +80,8 @@ function ChangeDate() {
   const [checkOutDate, setCheckOutDate] = useState();
   const [maxDate, setMaxDate] = useState();
 
+  const [checkUser, setCheckUser] = useState(null);
+
   const [showPopup, setShowPopup] = useState(false);
 
   const calculateCheckOutDate = (newCheckInDate: any) => {
@@ -147,6 +148,26 @@ function ChangeDate() {
 
   useEffect(() => {
     fetchData();
+  }, [checkUser]);
+
+  //check user
+  const fetchAuth = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      //@ts-ignore
+      const userDataFromToken = jwtDecode(token);
+      const result = await axios.get(
+        `http://localhost:4000/validUser/${userDataFromToken.user_id}`
+      );
+      //@ts-ignore
+      setCheckUser(result);
+    } else {
+      navigate("/");
+    }
+  };
+
+  useEffect(() => {
+    fetchAuth();
   }, []);
 
   return (
