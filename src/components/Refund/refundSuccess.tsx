@@ -18,6 +18,7 @@ function RefundSuccess() {
     booking_date: "",
     check_in: "",
     check_out: "",
+    total_price_add_reqs: "",
   });
 
   const [checkIn, setCheckIn] = useState("");
@@ -64,7 +65,6 @@ function RefundSuccess() {
     minimumFractionDigits: 2,
   });
 
-  console.log(cancelBooking);
   return (
     <div className="flex flex-col items-center  bg-bg">
       {/* <Navbar /> */}

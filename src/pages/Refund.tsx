@@ -14,12 +14,12 @@ function Refund() {
     room_details: {
       room_images: [],
       room_type: "",
-      person: "",
     },
     booking_date: "",
     check_in: "",
     check_out: "",
-    total_price: "",
+    total_price_add_reqs: "",
+    amount_stay: "",
   });
 
   const [checkIn, setCheckIn] = useState("");
@@ -61,7 +61,7 @@ function Refund() {
 
   // fomat total price
   const formattedTotalPrice = parseFloat(
-    cancelBooking.total_price
+    cancelBooking.total_price_add_reqs
   ).toLocaleString("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -109,9 +109,7 @@ function Refund() {
                               <span>{formattedCheckOut} </span>
                             </div>
                             <div className="mt-2">
-                              <span>
-                                {cancelBooking.room_details.person} Guests
-                              </span>
+                              <span>{cancelBooking.amount_stay} Guests</span>
                             </div>
                           </div>
                         </div>
