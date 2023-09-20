@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 function CancelSuccess() {
   // const navigate = useNavigate();
   const { bookId } = useParams();
+  const [checkUser, setCheckUser] = useState(null);
 
   const [cancelBooking, setCancelBooking] = useState({
     room_details: {
@@ -56,6 +57,24 @@ function CancelSuccess() {
   const formattedCheckIn = checkInDate.toLocaleDateString("en-US", options);
   const formattedCheckOut = checkOutDate.toLocaleDateString("en-US", options);
   const formattedBookDate = checkBookDate.toLocaleDateString("en-US", options);
+
+  //check user
+  const fetchAuth = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const userDataFromToken = jwtDecode(token);
+      const result = await axios.get(
+        `http://localhost:4000/validUser/${userDataFromToken.user_id}`
+      );
+      setCheckUser(result);
+    } else {
+      navigate("/");
+    }
+  };
+
+  useEffect(() => {
+    fetchAuth();
+  }, []);
 
   return (
     <div className="flex flex-col items-center  bg-bg">
