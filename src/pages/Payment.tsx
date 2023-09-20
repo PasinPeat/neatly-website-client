@@ -5,15 +5,17 @@ import StepSpecialRequest2 from "../components/PaymentForm/StepSpecialRequest2";
 import StepPayment from "../components/PaymentForm/StepPayment";
 import ReviewPayment from "../components/PaymentForm/ReviewPayment";
 import { useState, useContext, useEffect } from "react";
-// import { RoomsContext } from "../App.tsx";
+import { RoomsContext } from "../App.tsx";
 import dayjs, { Dayjs } from "dayjs";
 export const PaymentContext = React.createContext();
 
 function Payment() {
   const steps = ["Basic Information", "Special Request", "Payment Method"];
   const [activeStep, setActiveStep] = useState(0);
+  const [lastThreeCardNumber, setLastThreeCardNumber] = useState("");
+  const [selectedPayment, setSelectedPayment] = useState("credit");
 
-  // const context = useContext(RoomsContext);
+  const context = useContext(RoomsContext);
   const [userInput, setUserInput] = useState({});
   // const userInput = context.userInput;
   // const setUserInput = context.setUserInput;
@@ -38,26 +40,19 @@ function Payment() {
   const checkInDate = formattedDate(userInput.checkInDate);
   const checkOutDate = formattedDate(userInput.checkOutDate);
 
-  // const [userInput, setUserInput] = useState<object>({
-  //   checkInDate: "2023-09-16",
-  //   checkOutDate: "2023-09-17",
-  //   person: 2,
-  //   price: 3000,
-  //   room: 1,
-  //   roomId: 3,
-  //   roomType: "Deluxe",
-  // });
-
- 
-
-
-  // useEffect(() => {
-  //   const storedUserInput = localStorage.getItem("userInput");
+  useEffect(() => {
+    if (context) {
+      setUserInput(context.userInput);
+    } else {
+      const storedUserInput = localStorage.getItem("userInput");
+      if (storedUserInput) {
+        setUserInput(JSON.parse(storedUserInput));
+      }
+    }
+  }, [context]);
 
   //   setUserInput(JSON.parse(storedUserInput));
   // }, []);
-
-  
 
   const standard = [
     { name: "Early check-in", checked: false },
@@ -100,7 +95,11 @@ function Payment() {
     setSpecialRequests((requests) =>
       requests.map((request) =>
         request.name === name
-          ? { ...request, checked: !request.checked }
+          ? {
+              ...request,
+              checked: !request.checked,
+              price: request.price,
+            }
           : request
       )
     );
@@ -120,10 +119,26 @@ function Payment() {
 
   if (selectedSpecial) {
     totalPriceAfterAddReqs = selectedSpecial.reduce(
-      (acc, request) => acc + request.price,
+      (acc, request) => acc + request.price * userInput.room,
       userInput.totalPrice
     );
   }
+
+  /*apply early check-in or late check-out if they exist*/
+  let checkInTime = "After 2:00 PM";
+  if (selectedStandard.some((request) => request.name === "Early check-in")) {
+    checkInTime = "After 1:00 PM";
+  }
+
+  let checkOutTime = "After 11:00 PM";
+  if (selectedStandard.some((request) => request.name === "Late check-out")) {
+    checkOutTime = "After 12:00 PM";
+  }
+
+  /*handle payment method*/
+  // function handlePaymentMethod(method) {
+  //   setUserInput({ ...userInput, paymentMethod: method });
+  // }
 
   function getStepContent(step: number) {
     switch (step) {
@@ -151,6 +166,10 @@ function Payment() {
             activeStep={activeStep}
             setActiveStep={setActiveStep}
             steps={steps}
+            lastThreeCardNumber={lastThreeCardNumber}
+            setLastThreeCardNumber={setLastThreeCardNumber}
+            selectedPayment={selectedPayment}
+            setSelectedPayment={setSelectedPayment}
           />
         );
       default:
@@ -171,6 +190,8 @@ function Payment() {
         setAdditional,
         checkInDate,
         checkOutDate,
+        checkInTime,
+        checkOutTime,
       }}
     >
       <div className="w-screen h-screen">
@@ -230,7 +251,10 @@ function Payment() {
             {activeStep === steps.length ? (
               // สรุปข้อมูลการจอง
               <div className="flex justify-center items-center">
-                <ReviewPayment />
+                <ReviewPayment
+                  selectedPayment={selectedPayment}
+                  lastThreeCardNumber={lastThreeCardNumber}
+                />
               </div>
             ) : (
               <div>{getStepContent(activeStep)}</div>

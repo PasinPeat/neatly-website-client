@@ -22,9 +22,10 @@ function BookingDetail() {
   const additional = paymentContext.additional;
   const checkInDate = paymentContext.checkInDate;
   const checkOutDate = paymentContext.checkOutDate;
+  const checkInTime = paymentContext.checkInTime;
+  const checkOutTime = paymentContext.checkOutTime;
 
-  
-useEffect(() => {
+  useEffect(() => {
     try {
       const storedUserInput = localStorage.getItem("userInput");
       // console.log(storedUserInput);
@@ -36,44 +37,6 @@ useEffect(() => {
       console.error("Error parsing JSON:", error);
     }
   }, []);
-
-
-  // useEffect(() => {
-  //   const storedUserInput = localStorage.getItem("userInput");
-  //   setUserInput(JSON.parse(storedUserInput));
-    
-    
-  // },[]);
-  
-  // useEffect(() => {
-  //   if (paymentContext) {
-  //     setTotalPrice(paymentContext.totalPrice);
-  //     setSelectedStandard(paymentContext.selectedStandard);
-  //     setSelectedSpecial(paymentContext.selectedSpecial);
-  //     setAdditional(paymentContext.additional);
-  //   } else {
-  //     setTotalPrice(0);
-  //     setSelectedStandard([]);
-  //     setSelectedSpecial([]);
-  //     setAdditional("");
-  //   }
-  // }, [
-  //   paymentContext,
-  //   totalPrice,
-  //   selectedStandard,
-  //   selectedSpecial,
-  //   additional,
-  // ]);
-
-  // useEffect(() => {
-  //   if (userInput) {
-  //     setCheckInDate(formattedDate(userInput.checkInDate));
-  //     setCheckOutDate(formattedDate(userInput.checkOutDate));
-  //   } else {
-  //     setCheckInDate(dayjs().add(1, "day").format("dd, DD-MM-YYYY"));
-  //     setCheckOutDate(dayjs().add(2, "day").format("dd, DD-MM-YYYY"));
-  //   }
-  // }, [userInput, checkInDate, checkOutDate]);
 
   return (
     <>
@@ -91,11 +54,11 @@ useEffect(() => {
             <div className="flex gap-10">
               <div>
                 <p className="text-base font-semibold pb-2">Check-in</p>
-                <p className="text-body1">After 2:00 PM</p>
+                <p className="text-body1">{checkInTime}</p>
               </div>
               <div>
                 <p className="text-base font-semibold pb-2">Check-out</p>
-                <p className="text-body1">Before 12:00 PM</p>
+                <p className="text-body1">{checkOutTime}</p>
               </div>
             </div>
 
@@ -153,7 +116,6 @@ useEffect(() => {
                       currency: "THB",
                     })
                     .replace("THB", "")}
-                    
                 </p>
               </div>
               {selectedStandard &&
@@ -177,6 +139,8 @@ useEffect(() => {
                       key={request.name}
                     >
                       <p className="text-body1 text-green-300">
+                        {userInput.room}
+                        <span className="px-2">x</span>
                         {request.name}
                       </p>
                       <p className="text-base font-semibold">
@@ -185,7 +149,7 @@ useEffect(() => {
                             style: "currency",
                             currency: "THB",
                           })
-                          .replace("THB", "")}
+                          .replace("THB", "") * userInput.room}
                       </p>
                     </div>
                   );
@@ -205,7 +169,6 @@ useEffect(() => {
                 style: "currency",
                 currency: "THB",
               })}
-
             </p>
           </div>
         </div>
