@@ -11,21 +11,25 @@ function HistoryCard({
   checkOut,
   roomId,
   paymentMethod,
+  threeCreditCardNum,
   totalPrice,
+  totalPriceAddReqs,
   standard,
   special,
   additional,
   onRoomDetail,
   roomType,
   roomImages,
-  price,
-  person,
+  roomAmount,
+  personAmount,
+  night,
 }: any) {
   const [timeRemaining, setTimeRemaining] = useState({});
   const [buttonVisibilities, setButtonVisibilities] = useState({});
   const [cancelVisible, setCancelVisible] = useState({});
 
   const navigate = useNavigate();
+  console.log();
 
   // date format
   const checkInDate = new Date(`${checkIn}`);
@@ -96,6 +100,18 @@ function HistoryCard({
       setButtonVisibilities({ ...buttonVisibilities, [bookId]: true });
     }
   };
+  console.log(standard);
+
+  /*apply early check-in or late check-out if they exist*/
+  let checkInTime = "After 2:00 PM";
+  if (standard.some((req) => req === "Early check-in")) {
+    checkInTime = "After 1:00 PM";
+  }
+
+  let checkOutTime = "After 11:00 PM";
+  if (standard.some((req) => req === "Late check-out")) {
+    checkOutTime = "After 12:00 PM";
+  }
 
   return (
     <>
@@ -119,8 +135,7 @@ function HistoryCard({
                   <div>
                     <span>{formattedCheckIn}</span>
                     <span> |</span>
-                    {/* fix: fix to fetch *After* from detabase */}
-                    <span> After 2:00 PM</span>
+                    <span>{checkInTime}</span>
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
@@ -128,20 +143,22 @@ function HistoryCard({
                   <div>
                     <span>{formattedCheckOut}</span>
                     <span> |</span>
-                    {/* fix: fix to fetch *Before* from detabase */}
-                    <span> Before 12:00 PM</span>
+                    <span>{checkOutTime}</span>
                   </div>
                 </div>
               </div>
               <DropDownList
                 totalPrice={totalPrice}
+                totalPriceAddReqs={totalPriceAddReqs}
                 standard={standard}
                 special={special}
                 additional={additional}
                 roomType={roomType}
-                price={price}
-                person={person}
+                roomAmount={roomAmount}
+                personAmount={personAmount}
                 paymentMethod={paymentMethod}
+                threeCreditCardNum={threeCreditCardNum}
+                night={night}
               />
             </div>
           </div>

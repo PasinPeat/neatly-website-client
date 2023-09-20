@@ -58,12 +58,14 @@ function ButtonNavigation({
       check_out: userInput.checkOutDate,
       room_id: userInput.roomId,
       user_id: auth.state.userData.id,
-      total_price: userInput.totalPriceAfterAddReqs,
+      total_price: userInput.totalPrice,
+      total_price_add_reqs: userInput.totalPriceAfterAddReqs,
       standard_request,
       special_request,
       additional_request: userInput.additional,
       room_avaliable_id: roomAvaliable.data.data.room_avaliable_id,
       payment_method: selectedPayment,
+      amount_night: userInput.night,
     };
 
     if (selectedPayment === "credit") {
@@ -72,10 +74,12 @@ function ButtonNavigation({
         three_credit_card_num: lastThreeCardNumber,
       };
     }
+    console.log(data);
 
     try {
       await axios.post(`http://localhost:4000/booking`, data);
       localStorage.removeItem("userInput");
+      console.log(data);
     } catch (error) {
       console.error(error);
     }

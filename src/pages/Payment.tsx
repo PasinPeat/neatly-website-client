@@ -135,11 +135,6 @@ function Payment() {
     checkOutTime = "After 12:00 PM";
   }
 
-  /*handle payment method*/
-  // function handlePaymentMethod(method) {
-  //   setUserInput({ ...userInput, paymentMethod: method });
-  // }
-
   function getStepContent(step: number) {
     switch (step) {
       case 0:
