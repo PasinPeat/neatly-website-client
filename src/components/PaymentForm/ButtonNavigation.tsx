@@ -31,6 +31,14 @@ function ButtonNavigation({ steps, activeStep, setActiveStep }) {
 
   const handleSubmitBookingData = async (e) => {
     setActiveStep(activeStep + 1);
+    userInput = {
+      ...userInput,
+      totalPriceAfterAddReqs,
+      selectedStandard,
+      selectedSpecial,
+      additional,
+    };
+    setUserInput(userInput);
     console.log(userInput);
 
     const standard_request = userInput.selectedStandard.map(

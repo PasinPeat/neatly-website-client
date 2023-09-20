@@ -5,6 +5,10 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import dayjs from "dayjs";
 import "../App.css";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { IoCloseOutline } from "react-icons/io5";
 
 function ChangeDate() {
   const color: string = "#A0ACC3";
@@ -40,6 +44,7 @@ function ChangeDate() {
         light: "#E76B39",
         dark: "#E76B39",
       },
+      //@ts-ignore
       MuiPickersDay: {
         day: {
           color: "#c44242",
@@ -57,6 +62,91 @@ function ChangeDate() {
     },
   });
 
+  const navigate = useNavigate();
+  const { bookId } = useParams();
+
+  const [bookingData, setBookingData] = useState({
+    room_details: {
+      room_type: "",
+      room_images: [],
+    },
+    check_in: "",
+    check_out: "",
+    booking_date: "",
+    room_avaliable_id: "",
+    user_id: "",
+  });
+
+  const [checkInDate, setCheckInDate] = useState();
+  const [checkOutDate, setCheckOutDate] = useState();
+  const [maxDate, setMaxDate] = useState();
+
+  const [showPopup, setShowPopup] = useState(false);
+
+  const calculateCheckOutDate = (newCheckInDate: any) => {
+    const originalCheckOutDate = dayjs(bookingData.check_out);
+    const numberOfDays = originalCheckOutDate.diff(
+      dayjs(bookingData.check_in),
+      "day"
+    );
+    const newCheckOutDate = newCheckInDate.add(numberOfDays, "day");
+
+    return newCheckOutDate;
+  };
+
+  const handleCheckInDateChange = (newValue: any) => {
+    const newCheckOutDate = calculateCheckOutDate(newValue);
+    setCheckOutDate(newCheckOutDate);
+    setMaxDate(newCheckOutDate);
+  };
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/booking/${bookId}`
+      );
+      const data = response.data.data;
+      setBookingData(data);
+      setCheckInDate(data.check_in);
+      setCheckOutDate(data.check_out);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    const newCheckInDate = dayjs(checkInDate);
+    const newCheckOutDate = dayjs(checkOutDate);
+
+    const data = {
+      check_in: newCheckInDate.format("YYYY-MM-DD"),
+      check_out: newCheckOutDate.format("YYYY-MM-DD"),
+      room_avaliable_id: bookingData.room_avaliable_id,
+    };
+
+    try {
+      await axios.put(
+        `http://localhost:4000/booking/ChangeDate/${bookId}`,
+        data
+      );
+      navigate(`/booking/user/${bookingData.user_id}`);
+    } catch (error) {
+      console.error("Error sending data:", error);
+    }
+  };
+
+  const handleConfirmChange = () => {
+    setShowPopup(true);
+  };
+
+  const handlePopupClose = () => {
+    setShowPopup(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div>
       <Navbar />
@@ -71,25 +161,34 @@ function ChangeDate() {
             <div className="w-full flex justify-between">
               <div>
                 <div className="w-[357px] h-[210px] rounded bg-cover bg-center">
-                  <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/room_images/04%20Supreme/K-Studio_Lambs_Lions_CasaCookChania_022_GeorgRoske.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9yb29tX2ltYWdlcy8wNCBTdXByZW1lL0stU3R1ZGlvX0xhbWJzX0xpb25zX0Nhc2FDb29rQ2hhbmlhXzAyMl9HZW9yZ1Jvc2tlLmpwZyIsImlhdCI6MTY5NDUwODA0NSwiZXhwIjoxNzI2MDQ0MDQ1fQ.GPUAPR5qHYjoK9TqISz_AlCFcWJR0gvKKpu4gFkRw9k&t=2023-09-12T08%3A40%3A44.773Z" />
+                  <img src={bookingData.room_details.room_images[0]} />
                 </div>
               </div>
               <div className="flex flex-col justify-between">
                 <div className="w-[715px]">
                   <div className="flex flex-row justify-between items-center">
                     <h2 className="text-headline4 text-black">
-                      Superior Garden View
+                      {bookingData.room_details
+                        ? bookingData.room_details.room_type
+                        : "Loading..."}
                     </h2>
                     <p className="text-gray-600 text-body1">
-                      Booking date: Tue, 16 Oct 2022
+                      Booking date:{" "}
+                      {dayjs(bookingData.booking_date).format(
+                        "ddd, D MMM YYYY"
+                      )}
                     </p>
                   </div>
                   <div className="mt-8 flex flex-col gap-1 ">
                     <p className="font-bold text-grey-800">Original Date</p>
                     <div>
-                      <span>Th, 19 Oct 2022 </span>
+                      <span>
+                        {dayjs(bookingData.check_in).format("ddd, D MMM YYYY")}
+                      </span>
                       <span className="px-2">-</span>
-                      <span>Th, 19 Oct 2022 </span>
+                      <span>
+                        {dayjs(bookingData.check_out).format("ddd, D MMM YYYY")}
+                      </span>
                     </div>
                   </div>
                   <div className="mt-8 p-4 bg-white">
@@ -108,10 +207,14 @@ function ChangeDate() {
                               showDaysOutsideCurrentMonth
                               fixedWeekNumber={6}
                               defaultValue={dayjs()}
-                              value={dayjs()}
-                              format="dd, DD-MM-YYYY"
+                              value={dayjs(checkInDate)}
+                              format="ddd, D MMM YYYY"
+                              minDate={dayjs().add(1, "day")}
                               disablePast
-                              // onChange={(newValue) => setCheckInDate(newValue)}
+                              onChange={(newValue: any) => {
+                                setCheckInDate(newValue);
+                                handleCheckInDateChange(newValue);
+                              }}
                               slotProps={{ textField: { size: "medium" } }}
                               sx={{
                                 "& input": {
@@ -129,7 +232,7 @@ function ChangeDate() {
                       <div className="form-control">
                         <label className="label py-0">
                           <span className="text-gray-900 text-body1">
-                            Check In
+                            Check Out
                           </span>
                         </label>
 
@@ -139,10 +242,14 @@ function ChangeDate() {
                               showDaysOutsideCurrentMonth
                               fixedWeekNumber={6}
                               defaultValue={dayjs()}
-                              value={dayjs()}
-                              format="dd, DD-MM-YYYY"
+                              value={dayjs(checkOutDate)}
+                              format="ddd, D MMM YYYY"
+                              maxDate={maxDate}
+                              minDate={dayjs(checkInDate).add(1, "day")}
                               disablePast
-                              // onChange={(newValue) => setCheckInDate(newValue)}
+                              onChange={(newValue: any) =>
+                                setCheckOutDate(newValue)
+                              }
                               slotProps={{ textField: { size: "medium" } }}
                               sx={{
                                 "& input": {
@@ -164,7 +271,7 @@ function ChangeDate() {
 
             <div className="flex justify-between -ml-4">
               <button
-                // onClick={() => onRoomDetail(roomId)}
+                onClick={() => navigate(`/booking/user/${bookingData.user_id}`)}
                 className="btn capitalize bg-bg border-none font-semibold text-body1 text-orange-500 hover:bg-bg"
               >
                 Cancel
@@ -173,7 +280,9 @@ function ChangeDate() {
                 <div>
                   <button
                     className="btn Button"
-                    onClick={() => navigate("/ChangeDate")}
+                    onClick={() => {
+                      handleConfirmChange();
+                    }}
                   >
                     Confirm Change Date
                   </button>
@@ -184,6 +293,39 @@ function ChangeDate() {
         </div>
         {/* <HistoryCard /> */}
       </div>
+      {showPopup && (
+        <div className="fixed inset-0 flex justify-center items-center bg-opacity-25 bg-gray-900 z-50">
+          <div className="w-[631px] h-[200px] bg-white flex flex-col font-inter z-60">
+            <div className="flex justify-start items-center text-headline5 text-black pl-6 mt-3 mb-3 relative">
+              Change Date
+              <button className="absolute right-5" onClick={handlePopupClose}>
+                <IoCloseOutline />
+              </button>
+            </div>
+            <hr />
+            <div className="pl-6 text-body1 text-gray-700 mt-4">
+              Are you sure you want to change your check-in and check-out date?
+            </div>
+            <div className="flex justify-end space-x-3 mt-[30px] mr-5">
+              <button
+                className="w-[144px] h-[48px] text-orange-500 bg-white border border-orange-500 rounded-md hover:border-orange-400 hover:text-orange-400 active:border-orange-600 active:text-orange-600"
+                onClick={handlePopupClose}
+              >
+                No, I don't
+              </button>
+              <button
+                className="w-[227px] h-[48px] bg-orange-600 text-white rounded-md hover:bg-orange-500 active:bg-orange-700"
+                onClick={() => {
+                  handlePopupClose();
+                  handleSubmit();
+                }}
+              >
+                Yes, I want to change
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <Footer />
     </div>
   );

@@ -33,6 +33,12 @@ function App() {
   };
 
   useEffect(() => {
+    const storedUserInput = localStorage.getItem("userInput");
+
+    if (storedUserInput) {
+      setUserInput(JSON.parse(storedUserInput));
+    }
+    // Fetch rooms
     getRooms();
   }, []);
 
@@ -121,7 +127,7 @@ function App() {
           />
           <Route path="/profile/:profileID" element={<Profile />} />
           <Route path="/booking/user/:userId" element={<BookingHistory />} />
-          <Route path="/changeDate" element={<ChangeDate />} />
+          <Route path="/changeDate/:bookId" element={<ChangeDate />} />
           <Route path="/refund/:bookId" element={<Refund />} />
           <Route path="/cancleBooking/:bookId" element={<CancleBooking />} />
           <Route path="/*" element={<NotFound />} />

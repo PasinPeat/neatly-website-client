@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { RoomsContext } from "../../App.tsx";
+import { PaymentContext } from "../../pages/Payment.tsx";
 
 function ReviewPayment() {
-  const context = useContext(RoomsContext);
-  const userInput = context.userInput;
+  const roomsContext = useContext(RoomsContext);
+  const userInput = roomsContext.userInput;
+  const paymentContext = useContext(PaymentContext);
+  const selectedStandard = paymentContext.selectedStandard;
+  const selectedSpecial = paymentContext.selectedSpecial;
+  const checkInDate = paymentContext.checkInDate;
+  const checkOutDate = paymentContext.checkOutDate;
+  const totalPriceAfterAddReqs = paymentContext.totalPriceAfterAddReqs;
 
   return (
     <div className="w-[738px] flex flex-col">
@@ -13,7 +20,7 @@ function ReviewPayment() {
         <p className="font-noto-serif-display text-white text-[44px] font-medium">
           Thank you for booking
         </p>
-        <p className="text-body2 text-green-400 text-center px-16">
+        <p className="text-body2 text-green-400 text-center px-16 mt-2">
           We are looking forward to hosting you at our place. <br />
           We will send you more information about check-in and staying at our
           Neatly closer to your date of reservation
@@ -21,30 +28,51 @@ function ReviewPayment() {
       </div>
       {/* body */}
       <div className="bg-green-700 flex flex-col px-10 pb-10">
-        <div className="bg-green-600 flex justify-between rounded mt-6 p-6 text-white">
+        <div className="bg-green-600 flex justify-between rounded mt-6 p-5 text-white">
           <div>
             <div className="flex">
               <p className="text-white text-base font-semibold">
-                Th, 19 Oct 2022
+                {checkInDate}
               </p>
               <span className="px-2 text-body1">-</span>
               <p className="text-white text-base font-semibold">
-                Fri, 20 Oct 2022
+                {checkOutDate}
               </p>
             </div>
-            <p className="text-white text-body1">{userInput.person} Guests</p>
+            <div className="flex pt-2">
+              <div className="pr-3 border-r-2 border-green-800">
+                <span>{userInput.person}</span>
+                <span className="pl-2">
+                  {userInput.person > 1 ? `Guests` : `Guest`}
+                </span>
+              </div>
+              <div className="px-3 border-r-2 border-green-800">
+                <span>{userInput.room}</span>
+                <span className="pl-2">
+                  {userInput.room > 1 ? `Rooms` : `Room`}
+                </span>
+              </div>
+              <div className="px-3">
+                {userInput.night}
+                <span className="pl-2">
+                  {userInput.night > 1 ? `Nights` : `Night`}
+                </span>
+              </div>
+            </div>
           </div>
+
           <div className="flex gap-6">
             <div>
               <p className="text-white text-base font-semibold">Check-in</p>
-              <p className="text-white text-body1">After 2:00 PM</p>
+              <p className="text-white text-body1 mt-2">After 2:00 PM</p>
             </div>
             <div>
               <p className="text-white text-base font-semibold">Check-out</p>
-              <p className="text-white text-body1">Before 12:00 PM</p>
+              <p className="text-white text-body1 mt-2">Before 12:00 PM</p>
             </div>
           </div>
         </div>
+
         <div className="text-green-300 text-body1">
           <div className="py-10 text-right">
             <span>Payment success via</span>
@@ -52,23 +80,66 @@ function ReviewPayment() {
               Credit Card - *888
             </span>
           </div>
-          <div className="flex justify-between py-3">
-            {/* room_type */}
-            <p>{userInput.roomType}</p>
-            <p className="text-white text-base font-semibold">
-              {userInput.pricePerRoom}
-            </p>
+
+          {/* room_type */}
+          <div className="mb-2">
+            <div>{userInput.roomType}</div>
+            <div className="flex justify-between py-1">
+              <div>
+                (<span className="pl-1">{userInput.room}</span>
+                <span className="pl-2">
+                  {userInput.room > 1 ? `rooms` : `room`}
+                </span>
+                <span className="px-2">x</span>
+                {userInput.night}
+                <span className="pl-2 pr-1">
+                  {userInput.night > 1 ? `nights` : `night`}
+                </span>
+                )
+              </div>
+              <p className="text-white text-base font-semibold">
+                {userInput.totalPrice
+                  .toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "THB",
+                  })
+                  .replace("THB", "")}
+              </p>
+            </div>
           </div>
-          <div className="flex justify-between py-3 mb-4">
-            {/* speacial request */}
-            <p>Airport tranfer</p>
-            <p className="text-white text-base font-semibold">200.00</p>
-          </div>
-          <hr className="border-t-2 border-green-600" />
+
+          {/* standard request */}
+          {selectedStandard.map((request) => {
+            return (
+              <div className="flex py-3">
+                <p>{request.name}</p>
+              </div>
+            );
+          })}
+          {/* special request */}
+          {selectedSpecial.map((request) => {
+            return (
+              <div className="flex justify-between py-3">
+                <p>{request.name}</p>
+                <p className="text-white text-base font-semibold">
+                  {request.price
+                    .toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "THB",
+                    })
+                    .replace("THB", "")}
+                </p>
+              </div>
+            );
+          })}
+          <hr className="border-t-2 border-green-600 mt-4" />
           <div className="flex justify-between pt-6">
             <p>Total</p>
             <p className="text-white text-headline5">
-              {userInput.totalPriceAfterAddReqs}
+              {totalPriceAfterAddReqs.toLocaleString("en-US", {
+                style: "currency",
+                currency: "THB",
+              })}
             </p>
           </div>
         </div>
