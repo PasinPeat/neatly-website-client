@@ -66,6 +66,7 @@ function ChangeDate() {
 
   const [bookingData, setBookingData] = useState({
     room_details: {
+      room_id: "",
       room_type: "",
       room_images: [],
     },
@@ -74,11 +75,16 @@ function ChangeDate() {
     booking_date: "",
     room_avaliable_id: "",
     user_id: "",
+    book_id: "",
   });
 
   const [checkInDate, setCheckInDate] = useState();
   const [checkOutDate, setCheckOutDate] = useState();
   const [maxDate, setMaxDate] = useState();
+
+  const [roomAvaliable, setRoomAvaliable] = useState();
+
+  console.log(roomAvaliable);
 
   const [checkUser, setCheckUser] = useState(null);
 
@@ -101,6 +107,20 @@ function ChangeDate() {
     setMaxDate(newCheckOutDate);
   };
 
+  // ตรวจสอบว่าวันที่อยู่ในอาร์เรย์ roomAvaliable
+  const shouldDisableDate = (date: any) => {
+    const data = roomAvaliable.some(
+      (booking: any) =>
+        date.isBetween(
+          dayjs(booking.check_in),
+          dayjs(booking.check_out),
+          null,
+          "[]"
+        ) && booking.book_id !== bookingData.book_id
+    );
+    return data;
+  };
+
   const fetchData = async () => {
     try {
       const response = await axios.get(
@@ -117,6 +137,18 @@ function ChangeDate() {
     }
   };
 
+  const fetchRoomAvaliable = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/booking/avaliable/${bookingData.room_avaliable_id}`
+      );
+      const data = response.data.data;
+      setRoomAvaliable(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   const handleSubmit = async () => {
     const newCheckInDate = dayjs(checkInDate);
     const newCheckOutDate = dayjs(checkOutDate);
@@ -124,7 +156,6 @@ function ChangeDate() {
     const data = {
       check_in: newCheckInDate.format("YYYY-MM-DD"),
       check_out: newCheckOutDate.format("YYYY-MM-DD"),
-      room_avaliable_id: bookingData.room_avaliable_id,
     };
 
     try {
@@ -148,7 +179,12 @@ function ChangeDate() {
 
   useEffect(() => {
     fetchData();
+    fetchRoomAvaliable();
   }, [checkUser]);
+
+  useEffect(() => {
+    fetchRoomAvaliable();
+  }, [bookingData]);
 
   //check user
   const fetchAuth = async () => {
@@ -234,6 +270,9 @@ function ChangeDate() {
                               format="ddd, D MMM YYYY"
                               minDate={dayjs().add(1, "day")}
                               disablePast
+                              shouldDisableDate={
+                                roomAvaliable ? shouldDisableDate : undefined
+                              }
                               onChange={(newValue: any) => {
                                 setCheckInDate(newValue);
                                 handleCheckInDateChange(newValue);
@@ -270,6 +309,9 @@ function ChangeDate() {
                               maxDate={maxDate}
                               minDate={dayjs(checkInDate).add(1, "day")}
                               disablePast
+                              shouldDisableDate={
+                                roomAvaliable ? shouldDisableDate : undefined
+                              }
                               onChange={(newValue: any) =>
                                 setCheckOutDate(newValue)
                               }
