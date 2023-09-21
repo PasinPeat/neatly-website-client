@@ -10,9 +10,15 @@ function Navbar() {
   const { logout } = useAuth();
 
   let userProfileImage;
+  const blankUserProfileImage =
+    "https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/Profile.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvUHJvZmlsZS5qcGciLCJpYXQiOjE2OTUyNzE4MjUsImV4cCI6MTcyNjgwNzgyNX0.dvTq9W3yfIv7bAc8y45BRbKT-2UXvggmbuY_YOVl6Zc&t=2023-09-21T04%3A50%3A25.510Z";
 
   if (auth.isAuthenticated && auth.state.userData) {
-    userProfileImage = auth.state.userData.profile_image;
+    if (auth.state.userData.profile_image === null) {
+      userProfileImage = blankUserProfileImage;
+    } else {
+      userProfileImage = auth.state.userData.profile_image;
+    }
   }
   const linkHomePage = () => {
     navigate("/");
