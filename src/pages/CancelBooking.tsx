@@ -20,6 +20,9 @@ function CancelBooking() {
     booking_date: "",
     check_in: "",
     check_out: "",
+    room_avaliable: {
+      room_avaliable_id: "",
+    },
   });
 
   const [checkIn, setCheckIn] = useState("");
@@ -45,7 +48,7 @@ function CancelBooking() {
   const updateData = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:4000/booking/${bookId}`,
+        `http://localhost:4000/booking/cancel/${bookId}`,
         { ...cancelBooking }
       );
       console.log(response.data);
