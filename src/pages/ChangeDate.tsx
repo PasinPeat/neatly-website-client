@@ -84,7 +84,7 @@ function ChangeDate() {
 
   const [roomAvaliable, setRoomAvaliable] = useState();
 
-  console.log(roomAvaliable);
+  const [checkInError, setCheckInError] = useState(false);
 
   const [checkUser, setCheckUser] = useState(null);
 
@@ -170,7 +170,26 @@ function ChangeDate() {
   };
 
   const handleConfirmChange = () => {
-    setShowPopup(true);
+    const newCheckInDate = dayjs(checkInDate);
+    const newCheckOutDate = dayjs(checkOutDate);
+
+    const isRoomBooked = roomAvaliable.some((room) => {
+      const roomCheckIn = dayjs(room.check_in);
+      const roomCheckOut = dayjs(room.check_out);
+
+      return (
+        bookingData.book_id !== room.book_id &&
+        newCheckInDate.isBefore(roomCheckOut) &&
+        newCheckOutDate.isAfter(roomCheckIn)
+      );
+    });
+
+    if (isRoomBooked) {
+      console.log("Room is already booked for this period");
+      setCheckInError(true);
+    } else {
+      setShowPopup(true);
+    }
   };
 
   const handlePopupClose = () => {
@@ -334,13 +353,18 @@ function ChangeDate() {
               </div>
             </div>
 
-            <div className="flex justify-between -ml-4">
+            <div className="flex justify-between -ml-4 relative">
               <button
                 onClick={() => navigate(`/booking/user/${bookingData.user_id}`)}
                 className="btn capitalize bg-bg border-none font-semibold text-body1 text-orange-500 hover:bg-bg"
               >
                 Cancel
               </button>
+              {checkInError && (
+                <p className="text-body2 text-red absolute -top-[40px] right-[440px]">
+                  Room is already booked for this period
+                </p>
+              )}
               <div className="flex">
                 <div>
                   <button
