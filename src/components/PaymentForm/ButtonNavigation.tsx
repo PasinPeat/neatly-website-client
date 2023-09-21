@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { RoomsContext } from "../../App";
 import { PaymentContext } from "../../pages/Payment";
 import { useAuth } from "../../contexts/authen";
@@ -47,8 +47,23 @@ function ButtonNavigation({
     );
 
     const roomAvaliable = await axios.get(
-      `http://localhost:4000/avaliable/${userInput.roomId}`
+      `http://localhost:4000/avaliable?checkInDate=${userInput.checkInDate}`
     );
+    const resultss = roomAvaliable.data;
+    console.log(resultss);
+
+    let filteredRooms;
+    if (resultss) {
+      filteredRooms = resultss.filter(
+        (room) => room.room_id === userInput.roomId
+      );
+
+      // Apply slice if necessary
+      if (userInput.room > 0) {
+        filteredRooms = filteredRooms.slice(0, userInput.room);
+      }
+    }
+    console.log(filteredRooms);
 
     let data = {
       amount_room: userInput.room,
@@ -62,10 +77,11 @@ function ButtonNavigation({
       standard_request,
       special_request,
       additional_request: userInput.additional,
-      room_avaliable_id: roomAvaliable.data.data.room_avaliable_id,
+      array_of_room_avaliable: filteredRooms,
       payment_method: selectedPayment,
       amount_night: userInput.night,
     };
+    console.log(data);
     if (selectedPayment === "credit") {
       data = {
         ...data,
@@ -76,7 +92,6 @@ function ButtonNavigation({
       await axios.post("http://localhost:4000/checkout", {
         total: data.total_price_add_reqs,
       });
-
       await axios.post(`http://localhost:4000/booking`, data);
       localStorage.removeItem("userInput");
     } catch (error) {
