@@ -168,7 +168,7 @@ function PaymentMethod() {
       <Navbar />
       <div className="flex flex-col w-[930px] mb-[480px] ">
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-row justify-between mt-[50px]  items-center">
+          <div className="flex flex-row justify-between mt-20 items-center">
             <h1 className="font-noto-serif-display text-[68px] font-medium mb-[25px] text-green-800">
               Payment Method
             </h1>
