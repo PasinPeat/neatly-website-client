@@ -46,42 +46,25 @@ function App() {
   const handleSearchResult = async (result) => {
     try {
       const results = await axios.get(
-        `http://localhost:4000/avaliable?checkInDate=${result.checkInDate}`
+        `http://localhost:4000/avaliable?checkInDate=${result.checkInDate}&checkOutDate=${result.checkOutDate}`
       );
-      setRooms(results.data.data);
+      console.log(results.data);
+      setRooms(results.data);
+      const roomCounts = {};
 
-      const updatedRooms = [...rooms];
-
-      updatedRooms.forEach((room) => {
-        room.available = 0;
-        room.disabled = false;
-      });
-
+      // Count the occurrences of each room_id in the results
       results.data.forEach((roomAvaliable) => {
-        const { room_id, status } = roomAvaliable;
-
-        if (results.data) {
-          const roomToUpdate = updatedRooms.find(
-            (room) => room.room_id === room_id
-          );
-          if (roomToUpdate) {
-            roomToUpdate.available += 1;
-          }
-        }
+        const { room_id } = roomAvaliable;
+        roomCounts[room_id] = (roomCounts[room_id] || 0) + 1;
       });
 
-      updatedRooms.forEach((room) => {
-        if (result.person > room.person) {
-          room.available = 0;
-        }
+      // Update the available counts for each room
+      const updatedRooms = rooms.map((room) => {
+        const roomId = room.room_id;
+        room.available = roomCounts[roomId] || 0;
+        return room;
       });
-
-      updatedRooms.forEach((room) => {
-        if (room.person < result.person || room.available === 0) {
-          room.disabled = true;
-        }
-      });
-
+      // Set the updated rooms state
       setRooms(updatedRooms);
     } catch (error) {
       console.log(error);

@@ -47,7 +47,7 @@ function ButtonNavigation({
     );
 
     const roomAvaliable = await axios.get(
-      `http://localhost:4000/avaliable?checkInDate=${userInput.checkInDate}`
+      `http://localhost:4000/avaliable?checkInDate=${userInput.checkInDate}&checkOutDate=${userInput.checkOutDate}`
     );
     const resultss = roomAvaliable.data;
     console.log(resultss);
