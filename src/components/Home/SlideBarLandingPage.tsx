@@ -78,6 +78,14 @@ function SlideBarLandingPage() {
                 />
               </div>
             </SwiperSlide>
+            <SwiperSlide className=" w-fit">
+              <div className="w-[400px] h-[500px] ml-4">
+                <img
+                  className="w-full h-full object-cover"
+                  src={room.room_images[2]}
+                />
+              </div>
+            </SwiperSlide>
           </div>
         );
       })}
