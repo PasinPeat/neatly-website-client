@@ -127,7 +127,10 @@ function SpecialRequest({
         </>
 
         <div className="flex flex-col mt-10">
-          <label htmlFor="additionRequest" className="text-gray-900 text-body1">
+          <label
+            htmlFor="additionRequest"
+            className="text-gray-900 text-body1 mb-1"
+          >
             Additional Request
           </label>
           <textarea
