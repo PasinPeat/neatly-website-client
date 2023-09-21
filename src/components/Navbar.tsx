@@ -68,9 +68,10 @@ function Navbar() {
           <div className="flex items-center relative">
             <div className="dropdown dropdown-end ">
               <label tabIndex={0} className="hover:cursor-pointer">
-                <div className="w-12 h-12">
-                  <img src={userProfileImage} className="rounded-full"></img>
-                </div>
+                <div
+                  className="bg-cover bg-center w-12 h-12 rounded-full"
+                  style={{ backgroundImage: `url(${userProfileImage})` }}
+                ></div>
               </label>
               <ul
                 tabIndex={0}
@@ -208,9 +209,10 @@ function Navbar() {
           <div className="flex items-center relative">
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="hover:cursor-pointer">
-                <div className="w-12 h-12">
-                  <img src={userProfileImage} className="rounded-full"></img>
-                </div>
+                <div
+                  className="bg-cover bg-center w-12 h-12 rounded-full"
+                  style={{ backgroundImage: `url(${userProfileImage})` }}
+                ></div>
               </label>
               <ul
                 tabIndex={0}
