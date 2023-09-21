@@ -7,9 +7,9 @@ import Sidebar from "../components/Admin/Sidebar";
 import SidebarItems from "../components/Admin/SidebarItems";
 import Divider from "@mui/material/Divider";
 import MuiDrawer from "@mui/material/Drawer";
-import Toolbar from "@mui/material/Toolbar";
+
 import List from "@mui/material/List";
-import IconButton from "@mui/material/IconButton";
+
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 
@@ -78,7 +78,7 @@ function Admin() {
   return (
     <>
       <div className="flex ">
-        <div className=" h-screen w-1/6 bg-green-800 flex flex-col items-center">
+        <div className=" h-screen w-1/7 bg-green-800 flex flex-col items-center">
           <Drawer variant="permanent" open={open} sx={DrawerSx}>
             <div className="bg-green-800 flex flex-col items-center">
               <img
