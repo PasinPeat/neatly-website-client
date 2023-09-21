@@ -129,7 +129,7 @@ function HistoryCard({
               style={backgroundImage}
               className="w-[357px] h-[210px] rounded bg-cover bg-center"
             ></div>
-            <div className="flex flex-col py-6 justify-between w-[715px]">
+            <div className="flex flex-col justify-between w-[715px]">
               <div className="flex flex-row justify-between items-center mb-5">
                 <h2 className="text-headline4 text-black">{roomType}</h2>
                 <div className="flex flex-col items-end mb-2 text-body1 text-gray-600">

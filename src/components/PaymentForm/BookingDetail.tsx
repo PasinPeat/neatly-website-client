@@ -110,12 +110,9 @@ function BookingDetail() {
                   )
                 </div>
                 <p className="text-base font-semibold">
-                  {parseFloat(userInput.totalPrice)
-                    .toLocaleString("en-US", {
-                      style: "currency",
-                      currency: "THB",
-                    })
-                    .replace("THB", "")}
+                  {parseFloat(userInput.totalPrice).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                  })}
                 </p>
               </div>
               {selectedStandard &&
@@ -144,12 +141,12 @@ function BookingDetail() {
                         {request.name}
                       </p>
                       <p className="text-base font-semibold">
-                        {(request.price * userInput.room)
-                          .toLocaleString("en-US", {
-                            style: "currency",
-                            currency: "THB",
-                          })
-                          .replace("THB", "")}
+                        {(request.price * userInput.room).toLocaleString(
+                          "en-US",
+                          {
+                            minimumFractionDigits: 2,
+                          }
+                        )}
                       </p>
                     </div>
                   );

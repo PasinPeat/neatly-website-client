@@ -3,7 +3,6 @@ import { useContext } from "react";
 import { RoomsContext } from "../../App";
 import { PaymentContext } from "../../pages/Payment";
 import { useAuth } from "../../contexts/authen";
-import axios from "axios";
 
 function ButtonNavigation({
   steps,

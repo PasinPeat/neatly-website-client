@@ -127,7 +127,7 @@ function RefundSuccess() {
           </div>
         </div>
         <hr className=" w-[720px] mt-10 border-green-600 border-solid border-t-2" />
-        <div className="flex flex-row justify-between mt-7 mb-10 w-[720px] ">
+        <div className="flex flex-row justify-between items-end mt-7 mb-10 w-[720px] ">
           <p className="text-green-300 text-body1 text-gray-900">
             Total Refund
           </p>

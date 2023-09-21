@@ -43,8 +43,8 @@
   .InputSuccess {
     @apply text-black font-inter text-body1 bg-white border-gray-400 border-2 rounded p-3;
   }
-  .AddandSubtract{
-    @apply relative w-4 h-4 bg-white text-orange-500  rounded-full border border-solid border-orange-500
+  .AddandSubtract {
+    @apply relative w-4 h-4 bg-white text-orange-500  rounded-full border border-solid border-orange-500;
   }
 }
 

@@ -57,11 +57,11 @@ function DropDownList({
     <>
       <div className=" pt-5 ">
         <List
-          sx={{ width: "100%", bgcolor: "#F1F2F6" }}
+          sx={{ padding: "0px", width: "100%", bgcolor: "#F1F2F6" }}
           component="nav"
           aria-labelledby="nested-list-subheader"
         >
-          <ListItemButton onClick={handleClick} sx={{ px: 4 }}>
+          <ListItemButton onClick={handleClick} sx={{ px: 4, py: 2 }}>
             <p className="font-bold text-grey-800">Booking Detail</p>
             <ListItemText primary="" />
             {open ? (
@@ -70,8 +70,8 @@ function DropDownList({
               <ExpandMore sx={{ color: "#E76B39" }} />
             )}
           </ListItemButton>
-          <Collapse in={open} timeout="auto" unmountOnExit className=" px-3">
-            <List component="div" disablePadding sx={{ px: 2, py: 1 }}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding sx={{ px: 4, py: 1 }}>
               <div className="flex justify-between w-full py-4">
                 <p className="text-body1">
                   {personAmount}
@@ -93,7 +93,7 @@ function DropDownList({
                 </div>
               </div>
             </List>
-            <List component="div" disablePadding sx={{ px: 2, py: 1 }}>
+            <List component="div" disablePadding sx={{ px: 4, py: 1 }}>
               <div className="flex justify-between items-end w-full">
                 <div>
                   <p className="text-body1">{roomType}</p>
@@ -109,7 +109,7 @@ function DropDownList({
                 </p>
               </div>
             </List>
-            <List component="div" disablePadding sx={{ px: 2 }}>
+            <List component="div" disablePadding sx={{ px: 4 }}>
               {special &&
                 special.map((item: string, index: number) => (
                   <div className="flex justify-between w-full py-2" key={index}>
@@ -125,7 +125,7 @@ function DropDownList({
                 ))}
             </List>
 
-            <List component="div" disablePadding sx={{ px: 2 }}>
+            <List component="div" disablePadding sx={{ px: 4 }}>
               {standard &&
                 standard
                   .filter(
@@ -142,7 +142,7 @@ function DropDownList({
                   ))}
             </List>
 
-            <List component="div" disablePadding sx={{ px: 2, py: 1 }}>
+            <List component="div" disablePadding sx={{ px: 4, py: 1 }}>
               <div className="flex justify-between w-full border-t-[2px] border-green-300 py-4">
                 <p className="text-body1">Total</p>
                 <p className=" text-headline5 font-bold text-black">
@@ -156,7 +156,7 @@ function DropDownList({
             <List
               component="div"
               disablePadding
-              sx={{ px: 2, py: 1, bgcolor: "#E4E6ED" }}
+              sx={{ px: 4, py: 1, bgcolor: "#E4E6ED" }}
             >
               <div className="flex flex-col justify-between w-full py-4">
                 <p className="text-body1 font-bold">Additional Request</p>

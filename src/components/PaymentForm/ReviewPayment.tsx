@@ -112,12 +112,9 @@ function ReviewPayment({ selectedPayment, lastThreeCardNumber }) {
                 )
               </div>
               <p className="text-white text-base font-semibold">
-                {userInput.totalPrice
-                  .toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "THB",
-                  })
-                  .replace("THB", "")}
+                {userInput.totalPrice.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                })}
               </p>
             </div>
           </div>
@@ -140,12 +137,9 @@ function ReviewPayment({ selectedPayment, lastThreeCardNumber }) {
                   <span>{request.name}</span>
                 </div>
                 <p className="text-white text-base font-semibold">
-                  {request.price
-                    .toLocaleString("en-US", {
-                      style: "currency",
-                      currency: "THB",
-                    })
-                    .replace("THB", "") * userInput.room}
+                  {request.price.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                  })}
                 </p>
               </div>
             );

@@ -7,7 +7,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { FormControlLabel, Checkbox } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
-function SpecialRequest2({
+function SpecialRequest({
   steps,
   activeStep,
   setActiveStep,
@@ -152,4 +152,4 @@ function SpecialRequest2({
   );
 }
 
-export default SpecialRequest2;
+export default SpecialRequest;

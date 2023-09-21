@@ -65,13 +65,13 @@ function BookingHistory() {
       )}
 
       <Navbar />
-      
-      <div className="bg-bg flex flex-col items-center pt-14 pb-32">
-      <div className="bg-bg w-[1120px] pb-12">
-        <h1 className="  font-noto-serif-display text-headline2 font-medium text-gray-900">
-          Booking History
-        </h1>
-      </div>
+
+      <div className="bg-bg flex flex-col items-center pt-20 pb-32">
+        <div className="bg-bg w-[1120px] pb-12">
+          <h1 className="  font-noto-serif-display text-headline2 font-medium text-gray-900">
+            Booking History
+          </h1>
+        </div>
         {sortedBookingsHistory.map((book: any, index: number) => (
           <HistoryCard
             bookingsHistory={sortedBookingsHistory}

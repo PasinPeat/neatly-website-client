@@ -28,7 +28,7 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
         <form className="flex flex-col gap-10">
           <div>
             <label htmlFor="fname">
-              <p className="font-body1 text-gray-900">Full Name</p>
+              <p className="font-body1 text-gray-900 mb-1">Full Name</p>
             </label>
             <input
               type="text"
@@ -42,7 +42,7 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
 
           <div>
             <label htmlFor="email">
-              <p className="font-body1 text-gray-900 text-start">Email</p>
+              <p className="font-body1 text-gray-900 text-start mb-1">Email</p>
             </label>
             <input
               type="email"
@@ -56,7 +56,7 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
 
           <div>
             <label htmlFor="birthDate">
-              <p className="font-body1 text-gray-900 text-start">
+              <p className="font-body1 text-gray-900 text-start mb-1">
                 Date of Birth
               </p>
             </label>
@@ -72,7 +72,9 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
 
           <div>
             <label htmlFor="idNumber">
-              <p className="font-body1 text-gray-900 text-start">ID Number</p>
+              <p className="font-body1 text-gray-900 text-start mb-1">
+                ID Number
+              </p>
             </label>
             <input
               type="tel"
@@ -86,13 +88,15 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
 
           <div>
             <label htmlFor="country">
-              <p className="font-body1 text-gray-900 text-start">Country</p>
+              <p className="font-body1 text-gray-900 text-start mb-1">
+                Country
+              </p>
             </label>
             <select
               name="country"
               id="country"
               value={country}
-              className="w-full InputSuccess"
+              className="w-full InputSuccess py-4 border-gray-500"
               disabled
             >
               <option value={country}>{country}</option>
