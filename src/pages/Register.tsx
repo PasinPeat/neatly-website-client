@@ -454,6 +454,45 @@ function Register() {
                   Date of Birth
                 </p>
               </label>
+              <DemoContainer components={["DatePicker"]}>
+                <ThemeProvider theme={theme}>
+                  <DatePicker
+                    showDaysOutsideCurrentMonth
+                    fixedWeekNumber={6}
+                    value={birthDay}
+                    format="YYYY-MM-DD"
+                    disableFuture
+                    onChange={(selectedDate) => {
+                      const formattedDate =
+                        dayjs(selectedDate).format("YYYY-MM-DD");
+                      setBirthDay(formattedDate);
+                    }}
+                    slotProps={{ textField: { size: "medium" } }}
+                    sx={{
+                      "& input": {
+                        padding: "12px",
+                        width: "325px",
+                        fontFamily: "inter",
+                        background: "#FFF",
+                        color: "#2A2E3F",
+                      },
+                    }}
+                  />
+                </ThemeProvider>
+              </DemoContainer>
+              {birthDayError && (
+                <span className="text-body3 text-red absolute left-0 -bottom-5">
+                  You must be at least 18 years old to register.
+                </span>
+              )}
+            </div>
+
+            {/* <div className="relative">
+              <label htmlFor="birthDate">
+                <p className="font-body1 text-gray-900 text-start">
+                  Date of Birth
+                </p>
+              </label>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <Stack
                   sx={{
