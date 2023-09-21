@@ -14,19 +14,22 @@ import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 
 function Admin() {
-  const drawerWidth: number = 240;
-  const Drawer = styled(MuiDrawer, {
-    shouldForwardProp: (prop) => prop !== "open",
-  })(({ theme }) => ({
+  const Drawer = styled(MuiDrawer)(({ theme }) => ({
     "& .MuiDrawer-paper": {
       position: "relative",
       whiteSpace: "nowrap",
-      width: drawerWidth,
+      width: 240,
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
       }),
       boxSizing: "border-box",
+    },
+    "& .MuiDrawer-root": {
+      borderColor: "#2F3E35",
+    },
+    "& .MuiPaper-root": {
+      borderColor: "#2F3E35",
     },
   }));
 
@@ -64,21 +67,17 @@ function Admin() {
 
   const DrawerSx = {
     bgcolor: "#2F3E35",
-    
+
     pt: 2,
   };
   const ListSx = {
     bgcolor: "#2F3E35",
   };
-  //   console.log(customerBooking);
-  //   console.log(roomManage);
-  //   console.log(hotelInfo);
-  //   console.log(roomandProperty);
 
   return (
     <>
       <div className="flex ">
-        <div className=" h-screen w-1/7 bg-green-800 flex flex-col items-center">
+        <div className=" h-screen w-1/7 bg-green-800  flex flex-col items-center">
           <Drawer variant="permanent" open={open} sx={DrawerSx}>
             <div className="bg-green-800 flex flex-col items-center">
               <img
@@ -91,6 +90,10 @@ function Admin() {
 
             <List component="nav" sx={ListSx}>
               <SidebarItems
+                customerBooking={customerBooking}
+                roomManage={roomManage}
+                hotelInfo={hotelInfo}
+                roomandProperty={roomandProperty}
                 handleCustomerBooking={handleCustomerBooking}
                 handleRoomManage={handleRoomManage}
                 handleHotelInfo={handleHotelInfo}
