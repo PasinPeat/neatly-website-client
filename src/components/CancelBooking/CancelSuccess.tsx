@@ -12,6 +12,7 @@ function CancelSuccess() {
 
   const [cancelBooking, setCancelBooking] = useState({
     room_details: {
+      room_images: [],
       room_type: "",
     },
     booking_date: "",

@@ -113,9 +113,9 @@ function CancelBooking() {
               <div className="flex flex-row justify-between ">
                 <div className="w-[357px] h-[210px]  bg-cover bg-center">
                   <img
-                    src={cancelBooking.room_details.room_images[0]}
+                    src={cancelBooking.room_details.room_images[2]}
                     alt="Room"
-                    className="rounded"
+                    className="rounded w-[357px] h-[210px]"
                   />
                 </div>
 
