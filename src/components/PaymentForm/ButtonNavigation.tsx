@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { RoomsContext } from "../../App";
 import { PaymentContext } from "../../pages/Payment";
 import { useAuth } from "../../contexts/authen";
+import axios from "axios";
 
 function ButtonNavigation({
   steps,
@@ -49,6 +50,10 @@ function ButtonNavigation({
       `http://localhost:4000/avaliable/${userInput.roomId}`
     );
 
+<<<<<<< Updated upstream
+=======
+    console.log(roomAvaliable);
+>>>>>>> Stashed changes
     let data = {
       amount_room: userInput.room,
       amount_stay: userInput.person,
@@ -65,6 +70,7 @@ function ButtonNavigation({
       payment_method: selectedPayment,
       amount_night: userInput.night,
     };
+<<<<<<< Updated upstream
     if (selectedPayment === "credit") {
       data = {
         ...data,
@@ -78,6 +84,21 @@ function ButtonNavigation({
 
       await axios.post(`http://localhost:4000/booking`, data);
       localStorage.removeItem("userInput");
+=======
+
+    if (selectedPayment === "credit") {
+      data = {
+        ...data,
+        three_credit_card_num: lastThreeCardNumber,
+      };
+    }
+    console.log(data);
+
+    try {
+      await axios.post(`http://localhost:4000/booking`, data);
+      localStorage.removeItem("userInput");
+      console.log(data);
+>>>>>>> Stashed changes
     } catch (error) {
       console.error(error);
     }

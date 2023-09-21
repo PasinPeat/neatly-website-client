@@ -2,6 +2,8 @@ import BookingDetail from "./BookingDetail";
 import BookingNote from "./BookingNote";
 import ButtonNavigation from "./ButtonNavigation";
 import { useAuth } from "../../contexts/authen.jsx";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 
 function BasicInfo({ steps, activeStep, setActiveStep }) {
   const auth = useAuth();
@@ -19,6 +21,7 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
     idNumber = auth.state.userData.idNumber;
     country = auth.state.userData.country;
   }
+
   // console.log(auth.state.userData);
 
   return (
@@ -55,22 +58,6 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
           </div>
 
           <div>
-            <label htmlFor="birthDate">
-              <p className="font-body1 text-gray-900 text-start mb-1">
-                Date of Birth
-              </p>
-            </label>
-            <input
-              type="date"
-              id="birthDate"
-              value={dateOfBirth}
-              name="birthDate"
-              className="w-full InputSuccess"
-              disabled
-            />
-          </div>
-
-          <div>
             <label htmlFor="idNumber">
               <p className="font-body1 text-gray-900 text-start mb-1">
                 ID Number
@@ -87,18 +74,44 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
           </div>
 
           <div>
-            <label htmlFor="country">
+            <label htmlFor="birthDate">
               <p className="font-body1 text-gray-900 text-start mb-1">
+                Date of Birth
+              </p>
+            </label>
+            {/* <input
+              type="date"
+              id="birthDate"
+              value={dateOfBirth}
+              name="birthDate"
+              className="w-full InputSuccess"
+              disabled
+            /> */}
+
+            <DatePicker
+              value={dayjs(dateOfBirth)}
+              format="dd, DD MMMM YYYY"
+              disabled
+              slotProps={{
+                textField: { size: "medium" },
+              }}
+              sx={{
+                "& input": {
+                  padding: "14px",
+                  width: "584px",
+                  fontFamily: "inter",
+                },
+              }}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="country">
+              <p className="font-body1 text-gray-900 text-start mb-2">
                 Country
               </p>
             </label>
-            <select
-              name="country"
-              id="country"
-              value={country}
-              className="w-full InputSuccess py-4 border-gray-500"
-              disabled
-            >
+            <select className="select Disabled-select" disabled>
               <option value={country}>{country}</option>
             </select>
           </div>

@@ -29,8 +29,6 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
   const context = useContext(RoomsContext);
   const navigate = useNavigate();
   const userInput = context.userInput;
-  const showUpdateButton = context.showUpdateButton;
-  const setShowUpdateButton = context.setShowUpdateButton;
 
   const color: string = "#A0ACC3";
 
@@ -83,8 +81,8 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
   });
 
   const initialState = userInput || {
-    checkInDate: dayjs(),
-    checkOutDate: dayjs().add(1, "day"),
+    checkInDate: dayjs().add(1, "day"),
+    checkOutDate: dayjs().add(2, "day"),
     room: 1,
     person: 2,
   };
@@ -103,13 +101,6 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
   // const [isOpen, setIsOpen] = useState(false);
   // let onlyDate = e.$d.toISOString();
 
-  useEffect(() => {
-    if (!userInput) {
-      setCheckInDate(dayjs().add(1, "day"));
-      setCheckOutDate(dayjs().add(2, "day"));
-    }
-  }, []);
-
   function handleSubmit(newValue) {
     newValue.preventDefault();
 
@@ -126,7 +117,6 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
     onSearchResult(result);
     setUserInput(result);
     // console.log(result);
-    setShowUpdateButton(!showUpdateButton);
     navigate("/search");
   }
 
@@ -146,10 +136,10 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
               value={checkInDate}
               format="dd, DD-MM-YYYY"
               disablePast
-              onChange={(newValue) =>{
-                setCheckInDate(newValue)
-                setCheckOutDate(newValue.add(1, "day"))
-              } }
+              onChange={(newValue) => {
+                setCheckInDate(newValue);
+                setCheckOutDate(newValue.add(1, "day"));
+              }}
               slotProps={{ textField: { size: "medium" } }}
               sx={{
                 "& input": {
@@ -187,7 +177,6 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
                   fontFamily: "inter",
                 },
               }}
-              // PopperProps={{ sx: popperSx }}
             />
           </ThemeProvider>
         </DemoContainer>
@@ -201,7 +190,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
         {showDropdown ? (
           <div
             className={
-              "px-4 w-60 h-12 flex items-center justify-between rounded-[4px] border border-solid border-orange-500 text-gray-600 text-body1"
+              "px-3 w-60 h-12 flex items-center justify-between rounded-[4px] border border-solid border-orange-500 text-gray-600 text-body1"
             }
             onClick={setShowDropdown}
           >
@@ -215,7 +204,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
         ) : (
           <div
             className={
-              "px-4 w-60 h-12 flex items-center justify-between rounded-[4px] hover:border-black hover:cursor-pointer border border-solid border-[#c4c4c4] text-gray-600 text-body1"
+              "px-3 w-60 h-12 flex items-center justify-between rounded-[4px] hover:border-black hover:cursor-pointer border border-solid border-[#c4c4c4] text-gray-600 text-body1"
             }
             onClick={setShowDropdown}
           >
@@ -332,7 +321,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
         onClick={handleSubmit}
         className={`btn Button ${seachResultBtn}`}
       >
-        {showUpdateButton ? "Update" : "Search"}
+        Search
       </button>
     </div>
   );

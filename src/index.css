@@ -41,10 +41,13 @@
     @apply text-gray-600 font-inter text-body1 bg-white border-gray-400 border-2 rounded p-3;
   }
   .InputSuccess {
-    @apply text-black font-inter text-body1 bg-white border-gray-400 border-2 rounded p-3;
+    @apply text-black font-inter text-body1 bg-white border-[#c4c4c4] border-2 rounded p-3;
   }
   .AddandSubtract {
     @apply relative w-4 h-4 bg-white text-orange-500  rounded-full border border-solid border-orange-500;
+  }
+  .Disabled-select {
+    @apply rounded p-3 bg-white border-gray-400 cursor-not-allowed text-body1 w-full; /* Change this to your desired text color */
   }
 }
 

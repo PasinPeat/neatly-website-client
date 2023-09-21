@@ -26,6 +26,7 @@ function DropDownList({
   const handleClick = () => {
     setOpen(!open);
   };
+  console.log(totalPriceAddReqs);
 
   function addSpecialReqPrice(req) {
     switch (req) {
@@ -43,15 +44,6 @@ function DropDownList({
         return 150;
     }
   }
-
-  // const specialReqs = [
-  //   { name: "Baby cot", price: 400 },
-  //   { name: "Airport transfer", price: 200 },
-  //   { name: "Extra bed", price: 500 },
-  //   { name: "Extra pillows", price: 100 },
-  //   { name: "Phone chargers and adapters", price: 100 },
-  //   { name: "Breakfast", price: 150 },
-  // ];
 
   return (
     <>

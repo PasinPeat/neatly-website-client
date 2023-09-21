@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import "../App.css";
-import refundSuccess from "../components/Refund/refundSuccess";
+import RefundSuccess from "../components/Refund/RefundSuccess";
 
 function Refund() {
   const [complete, setComplete] = useState(false);
