@@ -20,6 +20,7 @@ import BookingHistory from "./pages/BookingHistory.tsx";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./contexts/authen.jsx";
 import { BookingsProvider } from "./contexts/BookingContext.jsx";
+import Admin from "./pages/Admin.tsx";
 export const RoomsContext = React.createContext();
 
 function App() {
@@ -134,6 +135,7 @@ function App() {
           <Route path="/refund/:bookId" element={<Refund />} />
           <Route path="/cancleBooking/:bookId" element={<CancleBooking />} />
           <Route path="/*" element={<NotFound />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </RoomsContext.Provider>
     </BookingsProvider>
