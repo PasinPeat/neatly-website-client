@@ -12,14 +12,13 @@ function CancelSuccess() {
 
   const [cancelBooking, setCancelBooking] = useState({
     room_details: {
-      room_images: [],
       room_type: "",
-      person: "",
     },
     booking_date: "",
     check_in: "",
     check_out: "",
     cancel_date: "",
+    amount_stay: "",
   });
 
   const [checkIn, setCheckIn] = useState("");
@@ -108,7 +107,7 @@ function CancelSuccess() {
             <p className=" text-base font-semibold">{formattedCheckOut}</p>
           </div>
           <p className="text-white text-body1 py-1 ">
-            {cancelBooking.room_details.person} Guests
+            {cancelBooking.amount_stay} Guests
           </p>
           <div className="flex flex-col text-body1 text-green-300 mt-10">
             <p className=" py-1 ">Booking date: {formattedBookDate}</p>

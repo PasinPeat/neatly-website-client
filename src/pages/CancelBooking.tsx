@@ -15,11 +15,11 @@ function CancelBooking() {
     room_details: {
       room_images: [],
       room_type: "",
-      person: "",
     },
     booking_date: "",
     check_in: "",
     check_out: "",
+    amount_stay: "",
     room_avaliable: {
       room_avaliable_id: "",
     },
@@ -137,7 +137,7 @@ function CancelBooking() {
                         <span>{formattedCheckOut} </span>
                       </div>
                       <div className="mt-2">
-                        <span>{cancelBooking.room_details.person} Guests</span>
+                        <span>{cancelBooking.amount_stay} Guests</span>
                       </div>
                     </div>
                   </div>

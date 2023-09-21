@@ -21,6 +21,9 @@ function Refund() {
     check_out: "",
     total_price_add_reqs: "",
     amount_stay: "",
+    room_avaliable: {
+      room_avaliable_id: "",
+    },
   });
 
   const [checkIn, setCheckIn] = useState("");
@@ -46,7 +49,7 @@ function Refund() {
   const updateData = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:4000/booking/${bookId}`,
+        `http://localhost:4000/booking/cancel/${bookId}`,
         { ...cancelBooking }
       );
       console.log(response.data);
