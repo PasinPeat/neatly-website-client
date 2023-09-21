@@ -166,7 +166,7 @@ function PaymentMethod() {
   return (
     <div className="flex flex-col items-center w-screen bg-bg">
       <Navbar />
-      <div className="flex flex-col w-[70%] mb-[480px] ">
+      <div className="flex flex-col w-[930px] mb-[480px] ">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-row justify-between mt-[50px]  items-center">
             <h1 className="font-noto-serif-display text-[68px] font-medium mb-[25px] text-green-800">
@@ -201,7 +201,7 @@ function PaymentMethod() {
                 type="text"
                 name="card_number"
                 placeholder="Enter your card number"
-                className={`w-full mb-[38px] text-black Input focus:outline-none focus:border-orange-500 ${
+                className={`w-[446px] h-[48px] mb-[38px] text-black Input focus:outline-none focus:border-orange-500 ${
                   creditCardError ? "border-[#B61515]" : "focus:outline-none"
                 }`}
                 value={payment.card_number}
@@ -236,7 +236,7 @@ function PaymentMethod() {
                 name="expire_date"
                 placeholder="MM/YY"
                 maxLength={5}
-                className="w-full Input mb-[38px] text-black focus:outline-none focus:border-orange-500"
+                className="w-[446px] h-[48px] Input mb-[38px] text-black focus:outline-none focus:border-orange-500"
                 value={payment.expire_date}
                 onChange={handleChange}
                 required
@@ -251,7 +251,7 @@ function PaymentMethod() {
                 type="text"
                 name="card_owner"
                 placeholder="Enter your name"
-                className={`w-full mb-[38px] text-black Input focus:outline-none focus:border-orange-500 ${
+                className={`w-[446px] h-[48px]  mb-[38px] text-black Input focus:outline-none focus:border-orange-500 ${
                   fullNameErrorCredit
                     ? "border-[#B61515]"
                     : "focus:outline-none"
@@ -288,7 +288,7 @@ function PaymentMethod() {
                 pattern="\d*"
                 maxLength={3}
                 placeholder="CVC/CVV"
-                className="w-full Input mb-[38px] text-black focus:outline-none focus:border-orange-500"
+                className="w-[446px] h-[48px] Input mb-[38px] text-black focus:outline-none focus:border-orange-500"
                 value={payment.cvc}
                 onChange={handleChange}
                 required

@@ -178,7 +178,7 @@ function HistoryCard({
           </div>
           <div className="flex justify-between -ml-4 pt-5">
             <div className="flex items-start">
-              {cancelVisible[bookId] && (
+              {cancelVisible[bookId] && cancel_date === null && (
                 <button
                   className="btn capitalize bg-bg border-none font-semibold text-body1 text-orange-500 hover:bg-bg"
                   onClick={() => {
@@ -196,7 +196,7 @@ function HistoryCard({
               >
                 Room Detail
               </button>
-              {buttonVisibilities[bookId] && (
+              {buttonVisibilities[bookId] && cancel_date === null && (
                 <button className="btn Button" onClick={handleClickChangeDate}>
                   Change Date
                 </button>
