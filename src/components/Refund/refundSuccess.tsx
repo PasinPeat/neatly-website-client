@@ -12,14 +12,13 @@ function RefundSuccess() {
 
   const [cancelBooking, setCancelBooking] = useState({
     room_details: {
-      room_images: [],
       room_type: "",
-      person: "",
     },
     booking_date: "",
     check_in: "",
     check_out: "",
     total_price_add_reqs: "",
+    amount_stay: "",
     cancel_date: "",
   });
 
@@ -119,7 +118,7 @@ function RefundSuccess() {
           </div>
           <p className="text-white text-body1 py-1 ">
             {" "}
-            {cancelBooking.room_details.person} Guests
+            {cancelBooking.amount_stay} Guests
           </p>
           <div className="flex flex-col text-body1 text-green-300 mt-10">
             <p className=" py-1 ">Booking date: {formattedBookDate}</p>

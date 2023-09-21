@@ -15,11 +15,14 @@ function CancelBooking() {
     room_details: {
       room_images: [],
       room_type: "",
-      person: "",
     },
     booking_date: "",
     check_in: "",
     check_out: "",
+    amount_stay: "",
+    room_avaliable: {
+      room_avaliable_id: "",
+    },
   });
 
   const [checkIn, setCheckIn] = useState("");
@@ -45,7 +48,7 @@ function CancelBooking() {
   const updateData = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:4000/booking/${bookId}`,
+        `http://localhost:4000/booking/cancel/${bookId}`,
         { ...cancelBooking }
       );
       console.log(response.data);
@@ -110,9 +113,9 @@ function CancelBooking() {
               <div className="flex flex-row justify-between ">
                 <div className="w-[357px] h-[210px]  bg-cover bg-center">
                   <img
-                    src={cancelBooking.room_details.room_images[0]}
+                    src={cancelBooking.room_details.room_images[2]}
                     alt="Room"
-                    className="rounded"
+                    className="rounded w-[357px] h-[210px]"
                   />
                 </div>
 
@@ -134,7 +137,7 @@ function CancelBooking() {
                         <span>{formattedCheckOut} </span>
                       </div>
                       <div className="mt-2">
-                        <span>{cancelBooking.room_details.person} Guests</span>
+                        <span>{cancelBooking.amount_stay} Guests</span>
                       </div>
                     </div>
                   </div>

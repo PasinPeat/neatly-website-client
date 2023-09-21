@@ -21,6 +21,9 @@ function Refund() {
     check_out: "",
     total_price_add_reqs: "",
     amount_stay: "",
+    room_avaliable: {
+      room_avaliable_id: "",
+    },
   });
 
   const [checkIn, setCheckIn] = useState("");
@@ -46,7 +49,7 @@ function Refund() {
   const updateData = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:4000/booking/${bookId}`,
+        `http://localhost:4000/booking/cancel/${bookId}`,
         { ...cancelBooking }
       );
       console.log(response.data);
@@ -120,9 +123,9 @@ function Refund() {
                   <div>
                     <div className="w-[357px] h-[210px] rounded bg-cover bg-center">
                       <img
-                        src={cancelBooking.room_details.room_images[0]}
+                        src={cancelBooking.room_details.room_images[2]}
                         alt="Room"
-                        className="rounded"
+                        className="rounded w-[357px] h-[210px]"
                       />
                     </div>
                   </div>

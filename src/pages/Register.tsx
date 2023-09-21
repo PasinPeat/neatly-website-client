@@ -3,6 +3,14 @@ import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import dayjs from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { Stack } from "@mui/material";
+// import { TextField } from "@mui/material";
 
 function Register() {
   const navigate = useNavigate();
@@ -311,6 +319,18 @@ function Register() {
       });
   }, []);
 
+  // const classes = useStyles();
+  const theme = createTheme({
+    components: {},
+    palette: {
+      primary: {
+        main: "#E76B39",
+        light: "#E76B39",
+        dark: "#E76B39",
+      },
+    },
+  });
+
   return (
     <div className="flex flex-col items-center w-screen bg-coverRegister bg-cover">
       <Navbar />
@@ -428,37 +448,72 @@ function Register() {
                 </>
               )}
             </div>
-
             <div className="relative">
               <label htmlFor="birthDate">
                 <p className="font-body1 text-gray-900 text-start">
                   Date of Birth
                 </p>
               </label>
-              <input
-                type="date"
-                id="birthDate"
-                value={birthDay}
-                name="birthDate"
-                onChange={(e) => {
-                  const cleanedValue = e.target.value
-                    .replace(/[^0-9-]/g, "")
-                    .substring(0, 10);
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Stack
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        // borderColor: "#D6D9E4",
+                        borderColor: birthDayError && "#B61515",
+                        borderWidth: birthDayError && "2px",
+                        borderRadius: "3px",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#E76B39",
+                      },
+                      "&.Mui-focused.Mui-error fieldset": {
+                        borderColor: "#E76B39 !important",
+                      },
+                    },
+                    "& .MuiInputBase-root.Mui-error": {
+                      color: "#FFFFFF !important",
+                    },
 
-                  setBirthDay(cleanedValue);
-                }}
-                placeholder="Select your date of birth"
-                maxLength={10}
-                className={`w-[100%] Input focus:outline-none focus:border-orange-500 ${
-                  birthDayError ? "border-[#B61515]" : "focus:outline-none"
-                }`}
-                required
-              />
-              {birthDayError && (
-                <span className="text-body3 text-red absolute left-0 -bottom-5">
-                  You must be at least 18 years old to register.
-                </span>
-              )}
+                    "& .MuiOutlinedInput-root.Mui-error": {
+                      "& fieldset": {
+                        borderColor: "#D6D9E4 !important",
+                        borderWidth: "2px",
+                      },
+                    },
+                    "& .MuiInputBase-input": {
+                      padding: "12px",
+                      width: "325px",
+                      fontFamily: "inter",
+                      background: "#FFF",
+                      color: "#2A2E3F",
+                    },
+                  }}
+                >
+                  <DemoContainer components={["DatePicker"]}>
+                    <ThemeProvider theme={theme}>
+                      <DatePicker
+                        showDaysOutsideCurrentMonth
+                        fixedWeekNumber={6}
+                        value={birthDay}
+                        format="YYYY-MM-DD"
+                        disableFuture
+                        onChange={(selectedDate) => {
+                          const formattedDate =
+                            dayjs(selectedDate).format("YYYY-MM-DD");
+                          setBirthDay(formattedDate);
+                        }}
+                        slotProps={{ textField: { size: "medium" } }}
+                      />
+                    </ThemeProvider>
+                  </DemoContainer>
+                </Stack>
+                {birthDayError && (
+                  <span className="text-body3 text-red absolute left-0 -bottom-5">
+                    You must be at least 18 years old to register.
+                  </span>
+                )}
+              </LocalizationProvider>
             </div>
 
             <div className="relative">

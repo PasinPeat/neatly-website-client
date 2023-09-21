@@ -5,6 +5,13 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../contexts/authen";
 import jwtDecode from "jwt-decode";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import dayjs from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { Stack } from "@mui/material";
 
 interface RouteParams {
   profileID: string;
@@ -301,14 +308,32 @@ function Profile() {
     }
   };
 
+  // const handleChange = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  // ) => {
+  //   const { name, value } = e.target;
+  //   setUser({
+  //     ...user,
+  //     [name]: value,
+  //   });
+  // };
+
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> | string,
+    targetProperty?: string
   ) => {
-    const { name, value } = e.target;
-    setUser({
-      ...user,
-      [name]: value,
-    });
+    if (typeof e === "string") {
+      setUser((prevUser) => ({
+        ...prevUser,
+        [e]: targetProperty || "",
+      }));
+    } else {
+      const { name, value } = e.target;
+      setUser((prevUser) => ({
+        ...prevUser,
+        [name]: value,
+      }));
+    }
   };
 
   useEffect(() => {
@@ -330,6 +355,18 @@ function Profile() {
         console.error("Error fetching data: ", error);
       });
   }, []);
+
+  // theme date picker
+  const theme = createTheme({
+    components: {},
+    palette: {
+      primary: {
+        main: "#E76B39",
+        light: "#E76B39",
+        dark: "#E76B39",
+      },
+    },
+  });
 
   return (
     <div className="flex flex-col items-center w-screen  bg-bg">
@@ -370,7 +407,7 @@ function Profile() {
               }`}
               value={user.fullName}
               onChange={(e) => {
-                handleChange(e);
+                handleChange(e, "fullName");
                 validateFullName(e.target.value);
               }}
               required
@@ -407,7 +444,8 @@ function Profile() {
                   emailError ? "border-[#B61515]" : "focus:outline-none"
                 }`}
                 value={user.email}
-                onChange={handleChange}
+                // onChange={handleChange}
+                onChange={(e) => handleChange(e, "email")}
                 required
               />
               {emailError && (
@@ -426,31 +464,73 @@ function Profile() {
                 </>
               )}
             </div>
-            <div className="relative">
-              <label htmlFor="birthday">
-                <p className="font-body1 text-gray-900 mt-[38px] mb-[4px]">
+            <div className="relative pt-[34px]">
+              <label htmlFor="birthDate">
+                <p className="font-body1 text-gray-900 text-start">
                   Date of Birth
                 </p>
               </label>
-              <input
-                id="birthday"
-                type="date"
-                name="birthDate"
-                placeholder="Select your date of birth"
-                maxLength={10}
-                className={`Input w-[453px] text-black focus:outline-none focus:border-orange-500 ${
-                  birthDayError ? "border-[#B61515]" : "focus:outline-none"
-                }`}
-                value={user.birthDate}
-                onChange={handleChange}
-                required
-              />
-              {birthDayError && (
-                <span className="text-body3 text-red absolute left-0 -bottom-5">
-                  You must be at least 18 years old to register.
-                </span>
-              )}
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Stack
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: birthDayError && "#B61515",
+                        borderWidth: birthDayError && "2px",
+                        borderRadius: "3px",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#E76B39",
+                      },
+                      "&.Mui-focused.Mui-error fieldset": {
+                        borderColor: "#E76B39 !important",
+                      },
+                    },
+                    "& .MuiInputBase-root.Mui-error": {
+                      color: "#FFFFFF !important",
+                    },
+
+                    "& .MuiOutlinedInput-root.Mui-error": {
+                      "& fieldset": {
+                        borderColor: "#D6D9E4 !important",
+                        borderWidth: "2px",
+                      },
+                    },
+                    "& .MuiInputBase-input": {
+                      padding: "15px 12px 15px 12px",
+                      width: "380px",
+                      fontFamily: "inter",
+                      background: "#FFF",
+                      color: "#2A2E3F",
+                    },
+                  }}
+                >
+                  <DemoContainer components={["DatePicker"]}>
+                    <ThemeProvider theme={theme}>
+                      <DatePicker
+                        showDaysOutsideCurrentMonth
+                        fixedWeekNumber={6}
+                        value={dayjs(user.birthDate)}
+                        format="YYYY-MM-DD"
+                        disableFuture
+                        onChange={(selectedDate) => {
+                          const formattedDate =
+                            dayjs(selectedDate).format("YYYY-MM-DD");
+                          handleChange("birthDate", formattedDate);
+                        }}
+                        slotProps={{ textField: { size: "medium" } }}
+                      />
+                    </ThemeProvider>
+                  </DemoContainer>
+                </Stack>
+                {birthDayError && (
+                  <span className="text-body3 text-red absolute left-0 -bottom-5">
+                    You must be at least 18 years old to register.
+                  </span>
+                )}
+              </LocalizationProvider>
             </div>
+
             <div className="relative">
               <label htmlFor="idNumber">
                 <p className="font-body1 text-gray-900 mt-[38px] mb-[4px]">
@@ -470,7 +550,8 @@ function Profile() {
                     : "focus:outline-none"
                 }`}
                 value={user.idNumber}
-                onChange={handleChange}
+                // onChange={handleChange}
+                onChange={(e) => handleChange(e, "idNumber")}
                 required
               />
               {idNumberError && (
@@ -553,25 +634,25 @@ function Profile() {
                 <div className="relative">
                   <label htmlFor="upload">
                     <div
-                      className={`w-[197px] h-[167px] bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center border-2 hover:border-orange-500 active:border-orange-700 ${
+                      className={`w-[167px] h-[167px] bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center border-2 active:border-orange-700 ${
                         invalidFile ? "border-[#B61515]" : "focus:outline-none"
                       }`}
                     >
                       {user.profile_image ? (
                         <img
-                          className="w-[197px] h-[167px] rounded object-cover"
+                          className="w-[167px] h-[167px] rounded object-cover"
                           src={user.profile_image}
                           alt="Profile"
                         />
                       ) : (
-                        <>
+                        <div className="w-[167px] h-[167px] flex flex-col justify-center items-center border-2 rounded  transition border-gray-200 hover:border-orange-500">
                           <p className="text-orange-500 text-[30px] font-medium text-center">
                             +
                           </p>
                           <p className="text-orange-500 text-sm font-medium text-center">
                             Upload photo
                           </p>
-                        </>
+                        </div>
                       )}
                       <input
                         id="upload"
@@ -586,7 +667,7 @@ function Profile() {
                   </label>
                   {user.profile_image && (
                     <button
-                      className="h-[24px] w-[24px] rounded-full bg-[#B61515] flex items-center justify-center absolute -top-2 -right-2 hover:bg-orange-700 active:bg-orange-800"
+                      className="h-[24px] w-[24px] text-white rounded-full bg-[#B61515] flex items-center justify-center absolute -top-2 -right-2 hover:bg-orange-700 active:bg-orange-800"
                       onClick={() => {
                         setUser({ ...user, profile_image: "" });
                       }}
@@ -601,15 +682,15 @@ function Profile() {
                 return (
                   <div
                     key={avatarKey}
-                    className="w-[197px] h-[167px] mb-[25px]relative"
+                    className="w-[167px] h-[167px]  mb-[25px] relative"
                   >
                     <img
-                      className="w-[197px] h-[167px] rounded object-cover"
+                      className="w-[167px] h-[167px]  rounded object-cover"
                       src={URL.createObjectURL(file)}
                       alt={file.name}
                     />
                     <button
-                      className="h-[24px] w-[24px] rounded-full bg-[#B61515] flex items-center justify-center absolute -mt-[181px] ml-[180px] hover:bg-orange-700 active:bg-orange-800"
+                      className="h-[24px] w-[24px] text-white rounded-full bg-[#B61515] flex items-center justify-center absolute -mt-[176px] ml-[154px] hover:bg-orange-700 active:bg-orange-800"
                       onClick={() => handleRemoveImage(avatarKey)}
                     >
                       X
