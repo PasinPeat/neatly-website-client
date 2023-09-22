@@ -25,10 +25,13 @@ function RoomResultCard({
   const userInput = context.userInput;
   const setUserInput = context.setUserInput;
 
-  let isAvailable = available === 0;
+  let isAvailable = available === 0 || userInput.person > person;
 
   if (userInput) {
-    isAvailable = available > 0 && userInput.room <= available;
+    isAvailable =
+      available > 0 &&
+      userInput.room <= available &&
+      userInput.person <= person;
   }
 
   const backgroundImage = {
