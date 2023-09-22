@@ -3,9 +3,11 @@ import { useContext, useEffect } from "react";
 import { RoomsContext } from "../../App.tsx";
 import { PaymentContext } from "../../pages/Payment.tsx";
 import { useAuth } from "../../contexts/authen.jsx";
+import { useNavigate } from "react-router-dom";
 
 function ReviewPayment({ selectedPayment, lastThreeCardNumber }) {
   const auth = useAuth();
+  const navigate = useNavigate();
 
   const roomsContext = useContext(RoomsContext);
   const userInput = roomsContext.userInput;
@@ -166,11 +168,17 @@ function ReviewPayment({ selectedPayment, lastThreeCardNumber }) {
       </div>
       {/* Button */}
       <div className="flex gap-10 pt-14 justify-center items-center">
-        <Link to={`/booking/user/${auth.state.userData.id}`}>
-          <button className="text-orange-500 text-base font-semibold">
-            Check Booking Detail
-          </button>
-        </Link>
+        {/* <Link to={`/booking/user/${auth.state.userData.id}`}> */}
+        <button
+          className="text-orange-500 text-base font-semibold"
+          onClick={() => {
+            navigate(`/booking/user/${auth.state.userData.id}`);
+            window.location.reload();
+          }}
+        >
+          Check Booking Detail
+        </button>
+        {/* </Link> */}
         <Link to="/">
           <button className="Button px-8 py-4 w-48">Back to Home</button>
         </Link>
