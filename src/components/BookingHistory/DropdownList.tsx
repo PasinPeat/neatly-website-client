@@ -105,7 +105,11 @@ function DropDownList({
               {special &&
                 special.map((item: string, index: number) => (
                   <div className="flex justify-between w-full py-2" key={index}>
-                    <p className="text-body1">{item}</p>
+                    <p className="text-body1">
+                      {roomAmount}
+                      <span className="px-2">x</span>
+                      {item}
+                    </p>
                     <p className="text-body1 font-bold text-black">
                       {parseFloat(
                         addSpecialReqPrice(item) * roomAmount
