@@ -79,7 +79,7 @@ function Admin() {
       <div className="flex ">
         <div className=" h-screen w-1/7 bg-green-800  flex flex-col items-center">
           <Drawer variant="permanent" open={open} sx={DrawerSx}>
-            <div className="bg-green-800 flex flex-col items-center">
+            <div className="bg-green-800 flex flex-col items-center pb-[70px]">
               <img
                 src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/logo%20white.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvbG9nbyB3aGl0ZS5zdmciLCJpYXQiOjE2OTM1NjEyOTUsImV4cCI6MTcyNTA5NzI5NX0.rsBAS_CgCAh-wxK9ATUoNXQHhksFXHD2-ETG5s-Ruio&t=2023-09-01T09%3A41%3A34.755Z"
                 alt="Logo"
@@ -99,7 +99,8 @@ function Admin() {
                 handleHotelInfo={handleHotelInfo}
                 handleRoomandProperty={handleRoomandProperty}
               />
-              <Divider sx={{ my: 1 }} />
+              
+              
             </List>
           </Drawer>
         </div>
