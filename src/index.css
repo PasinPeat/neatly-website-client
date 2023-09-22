@@ -47,7 +47,7 @@
     @apply relative w-4 h-4 bg-white text-orange-500  rounded-full border border-solid border-orange-500;
   }
   .Disabled-select {
-    @apply rounded p-3 bg-white border-gray-400 cursor-not-allowed text-body1 w-full; /* Change this to your desired text color */
+    @apply rounded p-3 bg-whit e border-gray-400 cursor-not-allowed text-body1 w-full; /* Change this to your desired text color */
   }
 }
 

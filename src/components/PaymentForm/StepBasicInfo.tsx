@@ -111,7 +111,7 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
                 Country
               </p>
             </label>
-            <select className="select Disabled-select" disabled>
+            <select className="select  Disabled-select  bg-white " disabled>
               <option value={country}>{country}</option>
             </select>
           </div>
