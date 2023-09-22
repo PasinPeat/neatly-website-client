@@ -98,7 +98,7 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
               sx={{
                 "& input": {
                   padding: "14px",
-                  width: "584px",
+                  width: "580px",
                   fontFamily: "inter",
                 },
               }}
