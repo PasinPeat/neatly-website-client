@@ -13,6 +13,8 @@ function AuthProvider(props) {
     user: null,
     userData: null,
   });
+
+  const navigate = useNavigate();
   // useEffect(() => {
   //   // Check for a token in local storage
   //   const token = localStorage.getItem("token");
@@ -108,23 +110,33 @@ function AuthProvider(props) {
 
   // make a login request
   const login = async (data) => {
-    const result = await axios.post("http://localhost:4000/auth/login", data);
-    const token = result.data.token;
-    localStorage.setItem("token", token);
-    const userData = result.data.userData;
-    const userDataFromToken = jwtDecode(token);
-    console.log(userDataFromToken);
-    setState({
-      ...state,
-      user: userDataFromToken,
-      userData: userData,
-    });
+    try {
+      const result = await axios.post(`http://localhost:4000/auth/login`, data);
+      const token = result.data.token;
+      const role = result.data.userData.role;
+      console.log(token);
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+      const userData = result.data.userData;
+      const userDataFromToken = jwtDecode(token);
+      setState({ ...state, user: userDataFromToken, userData: userData });
+      if (role === "admin") {
+        navigate("/");
+        window.location.reload();
+      } else {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userInput");
+    localStorage.removeItem("role");
     setState({ ...state, user: null, error: null });
+    navigate("/");
   };
 
   const isAuthenticated = Boolean(localStorage.getItem("token"));
