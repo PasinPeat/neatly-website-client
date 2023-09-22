@@ -32,7 +32,7 @@ function Admin() {
       borderColor: "#2F3E35",
     },
     "& .MuiListItemIcon-root": {
-      minWidth:30,
+      minWidth:37,
     },
   }));
 
