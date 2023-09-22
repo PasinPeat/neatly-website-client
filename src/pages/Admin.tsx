@@ -31,6 +31,9 @@ function Admin() {
     "& .MuiPaper-root": {
       borderColor: "#2F3E35",
     },
+    "& .MuiListItemIcon-root": {
+      minWidth:30,
+    },
   }));
 
   const [customerBooking, setCustomerBooking] = useState(true);

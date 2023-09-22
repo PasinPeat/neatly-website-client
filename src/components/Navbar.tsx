@@ -110,9 +110,10 @@ function Navbar() {
                 <li>
                   <button
                     className="py-2"
-                    onClick={() =>
-                      navigate(`/booking/user/${auth.state.userData.id}`)
-                    }
+                    onClick={() => {
+                      navigate(`/booking/user/${auth.state.userData.id}`);
+                      window.location.reload();
+                    }}
                   >
                     <img
                       className="w-4 h-4"

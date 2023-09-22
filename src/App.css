@@ -7,6 +7,11 @@
 body {
   font-family: inter;
 }
+
+.table-lg :where(td) {
+  color: black;
+}
+
 #swiper-color {
   position: relative;
 }

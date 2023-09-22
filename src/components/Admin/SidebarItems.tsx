@@ -6,6 +6,7 @@ import Divider from "@mui/material/Divider";
 
 function SidebarItems(props) {
   const TextSx = {
+    
     color: "#D5DFDA",
     fontSize: 34,
     fontWeight: "medium",

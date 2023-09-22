@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import HistoryCard from "../components/BookingHistory/HistoryCard";
 import Footer from "../components/Footer";
