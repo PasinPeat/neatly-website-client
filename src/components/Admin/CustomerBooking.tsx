@@ -58,6 +58,10 @@ function createData(
 function CustomerBooking() {
   const [booking, setBooking] = useState([]);
 
+  const [filterBookingList, setFilterBookingList] = useState(booking);
+
+  const [selectedByText, setSelectedByText] = useState("");
+
   const getBooking = async () => {
     try {
       const results = await axios(`http://localhost:4000/booking/`);
@@ -69,11 +73,54 @@ function CustomerBooking() {
     }
   };
 
+  const pattern = new RegExp(selectedByText, "i");
+  const filterByName = (filteredData) => {
+    if (!selectedByText) {
+      return filteredData;
+    }
+
+    const filteredBookings = filteredData.filter(
+      // (book) => book.users.fullName.includes(selectedByText)
+      (book) => pattern.test(book.users.fullName)
+    );
+    return filteredBookings;
+  };
+
+  // const filterByRoomType = (filteredData) => {
+  //   if (!selectedByText) {
+  //     return filteredData;
+  //   }
+  //   const filteredBookings = filteredData.filter(
+  //     (book) =>
+  //       book.room_details.room_type.split(" ").indexOf(selectedByText) !==
+  //       -1
+  //   );
+  //   return filteredBookings;
+  // };
+
+  const handleNameChange = (event: Event) => {
+    setSelectedByText(event.target.value);
+  };
+  // const handleRoomTypeChange = (event: Event) => {
+  //   setSelectedByText(event.target.value);
+  // };
+
+  const handleInputChange = (event: Event) => {
+    handleNameChange(event);
+    // handleRoomTypeChange(event);
+  };
+
   useEffect(() => {
     getBooking();
   }, []);
 
-  const rows = booking.map((book) => {
+  useEffect(() => {
+    let filteredData = filterByName(booking);
+    // filteredData = filterByRoomType(filteredData)
+    setFilterBookingList(filteredData);
+  }, [selectedByText]);
+
+  const rows = filterBookingList.map((book) => {
     return createData(
       book.users.fullName,
       book.amount_stay,
@@ -92,6 +139,8 @@ function CustomerBooking() {
         <div>
           <FormControl>
             <OutlinedInput
+              value={selectedByText}
+              onChange={handleInputChange}
               placeholder="Search…"
               size="small"
               id="input-with-icon-adornment"
