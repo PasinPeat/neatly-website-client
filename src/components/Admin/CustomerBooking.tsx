@@ -123,9 +123,6 @@ export default function CustomPaginationActionsTable() {
 
   const pattern = new RegExp(selectedByText, "i");
   const filterByName = (filteredData) => {
-    if (!selectedByText) {
-      return booking;
-    }
     const filteredBookings = filteredData.filter((book) =>
       pattern.test(book.users.fullName)
     );
@@ -133,37 +130,30 @@ export default function CustomPaginationActionsTable() {
   };
 
   const filterByRoomType = (filteredData) => {
-    if (!selectedByText) {
-      return booking;
-    }
     const filteredBookings = filteredData.filter((book) =>
       pattern.test(book.room_details.room_type)
     );
     return filteredBookings;
   };
 
-  const handleNameChange = (event: Event) => {
-    setSelectedByText(event.target.value);
-  };
-  const handleRoomTypeChange = (event: Event) => {
-    setSelectedByText(event.target.value);
-  };
-
   const handleInputChange = (event: Event) => {
-    handleNameChange(event);
-    handleRoomTypeChange(event);
+    setSelectedByText(event.target.value)
   };
 
   useEffect(() => {
     getBooking();
-    // setFilterBookingList(booking)
   }, []);
 
   useEffect(() => {
-    let filteredData1 = filterByName(booking);
-    let filteredData2 = filterByRoomType(booking);
-    let combinedData = [...filteredData1, ...filteredData2];
-    setFilterBookingList(combinedData);
+    if (selectedByText) {
+      let filteredData1 = filterByName(booking);
+      let filteredData2 = filterByRoomType(booking);
+      let combinedData = [...filteredData1, ...filteredData2];
+      setFilterBookingList(combinedData);
+    }
+    if (!selectedByText) {
+      setFilterBookingList(booking);
+    }
   }, [selectedByText]);
 
   let isCancelled;
