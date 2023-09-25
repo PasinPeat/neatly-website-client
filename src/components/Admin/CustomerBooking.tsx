@@ -1,4 +1,3 @@
-import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,6 +11,9 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
 import { ClassNames } from "@emotion/react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import dayjs from "dayjs";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -53,50 +55,63 @@ function createData(
   return { customerName, guest, roomType, amount, bedType, checkIn, checkOut };
 }
 
-const rows = [
-  createData(
-    "Kate Cho",
-    2,
-    "Superior Garden View",
-    1,
-    "Single Bed",
-    "Th, 19 Oct 2022",
-    "Th, 19 Oct 2022"
-  ),
-];
-
 function CustomerBooking() {
+  const [booking, setBooking] = useState([]);
+
+  const getBooking = async () => {
+    try {
+      const results = await axios(`http://localhost:4000/booking/`);
+
+      setBooking(results.data.data);
+      console.log(results.data.data);
+    } catch (error) {
+      console.error("Error fetching room data:", error);
+    }
+  };
+
+  useEffect(() => {
+    getBooking();
+  }, []);
+
+  const rows = booking.map((book) => {
+    return createData(
+      book.users.fullName,
+      book.amount_stay,
+      book.room_details.room_type,
+      book.amount_room,
+      book.room_details.bed_types,
+      book.check_in,
+      book.check_out
+    );
+  });
+
   return (
-    <>
-   
-      <div className=" w-full">
-         {/* navbar field*/}
-        <div className="bg-white h-20 min-w-[1295px] w-full flex flex-row items-center drop-shadow-md">
-          <div className="flex flex-row w-full justify-between items-center pl-16 pr-7">
-            <p className=" text-black font-bold">Customer Booking</p>
-            <div>
-              <FormControl>
-                <OutlinedInput
-                  placeholder="Search…"
-                  size="small"
-                  id="input-with-icon-adornment"
-                  inputProps={{
-                    "aria-label": "weight",
-                  }}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </div>
-          </div>
+    <div>
+      <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
+        <p className=" text-black font-bold">Customer Booking</p>
+        <div>
+          <FormControl>
+            <OutlinedInput
+              placeholder="Search…"
+              size="small"
+              id="input-with-icon-adornment"
+              inputProps={{
+                "aria-label": "weight",
+              }}
+              startAdornment={
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              }
+            />
+          </FormControl>
         </div>
-        {/* table field*/}
-        <div className="bg-gray-100 w-full py-16 px-12">
+      </div>
+      {/* table field*/}
+      <div className="bg-gray-100 px-16 py-12">
+        <Paper sx={{ overflow: "hidden" }}>
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <Table sx={{ maxHeight: 1000 }} aria-label="customized table ">
               <TableHead>
                 <TableRow>
                   <StyledTableCell>Customer</StyledTableCell>
@@ -125,9 +140,9 @@ function CustomerBooking() {
               </TableBody>
             </Table>
           </TableContainer>
-        </div>
+        </Paper>
       </div>
-    </>
+    </div>
   );
 }
 
