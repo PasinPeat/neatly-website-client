@@ -14,6 +14,7 @@ import { ClassNames } from "@emotion/react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -50,22 +51,22 @@ function createData(
   promotion: number,
   guest: number,
   bedType: string,
-  roomArea: number
+  roomArea: number,
+  roomId: number
 ) {
-  return { image, type, price, promotion, guest, bedType, roomArea };
+  return { image, type, price, promotion, guest, bedType, roomArea, roomId };
 }
 
 function RoomAndProperty() {
-  const [createCheck, setCreateCheck] = useState(false);
   const [rooms, setRooms] = useState([]);
   const [inputEnabled, setInputEnabled] = useState(false);
+  const [showPage, setShowPage] = useState(null);
+  const [singleRoom, setSingleRoom] = useState({});
 
   const getRooms = async () => {
     try {
       const results = await axios(`http://localhost:4000/room/`);
-
       setRooms(results.data.data);
-      console.log(results.data.data);
     } catch (error) {
       console.error("Error fetching room data:", error);
     }
@@ -75,6 +76,10 @@ function RoomAndProperty() {
     getRooms();
   }, []);
 
+  useEffect(() => {
+    setShowPage(InitialData);
+  }, [rooms]);
+
   const rows = rooms.map((room) => {
     return createData(
       room.room_images[0],
@@ -83,14 +88,45 @@ function RoomAndProperty() {
       room.promotion_price,
       room.person,
       room.bed_types,
-      room.area
+      room.area,
+      room.room_id
     );
   });
+
   const handleCheckboxChange = () => {
     setInputEnabled(!inputEnabled);
   };
 
-  const createCheckFalse = (
+  const fetchUpdateHandler = async (number) => {
+    try {
+      const results = await axios.get(`http://localhost:4000/room/${number}`);
+      setSingleRoom(results.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateRoomHandler = async (id) => {
+    try {
+      await axios.put(`http//localhost:4000/room/${id}`, singleRoom);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // const createRoomHandler= async (id) => {
+  //   try {
+  //     await axios.post(`http//localhost:4000/room/${id}`, data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  useEffect(() => {
+    setShowPage(updateRoom);
+  }, [singleRoom]);
+
+  const InitialData = (
     <>
       <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
         <p className=" text-black font-bold">Room & Property</p>
@@ -112,7 +148,7 @@ function RoomAndProperty() {
           </FormControl>
           <button
             onClick={() => {
-              setCreateCheck(true);
+              setShowPage(createRoom);
             }}
             className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center drop-shadow-md ml-3 rounded-md px-4 "
           >
@@ -138,7 +174,12 @@ function RoomAndProperty() {
               </TableHead>
               <TableBody>
                 {rows.map((row) => (
-                  <StyledTableRow>
+                  <StyledTableRow
+                    className="cursor-pointer"
+                    onClick={() => {
+                      fetchUpdateHandler(row.roomId);
+                    }}
+                  >
                     <StyledTableCell component="th" scope="row">
                       <img
                         src={row.image}
@@ -174,14 +215,14 @@ function RoomAndProperty() {
     </>
   );
 
-  const createCheckTrue = (
+  const createRoom = (
     <>
       <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
         <p className=" text-black font-bold">Create New Room</p>
         <div>
           <button
             onClick={() => {
-              setCreateCheck(false);
+              setShowPage(InitialData);
             }}
             className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center drop-shadow-md ml-3 rounded-[5px] px-6 "
           >
@@ -189,7 +230,7 @@ function RoomAndProperty() {
           </button>
           <button
             // onClick={() => {
-            //   createRoom();
+            //   createRoomHandler();
             // }}
             className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center drop-shadow-md ml-3 rounded-[5px] px-6 "
           >
@@ -344,8 +385,219 @@ function RoomAndProperty() {
     </>
   );
 
+  const updateRoom = (
+    <>
+      <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
+        <p className=" text-black font-bold">
+          <button
+            onClick={() => {
+              setShowPage(InitialData);
+            }}
+          >
+            backback
+          </button>
+          <div>{singleRoom.room_type}</div>
+        </p>
+        <div>
+          <button
+            onClick={() => {
+              updateRoomHandler(singleRoom.room_id);
+            }}
+            className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center drop-shadow-md ml-3 rounded-[5px] px-6 "
+          >
+            Update
+          </button>
+        </div>
+      </div>
+      {/* table field*/}
+      <div className="bg-gray-100 px-16 py-12">
+        {" "}
+        <Paper sx={{ overflow: "hidden" }}>
+          <div className=" flex flex-col justify-center items-start p-20 ">
+            <p className="text-gray-600 text-headline5 pb-10">
+              Basic Information
+            </p>
+            <form
+              className="w-full"
+              // onSubmit={(event) => {
+              //   handleSubmit(event);
+              // }}
+            >
+              <div className="relative pb-5">
+                <label htmlFor="fname">
+                  <p className="font-body1 text-start">Room Type *</p>
+                </label>
+                <input
+                  onChange={(e) => {
+                    setSingleRoom({ ...singleRoom, room_type: e.target.value });
+                  }}
+                  type="text"
+                  id="type"
+                  value={singleRoom.room_type}
+                  name="type"
+                  placeholder=""
+                  className={`text-gray-900 w-full Input focus:outline-none focus:border-orange-500 "focus:outline-none"
+                  }`}
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-10 w-[100%] pb-5">
+                <div className="relative">
+                  <label htmlFor="roomSize">
+                    <p className="font-body1 text-gray-900 text-start">
+                      Room size (sqm) *
+                    </p>
+                  </label>
+                  <input
+                    type="text"
+                    id="roomSize"
+                    name="roomSize"
+                    onChange={(e) => {
+                      setSingleRoom({ ...singleRoom, area: e.target.value });
+                    }}
+                    value={singleRoom.area}
+                    maxLength={2}
+                    placeholder=""
+                    className={`text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500 focus:outline-none"
+                }`}
+                    required
+                  />
+                </div>
+
+                <div className="relative">
+                  <label htmlFor="bedType">
+                    <p className="font-body1 text-gray-900 text-start">
+                      Bed type *
+                    </p>
+                  </label>
+                  <select
+                    name="bedType"
+                    id="bedType"
+                    value={singleRoom.bed_types}
+                    onChange={(e) => {
+                      setSingleRoom({
+                        ...singleRoom,
+                        bed_type: e.target.value,
+                      });
+                    }}
+                    className={`text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500 focus:outline-none"
+                }`}
+                  >
+                    <option>2 Single bed</option>
+                    <option>1 Double bed</option>
+                    <option>2 Double bed</option>
+                  </select>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-10 w-[100%] pb-5">
+                <div className="relative">
+                  <label htmlFor="guest">
+                    <p className="font-body1 text-gray-900 text-start mb-[4px]">
+                      Guest(s) *
+                    </p>
+                  </label>
+                  <select
+                    name="guest"
+                    id="guest"
+                    value={singleRoom.person}
+                    onChange={(e) => {
+                      setSingleRoom({ ...singleRoom, person: e.target.value });
+                    }}
+                    // onChange={(e) => {
+                    //   setGuest(e.target.value);
+                    // }}
+                    className={` text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500 focus:outline-none "
+                }`}
+                  >
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                  </select>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-10 w-[100%] pb-5">
+                <div className="relative">
+                  <label htmlFor="price">
+                    <p className="font-body1 text-gray-900 text-start">
+                      Price per Night(THB) *
+                    </p>
+                  </label>
+                  <input
+                    type="text"
+                    id="price"
+                    name="price"
+                    onChange={(e) => {
+                      setSingleRoom({ ...singleRoom, price: e.target.value });
+                    }}
+                    value={singleRoom.price}
+                    placeholder=""
+                    className={`text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500 focus:outline-none"
+                }`}
+                    required
+                  />
+                </div>
+
+                <div className="grid grid-cols-[5%,20%,75%]  items-center mt-6">
+                  <input
+                    type="checkbox"
+                    id="enableInput"
+                    name="enableInput"
+                    className="bg-white appearance-none border rounded-[5px] h-5 w-5 checked:bg-orange-500  border-gray-600 focus:outline-none"
+                    onChange={handleCheckboxChange}
+                    checked={inputEnabled}
+                  />
+                  <label htmlFor="bedType">
+                    <p className="font-body1 text-gray-900 ">Promotion Price</p>
+                  </label>
+                  <input
+                    type="text"
+                    id="bedType"
+                    value={singleRoom.promotion_price}
+                    onChange={(e) => {
+                      setSingleRoom({
+                        ...singleRoom,
+                        promotion_price: e.target.value,
+                      });
+                    }}
+                    name="bedType"
+                    placeholder=""
+                    className={`text-gray-900 Input focus:outline-none focus:border-orange-500 focus:outline-none ${
+                      inputEnabled ? "bg-gray-300 pointer-events-none" : ""
+                    }`}
+                    disabled={!inputEnabled}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <label
+                  htmlFor="additionRequest"
+                  className="text-gray-900 text-body1"
+                >
+                  Room Description *
+                </label>
+                <textarea
+                  name="additionRequest"
+                  id="additionRequest"
+                  value={singleRoom.description}
+                  // onChange={}
+                  className="h-26 w-full pt-3 px-3 pb-10  rounded bg-white border-2 border-gray-400 resize-none hover:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 "
+                ></textarea>
+              </div>
+              <div className="border-b-[1px] border-gray-500 w-[100%] my-10"></div>
+              <p className="text-gray-600 text-headline5 pb-10">Room Image</p>
+              <div className="border-b-[1px] border-gray-500 w-[100%] my-10"></div>
+              <p className="text-gray-600 text-headline5 pb-10">Room Amenity</p>
+              <div className="border-b-[1px] border-gray-500 w-[100%]"></div>
+            </form>
+          </div>
+        </Paper>
+      </div>
+    </>
+  );
+
   return (
-    <div>{createCheck === false ? createCheckFalse : createCheckTrue}</div>
+    <>
+      <div>{showPage}</div>
+    </>
   );
 }
 
