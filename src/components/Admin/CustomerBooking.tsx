@@ -257,6 +257,7 @@ export default function CustomPaginationActionsTable() {
                 onChange={handleInputChange}
                 placeholder="Search…"
                 size="small"
+                color="warning"
                 id="input-with-icon-adornment"
                 inputProps={{
                   "aria-label": "weight",
