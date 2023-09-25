@@ -32,7 +32,7 @@ function Admin() {
       borderColor: "#2F3E35",
     },
     "& .MuiListItemIcon-root": {
-      minWidth:37,
+      minWidth: 37,
     },
   }));
 
@@ -79,8 +79,8 @@ function Admin() {
 
   return (
     <>
-      <div className="flex ">
-        <div className=" h-screen w-1/7 bg-green-800  flex flex-col items-center">
+      <div className="flex h-screen w-screen">
+        <div className="w-1/7 bg-green-800 flex flex-col items-center">
           <Drawer variant="permanent" open={open} sx={DrawerSx}>
             <div className="bg-green-800 flex flex-col items-center pb-[70px]">
               <img
@@ -102,16 +102,15 @@ function Admin() {
                 handleHotelInfo={handleHotelInfo}
                 handleRoomandProperty={handleRoomandProperty}
               />
-              
-              
             </List>
           </Drawer>
         </div>
-
-        {customerBooking && <CustomerBooking />}
-        {roomManage && <RoomManagement />}
-        {hotelInfo && <HotelInformation />}
-        {roomandProperty && <RoomAndProperty />}
+        <div className="w-full">
+          {customerBooking && <CustomerBooking />}
+          {roomManage && <RoomManagement />}
+          {hotelInfo && <HotelInformation />}
+          {roomandProperty && <RoomAndProperty />}
+        </div>
       </div>
     </>
   );
