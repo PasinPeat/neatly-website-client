@@ -57,9 +57,7 @@ function createData(
 
 function CustomerBooking() {
   const [booking, setBooking] = useState([]);
-
   const [filterBookingList, setFilterBookingList] = useState(booking);
-
   const [selectedByText, setSelectedByText] = useState("");
 
   const getBooking = async () => {
@@ -76,48 +74,46 @@ function CustomerBooking() {
   const pattern = new RegExp(selectedByText, "i");
   const filterByName = (filteredData) => {
     if (!selectedByText) {
-      return filteredData;
+      return booking;
     }
-
-    const filteredBookings = filteredData.filter(
-      // (book) => book.users.fullName.includes(selectedByText)
-      (book) => pattern.test(book.users.fullName)
+    const filteredBookings = filteredData.filter((book) =>
+      pattern.test(book.users.fullName)
     );
     return filteredBookings;
   };
 
-  // const filterByRoomType = (filteredData) => {
-  //   if (!selectedByText) {
-  //     return filteredData;
-  //   }
-  //   const filteredBookings = filteredData.filter(
-  //     (book) =>
-  //       book.room_details.room_type.split(" ").indexOf(selectedByText) !==
-  //       -1
-  //   );
-  //   return filteredBookings;
-  // };
+  const filterByRoomType = (filteredData) => {
+    if (!selectedByText) {
+      return booking;
+    }
+    const filteredBookings = filteredData.filter((book) =>
+      pattern.test(book.room_details.room_type)
+    );
+    return filteredBookings;
+  };
 
   const handleNameChange = (event: Event) => {
     setSelectedByText(event.target.value);
   };
-  // const handleRoomTypeChange = (event: Event) => {
-  //   setSelectedByText(event.target.value);
-  // };
+  const handleRoomTypeChange = (event: Event) => {
+    setSelectedByText(event.target.value);
+  };
 
   const handleInputChange = (event: Event) => {
     handleNameChange(event);
-    // handleRoomTypeChange(event);
+    handleRoomTypeChange(event);
   };
 
   useEffect(() => {
     getBooking();
+    // setFilterBookingList(booking)
   }, []);
 
   useEffect(() => {
-    let filteredData = filterByName(booking);
-    // filteredData = filterByRoomType(filteredData)
-    setFilterBookingList(filteredData);
+    let filteredData1 = filterByName(booking);
+    let filteredData2 = filterByRoomType(booking);
+    let combinedData = [...filteredData1, ...filteredData2];
+    setFilterBookingList(combinedData);
   }, [selectedByText]);
 
   const rows = filterBookingList.map((book) => {
