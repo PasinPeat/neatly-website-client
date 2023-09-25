@@ -395,6 +395,8 @@ export default function CustomPaginationActionsTable() {
 
   console.log(rows);
 
+  console.log(rows);
+
   return (
     <div className="bg-gray-100 h-screen">
       {complete ? (
