@@ -14,6 +14,9 @@ function Payment() {
   const [activeStep, setActiveStep] = useState(0);
   const [lastThreeCardNumber, setLastThreeCardNumber] = useState("");
   const [selectedPayment, setSelectedPayment] = useState("credit");
+  const [checkInDate, setCheckInDate] = useState("");
+  const [checkOutDate, setCheckOutDate] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const context = useContext(RoomsContext);
   const [userInput, setUserInput] = useState({});
@@ -32,13 +35,18 @@ function Payment() {
   }, []);
   console.log(userInput);
 
+  useEffect(() => {
+    if (userInput) {
+      setCheckInDate(formattedDate(userInput.checkInDate));
+      setCheckOutDate(formattedDate(userInput.checkOutDate));
+      setTotalPrice(userInput.totalPrice);
+    }
+  }, [userInput]);
+
   /*formatted date*/
   function formattedDate(date: Dayjs | string) {
     return date ? dayjs(date).format("dd, DD-MM-YYYY") : "";
   }
-
-  const checkInDate = formattedDate(userInput.checkInDate);
-  const checkOutDate = formattedDate(userInput.checkOutDate);
 
   useEffect(() => {
     if (context) {
@@ -115,12 +123,12 @@ function Payment() {
   }
 
   /*find total Price*/
-  let totalPriceAfterAddReqs = userInput.totalPrice;
+  let totalPriceAfterAddReqs = totalPrice;
 
   if (selectedSpecial) {
     totalPriceAfterAddReqs = selectedSpecial.reduce(
       (acc, request) => acc + request.price * userInput.room,
-      userInput.totalPrice
+      totalPrice
     );
   }
 
