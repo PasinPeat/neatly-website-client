@@ -3,6 +3,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
+import Stack from '@mui/material/Stack';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authen";
 
@@ -29,7 +30,6 @@ function SidebarItems(props) {
 
   const baseButton = {
     p: 3,
-    mb: 0.3,
     ":hover": {
       bgcolor: "#5D7B6A",
     },
@@ -45,6 +45,7 @@ function SidebarItems(props) {
 
   return (
     <React.Fragment>
+      <Stack spacing={0.4}>
       <ListItemButton
         sx={props.customerBooking ? ButtonSxHilight : ButtonSx}
         onClick={props.handleCustomerBooking}
@@ -73,6 +74,7 @@ function SidebarItems(props) {
         </ListItemIcon>
         <ListItemText sx={TextSx2} primary="Room & Property" />
       </ListItemButton>
+      </Stack>
       <Divider sx={{ mt: 25, bgcolor: "#81A08F" }} />
       <ListItemButton sx={ButtonSx} onClick={() => logoutAndNavigate()}>
         <ListItemIcon>
