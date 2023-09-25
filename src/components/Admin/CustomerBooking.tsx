@@ -159,7 +159,6 @@ export default function CustomPaginationActionsTable() {
     // setFilterBookingList(booking)
   }, []);
 
-<<<<<<< HEAD
   useEffect(() => {
     let filteredData1 = filterByName(booking);
     let filteredData2 = filterByRoomType(booking);
@@ -171,12 +170,6 @@ export default function CustomPaginationActionsTable() {
 
   const rows = filterBookingList.map((book) => {
     isCancelled = filterBookingList.status === "cancel";
-=======
-  let isCancelled;
-
-  const rows = booking.map((book) => {
-    isCancelled = book.status === "cancel";
->>>>>>> b2c7ead6e0d2bcaac714b9f9210a9662c67eb59a
 
     return createData(
       book.users.fullName,
@@ -230,14 +223,7 @@ export default function CustomPaginationActionsTable() {
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme, isCancelled }) => ({
-<<<<<<< HEAD
     backgroundColor: isCancelled && "#000000",
-=======
-    backgroundColor: isCancelled ? "#000000" : theme.palette.action.hover,
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
->>>>>>> b2c7ead6e0d2bcaac714b9f9210a9662c67eb59a
     // hide last border
     "&:last-child td, &:last-child th": {
       border: 0,
@@ -272,11 +258,8 @@ export default function CustomPaginationActionsTable() {
           <div>
             <FormControl>
               <OutlinedInput
-<<<<<<< HEAD
                 value={selectedByText}
                 onChange={handleInputChange}
-=======
->>>>>>> b2c7ead6e0d2bcaac714b9f9210a9662c67eb59a
                 placeholder="Search…"
                 size="small"
                 id="input-with-icon-adornment"
