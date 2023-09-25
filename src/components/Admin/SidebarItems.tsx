@@ -3,8 +3,19 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/authen";
 
 function SidebarItems(props) {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  function logoutAndNavigate() {
+    logout();
+    navigate("/login");
+    window.location.reload();
+  }
+  
   const TextSx = {
     
     color: "#D5DFDA",
@@ -59,6 +70,7 @@ function SidebarItems(props) {
       <Divider sx={{ mt: 25, bgcolor: "#81A08F" }} />
       <ListItemButton
         sx={ButtonSx}
+        onClick={() => logoutAndNavigate()}
         // onClick={props.handleRoomandProperty}
       >
         <ListItemIcon>
