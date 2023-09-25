@@ -224,20 +224,7 @@ export default function CustomPaginationActionsTable() {
 
   const rows = filterBookingList
     .map((book) => {
-      let status;
-
-      if (book.status === "cancel") {
-        status = "Cancelled";
-      } else if (currentDate > book.check_out) {
-        status = "Checked Out";
-      } else if (
-        currentDate >= book.check_in &&
-        book.check_out >= currentDate
-      ) {
-        status = "Ongoing";
-      } else if (currentDate < book.check_in) {
-        status = "Incoming";
-      }
+      isCancelled = filterBookingList.status === "cancel";
 
       return createData(
         book.users.fullName,
