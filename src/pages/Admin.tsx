@@ -75,6 +75,7 @@ function Admin() {
   };
   const ListSx = {
     bgcolor: "#2F3E35",
+    gap: 2
   };
 
   return (

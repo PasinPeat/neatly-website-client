@@ -15,7 +15,7 @@ function SidebarItems(props) {
     navigate("/login");
     window.location.reload();
   }
-  
+
   const TextSx = {
     color: "#D5DFDA",
     fontSize: 34,
@@ -27,12 +27,19 @@ function SidebarItems(props) {
     fontWeight: "medium",
   };
 
-  const ButtonSx = {
+  const baseButton = {
     p: 3,
+    mb: 0.3,
+    ":hover": {
+      bgcolor: "#5D7B6A",
+    },
+  };
+  const ButtonSx = {
+    ...baseButton,
     bgcolor: "#2F3E35",
   };
   const ButtonSxHilight = {
-    p: 3,
+    ...baseButton,
     bgcolor: "#5D7B6A",
   };
 
@@ -67,11 +74,7 @@ function SidebarItems(props) {
         <ListItemText sx={TextSx2} primary="Room & Property" />
       </ListItemButton>
       <Divider sx={{ mt: 25, bgcolor: "#81A08F" }} />
-      <ListItemButton
-        sx={ButtonSx}
-        onClick={() => logoutAndNavigate()}
-        // onClick={props.handleRoomandProperty}
-      >
+      <ListItemButton sx={ButtonSx} onClick={() => logoutAndNavigate()}>
         <ListItemIcon>
           <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/Admin_icon/logout.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9BZG1pbl9pY29uL2xvZ291dC5zdmciLCJpYXQiOjE2OTUzNjQ4ODIsImV4cCI6MTcyNjkwMDg4Mn0.jvoqoBJbyc6eRjFEO_Lfl_MGG-k22uWTxfsWwpsdgGA&t=2023-09-22T06%3A41%3A23.204Z" />
         </ListItemIcon>
