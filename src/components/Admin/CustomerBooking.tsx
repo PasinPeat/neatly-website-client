@@ -65,6 +65,7 @@ function CustomerBooking() {
       const results = await axios(`http://localhost:4000/booking/`);
 
       setBooking(results.data.data);
+      setFilterBookingList(results.data.data);
       console.log(results.data.data);
     } catch (error) {
       console.error("Error fetching room data:", error);
