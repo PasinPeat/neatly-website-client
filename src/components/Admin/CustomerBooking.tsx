@@ -111,11 +111,11 @@ export default function CustomPaginationActionsTable() {
 
   const getBooking = async () => {
     try {
-      const results = await axios(`http://localhost:4000/booking/`);
+      const results = await axios(`http://localhost:4000/booking/admin/admin`);
 
-      setBooking(results.data.data);
-      setFilterBookingList(results.data.data);
-      console.log(results.data.data);
+      setBooking(results.data);
+      setFilterBookingList(results.data);
+      console.log(results.data);
     } catch (error) {
       console.error("Error fetching room data:", error);
     }
@@ -164,7 +164,7 @@ export default function CustomPaginationActionsTable() {
   let isCancelled;
 
   const rows = filterBookingList.map((book) => {
-    isCancelled = filterBookingList.status === "cancel";
+    isCancelled = book.status === "cancel";
 
     return createData(
       book.users.fullName,
