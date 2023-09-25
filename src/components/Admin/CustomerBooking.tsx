@@ -223,10 +223,7 @@ export default function CustomPaginationActionsTable() {
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme, isCancelled }) => ({
-    backgroundColor: isCancelled ? "#000000" : theme.palette.action.hover,
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
+    backgroundColor: isCancelled && "#000000",
     // hide last border
     "&:last-child td, &:last-child th": {
       border: 0,
