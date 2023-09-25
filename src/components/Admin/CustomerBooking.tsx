@@ -137,7 +137,7 @@ export default function CustomPaginationActionsTable() {
   };
 
   const handleInputChange = (event: Event) => {
-    setSelectedByText(event.target.value)
+    setSelectedByText(event.target.value);
   };
 
   useEffect(() => {
@@ -149,7 +149,12 @@ export default function CustomPaginationActionsTable() {
       let filteredData1 = filterByName(booking);
       let filteredData2 = filterByRoomType(booking);
       let combinedData = [...filteredData1, ...filteredData2];
-      setFilterBookingList(combinedData);
+
+      const timer = setTimeout(() => {
+        setFilterBookingList(combinedData);
+      }, 400);
+
+      return () => clearTimeout(timer);
     }
     if (!selectedByText) {
       setFilterBookingList(booking);
@@ -252,6 +257,7 @@ export default function CustomPaginationActionsTable() {
                 onChange={handleInputChange}
                 placeholder="Search…"
                 size="small"
+                color="warning"
                 id="input-with-icon-adornment"
                 inputProps={{
                   "aria-label": "weight",
