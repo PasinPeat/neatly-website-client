@@ -17,7 +17,6 @@ function SidebarItems(props) {
   }
   
   const TextSx = {
-    
     color: "#D5DFDA",
     fontSize: 34,
     fontWeight: "medium",
@@ -65,7 +64,7 @@ function SidebarItems(props) {
         <ListItemIcon>
           <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/Admin_icon/Room&Property.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9BZG1pbl9pY29uL1Jvb20mUHJvcGVydHkuc3ZnIiwiaWF0IjoxNjk1Mjg5OTU3LCJleHAiOjE3MjY4MjU5NTd9.cpj4kcTYeANdwUjBum3_WLuR4MDlcYWz2Z30Y-mJxmA&t=2023-09-21T09%3A52%3A36.974Z" />
         </ListItemIcon>
-        <ListItemText sx={TextSx2} primary="RoomType & Property" />
+        <ListItemText sx={TextSx2} primary="Room & Property" />
       </ListItemButton>
       <Divider sx={{ mt: 25, bgcolor: "#81A08F" }} />
       <ListItemButton

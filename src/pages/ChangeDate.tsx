@@ -371,6 +371,7 @@ function ChangeDate() {
                     className="btn Button"
                     onClick={() => {
                       handleConfirmChange();
+                      window.location.reload();
                     }}
                   >
                     Confirm Change Date
