@@ -400,7 +400,9 @@ export default function CustomPaginationActionsTable() {
                     <StyledTableCell>Bed type</StyledTableCell>
                     <StyledTableCell>Check-in</StyledTableCell>
                     <StyledTableCell>Check-out</StyledTableCell>
-                    <StyledTableCell>Status</StyledTableCell>
+                    <StyledTableCell>
+                      <span className="Input-status">Status</span>
+                    </StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
