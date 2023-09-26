@@ -188,8 +188,6 @@ export default function CustomPaginationActionsTable() {
   let isCancelled;
   // let isPast;
 
-  console.log(dayjs());
-
   const rows = sortedBooking.map((book) => {
     // isCancelled = book.status === "cancel";
     // isPast = book.check_out === dayjs()
