@@ -105,7 +105,12 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 }
 
 export default function CustomPaginationActionsTable() {
-  let sortedBooking;
+  const [booking, setBooking] = useState([]);
+  const [filterBookingList, setFilterBookingList] = useState([]);
+  const [selectedByText, setSelectedByText] = useState("");
+  const [sortBy, setSortBy] = useState("all");
+  const [sortBookingState, setSortBookingState] = useState(booking);
+
   //get all booking
   const getBooking = async () => {
     try {
@@ -118,28 +123,6 @@ export default function CustomPaginationActionsTable() {
       console.error("Error fetching room data:", error);
     }
   };
-
-  const [booking, setBooking] = useState([]);
-  const [filterBookingList, setFilterBookingList] = useState(booking);
-  const [selectedByText, setSelectedByText] = useState("");
-  const [sortBy, setSortBy] = useState("all");
-
-  //set sorted by
-  if (sortBy === "all") {
-    sortedBooking = booking;
-  }
-
-  if (sortBy === "incoming") {
-    sortedBooking = booking.filter(
-      (book) => !dayjs(book.check_in).isSameOrBefore(dayjs())
-    );
-  }
-
-  if (sortBy === "past") {
-    sortedBooking = booking.filter((book) =>
-      dayjs(book.check_in).isBefore(dayjs())
-    );
-  }
 
   //filter search
   const pattern = new RegExp(selectedByText, "i");
@@ -165,34 +148,73 @@ export default function CustomPaginationActionsTable() {
     getBooking();
   }, []);
 
-  console.log(selectedByText);
-
   useEffect(() => {
-    if (selectedByText) {
-      const filteredData1 = filterByName(sortedBooking);
-      const filteredData2 = filterByRoomType(sortedBooking);
-      const combinedData = [...filteredData1, ...filteredData2];
-      console.log(combinedData);
+    let timer;
 
-      const timer = setTimeout(() => {
-        setFilterBookingList(combinedData);
-      }, 400);
+    if (selectedByText) {
+      if (sortBy === "all") {
+        let filteredData1 = filterByName(booking);
+        let filteredData2 = filterByRoomType(booking);
+        let combinedData = [...filteredData1, ...filteredData2];
+        timer = setTimeout(() => {
+          setFilterBookingList(combinedData);
+        }, 400);
+      } else if (sortBy === "past") {
+        let filteredData1 = filterByName(sortBookingState);
+        let filteredData2 = filterByRoomType(sortBookingState);
+        let combinedData = [...filteredData1, ...filteredData2];
+        timer = setTimeout(() => {
+          setFilterBookingList(combinedData);
+        }, 400);
+      } else if (sortBy === "cancelled") {
+        let filteredData1 = filterByName(sortBookingState);
+        let filteredData2 = filterByRoomType(sortBookingState);
+        let combinedData = [...filteredData1, ...filteredData2];
+        timer = setTimeout(() => {
+          setFilterBookingList(combinedData);
+        }, 400);
+      } else if (sortBy === "incoming") {
+        let filteredData1 = filterByName(sortBookingState);
+        let filteredData2 = filterByRoomType(sortBookingState);
+        let combinedData = [...filteredData1, ...filteredData2];
+        timer = setTimeout(() => {
+          setFilterBookingList(combinedData);
+        }, 400);
+      } else if (sortBy === "ongoing") {
+        let filteredData1 = filterByName(sortBookingState);
+        let filteredData2 = filterByRoomType(sortBookingState);
+        let combinedData = [...filteredData1, ...filteredData2];
+        timer = setTimeout(() => {
+          setFilterBookingList(combinedData);
+        }, 400);
+      }
+    }
+
+    if (!selectedByText && sortBy === "all") {
+      setFilterBookingList(booking);
+    } else if (!selectedByText && sortBy === "past") {
+      handleSortChange("past");
+    } else if (!selectedByText && sortBy === "cancelled") {
+      handleSortChange("cancelled");
 
       return () => clearTimeout(timer);
     }
-    if (!selectedByText) {
-      setFilterBookingList(sortedBooking);
-    }
   }, [selectedByText]);
 
-  let isCancelled;
-  // let isPast;
-
-  console.log(filterBookingList);
+  const currentDate = dayjs().format("YYYY-MM-DD");
 
   const rows = filterBookingList.map((book) => {
-    isCancelled = book.status === "cancel";
-    // isPast = book.check_out === dayjs()
+    let status;
+
+    if (book.status === "cancel") {
+      status = "Cancel";
+    } else if (currentDate > book.check_out) {
+      status = "Past";
+    } else if (currentDate >= book.check_in && book.check_out >= currentDate) {
+      status = "Ongoing";
+    } else if (currentDate < book.check_in) {
+      status = "Incoming";
+    }
 
     return createData(
       book.users.fullName,
@@ -202,11 +224,55 @@ export default function CustomPaginationActionsTable() {
       book.room_details.bed_types,
       book.check_in,
       book.check_out,
-      isCancelled
+      status
     );
   });
 
   console.log(rows);
+
+  const handleSortChange = (event) => {
+    //set sorted by
+    if (event === "all") {
+      setSortBy("all");
+      setFilterBookingList(booking);
+    }
+
+    if (event === "past") {
+      const sortedPastBooking = booking.filter((book) =>
+        dayjs(book.check_in).isBefore(dayjs())
+      );
+      setSortBy("past");
+      setFilterBookingList(sortedPastBooking);
+      setSortBookingState(sortedPastBooking);
+    }
+
+    if (event === "cancelled") {
+      const sortedCancelledBooking = booking.filter(
+        (book) => book.status === "cancel"
+      );
+      setSortBy("cancelled");
+      setFilterBookingList(sortedCancelledBooking);
+      setSortBookingState(sortedCancelledBooking);
+    }
+
+    if (event === "incoming") {
+      const sortedIncomingBooking = booking.filter((book) =>
+        dayjs(book.check_in).isAfter(dayjs())
+      );
+      setSortBy("incoming");
+      setFilterBookingList(sortedIncomingBooking);
+      setSortBookingState(sortedIncomingBooking);
+    }
+
+    if (event === "ongoing") {
+      const sortedCurrentBooking = booking.filter(
+        (book) => currentDate >= book.check_in && currentDate <= book.check_out
+      );
+      setSortBy("ongoing");
+      setFilterBookingList(sortedCurrentBooking);
+      setSortBookingState(sortedCurrentBooking);
+    }
+  };
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -242,14 +308,10 @@ export default function CustomPaginationActionsTable() {
       fontSize: 16,
       fontFamily: "Inter",
       borderColor: "none",
-      // color: "red",
     },
   }));
 
-  const StyledTableRow = styled(TableRow)(({ theme, isCancelled }) => ({
-    "&.MuiTableRow-root": {
-      color: isCancelled ? "red" : "black",
-    },
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
     // hide last border
     "&:last-child td, &:last-child th": {
       border: 0,
@@ -264,7 +326,7 @@ export default function CustomPaginationActionsTable() {
     bedType: string,
     checkIn: string,
     checkOut: string,
-    isCancelled: boolean
+    status: string
   ) {
     return {
       customerName,
@@ -274,7 +336,7 @@ export default function CustomPaginationActionsTable() {
       bedType,
       checkIn,
       checkOut,
-      isCancelled,
+      status,
     };
   }
 
@@ -290,7 +352,7 @@ export default function CustomPaginationActionsTable() {
           <div>
             <select
               className="select select-bordered w-full max-w-xs"
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={(e) => handleSortChange(e.target.value)}
             >
               <option selected value="all">
                 All
@@ -338,6 +400,7 @@ export default function CustomPaginationActionsTable() {
                     <StyledTableCell>Bed type</StyledTableCell>
                     <StyledTableCell>Check-in</StyledTableCell>
                     <StyledTableCell>Check-out</StyledTableCell>
+                    <StyledTableCell>Status</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -361,6 +424,7 @@ export default function CustomPaginationActionsTable() {
                       <StyledTableCell>{row.bedType}</StyledTableCell>
                       <StyledTableCell>{row.checkIn}</StyledTableCell>
                       <StyledTableCell>{row.checkOut}</StyledTableCell>
+                      <StyledTableCell>{row.status}</StyledTableCell>
                     </StyledTableRow>
                   ))}
                   {emptyRows > 0 && (
