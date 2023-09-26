@@ -23,6 +23,7 @@ import { useState, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import dayjs from "dayjs";
+import BookingDetails from "./BookingDetails";
 
 interface TablePaginationActionsProps {
   count: number;
@@ -108,6 +109,7 @@ export default function CustomPaginationActionsTable() {
   const [booking, setBooking] = useState([]);
   const [filterBookingList, setFilterBookingList] = useState(booking);
   const [selectedByText, setSelectedByText] = useState("");
+  const [complete, setComplete] = useState(false);
 
   const getBooking = async () => {
     try {
@@ -120,6 +122,18 @@ export default function CustomPaginationActionsTable() {
       console.error("Error fetching room data:", error);
     }
   };
+
+  /*show BookingDetails*/
+  //  function handleBookingDetail(bookId) {
+  //   const booking = context.rooms.find((room) => room.room_id === bookId;
+  //   if (room) {
+  //     setSelectedRoom(room);
+  //     setComplete(true);
+  //   }
+  // }
+
+  // const BookingID = booking[0].book_id;
+  // console.log(BookingID);
 
   const pattern = new RegExp(selectedByText, "i");
   const filterByName = (filteredData) => {
@@ -174,9 +188,12 @@ export default function CustomPaginationActionsTable() {
       book.room_details.bed_types,
       book.check_in,
       book.check_out,
+      book.book_id,
       isCancelled
     );
   });
+
+  // console.log(book.book_id);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -232,7 +249,8 @@ export default function CustomPaginationActionsTable() {
     amount: number,
     bedType: string,
     checkIn: string,
-    checkOut: string
+    checkOut: string,
+    book_id: number
   ) {
     return {
       customerName,
@@ -242,101 +260,122 @@ export default function CustomPaginationActionsTable() {
       bedType,
       checkIn,
       checkOut,
+      book_id,
     };
   }
+  const [selectedBookId, setSelectedBookId] = useState(null);
 
+  const handleRowClick = (bookId) => {
+    setComplete(true);
+    setSelectedBookId(bookId);
+  };
+  const handleCompleteChange = (newCompleteValue) => {
+    setComplete(newCompleteValue);
+  };
   return (
     <div>
-      <div className="bg-gray-100 h-screen">
-        <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
-          <p className=" text-black font-bold">Customer Booking</p>
-          <div>
-            <FormControl>
-              <OutlinedInput
-                value={selectedByText}
-                onChange={handleInputChange}
-                placeholder="Search…"
-                size="small"
-                color="warning"
-                id="input-with-icon-adornment"
-                inputProps={{
-                  "aria-label": "weight",
-                }}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
+      {complete ? (
+        <BookingDetails
+          bookId={selectedBookId}
+          onCompleteChange={handleCompleteChange}
+        />
+      ) : (
+        <div>
+          <div className="bg-gray-100 h-screen">
+            <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
+              <p className=" text-black font-bold">Customer Booking</p>
+              <div>
+                <FormControl>
+                  <OutlinedInput
+                    value={selectedByText}
+                    onChange={handleInputChange}
+                    placeholder="Search…"
+                    size="small"
+                    color="warning"
+                    id="input-with-icon-adornment"
+                    inputProps={{
+                      "aria-label": "weight",
+                    }}
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </div>
+            </div>
+
+            {/* table field*/}
+            <div className="px-24 py-12">
+              <Paper sx={{ overflow: "hidden" }}>
+                <TableContainer component={Paper}>
+                  <Table aria-label="custom pagination table">
+                    <TableHead>
+                      <TableRow>
+                        <StyledTableCell>Customer</StyledTableCell>
+                        <StyledTableCell>Guest(s)</StyledTableCell>
+                        <StyledTableCell>Room type</StyledTableCell>
+                        <StyledTableCell>Amount</StyledTableCell>
+                        <StyledTableCell>Bed type</StyledTableCell>
+                        <StyledTableCell>Check-in</StyledTableCell>
+                        <StyledTableCell>Check-out</StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {(rowsPerPage > 0
+                        ? rows.slice(
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage
+                          )
+                        : rows
+                      ).map((row) => (
+                        <StyledTableRow
+                          isCancelled={row.isCancelled}
+                          onClick={() => handleRowClick(row.book_id)}
+                        >
+                          <StyledTableCell>{row.customerName}</StyledTableCell>
+                          <StyledTableCell>{row.guest}</StyledTableCell>
+                          <StyledTableCell>{row.roomType}</StyledTableCell>
+                          <StyledTableCell>{row.amount}</StyledTableCell>
+                          <StyledTableCell>{row.bedType}</StyledTableCell>
+                          <StyledTableCell>{row.checkIn}</StyledTableCell>
+                          <StyledTableCell>{row.checkOut}</StyledTableCell>
+                        </StyledTableRow>
+                      ))}
+                      {emptyRows > 0 && (
+                        <TableRow style={{ height: 53 * emptyRows }}>
+                          <TableCell colSpan={6} />
+                        </TableRow>
+                      )}
+                    </TableBody>
+                    <TableFooter>
+                      <TableRow>
+                        <TablePagination
+                          rowsPerPageOptions={[10]}
+                          colSpan={3}
+                          count={rows.length}
+                          rowsPerPage={rowsPerPage}
+                          page={page}
+                          SelectProps={{
+                            inputProps: {
+                              "aria-label": "rows per page",
+                            },
+                            native: true,
+                          }}
+                          onPageChange={handleChangePage}
+                          onRowsPerPageChange={handleChangeRowsPerPage}
+                          ActionsComponent={TablePaginationActions}
+                        />
+                      </TableRow>
+                    </TableFooter>
+                  </Table>
+                </TableContainer>
+              </Paper>
+            </div>
           </div>
         </div>
-
-        {/* table field*/}
-        <div className="px-24 py-12">
-          <Paper sx={{ overflow: "hidden" }}>
-            <TableContainer component={Paper}>
-              <Table aria-label="custom pagination table">
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell>Customer</StyledTableCell>
-                    <StyledTableCell>Guest(s)</StyledTableCell>
-                    <StyledTableCell>Room type</StyledTableCell>
-                    <StyledTableCell>Amount</StyledTableCell>
-                    <StyledTableCell>Bed type</StyledTableCell>
-                    <StyledTableCell>Check-in</StyledTableCell>
-                    <StyledTableCell>Check-out</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {(rowsPerPage > 0
-                    ? rows.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                    : rows
-                  ).map((row) => (
-                    <StyledTableRow isCancelled={isCancelled}>
-                      <StyledTableCell>{row.customerName}</StyledTableCell>
-                      <StyledTableCell>{row.guest}</StyledTableCell>
-                      <StyledTableCell>{row.roomType}</StyledTableCell>
-                      <StyledTableCell>{row.amount}</StyledTableCell>
-                      <StyledTableCell>{row.bedType}</StyledTableCell>
-                      <StyledTableCell>{row.checkIn}</StyledTableCell>
-                      <StyledTableCell>{row.checkOut}</StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-                <TableFooter>
-                  <TableRow>
-                    <TablePagination
-                      rowsPerPageOptions={[10]}
-                      colSpan={3}
-                      count={rows.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      SelectProps={{
-                        inputProps: {
-                          "aria-label": "rows per page",
-                        },
-                        native: true,
-                      }}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                      ActionsComponent={TablePaginationActions}
-                    />
-                  </TableRow>
-                </TableFooter>
-              </Table>
-            </TableContainer>
-          </Paper>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
