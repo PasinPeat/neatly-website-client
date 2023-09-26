@@ -65,7 +65,7 @@ function BookingDetails({ bookId, onCompleteChange }) {
 
   return (
     <div className="flex flex-col items-center  bg-bg">
-      <div className="flex flex-row justify-center items-center w-screen   border-b border-gray-300 mb-10 h-20 text-gray-900  bg-white ">
+      <div className="flex flex-row justify-center items-center w-full   border-b border-gray-300 mb-10 h-20 text-gray-900  bg-white ">
         <div className="flex flex-row justify-start w-[1080px]">
           <button onClick={handleRedirect}>
             <img
