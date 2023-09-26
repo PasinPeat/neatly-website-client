@@ -16,7 +16,10 @@ function PriceDetails() {
     standard_request: "",
     payment_method: "",
     three_credit_card_num: "",
+    total_price: "",
   });
+
+  console.log(priceDetail.special_request);
 
   const getData = async () => {
     try {
@@ -25,8 +28,8 @@ function PriceDetails() {
       );
       console.log(response.data.data);
       const data = response.data.data;
-      data.total_price = parseFloat(data.total_price);
       setPriceDetail(data);
+      data.total_price = parseFloat(data.total_price);
     } catch (error) {
       console.error(error);
     }
