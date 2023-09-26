@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-function PriceDetails() {
-  const { bookId } = useParams();
+function PriceDetails({ bookId }) {
   const [priceDetail, setPriceDetail] = useState({
     room_details: {
       room_type: "",

@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { redirect } from "react-router-dom";
 import axios from "axios";
 import PriceDetails from "./PriceDetails";
-import App from "../../App.css";
-
-function BookingDetails() {
-  const { bookId } = useParams();
-
+function BookingDetails({ bookId, onCompleteChange }) {
   const [bookingDetails, setBookingDetails] = useState({
     room_details: {
       room_type: "",
@@ -30,7 +26,6 @@ function BookingDetails() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [bookDate, setBookDate] = useState("");
-
   const checkInDate = new Date(`${checkIn}`);
   const checkOutDate = new Date(`${checkOut}`);
   const checkBookDate = new Date(`${bookDate}`);
@@ -61,15 +56,18 @@ function BookingDetails() {
     }
   };
 
+  const handleRedirect = () => {
+    onCompleteChange(false);
+  };
   useEffect(() => {
     getData();
   }, [bookId]);
 
   return (
-    <div className="flex flex-col items-center w-screen  bg-bg">
-      <div className="flex flex-row justify-center items-center w-screen   border-b border-gray-300 mb-10 h-20 text-gray-900  bg-white ">
+    <div className="flex flex-col items-center  bg-bg">
+      <div className="flex flex-row justify-center items-center w-full   border-b border-gray-300 mb-10 h-20 text-gray-900  bg-white ">
         <div className="flex flex-row justify-start w-[1080px]">
-          <button>
+          <button onClick={handleRedirect}>
             <img
               className=" w-6 h-6 object-cover"
               src={
@@ -78,6 +76,7 @@ function BookingDetails() {
               alt="arrow_back"
             />
           </button>
+
           <p className="mx-4 text-headline5">{bookingDetails.users.fullName}</p>
           <p className="font-normal text-[20px] leading-[30px]">
             {" "}
@@ -133,7 +132,7 @@ function BookingDetails() {
           <p className="text-body1 text-black ">{formattedBookDate}</p>
         </div>
 
-        <PriceDetails />
+        <PriceDetails bookId={bookId} />
 
         <div className="flex flex-col justify-center items-center text-gray-700 mb-[38px] w-[920px] h-[88px] rounded bg-gray-300">
           <div className="w-[872px]  ">
