@@ -276,7 +276,13 @@ export default function CustomPaginationActionsTable() {
                     <StyledTableCell>Room no.</StyledTableCell>
                     <StyledTableCell>Room type</StyledTableCell>
                     <StyledTableCell>Bed type</StyledTableCell>
-                    <StyledTableCell>Status</StyledTableCell>
+                    <StyledTableCell
+                      style={{
+                        width: "350px",
+                      }}
+                    >
+                      Status
+                    </StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -295,7 +301,11 @@ export default function CustomPaginationActionsTable() {
                         <StyledTableCell>{roomNumber}</StyledTableCell>
                         <StyledTableCell>{row.roomType}</StyledTableCell>
                         <StyledTableCell>{row.bedType}</StyledTableCell>
-                        <StyledTableCell>
+                        <StyledTableCell
+                          style={{
+                            width: "350px",
+                          }}
+                        >
                           <DropdownSearch />
                         </StyledTableCell>
                       </StyledTableRow>

@@ -1,45 +1,44 @@
 import * as React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-// import { useEffect } from "react";
 
-const options = [
-  { title: "Vacant", status: "Vacant" },
-  { title: "Occupied", status: "Occupied" },
-  { title: "Assign Clean", status: "Assign Clean" },
-  { title: "Assign Dirty", status: "Assign Dirty" },
-  { title: "Out of Service", status: "Out of Service" },
+const status = [
+  "Vacant",
+  "Occupied",
+  "Assign Clean",
+  "Assign Dirty",
+  "Out of Service",
 ];
+
+const theme = createTheme({
+  palette: {
+    status: {
+      Vacant: {
+        main: "#F0F2F8",
+        contrastText: "#006753",
+      },
+      Occupied: {
+        main: "#E4ECFF",
+        contrastText: "#084BAF",
+      },
+      "Assign Clean": {
+        main: "#E5FFFA",
+        contrastText: "#006753",
+      },
+      "Assign Dirty": {
+        main: "#FFE5E5",
+        contrastText: "#A50606",
+      },
+      "Out of Service": {
+        main: "#F0F1F8",
+        contrastText: "#6E7288",
+      },
+    },
+  },
+});
 
 export default function UseAutocomplete() {
   const [selectedStatus, setSelectedStatus] = React.useState(null);
-
-  const theme = createTheme({
-    palette: {
-      status: {
-        Vacant: {
-          main: "#F0F2F8",
-          contrastText: "#006753",
-        },
-        Occupied: {
-          main: "#E4ECFF",
-          contrastText: "#084BAF",
-        },
-        "Assign Clean": {
-          main: "#E5FFFA",
-          contrastText: "#006753",
-        },
-        "Assign Dirty": {
-          main: "#FFE5E5",
-          contrastText: "#A50606",
-        },
-        "Out of Service": {
-          main: "#F0F1F8",
-          contrastText: "#6E7288",
-        },
-      },
-    },
-  });
 
   const getStatusStyle = (status) => {
     return {
@@ -48,32 +47,20 @@ export default function UseAutocomplete() {
     };
   };
 
-  // useEffect(() => {
-  //   if (selectedStatus) {
-  //     setSelectedStatus(selectedStatus);
-  //   }
-  // }, [selectedStatus]);
-
   return (
-    <label>
+    <>
+      <p></p>
       <ThemeProvider theme={theme}>
         <Autocomplete
-          options={options}
+          options={status}
           value={selectedStatus}
-          style={{
-            display: "flex",
-            border: 0,
-            // ":active": {
-            //   borderColor: "blue",
-            // },
-            // ":focus": {
-            //   backgroundColor: "lightblue",
-            // },
-          }}
           onChange={(event, newValue) => {
             setSelectedStatus(newValue);
           }}
-          getOptionLabel={(option) => option.title}
+          style={{
+            display: "flex",
+          }}
+          getOptionLabel={(option) => option}
           renderInput={(params) => (
             <div ref={params.InputProps.ref}>
               <input
@@ -81,20 +68,12 @@ export default function UseAutocomplete() {
                 {...params.inputProps}
                 style={{
                   color:
-                    theme.palette.status[selectedStatus?.status]
-                      ?.contrastText || "inherit",
-                  backgroundColor:
-                    theme.palette.status[selectedStatus?.status]?.main ||
+                    theme.palette.status[selectedStatus]?.contrastText ||
                     "inherit",
-                  // ":active": {
-                  //   borderColor: "blue",
-                  // },
-                  // ":focus": {
-                  //   backgroundColor: "lightblue",
-                  // },
+                  backgroundColor:
+                    theme.palette.status[selectedStatus]?.main || "inherit",
                 }}
                 placeholder="Search status..."
-                // className="w-[212px] px-4 py-3 rounded-t border-b-[1px] border-gray-400 bg-white"
                 className="px-3 py-1 m-2 rounded text-body2 flex focus:border-none active:border-none"
               />
             </div>
@@ -102,14 +81,14 @@ export default function UseAutocomplete() {
           renderOption={(props, option) => (
             <li
               {...props}
-              style={getStatusStyle(option.status)}
+              style={getStatusStyle(option)}
               className="px-3 py-1 m-2 rounded text-body2 cursor-pointer inline-block"
             >
-              {option.title}
+              {option}
             </li>
           )}
         />
       </ThemeProvider>
-    </label>
+    </>
   );
 }
