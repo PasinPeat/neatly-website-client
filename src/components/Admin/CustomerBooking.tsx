@@ -120,7 +120,7 @@ export default function CustomPaginationActionsTable() {
   };
 
   const [booking, setBooking] = useState([]);
-  const [filterBookingList, setFilterBookingList] = useState(sortedBooking);
+  const [filterBookingList, setFilterBookingList] = useState(booking);
   const [selectedByText, setSelectedByText] = useState("");
   const [sortBy, setSortBy] = useState("all");
 
@@ -188,8 +188,10 @@ export default function CustomPaginationActionsTable() {
   let isCancelled;
   // let isPast;
 
-  const rows = sortedBooking.map((book) => {
-    // isCancelled = book.status === "cancel";
+  console.log(filterBookingList);
+
+  const rows = filterBookingList.map((book) => {
+    isCancelled = book.status === "cancel";
     // isPast = book.check_out === dayjs()
 
     return createData(
@@ -199,8 +201,8 @@ export default function CustomPaginationActionsTable() {
       book.amount_room,
       book.room_details.bed_types,
       book.check_in,
-      book.check_out
-      // isCancelled
+      book.check_out,
+      isCancelled
     );
   });
 
@@ -245,8 +247,9 @@ export default function CustomPaginationActionsTable() {
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme, isCancelled }) => ({
-    backgroundColor: isCancelled ? "#F6F7FC" : "",
-    color: isCancelled ? "white" : "red",
+    "&.MuiTableRow-root": {
+      color: isCancelled ? "red" : "black",
+    },
     // hide last border
     "&:last-child td, &:last-child th": {
       border: 0,
@@ -260,8 +263,8 @@ export default function CustomPaginationActionsTable() {
     amount: number,
     bedType: string,
     checkIn: string,
-    checkOut: string
-    // isCancelled: boolean
+    checkOut: string,
+    isCancelled: boolean
   ) {
     return {
       customerName,
@@ -271,7 +274,7 @@ export default function CustomPaginationActionsTable() {
       bedType,
       checkIn,
       checkOut,
-      // isCancelled,
+      isCancelled,
     };
   }
 
