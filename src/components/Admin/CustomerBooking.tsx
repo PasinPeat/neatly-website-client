@@ -152,6 +152,8 @@ export default function CustomPaginationActionsTable() {
     getBooking();
   }, []);
 
+  console.log(selectedByText);
+
   useEffect(() => {
     let timer;
     if (selectedByText) {
@@ -203,7 +205,7 @@ export default function CustomPaginationActionsTable() {
       return () => clearTimeout(timer);
     }
     if (!selectedByText) {
-      setFilterBookingList(booking);
+      setFilterBookingList(sortedBooking);
     }
   }, [selectedByText]);
 
