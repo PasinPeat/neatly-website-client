@@ -634,7 +634,7 @@ function Profile() {
                 <div className="relative">
                   <label htmlFor="upload">
                     <div
-                      className={`w-[167px] h-[167px] bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center border-2 active:border-orange-700 ${
+                      className={`w-[170px] h-[167px] bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center border-2 ${
                         invalidFile ? "border-[#B61515]" : "focus:outline-none"
                       }`}
                     >
@@ -645,7 +645,13 @@ function Profile() {
                           alt="Profile"
                         />
                       ) : (
-                        <div className="w-[167px] h-[167px] flex flex-col justify-center items-center border-2 rounded  transition border-gray-200 hover:border-orange-500">
+                        <div
+                          className={`w-[167px] h-[167px] flex flex-col justify-center items-center border-2 rounded  transition border-gray-200 ${
+                            invalidFile
+                              ? "border-[#B61515]"
+                              : "hover:border-orange-500"
+                          }`}
+                        >
                           <p className="text-orange-500 text-[30px] font-medium text-center">
                             +
                           </p>
