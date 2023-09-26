@@ -60,6 +60,16 @@ export default function UseAutocomplete() {
         <Autocomplete
           options={options}
           value={selectedStatus}
+          style={{
+            display: "flex",
+            border: 0,
+            // ":active": {
+            //   borderColor: "blue",
+            // },
+            // ":focus": {
+            //   backgroundColor: "lightblue",
+            // },
+          }}
           onChange={(event, newValue) => {
             setSelectedStatus(newValue);
           }}
@@ -76,23 +86,27 @@ export default function UseAutocomplete() {
                   backgroundColor:
                     theme.palette.status[selectedStatus?.status]?.main ||
                     "inherit",
+                  // ":active": {
+                  //   borderColor: "blue",
+                  // },
+                  // ":focus": {
+                  //   backgroundColor: "lightblue",
+                  // },
                 }}
                 placeholder="Search status..."
                 // className="w-[212px] px-4 py-3 rounded-t border-b-[1px] border-gray-400 bg-white"
-                className="px-3 py-1 m-2 rounded text-body2 w-[212px] focus:border-none active:border-none"
+                className="px-3 py-1 m-2 rounded text-body2 flex focus:border-none active:border-none"
               />
             </div>
           )}
           renderOption={(props, option) => (
-            // <ul style={{ backgroundColor: "#585686", width: "212px" }}>
             <li
               {...props}
               style={getStatusStyle(option.status)}
-              className="px-3 py-1 m-2 rounded text-body2 cursor-pointer flex w-[212px]"
+              className="px-3 py-1 m-2 rounded text-body2 cursor-pointer inline-block"
             >
               {option.title}
             </li>
-            // </ul>
           )}
         />
       </ThemeProvider>
