@@ -152,8 +152,6 @@ export default function CustomPaginationActionsTable() {
     getBooking();
   }, []);
 
-  console.log(selectedByText);
-
   useEffect(() => {
     let timer;
     if (selectedByText) {
@@ -204,9 +202,6 @@ export default function CustomPaginationActionsTable() {
 
       return () => clearTimeout(timer);
     }
-    if (!selectedByText) {
-      setFilterBookingList(sortedBooking);
-    }
   }, [selectedByText]);
 
   /*sort by status function*/
@@ -224,7 +219,20 @@ export default function CustomPaginationActionsTable() {
 
   const rows = filterBookingList
     .map((book) => {
-      isCancelled = filterBookingList.status === "cancel";
+      let status;
+
+      if (book.status === "cancel") {
+        status = "Cancel";
+      } else if (currentDate > book.check_out) {
+        status = "Past";
+      } else if (
+        currentDate >= book.check_in &&
+        book.check_out >= currentDate
+      ) {
+        status = "Ongoing";
+      } else if (currentDate < book.check_in) {
+        status = "Incoming";
+      }
 
       return createData(
         book.users.fullName,
