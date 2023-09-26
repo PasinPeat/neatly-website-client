@@ -81,7 +81,7 @@ function Admin() {
   return (
     <>
       <div className="h-screen w-screen relative">
-        <div className="w-[15%] fixed top-0 left-0 z-50 bg-green-800 flex flex-col items-center ">
+        <div className="w-[230px] h-full fixed overflow-x-hidden overflow-y-hidden top-0 left-0 z-50 bg-green-800 flex flex-col items-center ">
           <Drawer variant="permanent" open={open} sx={DrawerSx}>
             <div className="bg-green-800 flex flex-col items-center pb-[70px]">
               <img
@@ -106,7 +106,7 @@ function Admin() {
             </List>
           </Drawer>
         </div>
-        <div className="w-[85%] left-[15%] relative">
+        <div className="w-[85%] ml-[230px] overflow-x-hidden">
           {customerBooking && <CustomerBooking />}
           {roomManage && <RoomManagement />}
           {hotelInfo && <HotelInformation />}
