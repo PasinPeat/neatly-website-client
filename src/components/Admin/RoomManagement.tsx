@@ -229,6 +229,9 @@ export default function CustomPaginationActionsTable() {
   ) {
     return { roomNumber, roomType, bedType, status };
   }
+  const roomNumberArr = rows.map((row) => row.roomNumber);
+  roomNumberArr.sort((a, b) => a - b);
+  console.log(roomNumberArr);
 
   return (
     <>
@@ -240,6 +243,7 @@ export default function CustomPaginationActionsTable() {
             <div>
               <FormControl>
                 <OutlinedInput
+                  value={selectedByText}
                   placeholder="Search…"
                   onChange={handleInputChange}
                   size="small"
@@ -257,9 +261,14 @@ export default function CustomPaginationActionsTable() {
             </div>
           </div>
         </div>
+
         {/* table field*/}
         <div className="px-24 py-12">
-          <Paper sx={{ overflow: "hidden" }}>
+          <Paper
+            sx={{
+              overflow: "hidden",
+            }}
+          >
             <TableContainer component={Paper}>
               <Table aria-label="custom pagination table">
                 <TableHead>
@@ -272,21 +281,26 @@ export default function CustomPaginationActionsTable() {
                 </TableHead>
                 <TableBody>
                   {(rowsPerPage > 0
-                    ? rows.slice(
+                    ? roomNumberArr.slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage
                       )
-                    : rows
-                  ).map((row, index) => (
-                    <StyledTableRow key={index} isCancelled={row.isCancelled}>
-                      <StyledTableCell>{row.roomNumber}</StyledTableCell>
-                      <StyledTableCell>{row.roomType}</StyledTableCell>
-                      <StyledTableCell>{row.bedType}</StyledTableCell>
-                      <StyledTableCell>
-                        <DropdownSearch />
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))}
+                    : roomNumberArr
+                  ).map((roomNumber, index) => {
+                    const row = rows.find(
+                      (row) => row.roomNumber === roomNumber
+                    );
+                    return (
+                      <StyledTableRow key={index} isCancelled={row.isCancelled}>
+                        <StyledTableCell>{roomNumber}</StyledTableCell>
+                        <StyledTableCell>{row.roomType}</StyledTableCell>
+                        <StyledTableCell>{row.bedType}</StyledTableCell>
+                        <StyledTableCell>
+                          <DropdownSearch />
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    );
+                  })}
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
                       <TableCell colSpan={6} />
