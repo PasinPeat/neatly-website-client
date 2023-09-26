@@ -52,9 +52,20 @@ function createData(
   guest: number,
   bedType: string,
   roomArea: number,
-  roomId: number
+  roomId: number,
+  amenity: Array
 ) {
-  return { image, type, price, promotion, guest, bedType, roomArea, roomId };
+  return {
+    image,
+    type,
+    price,
+    promotion,
+    guest,
+    bedType,
+    roomArea,
+    roomId,
+    amenity,
+  };
 }
 
 function RoomAndProperty() {
@@ -67,7 +78,22 @@ function RoomAndProperty() {
   const [fileDragging, setFileDragging] = useState(null);
   const [fileDropping, setFileDropping] = useState(null);
 
-  console.log(files);
+  let createType;
+  let createPrice;
+  let createPromo;
+  let createPerson;
+  let createBedType;
+  let createArea;
+  let createDescription;
+
+  const [createRoomType, setCreateRoomType] = useState(createType);
+  const [createRoomPrice, setCreateRoomPrice] = useState(createPrice);
+  const [createRoomPromo, setCreateRoomPromo] = useState(createPromo);
+  const [createRoomPerson, setCreateRoomPerson] = useState(createPerson);
+  const [createRoomBedType, setCreateRoomBedType] = useState(createBedType);
+  const [createRoomArea, setCreateRoomArea] = useState(createArea);
+  const [createRoomDescription, setCreateRoomDescription] =
+    useState(createDescription);
 
   const getRooms = async () => {
     try {
@@ -114,32 +140,36 @@ function RoomAndProperty() {
 
   const updateRoomHandler = async (id) => {
     try {
-      await axios.put(`http//localhost:4000/room/${id}`, singleRoom);
+      await axios.put(`http://localhost:4000/room/${id}`, singleRoom);
+      setShowPage(InitialData);
     } catch (error) {
       console.log(error);
     }
   };
 
   const createRoomHandler = async () => {
-    const data = {
-      room_images: files,
-      room_type: "test",
-      price: 1,
-      promotion_price: 1,
-      person: 1,
-      bed_types: "test",
-      area: 1,
-      descriptopn: "test",
-      room_id: 100,
-    };
-    console.log(data);
+    const formData = new FormData();
+    formData.append("room_type", createRoomType);
+    formData.append("price", createRoomPrice);
+    formData.append("promotion_price", createRoomPromo);
+    formData.append("person", createRoomPerson);
+    formData.append("bed_types", createRoomBedType);
+    formData.append("area", createRoomArea);
+    formData.append("description", createRoomDescription);
+
+    for (const file of files) {
+      formData.append("room_images", file);
+    }
+
     try {
-      await axios.post(`http://localhost:4000/room/`, data);
+      await axios.post(`http://localhost:4000/room/`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setShowPage(InitialData);
     } catch (error) {
       console.log(error);
     }
   };
-
   useEffect(() => {
     setShowPage(updateRoom);
   }, [singleRoom]);
@@ -148,11 +178,15 @@ function RoomAndProperty() {
     setShowPage(createRoom);
   }, [files, fileDragging, fileDropping]);
 
+  console.log(singleRoom.amenity);
+
   const remove = (index: any) => {
     let updatedFiles = [...files];
     updatedFiles.splice(index, 1);
     setFiles(updatedFiles);
   };
+
+  console.log(singleRoom);
 
   // const remove = (index: any) => {
   //   let updatedFiles = [...files];
@@ -319,12 +353,7 @@ function RoomAndProperty() {
             <p className="text-gray-600 text-headline5 pb-10">
               Basic Information
             </p>
-            <form
-              className="w-full"
-              // onSubmit={(event) => {
-              //   handleSubmit(event);
-              // }}
-            >
+            <form className="w-full">
               <div className="relative pb-5">
                 <label htmlFor="fname">
                   <p className="font-body1 text-start">Room Type *</p>
@@ -332,7 +361,10 @@ function RoomAndProperty() {
                 <input
                   type="text"
                   id="type"
-                  // value={roomType}
+                  value={createRoomType}
+                  onChange={(e) => {
+                    setCreateRoomType(e.target.value);
+                  }}
                   name="type"
                   placeholder=""
                   className={`text-gray-900 w-full Input focus:outline-none focus:border-orange-500 "focus:outline-none"
@@ -350,7 +382,10 @@ function RoomAndProperty() {
                     type="text"
                     id="roomSize"
                     name="roomSize"
-                    // value={roomSize}
+                    value={createRoomArea}
+                    onChange={(e) => {
+                      setCreateRoomArea(e.target.value);
+                    }}
                     maxLength={2}
                     placeholder=""
                     className={`text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500 focus:outline-none"
@@ -368,10 +403,10 @@ function RoomAndProperty() {
                   <select
                     name="bedType"
                     id="bedType"
-                    // value={bedType}
-                    // onChange={(e) => {
-                    //   setBedType(e.target.value);
-                    // }}
+                    value={createRoomBedType}
+                    onChange={(e) => {
+                      setCreateRoomBedType(e.target.value);
+                    }}
                     className={`text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500 focus:outline-none"
                 }`}
                   >
@@ -391,10 +426,10 @@ function RoomAndProperty() {
                   <select
                     name="guest"
                     id="guest"
-                    // value={guest}
-                    // onChange={(e) => {
-                    //   setGuest(e.target.value);
-                    // }}
+                    value={createRoomPerson}
+                    onChange={(e) => {
+                      setCreateRoomPerson(e.target.value);
+                    }}
                     className={` text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500"
                 }`}
                   >
@@ -415,7 +450,10 @@ function RoomAndProperty() {
                     type="text"
                     id="price"
                     name="price"
-                    // value={price}
+                    value={createRoomPrice}
+                    onChange={(e) => {
+                      setCreateRoomPrice(e.target.value);
+                    }}
                     placeholder=""
                     className={`text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500 focus:outline-none"
                 }`}
@@ -435,16 +473,36 @@ function RoomAndProperty() {
                     <p className="font-body1 text-gray-900 ">Promotion Price</p>
                   </label>
                   <input
-                    type="text"
-                    id="bedType"
-                    name="bedType"
-                    placeholder=""
+                    type="number"
+                    id="promotion"
+                    name="promotion"
+                    value={createRoomPromo}
+                    onChange={(e) => {
+                      setCreateRoomPromo(e.target.value);
+                    }}
                     className={`text-gray-900 Input focus:outline-none focus:border-orange-500${
                       inputEnabled ? "" : "bg-gray-300 pointer-events-none"
                     }`}
                     disabled={!inputEnabled}
                   />
                 </div>
+              </div>
+              <div className="flex flex-col">
+                <label
+                  htmlFor="additionRequest"
+                  className="text-gray-900 text-body1"
+                >
+                  Room Description *
+                </label>
+                <textarea
+                  name="additionRequest"
+                  id="additionRequest"
+                  value={createRoomDescription}
+                  onChange={(e) => {
+                    setCreateRoomDescription(e.target.value);
+                  }}
+                  className="h-26 w-full pt-3 px-3 pb-10  rounded bg-white border-2 border-gray-400 resize-none hover:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 "
+                ></textarea>
               </div>
               <div className="border-b-[1px] border-gray-500 w-[100%] my-10"></div>
               <p className="text-gray-600 text-headline5 pb-10">Room Image</p>
@@ -564,7 +622,6 @@ function RoomAndProperty() {
 
               <div className="border-b-[1px] border-gray-500 w-[100%] my-10"></div>
               <p className="text-gray-600 text-headline5 pb-10">Room Amenity</p>
-              <div className="border-b-[1px] border-gray-500 w-[100%]"></div>
             </form>
           </div>
         </Paper>
@@ -575,15 +632,15 @@ function RoomAndProperty() {
   const updateRoom = (
     <>
       <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
-        <p className=" text-black font-bold">
+        <p className=" text-black font-bold flex flex-row">
           <button
             onClick={() => {
               setShowPage(InitialData);
             }}
           >
-            backback
+            <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/arrow_back.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2Fycm93X2JhY2suc3ZnIiwiaWF0IjoxNjk1NzU4Nzg1LCJleHAiOjE3MjcyOTQ3ODV9.Uu5g_whbbwyAtMcakhH9XiYDXL1wLsgR4f2cA6McA9o&t=2023-09-26T20%3A06%3A26.084Z"></img>
           </button>
-          <div>{singleRoom.room_type}</div>
+          <div className="ml-5">{singleRoom.room_type}</div>
         </p>
         <div>
           <button
@@ -773,7 +830,46 @@ function RoomAndProperty() {
               <p className="text-gray-600 text-headline5 pb-10">Room Image</p>
               <div className="border-b-[1px] border-gray-500 w-[100%] my-10"></div>
               <p className="text-gray-600 text-headline5 pb-10">Room Amenity</p>
-              <div className="border-b-[1px] border-gray-500 w-[100%]"></div>
+              <div className="w-full">
+                {Array.isArray(singleRoom.amenity) &&
+                  singleRoom.amenity.map((item, index) => (
+                    <div
+                      className="flex flex-row justify-evenly items-center w-full"
+                      key={index}
+                    >
+                      <div className="w-full">
+                        <label className="text-gray-900 text-body1 mb-2">
+                          Amenity *
+                        </label>
+                        <input
+                          type="text"
+                          className={`w-full text-gray-900 Input focus:outline-none focus:border-orange-500 focus:outline-none rounded-md mb-6`}
+                          value={item}
+                          // onChange={(e) => {
+                          //   const updatedItems = [...singleRoom.amenity];
+                          //   updatedItems[index].name = e.target.value;
+                          //   setSingleRoom({ ...singleRoom, amenity: updatedItems });
+                          // }}
+                        />
+                      </div>
+
+                      <button
+                        className="font-prompt text-gray-600 text-fontHead5 ml-5"
+                        // onClick={() => removeItem(index)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ))}
+                <button
+                  className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center  rounded-[5px] px-6 mt-5 "
+                  // onClick={addNewItem}
+                >
+                  <span className="text-blue-600 font-prompt text-fontHead5">
+                    + Add Amenity
+                  </span>
+                </button>
+              </div>
             </form>
           </div>
         </Paper>
