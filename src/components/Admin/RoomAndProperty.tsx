@@ -63,6 +63,12 @@ function RoomAndProperty() {
   const [showPage, setShowPage] = useState(null);
   const [singleRoom, setSingleRoom] = useState({});
 
+  const [files, setFiles] = useState([]);
+  const [fileDragging, setFileDragging] = useState(null);
+  const [fileDropping, setFileDropping] = useState(null);
+
+  console.log(files);
+
   const getRooms = async () => {
     try {
       const results = await axios(`http://localhost:4000/room/`);
@@ -125,6 +131,61 @@ function RoomAndProperty() {
   useEffect(() => {
     setShowPage(updateRoom);
   }, [singleRoom]);
+
+  useEffect(() => {
+    setShowPage(createRoom);
+  }, [files, fileDragging, fileDropping]);
+
+  const remove = (index: any) => {
+    let updatedFiles = [...files];
+    updatedFiles.splice(index, 1);
+    setFiles(updatedFiles);
+  };
+
+  // const remove = (index: any) => {
+  //   let updatedFiles = [...files];
+  //   //@ts-ignore
+  //   delete updatedFiles[index];
+  //   setFiles(updatedFiles);
+  // };
+
+  const drop = (e: any) => {
+    let removed;
+    let updatedFiles = [...files];
+
+    if (fileDragging !== null && fileDropping !== null) {
+      removed = updatedFiles.splice(fileDragging, 1);
+      updatedFiles.splice(fileDropping, 0, ...removed);
+      setFiles(updatedFiles);
+    }
+
+    setFileDropping(null);
+    setFileDragging(null);
+  };
+
+  const dragenter = (e: any) => {
+    let targetElem = e.target.closest("[draggable]");
+    setFileDropping(targetElem.getAttribute("data-index"));
+  };
+
+  const dragstart = (e: any) => {
+    setFileDragging(e.target.closest("[draggable]").getAttribute("data-index"));
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const loadFile = (file: any) => {
+    return URL.createObjectURL(file);
+  };
+
+  const addFiles = (e: any) => {
+    const newFiles = Array.from(e.target.files);
+    const updatedFiles = [...files, ...newFiles];
+    setFiles(updatedFiles);
+  };
+
+  const isImage = (file: any) => {
+    return file.type.startsWith("image/");
+  };
 
   const InitialData = (
     <>
@@ -322,7 +383,7 @@ function RoomAndProperty() {
                     // onChange={(e) => {
                     //   setGuest(e.target.value);
                     // }}
-                    className={` text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500 focus:outline-none "
+                    className={` text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500"
                 }`}
                   >
                     <option>2</option>
@@ -366,7 +427,7 @@ function RoomAndProperty() {
                     id="bedType"
                     name="bedType"
                     placeholder=""
-                    className={`text-gray-900 Input focus:outline-none focus:border-orange-500 focus:outline-none ${
+                    className={`text-gray-900 Input focus:outline-none focus:border-orange-500${
                       inputEnabled ? "" : "bg-gray-300 pointer-events-none"
                     }`}
                     disabled={!inputEnabled}
@@ -375,6 +436,120 @@ function RoomAndProperty() {
               </div>
               <div className="border-b-[1px] border-gray-500 w-[100%] my-10"></div>
               <p className="text-gray-600 text-headline5 pb-10">Room Image</p>
+
+              <div className="bg-white p-7 rounded w-[90%] mx-auto">
+                <div className="relative flex flex-col p-4 text-gray-600 border border-gray-400 rounded hover:border-orange-500 focus:border-orange-500">
+                  <div className="relative flex flex-col text-gray-600 border border-gray-400 border-dashed rounded cursor-pointer hover:border-orange-500 focus:border-orange-500">
+                    <input
+                      accept="image/*"
+                      type="file"
+                      multiple
+                      className="absolute inset-0 z-50 w-full h-full p-0 m-0 outline-none opacity-0 cursor-pointer"
+                      onChange={addFiles}
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        e.currentTarget.classList.add("border-blue-400");
+                        e.currentTarget.classList.add("ring-4");
+                        e.currentTarget.classList.add("ring-inset");
+                      }}
+                      onDragLeave={(e) => {
+                        e.preventDefault();
+                        e.currentTarget.classList.remove("border-blue-400");
+                        e.currentTarget.classList.remove("ring-4");
+                        e.currentTarget.classList.remove("ring-inset");
+                      }}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        e.currentTarget.classList.remove("border-blue-400");
+                        e.currentTarget.classList.remove("ring-4");
+                        e.currentTarget.classList.remove("ring-inset");
+                      }}
+                      title=""
+                    />
+
+                    <div className="flex flex-col items-center justify-center py-10 text-center">
+                      <svg
+                        className="w-6 h-6 mr-1 text-current-50"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
+                      </svg>
+                      <p className="m-0">Upload Photo</p>
+                    </div>
+                  </div>
+
+                  {files.length > 0 && (
+                    <div
+                      className="grid grid-cols-2 gap-4 mt-4 md:grid-cols-6"
+                      onDrop={drop}
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        e.dataTransfer.dropEffect = "move";
+                      }}
+                    >
+                      {files.map((file, index) => (
+                        <div
+                          key={index}
+                          className={`relative flex flex-col items-center overflow-hidden text-center bg-gray-100 border rounded cursor-move select-none ${
+                            fileDragging === index ? "border-blue-600" : ""
+                          }`}
+                          style={{ paddingTop: "100%" }}
+                          draggable={true}
+                          data-index={index}
+                          onDragStart={dragstart}
+                          onDragEnd={() => setFileDragging(null)}
+                        >
+                          <button
+                            className="absolute top-0 right-0 z-50 p-1 bg-white rounded-bl focus:outline-none"
+                            type="button"
+                            onClick={() => remove(index)}
+                          >
+                            <svg
+                              className="w-4 h-4 text-gray-700"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              />
+                            </svg>
+                          </button>
+                          {isImage(file) && (
+                            <img
+                              className="absolute inset-0 z-0 object-cover w-full h-full border-4 border-white preview"
+                              src={loadFile(file)}
+                            />
+                          )}
+
+                          <div
+                            className={`absolute inset-0 z-40 transition-colors duration-300 ${
+                              fileDropping === index && fileDragging !== index
+                                ? "bg-blue-200 bg-opacity-80"
+                                : ""
+                            }`}
+                            onDragEnter={dragenter}
+                            onDragLeave={() => setFileDropping(null)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+
               <div className="border-b-[1px] border-gray-500 w-[100%] my-10"></div>
               <p className="text-gray-600 text-headline5 pb-10">Room Amenity</p>
               <div className="border-b-[1px] border-gray-500 w-[100%]"></div>
