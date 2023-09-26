@@ -108,7 +108,9 @@ export default function CustomPaginationActionsTable() {
   const [booking, setBooking] = useState([]);
   const [filterBookingList, setFilterBookingList] = useState(booking);
   const [selectedByText, setSelectedByText] = useState("");
+  const [sortedBy, setSortedBy] = useState([]);
 
+  //get all booking
   const getBooking = async () => {
     try {
       const results = await axios(`http://localhost:4000/booking/admin/admin`);
@@ -121,6 +123,7 @@ export default function CustomPaginationActionsTable() {
     }
   };
 
+  //filter search
   const pattern = new RegExp(selectedByText, "i");
   const filterByName = (filteredData) => {
     const filteredBookings = filteredData.filter((book) =>
@@ -161,6 +164,26 @@ export default function CustomPaginationActionsTable() {
     }
   }, [selectedByText]);
 
+  //set Sorted by
+
+  // let sortedProducts;
+
+  // if (sortBy === "input") {
+  //   sortedProducts = products;
+  // }
+
+  // if (sortBy === "alphabet") {
+  //   sortedProducts = products
+  //     .slice()
+  //     .sort((a, b) => a.name.localeCompare(b.name));
+  // }
+
+  // if (sortBy === "bought") {
+  //   sortedProducts = products
+  //     .slice()
+  //     .sort((a, b) => Number(b.bought) - Number(a.bought));
+  // }
+
   let isCancelled;
   let isPast;
 
@@ -177,8 +200,8 @@ export default function CustomPaginationActionsTable() {
       book.amount_room,
       book.room_details.bed_types,
       book.check_in,
-      book.check_out,
-      isCancelled
+      book.check_out
+      // isCancelled
     );
   });
 
@@ -247,7 +270,7 @@ export default function CustomPaginationActionsTable() {
       bedType,
       checkIn,
       checkOut,
-      isCancelled,
+      // isCancelled,
     };
   }
 
@@ -315,7 +338,12 @@ export default function CustomPaginationActionsTable() {
                       )
                     : rows
                   ).map((row, index) => (
-                    <StyledTableRow key={index} isCancelled={row.isCancelled}>
+                    <StyledTableRow
+                      key={index}
+                      isCancelled={row.isCancelled}
+                      onClick={() => handleSelectedBookingDetail(index)}
+                      className="hover:bg-gray-300"
+                    >
                       <StyledTableCell>{row.customerName}</StyledTableCell>
                       <StyledTableCell>{row.guest}</StyledTableCell>
                       <StyledTableCell>{row.roomType}</StyledTableCell>
