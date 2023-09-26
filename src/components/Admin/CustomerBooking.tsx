@@ -105,11 +105,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 }
 
 export default function CustomPaginationActionsTable() {
-  const [booking, setBooking] = useState([]);
-  const [filterBookingList, setFilterBookingList] = useState(booking);
-  const [selectedByText, setSelectedByText] = useState("");
-  const [sortedBy, setSortedBy] = useState([]);
-
+  let sortedBooking;
   //get all booking
   const getBooking = async () => {
     try {
@@ -122,6 +118,28 @@ export default function CustomPaginationActionsTable() {
       console.error("Error fetching room data:", error);
     }
   };
+
+  const [booking, setBooking] = useState([]);
+  const [filterBookingList, setFilterBookingList] = useState(sortedBooking);
+  const [selectedByText, setSelectedByText] = useState("");
+  const [sortBy, setSortBy] = useState("all");
+
+  //set sorted by
+  if (sortBy === "all") {
+    sortedBooking = booking;
+  }
+
+  if (sortBy === "incoming") {
+    sortedBooking = booking.filter(
+      (book) => !dayjs(book.check_in).isSameOrBefore(dayjs())
+    );
+  }
+
+  if (sortBy === "past") {
+    sortedBooking = booking.filter((book) =>
+      dayjs(book.check_in).isBefore(dayjs())
+    );
+  }
 
   //filter search
   const pattern = new RegExp(selectedByText, "i");
@@ -147,11 +165,14 @@ export default function CustomPaginationActionsTable() {
     getBooking();
   }, []);
 
+  console.log(selectedByText);
+
   useEffect(() => {
     if (selectedByText) {
-      let filteredData1 = filterByName(booking);
-      let filteredData2 = filterByRoomType(booking);
-      let combinedData = [...filteredData1, ...filteredData2];
+      const filteredData1 = filterByName(sortedBooking);
+      const filteredData2 = filterByRoomType(sortedBooking);
+      const combinedData = [...filteredData1, ...filteredData2];
+      console.log(combinedData);
 
       const timer = setTimeout(() => {
         setFilterBookingList(combinedData);
@@ -160,37 +181,17 @@ export default function CustomPaginationActionsTable() {
       return () => clearTimeout(timer);
     }
     if (!selectedByText) {
-      setFilterBookingList(booking);
+      setFilterBookingList(sortedBooking);
     }
   }, [selectedByText]);
 
-  //set Sorted by
-
-  // let sortedProducts;
-
-  // if (sortBy === "input") {
-  //   sortedProducts = products;
-  // }
-
-  // if (sortBy === "alphabet") {
-  //   sortedProducts = products
-  //     .slice()
-  //     .sort((a, b) => a.name.localeCompare(b.name));
-  // }
-
-  // if (sortBy === "bought") {
-  //   sortedProducts = products
-  //     .slice()
-  //     .sort((a, b) => Number(b.bought) - Number(a.bought));
-  // }
-
   let isCancelled;
-  let isPast;
+  // let isPast;
 
   console.log(dayjs());
 
-  const rows = filterBookingList.map((book) => {
-    isCancelled = book.status === "cancel";
+  const rows = sortedBooking.map((book) => {
+    // isCancelled = book.status === "cancel";
     // isPast = book.check_out === dayjs()
 
     return createData(
@@ -204,6 +205,8 @@ export default function CustomPaginationActionsTable() {
       // isCancelled
     );
   });
+
+  console.log(rows);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -259,8 +262,8 @@ export default function CustomPaginationActionsTable() {
     amount: number,
     bedType: string,
     checkIn: string,
-    checkOut: string,
-    isCancelled: boolean
+    checkOut: string
+    // isCancelled: boolean
   ) {
     return {
       customerName,
@@ -284,11 +287,17 @@ export default function CustomPaginationActionsTable() {
           <p className=" text-black font-bold">Customer Booking</p>
 
           <div>
-            <select className="select select-bordered w-full max-w-xs">
-              <option selected>All</option>
-              <option>Incoming</option>
-              <option>Past</option>
-              <option>Cancelled</option>
+            <select
+              className="select select-bordered w-full max-w-xs"
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option selected value="all">
+                All
+              </option>
+              <option value="incoming">Incoming</option>
+              <option value="ongoing">Ongoing</option>
+              <option value="past">Past</option>
+              <option value="cancelled">Cancelled</option>
             </select>
           </div>
 
