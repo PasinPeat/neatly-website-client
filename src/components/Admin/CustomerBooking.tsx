@@ -111,11 +111,11 @@ export default function CustomPaginationActionsTable() {
 
   const getBooking = async () => {
     try {
-      const results = await axios(`http://localhost:4000/booking/`);
+      const results = await axios(`http://localhost:4000/booking/admin/admin`);
 
-      setBooking(results.data.data);
-      setFilterBookingList(results.data.data);
-      console.log(results.data.data);
+      setBooking(results.data);
+      setFilterBookingList(results.data);
+      console.log(results.data);
     } catch (error) {
       console.error("Error fetching room data:", error);
     }
@@ -162,9 +162,13 @@ export default function CustomPaginationActionsTable() {
   }, [selectedByText]);
 
   let isCancelled;
+  let isPast;
+
+  console.log(dayjs());
 
   const rows = filterBookingList.map((book) => {
-    isCancelled = filterBookingList.status === "cancel";
+    isCancelled = book.status === "cancel";
+    // isPast = book.check_out === dayjs()
 
     return createData(
       book.users.fullName,
@@ -205,20 +209,20 @@ export default function CustomPaginationActionsTable() {
       fontSize: 14,
       fontWeight: 500,
       fontFamily: "Inter",
-      color: "#424C6B",
       padding: "10px 16px",
+      color: "#424C6B",
     },
     [`&.${tableCellClasses.body}`]: {
-      backgroundColor: "white",
       fontSize: 16,
       fontFamily: "Inter",
-      color: "black",
-      borderColor: "#E4E6ED",
+      borderColor: "none",
+      // color: "red",
     },
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme, isCancelled }) => ({
-    backgroundColor: isCancelled && "#000000",
+    backgroundColor: isCancelled ? "#F6F7FC" : "",
+    color: isCancelled ? "white" : "red",
     // hide last border
     "&:last-child td, &:last-child th": {
       border: 0,
@@ -232,7 +236,8 @@ export default function CustomPaginationActionsTable() {
     amount: number,
     bedType: string,
     checkIn: string,
-    checkOut: string
+    checkOut: string,
+    isCancelled: boolean
   ) {
     return {
       customerName,
@@ -242,14 +247,28 @@ export default function CustomPaginationActionsTable() {
       bedType,
       checkIn,
       checkOut,
+      isCancelled,
     };
   }
+
+  console.log(rows);
 
   return (
     <div>
       <div className="bg-gray-100 h-screen">
+        {/* search */}
         <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
           <p className=" text-black font-bold">Customer Booking</p>
+
+          <div>
+            <select className="select select-bordered w-full max-w-xs">
+              <option selected>All</option>
+              <option>Incoming</option>
+              <option>Past</option>
+              <option>Cancelled</option>
+            </select>
+          </div>
+
           <div>
             <FormControl>
               <OutlinedInput
@@ -295,8 +314,8 @@ export default function CustomPaginationActionsTable() {
                         page * rowsPerPage + rowsPerPage
                       )
                     : rows
-                  ).map((row) => (
-                    <StyledTableRow isCancelled={isCancelled}>
+                  ).map((row, index) => (
+                    <StyledTableRow key={index} isCancelled={row.isCancelled}>
                       <StyledTableCell>{row.customerName}</StyledTableCell>
                       <StyledTableCell>{row.guest}</StyledTableCell>
                       <StyledTableCell>{row.roomType}</StyledTableCell>
