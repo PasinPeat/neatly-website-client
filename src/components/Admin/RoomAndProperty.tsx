@@ -120,13 +120,25 @@ function RoomAndProperty() {
     }
   };
 
-  // const createRoomHandler= async (id) => {
-  //   try {
-  //     await axios.post(`http//localhost:4000/room/${id}`, data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const createRoomHandler = async () => {
+    const data = {
+      room_images: files,
+      room_type: "test",
+      price: 1,
+      promotion_price: 1,
+      person: 1,
+      bed_types: "test",
+      area: 1,
+      descriptopn: "test",
+      room_id: 100,
+    };
+    console.log(data);
+    try {
+      await axios.post(`http://localhost:4000/room/`, data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     setShowPage(updateRoom);
@@ -290,9 +302,9 @@ function RoomAndProperty() {
             Cancel
           </button>
           <button
-            // onClick={() => {
-            //   createRoomHandler();
-            // }}
+            onClick={() => {
+              createRoomHandler();
+            }}
             className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center drop-shadow-md ml-3 rounded-[5px] px-6 "
           >
             Create
