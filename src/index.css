@@ -49,11 +49,7 @@
   .Disabled-select {
     @apply rounded p-3 bg-white border-gray-400 cursor-not-allowed text-body1 w-full; /* Change this to your desired text color */
   }
+  .Input-status {
+    @apply px-3 py-1 m-2 rounded text-body2 w-[212px] focus:border-none active:border-none;
+  }
 }
-
-/* @layer utilities{
-    .text-white{
-        font-size:1rem;
-        font-weight:500;
-    }
-} */

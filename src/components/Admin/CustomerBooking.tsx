@@ -21,6 +21,7 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import React from "react";
 import { useState, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
+import { createTheme } from "@mui/system";
 import axios from "axios";
 import dayjs from "dayjs";
 import BookingDetails from "./BookingDetails";
@@ -109,32 +110,24 @@ export default function CustomPaginationActionsTable() {
   const [booking, setBooking] = useState([]);
   const [filterBookingList, setFilterBookingList] = useState(booking);
   const [selectedByText, setSelectedByText] = useState("");
+  const [sortBy, setSortBy] = useState("all");
+  const [sortBookingState, setSortBookingState] = useState(booking);
   const [complete, setComplete] = useState(false);
 
+  /*get all booking*/
   const getBooking = async () => {
     try {
-      const results = await axios(`http://localhost:4000/booking/`);
+      const results = await axios(`http://localhost:4000/booking/admin/admin`);
 
-      setBooking(results.data.data);
-      setFilterBookingList(results.data.data);
-      console.log(results.data.data);
+      setBooking(results.data);
+      setFilterBookingList(results.data);
+      console.log(results.data);
     } catch (error) {
       console.error("Error fetching room data:", error);
     }
   };
 
-  /*show BookingDetails*/
-  //  function handleBookingDetail(bookId) {
-  //   const booking = context.rooms.find((room) => room.room_id === bookId;
-  //   if (room) {
-  //     setSelectedRoom(room);
-  //     setComplete(true);
-  //   }
-  // }
-
-  // const BookingID = booking[0].book_id;
-  // console.log(BookingID);
-
+  /*filter search*/
   const pattern = new RegExp(selectedByText, "i");
   const filterByName = (filteredData) => {
     const filteredBookings = filteredData.filter((book) =>
@@ -159,14 +152,52 @@ export default function CustomPaginationActionsTable() {
   }, []);
 
   useEffect(() => {
+    let timer;
     if (selectedByText) {
-      let filteredData1 = filterByName(booking);
-      let filteredData2 = filterByRoomType(booking);
-      let combinedData = [...filteredData1, ...filteredData2];
+      if (sortBy === "all") {
+        let filteredData1 = filterByName(booking);
+        let filteredData2 = filterByRoomType(booking);
+        let combinedData = [...filteredData1, ...filteredData2];
+        timer = setTimeout(() => {
+          setFilterBookingList(combinedData);
+        }, 400);
+      } else if (sortBy === "checkedOut") {
+        let filteredData1 = filterByName(sortBookingState);
+        let filteredData2 = filterByRoomType(sortBookingState);
+        let combinedData = [...filteredData1, ...filteredData2];
+        timer = setTimeout(() => {
+          setFilterBookingList(combinedData);
+        }, 400);
+      } else if (sortBy === "cancelled") {
+        let filteredData1 = filterByName(sortBookingState);
+        let filteredData2 = filterByRoomType(sortBookingState);
+        let combinedData = [...filteredData1, ...filteredData2];
+        timer = setTimeout(() => {
+          setFilterBookingList(combinedData);
+        }, 400);
+      } else if (sortBy === "incoming") {
+        let filteredData1 = filterByName(sortBookingState);
+        let filteredData2 = filterByRoomType(sortBookingState);
+        let combinedData = [...filteredData1, ...filteredData2];
+        timer = setTimeout(() => {
+          setFilterBookingList(combinedData);
+        }, 400);
+      } else if (sortBy === "ongoing") {
+        let filteredData1 = filterByName(sortBookingState);
+        let filteredData2 = filterByRoomType(sortBookingState);
+        let combinedData = [...filteredData1, ...filteredData2];
+        timer = setTimeout(() => {
+          setFilterBookingList(combinedData);
+        }, 400);
+      }
+    }
 
-      const timer = setTimeout(() => {
-        setFilterBookingList(combinedData);
-      }, 400);
+    if (!selectedByText && sortBy === "all") {
+      setFilterBookingList(booking);
+    } else if (!selectedByText && sortBy === "checkedOut") {
+      handleSortChange("checkedOut");
+    } else if (!selectedByText && sortBy === "cancelled") {
+      handleSortChange("cancelled");
 
       return () => clearTimeout(timer);
     }
@@ -175,26 +206,75 @@ export default function CustomPaginationActionsTable() {
     }
   }, [selectedByText]);
 
-  let isCancelled;
+  /*sort by status function*/
+  function sortByStatus(a, b) {
+    if (a.status === "Checked Out" && b.status !== "Checked Out") {
+      return 1;
+    } else if (a.status !== "Checked Out" && b.status === "Checked Out") {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
 
-  const rows = filterBookingList.map((book) => {
-    isCancelled = filterBookingList.status === "cancel";
+  const currentDate = dayjs().format("YYYY-MM-DD");
 
-    return createData(
-      book.users.fullName,
-      book.amount_stay,
-      book.room_details.room_type,
-      book.amount_room,
-      book.room_details.bed_types,
-      book.check_in,
-      book.check_out,
-      book.book_id,
-      isCancelled
-    );
-  });
+  const rows = filterBookingList
+    .map((book) => {
+      let status;
 
-  // console.log(book.book_id);
+      if (book.status === "cancel") {
+        status = "Cancelled";
+      } else if (currentDate > book.check_out) {
+        status = "Checked Out";
+      } else if (
+        currentDate >= book.check_in &&
+        book.check_out >= currentDate
+      ) {
+        status = "Ongoing";
+      } else if (currentDate < book.check_in) {
+        status = "Incoming";
+      }
 
+      return createData(
+        book.users.fullName,
+        book.amount_stay,
+        book.room_details.room_type,
+        book.amount_room,
+        book.room_details.bed_types,
+        book.check_in,
+        book.check_out,
+        status,
+        book.book_id
+      );
+    })
+    .sort(sortByStatus);
+
+  function createData(
+    customerName: string,
+    guest: number,
+    roomType: string,
+    amount: number,
+    bedType: string,
+    checkIn: string,
+    checkOut: string,
+    status: string,
+    book_id: number
+  ) {
+    return {
+      customerName,
+      guest,
+      roomType,
+      amount,
+      bedType,
+      checkIn,
+      checkOut,
+      status,
+      book_id,
+    };
+  }
+
+  /*set Page*/
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -216,53 +296,54 @@ export default function CustomPaginationActionsTable() {
     setPage(0);
   };
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#E4E6ED",
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Inter",
-      color: "#424C6B",
-      padding: "10px 16px",
-    },
-    [`&.${tableCellClasses.body}`]: {
-      backgroundColor: "white",
-      fontSize: 16,
-      fontFamily: "Inter",
-      color: "black",
-      borderColor: "#E4E6ED",
-    },
-  }));
+  /*handle sort change*/
+  const handleSortChange = (event) => {
+    if (event === "all") {
+      setSortBy("all");
+      setFilterBookingList(booking);
+    }
 
-  const StyledTableRow = styled(TableRow)(({ theme, isCancelled }) => ({
-    backgroundColor: isCancelled && "#000000",
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
+    if (event === "checkedOut") {
+      const sortedPastBooking = booking.filter(
+        (book) => currentDate > book.check_out && book.status !== "cancel"
+      );
+      setSortBy("checkedOut");
+      setFilterBookingList(sortedPastBooking);
+      setSortBookingState(sortedPastBooking);
+    }
 
-  function createData(
-    customerName: string,
-    guest: number,
-    roomType: string,
-    amount: number,
-    bedType: string,
-    checkIn: string,
-    checkOut: string,
-    book_id: number
-  ) {
-    return {
-      customerName,
-      guest,
-      roomType,
-      amount,
-      bedType,
-      checkIn,
-      checkOut,
-      book_id,
-    };
-  }
+    if (event === "cancelled") {
+      const sortedCancelledBooking = booking.filter(
+        (book) => book.status === "cancel"
+      );
+      setSortBy("cancelled");
+      setFilterBookingList(sortedCancelledBooking);
+      setSortBookingState(sortedCancelledBooking);
+    }
+
+    if (event === "incoming") {
+      const sortedIncomingBooking = booking.filter(
+        (book) => currentDate < book.check_in && book.status !== "cancel"
+      );
+      setSortBy("incoming");
+      setFilterBookingList(sortedIncomingBooking);
+      setSortBookingState(sortedIncomingBooking);
+    }
+
+    if (event === "ongoing") {
+      const sortedCurrentBooking = booking.filter(
+        (book) =>
+          currentDate >= book.check_in &&
+          book.check_out >= currentDate &&
+          book.status !== "cancel"
+      );
+      setSortBy("ongoing");
+      setFilterBookingList(sortedCurrentBooking);
+      setSortBookingState(sortedCurrentBooking);
+    }
+  };
+
+  /*handle selected booking*/
   const [selectedBookId, setSelectedBookId] = useState(null);
 
   const handleRowClick = (bookId) => {
@@ -272,8 +353,59 @@ export default function CustomPaginationActionsTable() {
   const handleCompleteChange = (newCompleteValue) => {
     setComplete(newCompleteValue);
   };
+
+  /*style table*/
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "#E4E6ED",
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Inter",
+      padding: "10px 16px",
+      color: "#424C6B",
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 16,
+      fontFamily: "Inter",
+      borderColor: "none",
+    },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    // hide last border
+    "&:last-child td, &:last-child th": {
+      border: 0,
+    },
+  }));
+
+  /*style status*/
+  const statusTheme = createTheme({
+    palette: {
+      status: {
+        "Checked Out": {
+          main: "#F0F1F8",
+          contrastText: "#6E7288",
+        },
+        Ongoing: {
+          main: "#E5FFFA",
+          contrastText: "#006753",
+        },
+        Incoming: {
+          main: "#E4ECFF",
+          contrastText: "#084BAF",
+        },
+        Cancelled: {
+          main: "#FFF9E5",
+          contrastText: "#766A00",
+        },
+      },
+    },
+  });
+
+  console.log(rows);
+
   return (
-    <div>
+    <div className="bg-gray-100 h-screen">
       {complete ? (
         <BookingDetails
           bookId={selectedBookId}
@@ -281,98 +413,128 @@ export default function CustomPaginationActionsTable() {
         />
       ) : (
         <div>
-          <div className="bg-gray-100 h-screen">
-            <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
-              <p className=" text-black font-bold">Customer Booking</p>
-              <div>
-                <FormControl>
-                  <OutlinedInput
-                    value={selectedByText}
-                    onChange={handleInputChange}
-                    placeholder="Search…"
-                    size="small"
-                    color="warning"
-                    id="input-with-icon-adornment"
-                    inputProps={{
-                      "aria-label": "weight",
-                    }}
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <SearchIcon />
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </div>
+          <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
+            <p className="text-black font-bold">Customer Booking</p>
+            <div>
+              <select
+                className="select select-bordered w-full max-w-xs"
+                onChange={(e) => handleSortChange(e.target.value)}
+              >
+                <option selected value="all">
+                  All
+                </option>
+                <option value="incoming">Incoming</option>
+                <option value="ongoing">Ongoing</option>
+                <option value="checkedOut">Checked out</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
             </div>
 
-            {/* table field*/}
-            <div className="px-24 py-12">
-              <Paper sx={{ overflow: "hidden" }}>
-                <TableContainer component={Paper}>
-                  <Table aria-label="custom pagination table">
-                    <TableHead>
-                      <TableRow>
-                        <StyledTableCell>Customer</StyledTableCell>
-                        <StyledTableCell>Guest(s)</StyledTableCell>
-                        <StyledTableCell>Room type</StyledTableCell>
-                        <StyledTableCell>Amount</StyledTableCell>
-                        <StyledTableCell>Bed type</StyledTableCell>
-                        <StyledTableCell>Check-in</StyledTableCell>
-                        <StyledTableCell>Check-out</StyledTableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {(rowsPerPage > 0
-                        ? rows.slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage
-                          )
-                        : rows
-                      ).map((row) => (
-                        <StyledTableRow
-                          isCancelled={row.isCancelled}
-                          onClick={() => handleRowClick(row.book_id)}
-                        >
-                          <StyledTableCell>{row.customerName}</StyledTableCell>
-                          <StyledTableCell>{row.guest}</StyledTableCell>
-                          <StyledTableCell>{row.roomType}</StyledTableCell>
-                          <StyledTableCell>{row.amount}</StyledTableCell>
-                          <StyledTableCell>{row.bedType}</StyledTableCell>
-                          <StyledTableCell>{row.checkIn}</StyledTableCell>
-                          <StyledTableCell>{row.checkOut}</StyledTableCell>
-                        </StyledTableRow>
-                      ))}
-                      {emptyRows > 0 && (
-                        <TableRow style={{ height: 53 * emptyRows }}>
-                          <TableCell colSpan={6} />
-                        </TableRow>
-                      )}
-                    </TableBody>
-                    <TableFooter>
-                      <TableRow>
-                        <TablePagination
-                          rowsPerPageOptions={[10]}
-                          colSpan={3}
-                          count={rows.length}
-                          rowsPerPage={rowsPerPage}
-                          page={page}
-                          SelectProps={{
-                            inputProps: {
-                              "aria-label": "rows per page",
-                            },
-                            native: true,
-                          }}
-                          onPageChange={handleChangePage}
-                          onRowsPerPageChange={handleChangeRowsPerPage}
-                          ActionsComponent={TablePaginationActions}
-                        />
-                      </TableRow>
-                    </TableFooter>
-                  </Table>
-                </TableContainer>
-              </Paper>
+            <div>
+              <FormControl>
+                <OutlinedInput
+                  value={selectedByText}
+                  onChange={handleInputChange}
+                  placeholder="Search…"
+                  size="small"
+                  color="warning"
+                  id="input-with-icon-adornment"
+                  inputProps={{
+                    "aria-label": "weight",
+                  }}
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
             </div>
+          </div>
+          <div className="px-24 py-12">
+            <Paper sx={{ overflow: "hidden" }}>
+              <TableContainer component={Paper}>
+                <Table aria-label="custom pagination table">
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell>Customer</StyledTableCell>
+                      <StyledTableCell>Guest(s)</StyledTableCell>
+                      <StyledTableCell>Room type</StyledTableCell>
+                      <StyledTableCell>Amount</StyledTableCell>
+                      <StyledTableCell>Bed type</StyledTableCell>
+                      <StyledTableCell>Check-in</StyledTableCell>
+                      <StyledTableCell>Check-out</StyledTableCell>
+                      <StyledTableCell>Status</StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+
+                  <TableBody>
+                    {(rowsPerPage > 0
+                      ? rows.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
+                        )
+                      : rows
+                    ).map((row, index) => (
+                      <StyledTableRow
+                        key={index}
+                        onClick={() => handleRowClick(row.book_id)}
+                        className="hover:bg-gray-300 hover:cursor-pointer"
+                      >
+                        <StyledTableCell>{row.customerName}</StyledTableCell>
+                        <StyledTableCell>{row.guest}</StyledTableCell>
+                        <StyledTableCell>{row.roomType}</StyledTableCell>
+                        <StyledTableCell>{row.amount}</StyledTableCell>
+                        <StyledTableCell>{row.bedType}</StyledTableCell>
+                        <StyledTableCell>{row.checkIn}</StyledTableCell>
+                        <StyledTableCell>{row.checkOut}</StyledTableCell>
+                        <StyledTableCell>
+                          <span
+                            className="Input-status"
+                            style={{
+                              color:
+                                statusTheme.palette.status[row.status]
+                                  .contrastText,
+                              backgroundColor:
+                                statusTheme.palette.status[row.status].main,
+                            }}
+                          >
+                            {row.status}
+                          </span>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    ))}
+
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+
+                  <TableFooter>
+                    <TableRow>
+                      <TablePagination
+                        rowsPerPageOptions={[10]}
+                        colSpan={3}
+                        count={rows.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        SelectProps={{
+                          inputProps: {
+                            "aria-label": "rows per page",
+                          },
+                          native: true,
+                        }}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        ActionsComponent={TablePaginationActions}
+                      />
+                    </TableRow>
+                  </TableFooter>
+                </Table>
+              </TableContainer>
+            </Paper>
           </div>
         </div>
       )}
