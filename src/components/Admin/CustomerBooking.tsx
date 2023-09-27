@@ -110,11 +110,17 @@ export default function CustomPaginationActionsTable() {
   const [booking, setBooking] = useState([]);
   const [filterBookingList, setFilterBookingList] = useState(booking);
   const [selectedByText, setSelectedByText] = useState("");
+<<<<<<< HEAD
   const [sortBy, setSortBy] = useState("all");
   const [sortBookingState, setSortBookingState] = useState(booking);
   const [complete, setComplete] = useState(false);
 
   /*get all booking*/
+=======
+  const [sortedBy, setSortedBy] = useState([]);
+
+  //get all booking
+>>>>>>> 3957e2c (fix: rebase)
   const getBooking = async () => {
     try {
       const results = await axios(`http://localhost:4000/booking/admin/admin`);
@@ -127,7 +133,11 @@ export default function CustomPaginationActionsTable() {
     }
   };
 
+<<<<<<< HEAD
   /*filter search*/
+=======
+  //filter search
+>>>>>>> 3957e2c (fix: rebase)
   const pattern = new RegExp(selectedByText, "i");
   const filterByName = (filteredData) => {
     const filteredBookings = filteredData.filter((book) =>
@@ -205,6 +215,7 @@ export default function CustomPaginationActionsTable() {
     }
   }, [selectedByText]);
 
+<<<<<<< HEAD
   /*sort by status function*/
   function sortByStatus(a, b) {
     if (a.status === "Checked Out" && b.status !== "Checked Out") {
@@ -215,6 +226,30 @@ export default function CustomPaginationActionsTable() {
       return 0;
     }
   }
+=======
+  //set Sorted by
+
+  // let sortedProducts;
+
+  // if (sortBy === "input") {
+  //   sortedProducts = products;
+  // }
+
+  // if (sortBy === "alphabet") {
+  //   sortedProducts = products
+  //     .slice()
+  //     .sort((a, b) => a.name.localeCompare(b.name));
+  // }
+
+  // if (sortBy === "bought") {
+  //   sortedProducts = products
+  //     .slice()
+  //     .sort((a, b) => Number(b.bought) - Number(a.bought));
+  // }
+
+  let isCancelled;
+  let isPast;
+>>>>>>> 3957e2c (fix: rebase)
 
   const currentDate = dayjs().format("YYYY-MM-DD");
 
@@ -222,6 +257,7 @@ export default function CustomPaginationActionsTable() {
     .map((book) => {
       let status;
 
+<<<<<<< HEAD
       if (book.status === "cancel") {
         status = "Cancelled";
       } else if (currentDate > book.check_out) {
@@ -272,6 +308,19 @@ export default function CustomPaginationActionsTable() {
       book_id,
     };
   }
+=======
+    return createData(
+      book.users.fullName,
+      book.amount_stay,
+      book.room_details.room_type,
+      book.amount_room,
+      book.room_details.bed_types,
+      book.check_in,
+      book.check_out
+      // isCancelled
+    );
+  });
+>>>>>>> 3957e2c (fix: rebase)
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -376,6 +425,7 @@ export default function CustomPaginationActionsTable() {
     },
   }));
 
+<<<<<<< HEAD
   /*style status*/
   const statusTheme = createTheme({
     palette: {
@@ -399,6 +449,29 @@ export default function CustomPaginationActionsTable() {
       },
     },
   });
+=======
+  function createData(
+    customerName: string,
+    guest: number,
+    roomType: string,
+    amount: number,
+    bedType: string,
+    checkIn: string,
+    checkOut: string,
+    isCancelled: boolean
+  ) {
+    return {
+      customerName,
+      guest,
+      roomType,
+      amount,
+      bedType,
+      checkIn,
+      checkOut,
+      // isCancelled,
+    };
+  }
+>>>>>>> 3957e2c (fix: rebase)
 
   console.log(rows);
 
@@ -452,6 +525,7 @@ export default function CustomPaginationActionsTable() {
           </div>
           {/* search */}
 
+<<<<<<< HEAD
           {/* table field*/}
           <div className="px-24 py-12">
             <Paper sx={{ overflow: "hidden" }}>
@@ -467,6 +541,72 @@ export default function CustomPaginationActionsTable() {
                       <StyledTableCell>Check-in</StyledTableCell>
                       <StyledTableCell>Check-out</StyledTableCell>
                       <StyledTableCell>Status</StyledTableCell>
+=======
+          <div>
+            <FormControl>
+              <OutlinedInput
+                value={selectedByText}
+                onChange={handleInputChange}
+                placeholder="Search…"
+                size="small"
+                color="warning"
+                id="input-with-icon-adornment"
+                inputProps={{
+                  "aria-label": "weight",
+                }}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </div>
+        </div>
+
+        {/* table field*/}
+        <div className="px-24 py-12">
+          <Paper sx={{ overflow: "hidden" }}>
+            <TableContainer component={Paper}>
+              <Table aria-label="custom pagination table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>Customer</StyledTableCell>
+                    <StyledTableCell>Guest(s)</StyledTableCell>
+                    <StyledTableCell>Room type</StyledTableCell>
+                    <StyledTableCell>Amount</StyledTableCell>
+                    <StyledTableCell>Bed type</StyledTableCell>
+                    <StyledTableCell>Check-in</StyledTableCell>
+                    <StyledTableCell>Check-out</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {(rowsPerPage > 0
+                    ? rows.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                    : rows
+                  ).map((row, index) => (
+                    <StyledTableRow
+                      key={index}
+                      isCancelled={row.isCancelled}
+                      onClick={() => handleSelectedBookingDetail(index)}
+                      className="hover:bg-gray-300"
+                    >
+                      <StyledTableCell>{row.customerName}</StyledTableCell>
+                      <StyledTableCell>{row.guest}</StyledTableCell>
+                      <StyledTableCell>{row.roomType}</StyledTableCell>
+                      <StyledTableCell>{row.amount}</StyledTableCell>
+                      <StyledTableCell>{row.bedType}</StyledTableCell>
+                      <StyledTableCell>{row.checkIn}</StyledTableCell>
+                      <StyledTableCell>{row.checkOut}</StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={6} />
+>>>>>>> 3957e2c (fix: rebase)
                     </TableRow>
                   </TableHead>
                   <TableBody>
