@@ -1,4 +1,3 @@
-import React from "react";
 import CustomerBooking from "../components/Admin/CustomerBooking";
 import HotelInformation from "../components/Admin/HotelInformation";
 import RoomAndProperty from "../components/Admin/RoomAndProperty";
@@ -7,9 +6,8 @@ import Sidebar from "../components/Admin/Sidebar";
 import SidebarItems from "../components/Admin/SidebarItems";
 import Divider from "@mui/material/Divider";
 import MuiDrawer from "@mui/material/Drawer";
-
+import { PageProvider } from "../contexts/PageContext";
 import List from "@mui/material/List";
-
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 
@@ -75,11 +73,11 @@ function Admin() {
   };
   const ListSx = {
     bgcolor: "#2F3E35",
-    gap: 2
+    gap: 2,
   };
 
   return (
-    <>
+    <PageProvider>
       <div className="h-screen w-screen overflow-x-hidden">
         <div className="w-[240px] h-full fixed overflow-y-hidden top-0 left-0 z-50 bg-green-800 flex flex-col items-center ">
           <Drawer variant="permanent" open={open} sx={DrawerSx}>
@@ -113,7 +111,7 @@ function Admin() {
           {roomandProperty && <RoomAndProperty />}
         </div>
       </div>
-    </>
+    </PageProvider>
   );
 }
 

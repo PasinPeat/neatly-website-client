@@ -1,5 +1,4 @@
 import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -8,104 +7,17 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
-import SearchIcon from "@mui/icons-material/Search";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import FormControl from "@mui/material/FormControl";
-import InputAdornment from "@mui/material/InputAdornment";
-import TablePagination from "@mui/material/TablePagination";
-import IconButton from "@mui/material/IconButton";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import LastPageIcon from "@mui/icons-material/LastPage";
-import React from "react";
-import { useState, useEffect } from "react";
-import { useTheme } from "@mui/material/styles";
+import { useState, useEffect, useContext } from "react";
 import { createTheme } from "@mui/system";
 import axios from "axios";
 import dayjs from "dayjs";
 import BookingDetails from "./BookingDetails";
-import SelectSortBy from "./selectSortBy";
-
-interface TablePaginationActionsProps {
-  count: number;
-  page: number;
-  rowsPerPage: number;
-  onPageChange: (
-    event: React.MouseEvent<HTMLButtonElement>,
-    newPage: number
-  ) => void;
-}
-
-function TablePaginationActions(props: TablePaginationActionsProps) {
-  const theme = useTheme();
-  const { count, page, rowsPerPage, onPageChange } = props;
-
-  const handleFirstPageButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    onPageChange(event, 0);
-  };
-
-  const handleBackButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    onPageChange(event, page - 1);
-  };
-
-  const handleNextButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    onPageChange(event, page + 1);
-  };
-
-  const handleLastPageButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
-
-  return (
-    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
-      <IconButton
-        onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
-        aria-label="first page"
-      >
-        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
-      </IconButton>
-      <IconButton
-        onClick={handleBackButtonClick}
-        disabled={page === 0}
-        aria-label="previous page"
-      >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowRight />
-        ) : (
-          <KeyboardArrowLeft />
-        )}
-      </IconButton>
-      <IconButton
-        onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page"
-      >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowLeft />
-        ) : (
-          <KeyboardArrowRight />
-        )}
-      </IconButton>
-      <IconButton
-        onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last page"
-      >
-        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
-      </IconButton>
-    </Box>
-  );
-}
+import NavbarAdmin from "./NavbarAdmin";
+import SelectSortBy from "./SelectSortBy";
+import SearchAdmin from "./SearchAdmin";
+import PaginationAdmin from "./PaginationAdmin";
+import PageContext from "../../contexts/PageContext";
+import useFormattedDate from "../../hooks/useFormattedDate";
 
 export default function CustomPaginationActionsTable() {
   const [booking, setBooking] = useState([]);
@@ -204,7 +116,7 @@ export default function CustomPaginationActionsTable() {
     }
   }, [selectedByText]);
 
-  /*sort by status function*/
+  /*sort checked out status after other*/
   function sortByStatus(a, b) {
     if (a.status === "Checked Out" && b.status !== "Checked Out") {
       return 1;
@@ -222,9 +134,9 @@ export default function CustomPaginationActionsTable() {
       let status;
 
       if (book.status === "cancel") {
-        status = "Cancel";
+        status = "Cancelled";
       } else if (currentDate > book.check_out) {
-        status = "Past";
+        status = "Checked Out";
       } else if (
         currentDate >= book.check_in &&
         book.check_out >= currentDate
@@ -272,27 +184,12 @@ export default function CustomPaginationActionsTable() {
     };
   }
 
-  /*set Page*/
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  /*page context*/
+  const { page, setPage, rowsPerPage, setRowsPerPage } =
+    useContext(PageContext);
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
   /*handle sort change*/
   const handleSortChange = (event) => {
@@ -354,7 +251,7 @@ export default function CustomPaginationActionsTable() {
   };
 
   /*style table*/
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  const StyledTableCell = styled(TableCell)(() => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#E4E6ED",
       fontSize: 14,
@@ -370,7 +267,7 @@ export default function CustomPaginationActionsTable() {
     },
   }));
 
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  const StyledTableRow = styled(TableRow)(() => ({
     // hide last border
     "&:last-child td, &:last-child th": {
       border: 0,
@@ -401,9 +298,7 @@ export default function CustomPaginationActionsTable() {
     },
   });
 
-  console.log(rows);
-
-  console.log(rows);
+  // console.log(rows);
 
   return (
     <div className="bg-gray-100 h-screen">
@@ -414,33 +309,16 @@ export default function CustomPaginationActionsTable() {
         />
       ) : (
         <div>
-          <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
+          <NavbarAdmin>
             <p className="text-black font-bold">Customer Booking</p>
-
             <div className="flex gap-10">
               <SelectSortBy onSortChange={handleSortChange} />
-              <div>
-                <FormControl>
-                  <OutlinedInput
-                    value={selectedByText}
-                    onChange={handleInputChange}
-                    placeholder="Search…"
-                    size="small"
-                    color="warning"
-                    id="input-with-icon-adornment"
-                    inputProps={{
-                      "aria-label": "weight",
-                    }}
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <SearchIcon />
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </div>
+              <SearchAdmin
+                value={selectedByText}
+                onChange={handleInputChange}
+              />
             </div>
-          </div>
+          </NavbarAdmin>
 
           <div className="px-24 py-12">
             <Paper sx={{ overflow: "hidden" }}>
@@ -488,12 +366,12 @@ export default function CustomPaginationActionsTable() {
                           {row.bedType}
                         </StyledTableCell>
                         <StyledTableCell className="w-[12.5%]">
-                          {row.checkIn}
+                          {useFormattedDate(row.checkIn)}
                         </StyledTableCell>
                         <StyledTableCell className="w-[12.5%]">
-                          {row.checkOut}
+                          {useFormattedDate(row.checkOut)}
                         </StyledTableCell>
-                        <StyledTableCell>
+                        <StyledTableCell className="w-[12.5%]">
                           <span
                             className="Input-status"
                             style={{
@@ -509,7 +387,6 @@ export default function CustomPaginationActionsTable() {
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}
-
                     {emptyRows > 0 && (
                       <TableRow style={{ height: 55.8 * emptyRows }}>
                         <TableCell colSpan={8} />
@@ -518,22 +395,7 @@ export default function CustomPaginationActionsTable() {
                   </TableBody>
 
                   <TableFooter>
-                    <TablePagination
-                      rowsPerPageOptions={[10]}
-                      colSpan={5}
-                      count={rows.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      SelectProps={{
-                        inputProps: {
-                          "aria-label": "rows per page",
-                        },
-                        native: true,
-                      }}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                      ActionsComponent={TablePaginationActions}
-                    />
+                    <PaginationAdmin rows={rows} />
                   </TableFooter>
                 </Table>
               </TableContainer>

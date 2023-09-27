@@ -21,7 +21,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./contexts/authen.jsx";
 import { BookingsProvider } from "./contexts/BookingContext.jsx";
 import Admin from "./pages/Admin.tsx";
-import CustomerBooking from "./components/Admin/CustomerBooking.tsx";
 import BookingDetails from "./components/Admin/BookingDetails.tsx";
 export const RoomsContext = React.createContext();
 
