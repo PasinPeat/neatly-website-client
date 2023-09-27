@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DropDownList from "./DropdownList.js";
+import dayjs from "dayjs";
 
 function HistoryCard({
   bookingsHistory,
@@ -33,24 +34,24 @@ function HistoryCard({
   console.log();
 
   // date format
-  const checkInDate = new Date(`${checkIn}`);
-  const checkOutDate = new Date(`${checkOut}`);
-  const checkBookDate = new Date(`${bookDate}`);
-  const checkCancelDate = new Date(`${cancel_date}`);
-  const options = {
-    weekday: "short",
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  };
+  // const checkInDate = new Date(`${checkIn}`);
+  // const checkOutDate = new Date(`${checkOut}`);
+  // const checkBookDate = new Date(`${bookDate}`);
+  // const checkCancelDate = new Date(`${cancel_date}`);
+  // const options = {
+  //   weekday: "short",
+  //   day: "numeric",
+  //   month: "short",
+  //   year: "numeric",
+  // };
 
-  const formattedCheckIn = checkInDate.toLocaleDateString("en-US", options);
-  const formattedCheckOut = checkOutDate.toLocaleDateString("en-US", options);
-  const formattedBookDate = checkBookDate.toLocaleDateString("en-US", options);
-  const formattedCancelDate = checkCancelDate.toLocaleDateString(
-    "en-US",
-    options
-  );
+  // const formattedCheckIn = checkInDate.toLocaleDateString("en-US", options);
+  // const formattedCheckOut = checkOutDate.toLocaleDateString("en-US", options);
+  // const formattedBookDate = checkBookDate.toLocaleDateString("en-US", options);
+  // const formattedCancelDate = checkCancelDate.toLocaleDateString(
+  //   "en-US",
+  //   options
+  // );
 
   const backgroundImage = {
     backgroundImage: `url('${roomImages[2]}')`,
@@ -134,11 +135,15 @@ function HistoryCard({
                 <h2 className="text-headline4 text-black">{roomType}</h2>
                 <div className="flex flex-col items-end mb-2 text-body1 text-gray-600">
                   <p>
-                    Booking date: <span>{formattedBookDate}</span>
+                    Booking date:{" "}
+                    <span>{dayjs(bookDate).format("ddd, D MMM YYYY")}</span>
                   </p>
                   {cancel_date !== null && (
                     <p>
-                      Cancellation date: <span>{formattedCancelDate}</span>
+                      Cancellation date:{" "}
+                      <span>
+                        {dayjs(cancel_date).format("ddd, D MMM YYYY")}
+                      </span>
                     </p>
                   )}
                 </div>
@@ -147,7 +152,7 @@ function HistoryCard({
                 <div className="flex flex-col gap-1">
                   <p className=" font-bold text-grey-800">Check-in</p>
                   <div>
-                    <span>{formattedCheckIn}</span>
+                    <span>{dayjs(checkIn).format("ddd, D MMM YYYY")}</span>
                     <span className="px-2">|</span>
                     <span>{checkInTime}</span>
                   </div>
@@ -155,7 +160,7 @@ function HistoryCard({
                 <div className="flex flex-col gap-1">
                   <p className="font-bold text-grey-800">Check-out</p>
                   <div>
-                    <span>{formattedCheckOut}</span>
+                    <span>{dayjs(checkOut).format("ddd, D MMM YYYY")}</span>
                     <span className="px-2">|</span>
                     <span>{checkOutTime}</span>
                   </div>
