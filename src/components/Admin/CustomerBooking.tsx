@@ -25,6 +25,7 @@ import { createTheme } from "@mui/system";
 import axios from "axios";
 import dayjs from "dayjs";
 import BookingDetails from "./BookingDetails";
+import SelectSortBy from "./selectSortBy";
 
 interface TablePaginationActionsProps {
   count: number;
@@ -341,6 +342,7 @@ export default function CustomPaginationActionsTable() {
       setFilterBookingList(sortedCurrentBooking);
       setSortBookingState(sortedCurrentBooking);
     }
+    setPage(0);
   };
 
   /*handle selected booking*/
@@ -415,42 +417,32 @@ export default function CustomPaginationActionsTable() {
         <div>
           <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
             <p className="text-black font-bold">Customer Booking</p>
-            <div>
-              <select
-                className="select select-bordered w-full max-w-xs"
-                onChange={(e) => handleSortChange(e.target.value)}
-              >
-                <option selected value="all">
-                  All
-                </option>
-                <option value="incoming">Incoming</option>
-                <option value="ongoing">Ongoing</option>
-                <option value="checkedOut">Checked out</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
-            </div>
 
-            <div>
-              <FormControl>
-                <OutlinedInput
-                  value={selectedByText}
-                  onChange={handleInputChange}
-                  placeholder="Search…"
-                  size="small"
-                  color="warning"
-                  id="input-with-icon-adornment"
-                  inputProps={{
-                    "aria-label": "weight",
-                  }}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
+            <div className="flex gap-10">
+              <SelectSortBy onSortChange={handleSortChange} />
+              <div>
+                <FormControl>
+                  <OutlinedInput
+                    value={selectedByText}
+                    onChange={handleInputChange}
+                    placeholder="Search…"
+                    size="small"
+                    color="warning"
+                    id="input-with-icon-adornment"
+                    inputProps={{
+                      "aria-label": "weight",
+                    }}
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </div>
             </div>
           </div>
+
           <div className="px-24 py-12">
             <Paper sx={{ overflow: "hidden" }}>
               <TableContainer component={Paper}>
@@ -479,15 +471,29 @@ export default function CustomPaginationActionsTable() {
                       <StyledTableRow
                         key={index}
                         onClick={() => handleRowClick(row.book_id)}
-                        className="hover:bg-gray-300 hover:cursor-pointer"
+                        className="hover:bg-gray-200 hover:cursor-pointer"
                       >
-                        <StyledTableCell>{row.customerName}</StyledTableCell>
-                        <StyledTableCell>{row.guest}</StyledTableCell>
-                        <StyledTableCell>{row.roomType}</StyledTableCell>
-                        <StyledTableCell>{row.amount}</StyledTableCell>
-                        <StyledTableCell>{row.bedType}</StyledTableCell>
-                        <StyledTableCell>{row.checkIn}</StyledTableCell>
-                        <StyledTableCell>{row.checkOut}</StyledTableCell>
+                        <StyledTableCell className="w-[17%]">
+                          {row.customerName}
+                        </StyledTableCell>
+                        <StyledTableCell className="w-[8%]">
+                          {row.guest}
+                        </StyledTableCell>
+                        <StyledTableCell className="w-[17%]">
+                          {row.roomType}
+                        </StyledTableCell>
+                        <StyledTableCell className="w-[8%]">
+                          {row.amount}
+                        </StyledTableCell>
+                        <StyledTableCell className="w-[12.5%]">
+                          {row.bedType}
+                        </StyledTableCell>
+                        <StyledTableCell className="w-[12.5%]">
+                          {row.checkIn}
+                        </StyledTableCell>
+                        <StyledTableCell className="w-[12.5%]">
+                          {row.checkOut}
+                        </StyledTableCell>
                         <StyledTableCell>
                           <span
                             className="Input-status"
@@ -506,31 +512,29 @@ export default function CustomPaginationActionsTable() {
                     ))}
 
                     {emptyRows > 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={6} />
+                      <TableRow style={{ height: 55.8 * emptyRows }}>
+                        <TableCell colSpan={8} />
                       </TableRow>
                     )}
                   </TableBody>
 
                   <TableFooter>
-                    <TableRow>
-                      <TablePagination
-                        rowsPerPageOptions={[10]}
-                        colSpan={3}
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        SelectProps={{
-                          inputProps: {
-                            "aria-label": "rows per page",
-                          },
-                          native: true,
-                        }}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                        ActionsComponent={TablePaginationActions}
-                      />
-                    </TableRow>
+                    <TablePagination
+                      rowsPerPageOptions={[10]}
+                      colSpan={5}
+                      count={rows.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      SelectProps={{
+                        inputProps: {
+                          "aria-label": "rows per page",
+                        },
+                        native: true,
+                      }}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                      ActionsComponent={TablePaginationActions}
+                    />
                   </TableFooter>
                 </Table>
               </TableContainer>
