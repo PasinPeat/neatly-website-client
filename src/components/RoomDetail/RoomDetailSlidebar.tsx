@@ -8,7 +8,7 @@ import { Parallax, Autoplay, Pagination, Navigation } from "swiper/modules";
 
 function RoomDetailSlidebar({ roomImages }) {
   return (
-    <div className= "bg-transparent">
+    <div className="bg-transparent z-0">
       <Swiper
         className="bg-transparent"
         id="swiper-color"
@@ -22,7 +22,7 @@ function RoomDetailSlidebar({ roomImages }) {
           "--swiper-pagination-color": "#fff",
         }}
         spaceBetween={24}
-        slidesPerView={'auto'}
+        slidesPerView={"auto"}
         initialSlide={2}
         pagination={{
           clickable: true,
@@ -36,7 +36,7 @@ function RoomDetailSlidebar({ roomImages }) {
         {roomImages.map((image, index) => {
           return (
             <div key={index}>
-              <SwiperSlide className=" w-fit">
+              <SwiperSlide className=" w-fit z-0">
                 <div className="w-[930px] h-[580px] ml-4">
                   <img className="w-full h-full object-cover" src={image} />
                 </div>
