@@ -110,7 +110,9 @@ export default function CustomPaginationActionsTable() {
 
   const getBooking = async () => {
     try {
-      const results = await axios(`http://localhost:4000/booking/admin/admin`);
+      const results = await axios(
+        `http://localhost:4000/avaliable/admin/admin`
+      );
 
       setBooking(results.data);
       setFilterBookingList(results.data);
@@ -121,9 +123,9 @@ export default function CustomPaginationActionsTable() {
   };
 
   const pattern = new RegExp(selectedByText, "i");
-  const filterByName = (filteredData) => {
+  const filterByRoomNumber = (filteredData) => {
     const filteredBookings = filteredData.filter((book) =>
-      pattern.test(book.users.fullName)
+      pattern.test(book.room_avaliable_id)
     );
     return filteredBookings;
   };
@@ -145,7 +147,7 @@ export default function CustomPaginationActionsTable() {
 
   useEffect(() => {
     if (selectedByText) {
-      let filteredData1 = filterByName(booking);
+      let filteredData1 = filterByRoomNumber(booking);
       let filteredData2 = filterByRoomType(booking);
       let combinedData = [...filteredData1, ...filteredData2];
 
@@ -231,15 +233,15 @@ export default function CustomPaginationActionsTable() {
   }
   const roomNumberArr = rows.map((row) => row.roomNumber);
   roomNumberArr.sort((a, b) => a - b);
-  console.log(roomNumberArr);
+  // console.log(roomNumberArr);
 
   return (
     <>
-      <div className=" w-full">
+      <div className="bg-gray-100 h-screen">
         {/* navbar field*/}
         <div className="bg-white h-20 min-w-[1295px] w-full flex flex-row items-center drop-shadow-md">
           <div className="flex flex-row w-full justify-between items-center pl-16 pr-7">
-            <p className=" text-black font-bold">Room Management</p>
+            <p className="text-black font-bold">Room Management</p>
             <div>
               <FormControl>
                 <OutlinedInput
@@ -273,9 +275,27 @@ export default function CustomPaginationActionsTable() {
               <Table aria-label="custom pagination table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell>Room no.</StyledTableCell>
-                    <StyledTableCell>Room type</StyledTableCell>
-                    <StyledTableCell>Bed type</StyledTableCell>
+                    <StyledTableCell
+                      style={{
+                        width: "200px",
+                      }}
+                    >
+                      Room no.
+                    </StyledTableCell>
+                    <StyledTableCell
+                      style={{
+                        width: "300px",
+                      }}
+                    >
+                      Room type
+                    </StyledTableCell>
+                    <StyledTableCell
+                      style={{
+                        width: "300px",
+                      }}
+                    >
+                      Bed type
+                    </StyledTableCell>
                     <StyledTableCell
                       style={{
                         width: "350px",
@@ -298,15 +318,15 @@ export default function CustomPaginationActionsTable() {
                     );
                     return (
                       <StyledTableRow key={index} isCancelled={row.isCancelled}>
-                        <StyledTableCell>{roomNumber}</StyledTableCell>
+                        <StyledTableCell>
+                          {roomNumber > 9
+                            ? `0${roomNumber}`
+                            : `00${roomNumber}`}
+                        </StyledTableCell>
                         <StyledTableCell>{row.roomType}</StyledTableCell>
                         <StyledTableCell>{row.bedType}</StyledTableCell>
-                        <StyledTableCell
-                          style={{
-                            width: "350px",
-                          }}
-                        >
-                          <DropdownSearch />
+                        <StyledTableCell>
+                          <DropdownSearch roomNumber={roomNumber} />
                         </StyledTableCell>
                       </StyledTableRow>
                     );

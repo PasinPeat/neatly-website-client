@@ -1,6 +1,7 @@
 import * as React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
 
 const status: string[] = [
   "Vacant",
@@ -56,7 +57,7 @@ const theme = createTheme({
   },
 });
 
-export default function UseAutocomplete() {
+export default function UseAutocomplete(roomNumber: number) {
   const [selectedStatus, setSelectedStatus] = React.useState<string | null>(
     null
   );
@@ -73,23 +74,83 @@ export default function UseAutocomplete() {
     setOpen(!open);
   };
 
+  // const handleInputChange = (
+  //   event: React.ChangeEvent,
+  //   newValue: string | null
+  // ) => {
+  //   setSelectedStatus(newValue);
+  //   if (!newValue) {
+  //     setOpen(false);
+  //   }
+  // };
+
+  // console.log(selectedStatus);
+
+  // POST: create Room Status
+  // const saveStatusToDatabase = async (selectedStatus: string) => {
+  //   try {
+  //     const response = await axios.post(
+  //       `http://localhost:4000/avaliable/admin/admin`,
+  //       { status: selectedStatus }
+  //     );
+
+  //     if (response.status === 200) {
+  //       console.log("Status saved to the database successfully.");
+  //     } else {
+  //       console.error("Failed to save status to the database.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error while saving status to the database:", error);
+  //   }
+  // };
+  // console.log(roomNumber);
+
+  // PUT: Update Room Status
+  const updateStatusInDatabase = async (
+    roomNumber: number,
+    selectedStatus: string
+  ) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:4000/avaliable/admin/admin/${roomNumber}`,
+        { room_status: selectedStatus }
+      );
+
+      if (response.status === 200) {
+        console.log("Status updated successfully.");
+      } else {
+        console.error("Failed to update status.");
+      }
+    } catch (error) {
+      console.error("Error while updating status:", error);
+    }
+  };
+
   const handleInputChange = (
-    event: React.ChangeEvent<{}>,
+    event: React.ChangeEvent,
     newValue: string | null
   ) => {
     setSelectedStatus(newValue);
     if (!newValue) {
       setOpen(false);
+    } else {
+      try {
+        // waiting for POST before PUT
+        // await saveStatusToDatabase(newValue);
+
+        // after POST then PUT
+        updateStatusInDatabase(roomNumber, newValue);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
   };
-
-  console.log(selectedStatus);
 
   return (
     <>
       <button
         onClick={handleButtonClick}
-        className="px-3 py-1 rounded text-body2 cursor-pointer"
+        className="px-3 py-1 rounded text-body2 cursor-pointer border-0"
         style={{
           color:
             theme.palette.status[selectedStatus]?.contrastText || "inherit",
@@ -100,43 +161,45 @@ export default function UseAutocomplete() {
         {selectedStatus ? `${selectedStatus}` : "Search status..."}
       </button>
       <ThemeProvider theme={theme}>
-        <Autocomplete
-          options={status}
-          value={selectedStatus}
-          onChange={(event: React.ChangeEvent<{}>, newValue: string | null) => {
-            setSelectedStatus(newValue);
-            setOpen(false); // Close the Autocomplete when an option is selected
-          }}
-          open={open}
-          style={{
-            display: "flex",
-          }}
-          // className="focus:border-0 active:border-0"
-          getOptionLabel={(option) => option}
-          renderInput={(params) => (
-            <div ref={params.InputProps.ref} className="relative ">
-              <input
-                type="text"
-                {...params.inputProps}
-                style={{
-                  display: open ? "block" : "none",
-                }}
-                placeholder="Search status..."
-                className="w-[180px] h-[32px] px-4 py-3 rounded-t text-gray-600 text-body2 border-b-[1px] border-gray-400 shadow-md bg-white focus:border-0 active:border-0"
-                onChange={(e) => handleInputChange(e, e.target.value)}
-              />
-            </div>
-          )}
-          renderOption={(props, option) => (
-            <li
-              {...props}
-              style={getStatusStyle(option)}
-              className="px-3 py-1 m-2 rounded text-body2 cursor-pointer inline-block z-[999]"
-            >
-              {option}
-            </li>
-          )}
-        />
+        <div style={{ position: "relative" }}>
+          <Autocomplete
+            options={status}
+            value={selectedStatus}
+            onChange={(event: React.ChangeEvent, newValue: string | null) => {
+              setSelectedStatus(newValue);
+              setOpen(false); // Close the Autocomplete when an option is selected
+            }}
+            open={open}
+            style={{
+              display: "flex",
+            }}
+            className="focus:border-0 active:border-0 hover:border-0"
+            getOptionLabel={(option) => option}
+            renderInput={(params) => (
+              <div ref={params.InputProps.ref}>
+                <input
+                  type="text"
+                  {...params.inputProps}
+                  style={{
+                    display: open ? "block" : "none",
+                  }}
+                  placeholder="Search status..."
+                  className="w-[180px] h-[32px] px-4 py-3 rounded-t text-gray-600 text-body2 border-b-[1px] border-gray-400 shadow-md bg-white focus:border-0 active:border-0 hover:border-0"
+                  onChange={(e) => handleInputChange(e, e.target.value)}
+                />
+              </div>
+            )}
+            renderOption={(props, option) => (
+              <li
+                {...props}
+                style={getStatusStyle(option)}
+                className="px-3 py-1 m-2 rounded text-body2 cursor-pointer inline-block"
+              >
+                {option}
+              </li>
+            )}
+          />
+        </div>
       </ThemeProvider>
     </>
   );
