@@ -73,16 +73,20 @@ function RoomResultCard({
               {/* right elements */}
               <div className="flex flex-col text-right text-body1 w-64">
                 <p className="line-through pt-2">
-                  {price.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "THB",
-                  })}
+                  {price
+                    ? price.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "THB",
+                      })
+                    : 0}
                 </p>
                 <p className="text-headline5 text-black pb-3">
-                  {promotionPrice.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "THB",
-                  })}
+                  {promotionPrice
+                    ? promotionPrice.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "THB",
+                      })
+                    : 0}
                 </p>
                 <p>
                   Per Night

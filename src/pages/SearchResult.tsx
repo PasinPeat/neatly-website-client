@@ -21,9 +21,14 @@ function SearchResult({
   const [showRoomDetail, setShowRoomDetail] = useState(false);
   const [showFullImage, setShowFullImage] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<RoomsProps | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setRoomResult(context.rooms);
+    if (userInput) {
+      setRoomResult(context.rooms);
+    } else {
+      navigate("/");
+    }
   }, []);
 
   /*render all room cards*/
