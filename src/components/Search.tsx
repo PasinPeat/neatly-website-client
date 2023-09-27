@@ -114,9 +114,11 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
       person,
       night: Math.abs(checkOutDate.diff(checkInDate, "day")),
     };
+    localStorage.setItem("userInput", JSON.stringify(result));
     onSearchResult(result);
     setUserInput(result);
     // console.log(result);
+
     navigate("/search");
   }
 

@@ -36,20 +36,6 @@ function App() {
     setRooms(results.data.data);
   };
 
-  useEffect(() => {
-    const storedUserInput = localStorage.getItem("userInput");
-    const token = localStorage.getItem("token");
-    const role = localStorage.getItem("role");
-    if (storedUserInput && role) {
-      setUserInput(JSON.parse(storedUserInput));
-    }
-    if (token && role) {
-      setValidateRole(role);
-    }
-    // Fetch rooms
-    getRooms();
-  }, []);
-
   const handleSearchResult = async (result) => {
     try {
       const results = await axios.get(
@@ -77,56 +63,22 @@ function App() {
       console.log(error);
     }
   };
+  useEffect(() => {
+    const storedUserInput = localStorage.getItem("userInput");
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+    if (storedUserInput && role) {
+      setUserInput(JSON.parse(storedUserInput));
+    }
+    if (token && role) {
+      setValidateRole(role);
+    }
+    // Fetch rooms
+    getRooms();
+  }, []);
 
   const userRoutes = (
     <>
-      <Route
-        path="/"
-        element={
-          <Home
-            setUserInput={setUserInput}
-            onSearchResult={handleSearchResult}
-          />
-        }
-      />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/room/:roomId" element={<RoomDetail />} />
-      <Route
-        path="/search"
-        element={
-          <SearchResult
-            roomResult={roomResult}
-            userInput={userInput}
-            setUserInput={setUserInput}
-            onSearchResult={handleSearchResult}
-            setRoomResult={setRoomResult}
-          />
-        }
-      />
-      <Route path="/payment" element={<Payment />} />
-      <Route
-        path="/paymentmethod/:paymentmethodID"
-        element={<PaymentMethod />}
-      />
-      <Route path="/profile/:profileID" element={<Profile />} />
-      <Route path="/booking/user/:userId" element={<BookingHistory />} />
-      <Route path="/changeDate/:bookId" element={<ChangeDate />} />
-      <Route path="/refund/:bookId" element={<Refund />} />
-      <Route path="/cancleBooking/:bookId" element={<CancleBooking />} />
-      <Route path="/*" element={<NotFound />} />
-    </>
-  );
-
-  const adminRoutes = (
-    <>
-      <Route path="/" element={<Admin />} />
-      <Route path="/BookingDetails/:bookId" element={<BookingDetails />} />
-    </>
-  );
-
-  return (
-    <BookingsProvider>
       <RoomsContext.Provider
         value={{
           rooms,
@@ -135,10 +87,59 @@ function App() {
         }}
       >
         <Routes>
-          {validateRole === "user" ? userRoutes : null}
-          {validateRole === "admin" ? adminRoutes : null}
+          <Route
+            path="/"
+            element={
+              <Home
+                setUserInput={setUserInput}
+                onSearchResult={handleSearchResult}
+              />
+            }
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/room/:roomId" element={<RoomDetail />} />
+          <Route
+            path="/search"
+            element={
+              <SearchResult
+                roomResult={roomResult}
+                userInput={userInput}
+                setUserInput={setUserInput}
+                onSearchResult={handleSearchResult}
+                setRoomResult={setRoomResult}
+              />
+            }
+          />
+          <Route path="/payment" element={<Payment />} />
+          <Route
+            path="/paymentmethod/:paymentmethodID"
+            element={<PaymentMethod />}
+          />
+          <Route path="/profile/:profileID" element={<Profile />} />
+          <Route path="/booking/user/:userId" element={<BookingHistory />} />
+          <Route path="/changeDate/:bookId" element={<ChangeDate />} />
+          <Route path="/refund/:bookId" element={<Refund />} />
+          <Route path="/cancleBooking/:bookId" element={<CancleBooking />} />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
       </RoomsContext.Provider>
+    </>
+  );
+
+  const adminRoutes = (
+    <>
+      <Routes>
+        <Route path="/" element={<Admin />} />
+        <Route path="/BookingDetails/:bookId" element={<BookingDetails />} />
+      </Routes>
+    </>
+  );
+
+  return (
+    <BookingsProvider>
+      {validateRole === "user" ? userRoutes : null}
+      {validateRole === "admin" ? adminRoutes : null}
     </BookingsProvider>
   );
 }
