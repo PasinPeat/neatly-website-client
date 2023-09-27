@@ -4,6 +4,7 @@ import axios from "axios";
 import Navbar from "../components/Navbar";
 import "../App.css";
 import RefundSuccess from "../components/Refund/RefundSuccess";
+import dayjs from "dayjs";
 
 function Refund() {
   const [complete, setComplete] = useState(false);
@@ -26,10 +27,6 @@ function Refund() {
     },
   });
 
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [bookDate, setBookDate] = useState("");
-
   const getData = async () => {
     try {
       const response = await axios.get(
@@ -38,9 +35,6 @@ function Refund() {
       console.log(response.data.data);
       const data = response.data.data;
       setCancelBooking(data);
-      setCheckIn(data.check_in);
-      setCheckOut(data.check_out);
-      setBookDate(data.booking_date);
     } catch (error) {
       console.error(error);
     }
@@ -66,19 +60,6 @@ function Refund() {
   useEffect(() => {
     getData();
   }, [bookId]);
-
-  const checkInDate = new Date(`${checkIn}`);
-  const checkOutDate = new Date(`${checkOut}`);
-  const checkBookDate = new Date(`${bookDate}`);
-  const options = {
-    weekday: "short",
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  };
-  const formattedCheckIn = checkInDate.toLocaleDateString("en-US", options);
-  const formattedCheckOut = checkOutDate.toLocaleDateString("en-US", options);
-  const formattedBookDate = checkBookDate.toLocaleDateString("en-US", options);
 
   // fomat total price
   const formattedTotalPrice = parseFloat(
@@ -136,16 +117,27 @@ function Refund() {
                           {cancelBooking.room_details.room_type}
                         </h2>
                         <p className="text-gray-600 text-body1">
-                          Booking date: {formattedBookDate}
+                          Booking date:{" "}
+                          {dayjs(cancelBooking.booking_date).format(
+                            "ddd, D MMM YYYY"
+                          )}
                         </p>
                       </div>
                       <div className="flex justify-between">
                         <div className="mt-10 flex flex-col  text-gray-700 text-body1">
                           <div>
                             <div>
-                              <span>{formattedCheckIn} </span>
+                              <span>
+                                {dayjs(cancelBooking.check_in).format(
+                                  "ddd, D MMM YYYY"
+                                )}{" "}
+                              </span>
                               <span className="px-2">-</span>
-                              <span>{formattedCheckOut} </span>
+                              <span>
+                                {dayjs(cancelBooking.check_out).format(
+                                  "ddd, D MMM YYYY"
+                                )}{" "}
+                              </span>
                             </div>
                             <div className="mt-2">
                               <span>{cancelBooking.amount_stay} Guests</span>
