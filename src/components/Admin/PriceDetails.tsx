@@ -59,8 +59,8 @@ function PriceDetails({ bookId }) {
 
   const formatNumber = (number) => {
     return parseFloat(number).toLocaleString("en-US", {
-      style: "currency",
-      currency: "THB",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
     });
   };
 
@@ -109,7 +109,7 @@ function PriceDetails({ bookId }) {
         <div className="flex flex-row justify-between items-end mt-3 mb-4 text-gray-900 border-t border-gray-300 w-[872px] h-[54px]">
           <p>Total</p>
           <p className="text-body1 font-bold">
-            {formatNumber(priceDetail.total_price_add_reqs)}
+            THB {formatNumber(priceDetail.total_price_add_reqs)}
           </p>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import App from "../../App";
 import { Link } from "react-router-dom";
+import dayjs from "dayjs";
 // import Navbar from "../Navbar";
 
 function CancelSuccess() {
@@ -22,11 +23,6 @@ function CancelSuccess() {
     amount_stay: "",
   });
 
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [bookDate, setBookDate] = useState("");
-  const [cancelDate, setCancelDate] = useState("");
-
   const getData = async () => {
     try {
       const response = await axios.get(
@@ -35,10 +31,6 @@ function CancelSuccess() {
       console.log(response.data.data);
       const data = response.data.data;
       setCancelBooking(data);
-      setCheckIn(data.check_in);
-      setCheckOut(data.check_out);
-      setBookDate(data.booking_date);
-      setCancelDate(data.cancel_date);
     } catch (error) {
       console.error(error);
     }
@@ -48,23 +40,6 @@ function CancelSuccess() {
     getData();
   }, [bookId]);
 
-  const checkInDate = new Date(`${checkIn}`);
-  const checkOutDate = new Date(`${checkOut}`);
-  const checkBookDate = new Date(`${bookDate}`);
-  const checkCancelDate = new Date(`${cancelDate}`);
-  const options = {
-    weekday: "short",
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  };
-  const formattedCheckIn = checkInDate.toLocaleDateString("en-US", options);
-  const formattedCheckOut = checkOutDate.toLocaleDateString("en-US", options);
-  const formattedBookDate = checkBookDate.toLocaleDateString("en-US", options);
-  const formattedCancelDate = checkCancelDate.toLocaleDateString(
-    "en-US",
-    options
-  );
   //check user
   const fetchAuth = async () => {
     const token = localStorage.getItem("token");
@@ -103,16 +78,26 @@ function CancelSuccess() {
             {cancelBooking.room_details.room_type}
           </p>
           <div className="flex flex-row pb-1 text-white  mt-4">
-            <p className=" text-base font-semibold">{formattedCheckIn}</p>
+            <p className=" text-base font-semibold">
+              {dayjs(cancelBooking.check_in).format("ddd, D MMM YYYY")}
+            </p>
             <span className="px-2 text-body1">-</span>
-            <p className=" text-base font-semibold">{formattedCheckOut}</p>
+            <p className=" text-base font-semibold">
+              {dayjs(cancelBooking.check_out).format("ddd, D MMM YYYY")}
+            </p>
           </div>
           <p className="text-white text-body1 py-1 ">
             {cancelBooking.amount_stay} Guests
           </p>
           <div className="flex flex-col text-body1 text-green-300 mt-10">
-            <p className=" py-1 ">Booking date: {formattedBookDate}</p>
-            <p className=" py-1 ">Cancellation date: {formattedCancelDate}</p>
+            <p className=" py-1 ">
+              Booking date:{" "}
+              {dayjs(cancelBooking.booking_date).format("ddd, D MMM YYYY")}
+            </p>
+            <p className=" py-1 ">
+              Cancellation date:{" "}
+              {dayjs(cancelBooking.cancel_date).format("ddd, D MMM YYYY")}
+            </p>
           </div>
         </div>
       </div>

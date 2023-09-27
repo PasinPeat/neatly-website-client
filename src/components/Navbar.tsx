@@ -66,7 +66,7 @@ function Navbar() {
         </div>
         {auth.isAuthenticated ? (
           <div className="flex items-center relative">
-            <div className="dropdown dropdown-end ">
+            <div className="dropdown dropdown-end z-20">
               <label tabIndex={0} className="hover:cursor-pointer">
                 <div
                   className="bg-cover bg-center w-12 h-12 rounded-full"
@@ -75,7 +75,7 @@ function Navbar() {
               </label>
               <ul
                 tabIndex={0}
-                className=" menu dropdown-content absolute top-[70px] -left-20 rounded-[4px] z-[1] drop-shadow-lg bg-white w-52 mt-4 px-2 [&_li>*]:rounded-[4px]"
+                className=" menu dropdown-content absolute top-[70px] -left-20 rounded-[4px] z-10 drop-shadow-lg bg-white w-52 mt-4 px-2 [&_li>*]:rounded-[4px]"
               >
                 <li>
                   <button
@@ -208,7 +208,7 @@ function Navbar() {
         </div>
         {auth.isAuthenticated ? (
           <div className="flex items-center relative">
-            <div className="dropdown dropdown-end">
+            <div className="dropdown dropdown-end z-20">
               <label tabIndex={0} className="hover:cursor-pointer">
                 <div
                   className="bg-cover bg-center w-12 h-12 rounded-full"
