@@ -8,10 +8,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
-import SearchIcon from "@mui/icons-material/Search";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import FormControl from "@mui/material/FormControl";
-import InputAdornment from "@mui/material/InputAdornment";
 import TablePagination from "@mui/material/TablePagination";
 import IconButton from "@mui/material/IconButton";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
@@ -25,7 +21,9 @@ import { createTheme } from "@mui/system";
 import axios from "axios";
 import dayjs from "dayjs";
 import BookingDetails from "./BookingDetails";
-import SelectSortBy from "./selectSortBy";
+import NavbarAdmin from "./NavbarAdmin";
+import SelectSortBy from "./SelectSortBy";
+import SearchAdmin from "./SearchAdmin";
 
 interface TablePaginationActionsProps {
   count: number;
@@ -401,10 +399,6 @@ export default function CustomPaginationActionsTable() {
     },
   });
 
-  console.log(rows);
-
-  console.log(rows);
-
   return (
     <div className="bg-gray-100 h-screen">
       {complete ? (
@@ -414,33 +408,16 @@ export default function CustomPaginationActionsTable() {
         />
       ) : (
         <div>
-          <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
+          <NavbarAdmin>
             <p className="text-black font-bold">Customer Booking</p>
-
             <div className="flex gap-10">
               <SelectSortBy onSortChange={handleSortChange} />
-              <div>
-                <FormControl>
-                  <OutlinedInput
-                    value={selectedByText}
-                    onChange={handleInputChange}
-                    placeholder="Search…"
-                    size="small"
-                    color="warning"
-                    id="input-with-icon-adornment"
-                    inputProps={{
-                      "aria-label": "weight",
-                    }}
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <SearchIcon />
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </div>
+              <SearchAdmin
+                selectedByText={selectedByText}
+                handleInputChange={handleInputChange}
+              />
             </div>
-          </div>
+          </NavbarAdmin>
 
           <div className="px-24 py-12">
             <Paper sx={{ overflow: "hidden" }}>
