@@ -49,6 +49,8 @@
   .Disabled-select {
     @apply rounded p-3 bg-white border-gray-400 cursor-not-allowed text-body1 w-full; /* Change this to your desired text color */
   }
+  .Input-status {
+  }
 }
 
 /* @layer utilities{

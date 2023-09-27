@@ -110,17 +110,11 @@ export default function CustomPaginationActionsTable() {
   const [booking, setBooking] = useState([]);
   const [filterBookingList, setFilterBookingList] = useState(booking);
   const [selectedByText, setSelectedByText] = useState("");
-<<<<<<< HEAD
   const [sortBy, setSortBy] = useState("all");
   const [sortBookingState, setSortBookingState] = useState(booking);
   const [complete, setComplete] = useState(false);
 
   /*get all booking*/
-=======
-  const [sortedBy, setSortedBy] = useState([]);
-
-  //get all booking
->>>>>>> 3957e2c (fix: rebase)
   const getBooking = async () => {
     try {
       const results = await axios(`http://localhost:4000/booking/admin/admin`);
@@ -133,11 +127,7 @@ export default function CustomPaginationActionsTable() {
     }
   };
 
-<<<<<<< HEAD
   /*filter search*/
-=======
-  //filter search
->>>>>>> 3957e2c (fix: rebase)
   const pattern = new RegExp(selectedByText, "i");
   const filterByName = (filteredData) => {
     const filteredBookings = filteredData.filter((book) =>
@@ -215,7 +205,6 @@ export default function CustomPaginationActionsTable() {
     }
   }, [selectedByText]);
 
-<<<<<<< HEAD
   /*sort by status function*/
   function sortByStatus(a, b) {
     if (a.status === "Checked Out" && b.status !== "Checked Out") {
@@ -226,30 +215,6 @@ export default function CustomPaginationActionsTable() {
       return 0;
     }
   }
-=======
-  //set Sorted by
-
-  // let sortedProducts;
-
-  // if (sortBy === "input") {
-  //   sortedProducts = products;
-  // }
-
-  // if (sortBy === "alphabet") {
-  //   sortedProducts = products
-  //     .slice()
-  //     .sort((a, b) => a.name.localeCompare(b.name));
-  // }
-
-  // if (sortBy === "bought") {
-  //   sortedProducts = products
-  //     .slice()
-  //     .sort((a, b) => Number(b.bought) - Number(a.bought));
-  // }
-
-  let isCancelled;
-  let isPast;
->>>>>>> 3957e2c (fix: rebase)
 
   const currentDate = dayjs().format("YYYY-MM-DD");
 
@@ -257,7 +222,6 @@ export default function CustomPaginationActionsTable() {
     .map((book) => {
       let status;
 
-<<<<<<< HEAD
       if (book.status === "cancel") {
         status = "Cancelled";
       } else if (currentDate > book.check_out) {
@@ -308,20 +272,8 @@ export default function CustomPaginationActionsTable() {
       book_id,
     };
   }
-=======
-    return createData(
-      book.users.fullName,
-      book.amount_stay,
-      book.room_details.room_type,
-      book.amount_room,
-      book.room_details.bed_types,
-      book.check_in,
-      book.check_out
-      // isCancelled
-    );
-  });
->>>>>>> 3957e2c (fix: rebase)
 
+  /*set Page*/
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -425,7 +377,6 @@ export default function CustomPaginationActionsTable() {
     },
   }));
 
-<<<<<<< HEAD
   /*style status*/
   const statusTheme = createTheme({
     palette: {
@@ -449,99 +400,34 @@ export default function CustomPaginationActionsTable() {
       },
     },
   });
-=======
-  function createData(
-    customerName: string,
-    guest: number,
-    roomType: string,
-    amount: number,
-    bedType: string,
-    checkIn: string,
-    checkOut: string,
-    isCancelled: boolean
-  ) {
-    return {
-      customerName,
-      guest,
-      roomType,
-      amount,
-      bedType,
-      checkIn,
-      checkOut,
-      // isCancelled,
-    };
-  }
->>>>>>> 3957e2c (fix: rebase)
 
   console.log(rows);
 
   return (
-    <div>
+    <div className="bg-gray-100 h-screen">
       {complete ? (
         <BookingDetails
           bookId={selectedBookId}
           onCompleteChange={handleCompleteChange}
         />
       ) : (
-        /* search */
-        <div className="bg-gray-100 h-screen">
-          <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
-            <p className=" text-black font-bold">Customer Booking</p>
-            <div>
-              <select
-                className="select select-bordered w-full max-w-xs"
-                onChange={(e) => handleSortChange(e.target.value)}
-              >
-                <option selected value="all">
-                  All
-                </option>
-                <option value="incoming">Incoming</option>
-                <option value="ongoing">Ongoing</option>
-                <option value="checkedOut">Checked out</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
-            </div>
-
-            <div>
-              <FormControl>
-                <OutlinedInput
-                  value={selectedByText}
-                  onChange={handleInputChange}
-                  placeholder="Search…"
-                  size="small"
-                  color="warning"
-                  id="input-with-icon-adornment"
-                  inputProps={{
-                    "aria-label": "weight",
-                  }}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </div>
+        <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
+          <p className="text-black font-bold">Customer Booking</p>
+          <div>
+            <select
+              className="select select-bordered w-full max-w-xs"
+              onChange={(e) => handleSortChange(e.target.value)}
+            >
+              <option selected value="all">
+                All
+              </option>
+              <option value="incoming">Incoming</option>
+              <option value="ongoing">Ongoing</option>
+              <option value="checkedOut">Checked out</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
           </div>
-          {/* search */}
 
-<<<<<<< HEAD
-          {/* table field*/}
-          <div className="px-24 py-12">
-            <Paper sx={{ overflow: "hidden" }}>
-              <TableContainer component={Paper}>
-                <Table aria-label="custom pagination table">
-                  <TableHead>
-                    <TableRow>
-                      <StyledTableCell>Customer</StyledTableCell>
-                      <StyledTableCell>Guest(s)</StyledTableCell>
-                      <StyledTableCell>Room type</StyledTableCell>
-                      <StyledTableCell>Amount</StyledTableCell>
-                      <StyledTableCell>Bed type</StyledTableCell>
-                      <StyledTableCell>Check-in</StyledTableCell>
-                      <StyledTableCell>Check-out</StyledTableCell>
-                      <StyledTableCell>Status</StyledTableCell>
-=======
           <div>
             <FormControl>
               <OutlinedInput
@@ -563,119 +449,82 @@ export default function CustomPaginationActionsTable() {
             </FormControl>
           </div>
         </div>
-
-        {/* table field*/}
-        <div className="px-24 py-12">
-          <Paper sx={{ overflow: "hidden" }}>
-            <TableContainer component={Paper}>
-              <Table aria-label="custom pagination table">
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell>Customer</StyledTableCell>
-                    <StyledTableCell>Guest(s)</StyledTableCell>
-                    <StyledTableCell>Room type</StyledTableCell>
-                    <StyledTableCell>Amount</StyledTableCell>
-                    <StyledTableCell>Bed type</StyledTableCell>
-                    <StyledTableCell>Check-in</StyledTableCell>
-                    <StyledTableCell>Check-out</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {(rowsPerPage > 0
-                    ? rows.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                    : rows
-                  ).map((row, index) => (
-                    <StyledTableRow
-                      key={index}
-                      isCancelled={row.isCancelled}
-                      onClick={() => handleSelectedBookingDetail(index)}
-                      className="hover:bg-gray-300"
-                    >
-                      <StyledTableCell>{row.customerName}</StyledTableCell>
-                      <StyledTableCell>{row.guest}</StyledTableCell>
-                      <StyledTableCell>{row.roomType}</StyledTableCell>
-                      <StyledTableCell>{row.amount}</StyledTableCell>
-                      <StyledTableCell>{row.bedType}</StyledTableCell>
-                      <StyledTableCell>{row.checkIn}</StyledTableCell>
-                      <StyledTableCell>{row.checkOut}</StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
->>>>>>> 3957e2c (fix: rebase)
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {(rowsPerPage > 0
-                      ? rows.slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage
-                        )
-                      : rows
-                    ).map((row, index) => (
-                      <StyledTableRow
-                        key={index}
-                        onClick={() => handleRowClick(row.book_id)}
-                      >
-                        <StyledTableCell>{row.customerName}</StyledTableCell>
-                        <StyledTableCell>{row.guest}</StyledTableCell>
-                        <StyledTableCell>{row.roomType}</StyledTableCell>
-                        <StyledTableCell>{row.amount}</StyledTableCell>
-                        <StyledTableCell>{row.bedType}</StyledTableCell>
-                        <StyledTableCell>{row.checkIn}</StyledTableCell>
-                        <StyledTableCell>{row.checkOut}</StyledTableCell>
-                        <StyledTableCell>
-                          <span
-                            className="Input-status"
-                            style={{
-                              color:
-                                statusTheme.palette.status[row.status]
-                                  .contrastText,
-                              backgroundColor:
-                                statusTheme.palette.status[row.status].main,
-                            }}
-                          >
-                            {row.status}
-                          </span>
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    ))}
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={6} />
-                      </TableRow>
-                    )}
-                  </TableBody>
-                  <TableFooter>
-                    <TableRow>
-                      <TablePagination
-                        rowsPerPageOptions={[10]}
-                        colSpan={3}
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        SelectProps={{
-                          inputProps: {
-                            "aria-label": "rows per page",
-                          },
-                          native: true,
-                        }}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                        ActionsComponent={TablePaginationActions}
-                      />
-                    </TableRow>
-                  </TableFooter>
-                </Table>
-              </TableContainer>
-            </Paper>
-          </div>
-        </div>
       )}
+
+      <div className="px-24 py-12">
+        <Paper sx={{ overflow: "hidden" }}>
+          <TableContainer component={Paper}>
+            <Table aria-label="custom pagination table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Customer</StyledTableCell>
+                  <StyledTableCell>Guest(s)</StyledTableCell>
+                  <StyledTableCell>Room type</StyledTableCell>
+                  <StyledTableCell>Amount</StyledTableCell>
+                  <StyledTableCell>Bed type</StyledTableCell>
+                  <StyledTableCell>Check-in</StyledTableCell>
+                  <StyledTableCell>Check-out</StyledTableCell>
+                  <StyledTableCell>Status</StyledTableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {(rowsPerPage > 0
+                  ? rows.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                  : rows
+                ).map((row, index) => (
+                  <StyledTableRow
+                    key={index}
+                    onClick={() => handleRowClick(row.book_id)}
+                    className="hover:bg-gray-300"
+                  >
+                    <StyledTableCell>{row.customerName}</StyledTableCell>
+                    <StyledTableCell>{row.guest}</StyledTableCell>
+                    <StyledTableCell>{row.roomType}</StyledTableCell>
+                    <StyledTableCell>{row.amount}</StyledTableCell>
+                    <StyledTableCell>{row.bedType}</StyledTableCell>
+                    <StyledTableCell>{row.checkIn}</StyledTableCell>
+                    <StyledTableCell>{row.checkOut}</StyledTableCell>
+                    <StyledTableCell>
+                      <span className="Input-status">{row.status}</span>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[10]}
+                    colSpan={3}
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    SelectProps={{
+                      inputProps: {
+                        "aria-label": "rows per page",
+                      },
+                      native: true,
+                    }}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    ActionsComponent={TablePaginationActions}
+                  />
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </div>
     </div>
   );
 }
