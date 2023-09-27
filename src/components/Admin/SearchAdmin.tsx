@@ -3,13 +3,13 @@ import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import FormControl from "@mui/material/FormControl";
 
-function SearchAdmin({ selectedByText, handleInputChange }) {
+function SearchAdmin({ value, onChange }) {
   return (
     <div>
       <FormControl>
         <OutlinedInput
-          value={selectedByText}
-          onChange={handleInputChange}
+          value={value}
+          onChange={onChange}
           placeholder="Search…"
           size="small"
           color="warning"
