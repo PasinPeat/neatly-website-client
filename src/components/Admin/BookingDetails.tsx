@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { redirect } from "react-router-dom";
 import axios from "axios";
 import PriceDetails from "./PriceDetails";
+import dayjs from "dayjs";
+
 function BookingDetails({ bookId, onCompleteChange }) {
   const [bookingDetails, setBookingDetails] = useState({
     room_details: {
@@ -23,23 +24,6 @@ function BookingDetails({ bookId, onCompleteChange }) {
     },
   });
 
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [bookDate, setBookDate] = useState("");
-  const checkInDate = new Date(`${checkIn}`);
-  const checkOutDate = new Date(`${checkOut}`);
-  const checkBookDate = new Date(`${bookDate}`);
-  const options = {
-    weekday: "short",
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  };
-
-  const formattedCheckIn = checkInDate.toLocaleDateString("en-US", options);
-  const formattedCheckOut = checkOutDate.toLocaleDateString("en-US", options);
-  const formattedBookDate = checkBookDate.toLocaleDateString("en-US", options);
-
   const getData = async () => {
     try {
       const response = await axios.get(
@@ -48,9 +32,6 @@ function BookingDetails({ bookId, onCompleteChange }) {
       console.log(response.data.data);
       const data = response.data.data;
       setBookingDetails(data);
-      setCheckIn(data.check_in);
-      setCheckOut(data.check_out);
-      setBookDate(data.booking_date);
     } catch (error) {
       console.error(error);
     }
@@ -115,11 +96,16 @@ function BookingDetails({ bookId, onCompleteChange }) {
         </div>
         <div className="flex flex-col w-[880px] h-[58px]  mb-[38px] pb-1">
           <p className="text-headline5 text-gray-600">Check-in</p>
-          <p className="text-body1 text-black ">{formattedCheckIn}</p>
+          <p className="text-body1 text-black ">
+            {dayjs(bookingDetails.check_in).format("ddd, D MMM YYYY")}
+          </p>
         </div>
         <div className="flex flex-col w-[880px] h-[58px]  mb-[38px] pb-1">
           <p className="text-headline5 text-gray-600">Check-out</p>
-          <p className="text-body1 text-black ">{formattedCheckOut}</p>
+          <p className="text-body1 text-black ">
+            {" "}
+            {dayjs(bookingDetails.check_out).format("ddd, D MMM YYYY")}
+          </p>
         </div>
         <div className="flex flex-col w-[880px] h-[58px]  mb-[38px] pb-1">
           <p className="text-headline5 text-gray-600">Stay (total)</p>
@@ -129,7 +115,9 @@ function BookingDetails({ bookId, onCompleteChange }) {
         </div>
         <div className="flex flex-col w-[880px] h-[58px]  mb-[38px] pb-1">
           <p className="text-headline5 text-gray-600">Booking date</p>
-          <p className="text-body1 text-black ">{formattedBookDate}</p>
+          <p className="text-body1 text-black ">
+            {dayjs(bookingDetails.booking_date).format("ddd, D MMM YYYY")}
+          </p>
         </div>
 
         <PriceDetails bookId={bookId} />
