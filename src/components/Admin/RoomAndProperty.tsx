@@ -806,6 +806,17 @@ function RoomAndProperty() {
     </>
   );
 
+  const [showModal, setShowModal] = useState(false);
+
+  const deleteRoomHandlerPopup = (e) => {
+    e.preventDefault();
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   const updateRoom = (
     <>
       <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
@@ -1043,7 +1054,7 @@ function RoomAndProperty() {
                   className="h-26 w-full pt-3 px-3 pb-10  rounded bg-white border-2 border-gray-400 resize-none hover:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 "
                 ></textarea>
               </div>
-              <div className="border-b-[1px] border-gray-500 w-[100%] my-10"></div>
+
               {checkPage === "create" ? imageUploadCreate : imageUploadUpdate}
               <div className="border-b-[1px] border-gray-500 w-[100%] my-10"></div>
               <p className="text-gray-600 text-headline5 pb-10">Room Amenity</p>
@@ -1115,13 +1126,41 @@ function RoomAndProperty() {
         </Paper>
         {checkPage === "update" ? (
           <>
-            <div
-              onClick={(e) => deleteRoomHandler(e, singleRoom.room_id)}
-              className="text-gray-700 flex justify-end mt-5"
-              style={{ cursor: "pointer" }}
-            >
-              Delete Room
+            <div className="text-gray-700 flex justify-end mt-5">
+              <button
+                onClick={() =>
+                  document.getElementById("my_modal_1").showModal()
+                }
+              >
+                Delete Room
+              </button>
             </div>
+            <dialog id="my_modal_1" className="modal">
+              <div className="modal-box bg-white">
+                <h3 className="font-bold text-[1.2rem] text-black">
+                  Delete room
+                </h3>
+                <p className="py-4">
+                  Are you sure you want to delete this room?
+                </p>
+                <div className="modal-action">
+                  <form method="dialog">
+                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                      ✕
+                    </button>
+                    <button
+                      className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center ml-3 rounded-[5px] px-6"
+                      onClick={(e) => deleteRoomHandler(e, singleRoom.room_id)}
+                    >
+                      Yes, I want to delete
+                    </button>
+                    <button className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center  ml-3 rounded-[5px] px-6 ">
+                      No, I don't
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </dialog>
           </>
         ) : null}
       </div>
