@@ -16,6 +16,7 @@ export const StyledTableCell = styled(TableCell)(() => ({
     fontSize: 16,
     fontFamily: "Inter",
     borderColor: "none",
+    padding: "18px 16px",
   },
 }));
 
