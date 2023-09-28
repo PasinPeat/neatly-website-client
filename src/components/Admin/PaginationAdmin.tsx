@@ -90,7 +90,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
   );
 }
 
-function PaginationAdmin({ rows, rowsPerPageOptions = 10 }) {
+function PaginationAdmin({ rows, rowsPerPageOptions = 10, colSpan = 5 }) {
   const { page, setPage, rowsPerPage, setRowsPerPage } =
     useContext(PageContext);
 
@@ -112,7 +112,7 @@ function PaginationAdmin({ rows, rowsPerPageOptions = 10 }) {
   return (
     <TablePagination
       rowsPerPageOptions={[rowsPerPageOptions]}
-      colSpan={5}
+      colSpan={colSpan}
       count={rows.length}
       rowsPerPage={rowsPerPage}
       page={page}

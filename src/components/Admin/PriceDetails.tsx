@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import useFormattedPrice from "../../hooks/useFormattedPrice";
 import axios from "axios";
 
 function PriceDetails({ bookId }) {
@@ -57,13 +57,6 @@ function PriceDetails({ bookId }) {
     }
   };
 
-  const formatNumber = (number) => {
-    return parseFloat(number).toLocaleString("en-US", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-  };
-
   return (
     <div className="flex flex-col rounded items-center mb-[38px] pb-1 w-[920px]  bg-gray-100">
       <div className="flex flex-col justify-center items-center w-[872px]">
@@ -85,7 +78,7 @@ function PriceDetails({ bookId }) {
               {priceDetail.room_details.room_type} Room
             </p>
             <p className="text-body1 font-semibold ">
-              {formatNumber(priceDetail.total_price)}
+              {useFormattedPrice(priceDetail.total_price)}
             </p>
           </div>
           {Array.isArray(priceDetail.special_request) &&
@@ -98,7 +91,7 @@ function PriceDetails({ bookId }) {
                 >
                   <p className="text-body1">{item}</p>
                   <p className="text-body1 font-semibold  ">
-                    {formatNumber(
+                    {useFormattedPrice(
                       specialRequestPriceNumber * priceDetail.amount_room
                     )}
                   </p>
@@ -109,7 +102,7 @@ function PriceDetails({ bookId }) {
         <div className="flex flex-row justify-between items-end mt-3 mb-4 text-gray-900 border-t border-gray-300 w-[872px] h-[54px]">
           <p>Total</p>
           <p className="text-body1 font-bold">
-            THB {formatNumber(priceDetail.total_price_add_reqs)}
+            THB {useFormattedPrice(priceDetail.total_price_add_reqs)}
           </p>
         </div>
       </div>

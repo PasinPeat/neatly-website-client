@@ -69,37 +69,37 @@ export default function CustomPaginationActionsTable() {
     let timer;
     if (selectedByText) {
       if (sortBy === "all") {
-        let filteredData1 = filterByName(booking);
-        let filteredData2 = filterByRoomType(booking);
-        let combinedData = [...filteredData1, ...filteredData2];
+        const filteredData1 = filterByName(booking);
+        const filteredData2 = filterByRoomType(booking);
+        const combinedData = [...filteredData1, ...filteredData2];
         timer = setTimeout(() => {
           setFilterBookingList(combinedData);
         }, 400);
       } else if (sortBy === "checkedOut") {
-        let filteredData1 = filterByName(sortBookingState);
-        let filteredData2 = filterByRoomType(sortBookingState);
-        let combinedData = [...filteredData1, ...filteredData2];
+        const filteredData1 = filterByName(sortBookingState);
+        const filteredData2 = filterByRoomType(sortBookingState);
+        const combinedData = [...filteredData1, ...filteredData2];
         timer = setTimeout(() => {
           setFilterBookingList(combinedData);
         }, 400);
       } else if (sortBy === "cancelled") {
-        let filteredData1 = filterByName(sortBookingState);
-        let filteredData2 = filterByRoomType(sortBookingState);
-        let combinedData = [...filteredData1, ...filteredData2];
+        const filteredData1 = filterByName(sortBookingState);
+        const filteredData2 = filterByRoomType(sortBookingState);
+        const combinedData = [...filteredData1, ...filteredData2];
         timer = setTimeout(() => {
           setFilterBookingList(combinedData);
         }, 400);
       } else if (sortBy === "incoming") {
-        let filteredData1 = filterByName(sortBookingState);
-        let filteredData2 = filterByRoomType(sortBookingState);
-        let combinedData = [...filteredData1, ...filteredData2];
+        const filteredData1 = filterByName(sortBookingState);
+        const filteredData2 = filterByRoomType(sortBookingState);
+        const combinedData = [...filteredData1, ...filteredData2];
         timer = setTimeout(() => {
           setFilterBookingList(combinedData);
         }, 400);
       } else if (sortBy === "ongoing") {
-        let filteredData1 = filterByName(sortBookingState);
-        let filteredData2 = filterByRoomType(sortBookingState);
-        let combinedData = [...filteredData1, ...filteredData2];
+        const filteredData1 = filterByName(sortBookingState);
+        const filteredData2 = filterByRoomType(sortBookingState);
+        const combinedData = [...filteredData1, ...filteredData2];
         timer = setTimeout(() => {
           setFilterBookingList(combinedData);
         }, 400);
@@ -372,7 +372,7 @@ export default function CustomPaginationActionsTable() {
                   </TableBody>
 
                   <TableFooter>
-                    <PaginationAdmin rows={rows} />
+                    <PaginationAdmin rows={rows} colSpan={5} />
                   </TableFooter>
                 </Table>
               </TableContainer>
