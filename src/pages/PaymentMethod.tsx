@@ -300,13 +300,13 @@ function PaymentMethod() {
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="modal-box flex flex-col items-center  shadow-xl w-[400px] h-[440px]">
+          <div className="modal-box flex flex-col rounded  items-center  shadow-xl w-[400px] h-[440px]">
             <img
-              src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/checkmark-removebg-preview.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NoZWNrbWFyay1yZW1vdmViZy1wcmV2aWV3LnBuZyIsImlhdCI6MTY5NDY4MDYwNiwiZXhwIjoxNzI2MjE2NjA2fQ.Wz_CZaGiq3ddjcLSZ2nUdEPcdKAByClXptiYWXrCnYs&t=2023-09-14T08%3A36%3A46.749Z"
+              src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/check-mark-600.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NoZWNrLW1hcmstNjAwLnBuZyIsImlhdCI6MTY5NTg5OTA0OCwiZXhwIjoxNzI3NDM1MDQ4fQ.VhlmEajz9lcOHnjyCP7t3jYbFEYu-JGzQpq18PcC22Y&t=2023-09-28T11%3A04%3A08.587Z"
               alt="Check-Mark"
               className="h-[150px] w-[150px]"
             />
-            <h1 className="text-headline3 font-medium text-greencheck">
+            <h1 className="font-noto-serif-display text-[40px] font-semibold text-green-600">
               Success!
             </h1>
             <p className="py-4 font-bold text-[20px]  text-center">
@@ -314,12 +314,12 @@ function PaymentMethod() {
             </p>
             <div className="modal-action">
               <button
-                className="btn w-[200px] h-[50px] bg-greencheck rounded-full hover:bg-greenhover  text-headline4  text-white "
+                className="btn w-[200px] h-[50px] bg-green-600 rounded  hover:bg-green-500 font-noto-serif-display text-[28px]  text-white "
                 onClick={() => {
                   setIsModalOpen(false);
                 }}
               >
-                OKAY
+                CLOSE
               </button>
             </div>
           </div>
