@@ -6,17 +6,15 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import SearchIcon from "@mui/icons-material/Search";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import FormControl from "@mui/material/FormControl";
-import InputAdornment from "@mui/material/InputAdornment";
+import NavbarAdmin from "./NavbarAdmin";
+import SearchAdmin from "./SearchAdmin";
 import { ClassNames } from "@emotion/react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#E4E6ED",
     fontSize: 14,
@@ -34,10 +32,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
+const StyledTableRow = styled(TableRow)(() => ({
   // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
@@ -324,37 +319,23 @@ function RoomAndProperty() {
   }, [singleRoom.room_images]);
 
   const InitialData = (
-    <>
-      <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
-        <p className=" text-black font-bold">Room & Property</p>
-        <div>
-          <FormControl>
-            <OutlinedInput
-              placeholder="Search…"
-              size="small"
-              id="input-with-icon-adornment"
-              inputProps={{
-                "aria-label": "weight",
-              }}
-              startAdornment={
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              }
-            />
-          </FormControl>
+    <div className="bg-gray-100 min-h-screen">
+      <NavbarAdmin>
+        <p className="text-black font-bold">Room & Property</p>
+        <div className="flex gap-10">
+          <SearchAdmin />
           <button
             onClick={() => {
               setShowPage(createRoom);
             }}
-            className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center drop-shadow-md ml-3 rounded-md px-4 "
+            className="Button wddrop-shadow-md ml-3"
           >
             + Created Room
           </button>
         </div>
-      </div>
-      {/* table field*/}
-      <div className="bg-gray-100 px-16 py-12">
+      </NavbarAdmin>
+
+      <div className="table-padding m-auto">
         <Paper sx={{ overflow: "hidden" }}>
           <TableContainer component={Paper}>
             <Table sx={{ maxHeight: 1000 }} aria-label="customized table ">
@@ -409,7 +390,7 @@ function RoomAndProperty() {
           </TableContainer>
         </Paper>
       </div>
-    </>
+    </div>
   );
 
   const createRoom = (
