@@ -16,7 +16,7 @@ interface RoomInfo {
   roomStatus: string;
 }
 
-export default function UseAutocomplete({ roomNumber, roomStatus }: RoomInfo) {
+export default function UseAutocomplete(roomNumber: RoomInfo) {
   const [selectedStatus, setSelectedStatus] = React.useState<string>("");
   const [open, setOpen] = React.useState<boolean>(false);
 
@@ -33,7 +33,7 @@ export default function UseAutocomplete({ roomNumber, roomStatus }: RoomInfo) {
 
   /*PUT: Update Room Status*/
   const updateStatusInDatabase = async (
-    roomNumber: RoomInfo,
+    roomNumber: number,
     selectedStatus: string
   ) => {
     const room_avaliable_id = roomNumber.roomNumber;
@@ -100,15 +100,15 @@ export default function UseAutocomplete({ roomNumber, roomStatus }: RoomInfo) {
         style={{
           color:
             theme.palette.status[selectedStatus]?.contrastText ||
-            theme.palette.status[roomStatus]?.contrastText ||
+            theme.palette.status[roomNumber.roomStatus]?.contrastText ||
             "inherit",
           backgroundColor:
             theme.palette.status[selectedStatus]?.main ||
-            theme.palette.status[roomStatus]?.main ||
+            theme.palette.status[roomNumber.roomStatus]?.main ||
             "inherit",
         }}
       >
-        {selectedStatus ? `${selectedStatus}` : `${roomStatus}`}
+        {selectedStatus ? `${selectedStatus}` : `${roomNumber.roomStatus}`}
       </button>
       <div className="relative">
         <Autocomplete
