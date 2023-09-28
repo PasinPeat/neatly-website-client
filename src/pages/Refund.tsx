@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 import "../App.css";
 import RefundSuccess from "../components/Refund/RefundSuccess";
 import dayjs from "dayjs";
-
+import useFormattedPrice from "../hooks/useFormattedPrice";
 function Refund() {
   const [complete, setComplete] = useState(false);
   const navigate = useNavigate();
@@ -62,12 +62,9 @@ function Refund() {
   }, [bookId]);
 
   // fomat total price
-  const formattedTotalPrice = parseFloat(
+  const formattedTotalPrice = useFormattedPrice(
     cancelBooking.total_price_add_reqs
-  ).toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  );
 
   //check user
   const fetchAuth = async () => {

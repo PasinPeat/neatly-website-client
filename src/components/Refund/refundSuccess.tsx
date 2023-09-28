@@ -4,6 +4,7 @@ import axios from "axios";
 import App from "../../App";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import useFormattedPrice from "../../hooks/useFormattedPrice";
 // import Navbar from "../Navbar";
 
 function RefundSuccess() {
@@ -40,13 +41,9 @@ function RefundSuccess() {
     getData();
   }, [bookId]);
 
-  // fomat total price
-  const formattedTotalPrice = parseFloat(
+  const formattedTotalPrice = useFormattedPrice(
     cancelBooking.total_price_add_reqs
-  ).toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-  });
-
+  );
   //check user
   const fetchAuth = async () => {
     const token = localStorage.getItem("token");

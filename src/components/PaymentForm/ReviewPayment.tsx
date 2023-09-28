@@ -4,7 +4,7 @@ import { RoomsContext } from "../../App.tsx";
 import { PaymentContext } from "../../pages/Payment.tsx";
 import { useAuth } from "../../contexts/authen.jsx";
 import { useNavigate } from "react-router-dom";
-
+import useFormattedPrice from "../../hooks/useFormattedPrice.tsx";
 function ReviewPayment({ selectedPayment, lastThreeCardNumber }) {
   const auth = useAuth();
   const navigate = useNavigate();
@@ -114,9 +114,7 @@ function ReviewPayment({ selectedPayment, lastThreeCardNumber }) {
                 )
               </div>
               <p className="text-white text-base font-semibold">
-                {userInput.totalPrice.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                })}
+                {useFormattedPrice(userInput.totalPrice)}
               </p>
             </div>
           </div>
@@ -139,9 +137,7 @@ function ReviewPayment({ selectedPayment, lastThreeCardNumber }) {
                   <span>{request.name}</span>
                 </div>
                 <p className="text-white text-base font-semibold">
-                  {request.price.toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                  })}
+                  {useFormattedPrice(request.price)}
                 </p>
               </div>
             );
@@ -158,10 +154,8 @@ function ReviewPayment({ selectedPayment, lastThreeCardNumber }) {
           <div className="flex justify-between pt-6">
             <p>Total</p>
             <p className="text-white text-headline5">
-              {totalPriceAfterAddReqs.toLocaleString("en-US", {
-                style: "currency",
-                currency: "THB",
-              })}
+              
+              THB {useFormattedPrice(totalPriceAfterAddReqs)}
             </p>
           </div>
         </div>

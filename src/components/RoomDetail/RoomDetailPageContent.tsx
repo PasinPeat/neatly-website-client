@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-
+import useFormattedPrice from "../../hooks/useFormattedPrice";
 function RoomDetailPageContent({
   roomType,
   bedType,
@@ -33,16 +33,10 @@ function RoomDetailPageContent({
             <div className="flex flex-col gap-10 w-36 h-36">
               <div className="">
                 <div className=" text-md text-right font-extralight line-through">
-                  {price.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "THB",
-                  })}
+                  THB {useFormattedPrice(price)}
                 </div>
                 <div className=" text-headline5 text-right text-black font-semibold">
-                  {promotionPrice.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "THB",
-                  })}
+                  THB {useFormattedPrice(promotionPrice)}
                 </div>
               </div>
               <div className="flex justify-end">

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 // import { RoomsContext } from "../../App";
 import { PaymentContext } from "../../pages/Payment";
 // import useFormattedDate from "../../hooks/useFormattedDate";
-
+import useFormattedPrice from "../../hooks/useFormattedPrice";
 function BookingDetail() {
   //  const formatdate = useFormattedDate(date);
   // const roomsContext = useContext(RoomsContext);
@@ -110,9 +110,7 @@ function BookingDetail() {
                   )
                 </div>
                 <p className="text-base font-semibold">
-                  {parseFloat(userInput.totalPrice).toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                  })}
+                  {useFormattedPrice(userInput.totalPrice)}
                 </p>
               </div>
               {selectedStandard &&
@@ -141,12 +139,7 @@ function BookingDetail() {
                         {request.name}
                       </p>
                       <p className="text-base font-semibold">
-                        {(request.price * userInput.room).toLocaleString(
-                          "en-US",
-                          {
-                            minimumFractionDigits: 2,
-                          }
-                        )}
+                        {useFormattedPrice(request.price * userInput.room)}
                       </p>
                     </div>
                   );
@@ -162,10 +155,7 @@ function BookingDetail() {
           <div className="flex justify-between pt-6">
             <p className="text-body1 text-green-300">Total</p>
             <p className="text-headline5">
-              {parseFloat(totalPriceAfterAddReqs).toLocaleString("en-US", {
-                style: "currency",
-                currency: "THB",
-              })}
+              THB {useFormattedPrice(totalPriceAfterAddReqs)}
             </p>
           </div>
         </div>

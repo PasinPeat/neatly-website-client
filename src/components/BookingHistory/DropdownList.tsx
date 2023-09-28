@@ -6,7 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
-
+import useFormattedPrice from "../../hooks/useFormattedPrice.js";
 function DropDownList({
   totalPrice,
   totalPriceAddReqs,
@@ -28,7 +28,7 @@ function DropDownList({
   };
   console.log(totalPriceAddReqs);
 
-  function addSpecialReqPrice(req) {
+  function addSpecialReqPrice(req: string) {
     switch (req) {
       case "Baby cot":
         return 400;
@@ -95,9 +95,7 @@ function DropDownList({
                   </p>
                 </div>
                 <p className="text-body1 font-bold text-black">
-                  {parseFloat(totalPrice).toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                  })}
+                  {useFormattedPrice(totalPrice)}
                 </p>
               </div>
             </List>
@@ -111,11 +109,7 @@ function DropDownList({
                       {item}
                     </p>
                     <p className="text-body1 font-bold text-black">
-                      {parseFloat(
-                        addSpecialReqPrice(item) * roomAmount
-                      ).toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                      })}
+                      {useFormattedPrice(addSpecialReqPrice(item) * roomAmount)}
                     </p>
                   </div>
                 ))}
@@ -142,10 +136,7 @@ function DropDownList({
               <div className="flex justify-between w-full border-t-[2px] border-green-300 py-4">
                 <p className="text-body1">Total</p>
                 <p className=" text-headline5 font-bold text-black">
-                  {parseFloat(totalPriceAddReqs).toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "THB",
-                  })}
+                  THB {useFormattedPrice(totalPriceAddReqs)}
                 </p>
               </div>
             </List>

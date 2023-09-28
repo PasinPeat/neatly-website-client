@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { RoomsContext } from "../../App.tsx";
 import { useAuth } from "../../contexts/authen.jsx";
-
+import useFormattedPrice from "../../hooks/useFormattedPrice.tsx";
 function RoomResultCard({
   roomId,
   roomImages,
