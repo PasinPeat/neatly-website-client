@@ -76,6 +76,7 @@ function ChangeDate() {
     room_avaliable_id: "",
     user_id: "",
     book_id: "",
+    status: "",
   });
 
   const [checkInDate, setCheckInDate] = useState();
@@ -83,6 +84,7 @@ function ChangeDate() {
   const [maxDate, setMaxDate] = useState();
 
   const [roomAvaliable, setRoomAvaliable] = useState();
+  // console.log(roomAvaliable);
 
   const [checkInError, setCheckInError] = useState(false);
 
@@ -116,7 +118,9 @@ function ChangeDate() {
           dayjs(booking.check_out),
           null,
           "[]"
-        ) && booking.book_id !== bookingData.book_id
+        ) &&
+        booking.book_id !== bookingData.book_id &&
+        booking.status === null
     );
     return data;
   };
@@ -164,6 +168,7 @@ function ChangeDate() {
         data
       );
       navigate(`/booking/user/${bookingData.user_id}`);
+      window.location.reload();
     } catch (error) {
       console.error("Error sending data:", error);
     }
@@ -172,6 +177,7 @@ function ChangeDate() {
   const handleConfirmChange = () => {
     const newCheckInDate = dayjs(checkInDate);
     const newCheckOutDate = dayjs(checkOutDate);
+    const newCancelDate = dayjs(bookingData.cancel_date);
 
     const isRoomBooked = roomAvaliable.some((room) => {
       const roomCheckIn = dayjs(room.check_in);
@@ -185,8 +191,13 @@ function ChangeDate() {
     });
 
     if (isRoomBooked) {
-      console.log("Room is already booked for this period");
-      setCheckInError(true);
+      if (newCancelDate) {
+        setCheckInError(false);
+        setShowPopup(true);
+      } else {
+        console.log("Room is already booked for this period");
+        setCheckInError(true);
+      }
     } else {
       setShowPopup(true);
     }
@@ -371,7 +382,6 @@ function ChangeDate() {
                     className="btn Button"
                     onClick={() => {
                       handleConfirmChange();
-                      window.location.reload();
                     }}
                   >
                     Confirm Change Date
