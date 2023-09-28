@@ -5,43 +5,14 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import NavbarAdmin from "./NavbarAdmin";
+import { StyledTableCell, StyledTableRow } from "./styledTable";
 import Paper from "@mui/material/Paper";
-import SearchIcon from "@mui/icons-material/Search";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import FormControl from "@mui/material/FormControl";
-import InputAdornment from "@mui/material/InputAdornment";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import useFormattedPrice from "../../hooks/useFormattedPrice";
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#E4E6ED",
-    fontSize: 14,
-    fontWeight: 500,
-    fontFamily: "Inter",
-    color: "#424C6B",
-    padding: "10px 16px",
-  },
-  [`&.${tableCellClasses.body}`]: {
-    backgroundColor: "white",
-    fontSize: 16,
-    fontFamily: "Inter",
-    color: "black",
-    borderColor: "#E4E6ED",
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
+import SearchAdmin from "./SearchAdmin";
 
 function createData(
   image: string,
@@ -69,12 +40,12 @@ function createData(
 
 function RoomAndProperty() {
   const [rooms, setRooms] = useState([]);
+
   const [showPage, setShowPage] = useState(null);
   const [singleRoom, setSingleRoom] = useState({});
   const [roomImagesFiles, setRoomImagesFiles] = useState([]);
 
-  // console.log(roomImagesFiles);
-
+  //files
   const [files, setFiles] = useState([]);
   const [fileDragging, setFileDragging] = useState(null);
   const [fileDropping, setFileDropping] = useState(null);
@@ -83,7 +54,10 @@ function RoomAndProperty() {
   const [updatefileDropping, setUpdateFileDropping] = useState(null);
   const [checkPage, setCheckPage] = useState(null);
 
-  // console.log(files);
+  //search
+  const [selectByText, setSelectByText] = useState("");
+  const [filteredRooms, setFilteredRooms] = useState([]);
+  const [rows, setRows] = useState([]);
 
   const getRooms = async () => {
     try {
@@ -99,21 +73,57 @@ function RoomAndProperty() {
   }, []);
 
   useEffect(() => {
-    setShowPage(InitialData);
-  }, [rooms]);
+    if (checkPage === "update" || checkPage === "create") {
+      setShowPage(updateRoom);
+    } else {
+      setShowPage(InitialData);
+    }
+  }, [
+    checkPage,
+    rooms,
+    singleRoom,
+    roomImagesFiles,
+    updatefileDragging,
+    updatefileDropping,
+    inputEnabled,
+    files,
+    fileDragging,
+    fileDropping,
+  ]);
 
-  const rows = rooms.map((room) => {
-    return createData(
-      room.room_images[0],
-      room.room_type,
-      room.price,
-      room.promotion_price,
-      room.person,
-      room.bed_types,
-      room.area,
-      room.room_id
-    );
-  });
+  useEffect(() => {
+    if (
+      (!selectByText && checkPage !== "update" && checkPage !== "create") ||
+      (selectByText === "" && checkPage !== "update" && checkPage !== "create")
+    ) {
+      getRooms();
+      setFilteredRooms(rooms);
+    } else if (selectByText) {
+      setShowPage(InitialData);
+      const filtered = rooms.filter((room) => {
+        return room.room_type
+          .toLowerCase()
+          .includes(selectByText.toLowerCase());
+      });
+      setFilteredRooms(filtered);
+    }
+  }, [selectByText, rooms]);
+
+  useEffect(() => {
+    const updatedRows = filteredRooms.map((room) => {
+      return createData(
+        room.room_images[0],
+        room.room_type,
+        room.price,
+        room.promotion_price,
+        room.person,
+        room.bed_types,
+        room.area,
+        room.room_id
+      );
+    });
+    setRows(updatedRows);
+  }, [filteredRooms]);
 
   const fetchUpdateHandler = async (number) => {
     try {
@@ -194,20 +204,6 @@ function RoomAndProperty() {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    setShowPage(updateRoom);
-  }, [
-    singleRoom,
-    roomImagesFiles,
-    updatefileDragging,
-    updatefileDropping,
-    inputEnabled,
-  ]);
-
-  useEffect(() => {
-    setShowPage(updateRoom);
-  }, [files, fileDragging, fileDropping, inputEnabled]);
 
   const remove = (index: any) => {
     let updatedFiles = [...files];
@@ -333,90 +329,84 @@ function RoomAndProperty() {
       .catch((error) => console.error("Error loading files from URLs:", error));
   }, [singleRoom.room_images]);
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectByText(event.target.value);
+  };
+
   const InitialData = (
     <>
-      <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
-        <p className=" text-black font-bold">Room & Property</p>
-        <div>
-          <FormControl>
-            <OutlinedInput
-              placeholder="Search…"
-              size="small"
-              id="input-with-icon-adornment"
-              inputProps={{
-                "aria-label": "weight",
-              }}
-              startAdornment={
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              }
+      <div className="bg-gray-100 min-h-screen">
+        <NavbarAdmin>
+          <p className=" text-black font-bold">Room & Property</p>
+          <div className="flex flex-row">
+            <SearchAdmin
+              value={selectByText}
+              onChange={(event) => handleInputChange(event)}
             />
-          </FormControl>
-          <button
-            onClick={() => {
-              setSingleRoom({
-                amenity: [""],
-              });
-
-              setCheckPage("create");
-
-              setShowPage(createRoom);
-            }}
-            className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center drop-shadow-md ml-3 rounded-md px-4 "
-          >
-            + Created Room
-          </button>
+            <button
+              onClick={() => {
+                setSingleRoom({
+                  amenity: [""],
+                });
+                setCheckPage("create");
+              }}
+              className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center drop-shadow-md ml-3 rounded-md px-4 "
+            >
+              + Created Room
+            </button>
+          </div>
+        </NavbarAdmin>
+        {/* table field*/}
+        <div className="table-padding m-auto">
+          <Paper sx={{ overflow: "hidden" }}>
+            <TableContainer component={Paper}>
+              <Table sx={{ maxHeight: 1000 }} aria-label="customized table ">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>Image</StyledTableCell>
+                    <StyledTableCell>Room type</StyledTableCell>
+                    <StyledTableCell>Price</StyledTableCell>
+                    <StyledTableCell>Promotion Price</StyledTableCell>
+                    <StyledTableCell>Guest(s)</StyledTableCell>
+                    <StyledTableCell>Bed Type</StyledTableCell>
+                    <StyledTableCell>Room Size</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <StyledTableRow
+                      className="cursor-pointer"
+                      onClick={() => {
+                        setCheckPage("update");
+                        setShowPage(updateRoom);
+                        setSingleRoom({ ...singleRoom, room_images: [] });
+                        fetchUpdateHandler(row.roomId);
+                      }}
+                    >
+                      <StyledTableCell component="th" scope="row">
+                        <img
+                          src={row.image}
+                          className="w-[120px] h-[72px] rounded-md"
+                        ></img>
+                      </StyledTableCell>
+                      <StyledTableCell>{row.type}</StyledTableCell>
+                      <StyledTableCell>
+                        {" "}
+                        {useFormattedPrice(row.price)}
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        {useFormattedPrice(row.promotion)}
+                      </StyledTableCell>
+                      <StyledTableCell>{row.guest}</StyledTableCell>
+                      <StyledTableCell>{row.bedType}</StyledTableCell>
+                      <StyledTableCell>{row.roomArea} sqm</StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
         </div>
-      </div>
-      {/* table field*/}
-      <div className="bg-gray-100 px-16 py-12">
-        <Paper sx={{ overflow: "hidden" }}>
-          <TableContainer component={Paper}>
-            <Table sx={{ maxHeight: 1000 }} aria-label="customized table ">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Image</StyledTableCell>
-                  <StyledTableCell>Room type</StyledTableCell>
-                  <StyledTableCell>Price</StyledTableCell>
-                  <StyledTableCell>Promotion Price</StyledTableCell>
-                  <StyledTableCell>Guest(s)</StyledTableCell>
-                  <StyledTableCell>Bed Type</StyledTableCell>
-                  <StyledTableCell>Room Size</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <StyledTableRow
-                    className="cursor-pointer"
-                    onClick={() => {
-                      setCheckPage("update");
-                      fetchUpdateHandler(row.roomId);
-                    }}
-                  >
-                    <StyledTableCell component="th" scope="row">
-                      <img
-                        src={row.image}
-                        className="w-[120px] h-[72px] rounded-md"
-                      ></img>
-                    </StyledTableCell>
-                    <StyledTableCell>{row.type}</StyledTableCell>
-                    <StyledTableCell>
-                      {" "}
-                      {useFormattedPrice(row.price)}
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      {useFormattedPrice(row.promotion)}
-                    </StyledTableCell>
-                    <StyledTableCell>{row.guest}</StyledTableCell>
-                    <StyledTableCell>{row.bedType}</StyledTableCell>
-                    <StyledTableCell>{row.roomArea} sqm</StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
       </div>
     </>
   );
@@ -670,6 +660,7 @@ function RoomAndProperty() {
         <button
           onClick={() => {
             setShowPage(InitialData);
+            setCheckPage("init");
             setInputEnabled(false);
           }}
           className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center ml-3 rounded-[5px] px-6 "
@@ -694,6 +685,7 @@ function RoomAndProperty() {
         <button
           onClick={() => {
             setShowPage(InitialData);
+            setCheckPage("init");
             setInputEnabled(false);
           }}
         >
@@ -865,7 +857,7 @@ function RoomAndProperty() {
                     className="flex items-center cursor-pointer"
                   >
                     <div
-                      className={`h-5 w-5 rounded-[5px] border border-solid ${
+                      className={`h-5 w-5 rounded-[5px]  border-2 border-solid ${
                         inputEnabled ? "bg-orange-500" : "bg-white"
                       }`}
                     >
