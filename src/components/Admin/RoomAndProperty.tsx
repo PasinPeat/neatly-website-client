@@ -10,12 +10,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
-import { ClassNames } from "@emotion/react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import dayjs from "dayjs";
-import { Link, useNavigate } from "react-router-dom";
-import { useRef } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -71,12 +68,9 @@ function createData(
 
 function RoomAndProperty() {
   const [rooms, setRooms] = useState([]);
-
   const [showPage, setShowPage] = useState(null);
   const [singleRoom, setSingleRoom] = useState({});
-
   const [roomImagesFiles, setRoomImagesFiles] = useState([]);
-  const navigate = useNavigate();
 
   // console.log(roomImagesFiles);
 
@@ -84,29 +78,11 @@ function RoomAndProperty() {
   const [fileDragging, setFileDragging] = useState(null);
   const [fileDropping, setFileDropping] = useState(null);
   const [inputEnabled, setInputEnabled] = useState(false);
-
   const [updatefileDragging, setUpdateFileDragging] = useState(null);
   const [updatefileDropping, setUpdateFileDropping] = useState(null);
   const [checkPage, setCheckPage] = useState(null);
 
   // console.log(files);
-
-  let createType;
-  let createPrice;
-  let createPromo;
-  let createPerson;
-  let createBedType;
-  let createArea;
-  let createDescription;
-
-  const [createRoomType, setCreateRoomType] = useState(createType);
-  const [createRoomPrice, setCreateRoomPrice] = useState(createPrice);
-  const [createRoomPromo, setCreateRoomPromo] = useState(createPromo);
-  const [createRoomPerson, setCreateRoomPerson] = useState(createPerson);
-  const [createRoomBedType, setCreateRoomBedType] = useState(createBedType);
-  const [createRoomArea, setCreateRoomArea] = useState(createArea);
-  const [createRoomDescription, setCreateRoomDescription] =
-    useState(createDescription);
 
   const getRooms = async () => {
     try {
@@ -138,10 +114,6 @@ function RoomAndProperty() {
     );
   });
 
-  // const handleCheckboxChange = () => {
-  //   setInputEnabled(!inputEnabled);
-  // };
-
   const fetchUpdateHandler = async (number) => {
     try {
       const results = await axios.get(`http://localhost:4000/room/${number}`);
@@ -150,15 +122,6 @@ function RoomAndProperty() {
       console.log(error);
     }
   };
-
-  // const updateRoomHandler = async (id) => {
-  //   try {
-  //     await axios.put(`http://localhost:4000/room/${id}`, singleRoom);
-  //     setShowPage(InitialData);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const updateRoomHandler = async (id) => {
     const formData = new FormData();
@@ -210,7 +173,6 @@ function RoomAndProperty() {
     }
 
     try {
-      console.log(createRoomDescription);
       await axios.post(`http://localhost:4000/room/`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -329,19 +291,10 @@ function RoomAndProperty() {
   };
 
   //amenity
-
   const addAmenity = (e) => {
     e.preventDefault();
     const updatedAmenities = [...singleRoom.amenity, ""];
     setSingleRoom({ ...singleRoom, amenity: updatedAmenities });
-  };
-
-  const addAmenityCreate = (e) => {
-    e.preventDefault();
-    setCreateNewRoom((prevState) => ({
-      ...prevState,
-      amenity: [...prevState.amenity, ""],
-    }));
   };
 
   const removeAmenity = (e, index) => {
@@ -350,44 +303,6 @@ function RoomAndProperty() {
     updatedAmenities.splice(index, 1);
     setSingleRoom({ ...singleRoom, amenity: updatedAmenities });
   };
-
-  const removeAmenityCreate = (e, index) => {
-    e.preventDefault();
-    setCreateNewRoom((prevState) => {
-      const updatedAmenities = [...prevState.amenity];
-      updatedAmenities.splice(index, 1);
-      return {
-        ...prevState,
-        amenity: updatedAmenities,
-      };
-    });
-  };
-
-  const amenityDragStart = (e, index) => {
-    e.dataTransfer.setData("text/plain", index.toString());
-    setDraggedAmenityIndex(index);
-    setLastDraggedAmenityIndex(index);
-  };
-
-  const amenityDragEnter = (e, index) => {
-    e.preventDefault();
-    const draggedIndex = parseInt(e.dataTransfer.getData("text/plain"));
-    if (draggedIndex !== index) {
-      const updatedAmenities = [...singleRoom.amenity];
-      const [draggedItem] = updatedAmenities.splice(draggedIndex, 1);
-      updatedAmenities.splice(index, 0, draggedItem);
-      setSingleRoom({ ...singleRoom, amenity: updatedAmenities });
-    }
-  };
-
-  const amenityDragEnd = () => {
-    setDraggedAmenityIndex(null);
-    setLastDraggedAmenityIndex(null);
-  };
-
-  const [createNewRoom, setCreateNewRoom] = useState({
-    amenity: [""],
-  });
 
   useEffect(() => {
     // Assuming room_images contains an array of image URLs
@@ -806,15 +721,16 @@ function RoomAndProperty() {
     </>
   );
 
-  const [showModal, setShowModal] = useState(false);
+  const onDragEnd = (result) => {
+    if (!result.destination) return; // Item was dropped outside the list
+    const items = Array.from(singleRoom.amenity);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
 
-  const deleteRoomHandlerPopup = (e) => {
-    e.preventDefault();
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
+    setSingleRoom({
+      ...singleRoom,
+      amenity: items,
+    });
   };
 
   const updateRoom = (
@@ -830,12 +746,7 @@ function RoomAndProperty() {
             <p className="text-gray-600 text-headline5 pb-10">
               Basic Information
             </p>
-            <form
-              className="w-full"
-              // onSubmit={(event) => {
-              //   handleSubmit(event);
-              // }}
-            >
+            <form className="w-full">
               <div className="relative pb-5">
                 <label htmlFor="fname">
                   <p className="font-body1 text-start">Room Type *</p>
@@ -915,9 +826,6 @@ function RoomAndProperty() {
                     onChange={(e) => {
                       setSingleRoom({ ...singleRoom, person: e.target.value });
                     }}
-                    // onChange={(e) => {
-                    //   setGuest(e.target.value);
-                    // }}
                     className={` text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500"
                 }`}
                   >
@@ -954,11 +862,33 @@ function RoomAndProperty() {
                     type="checkbox"
                     id="enableInput"
                     name="enableInput"
-                    className="bg-white appearance-none border rounded-[5px] h-5 w-5 checked:bg-orange-500  border-gray-600 focus:outline-none"
+                    className="hidden"
                     onChange={() => {
                       setInputEnabled(!inputEnabled);
                     }}
                   />
+                  <label
+                    htmlFor="enableInput"
+                    className="flex items-center cursor-pointer"
+                  >
+                    <div
+                      className={`h-5 w-5 rounded-[5px] border border-solid ${
+                        inputEnabled ? "bg-orange-500" : "bg-white"
+                      }`}
+                    >
+                      {inputEnabled && (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="100%"
+                          height="100%"
+                          viewBox="0 0 24 24"
+                          fill="white"
+                        >
+                          <path d="M0 12.116l2.053-1.897c2.401 1.162 3.924 2.045 6.622 3.969 5.073-5.757 8.426-8.678 14.657-12.555l.668 1.536c-5.139 4.484-8.902 9.479-14.321 19.198-3.343-3.936-5.574-6.446-9.679-10.251z" />
+                        </svg>
+                      )}
+                    </div>
+                  </label>
                   {inputEnabled ? (
                     <>
                       <label htmlFor="bedType">
@@ -1011,27 +941,6 @@ function RoomAndProperty() {
                       />
                     </>
                   )}
-                  {/* <label htmlFor="bedType">
-                    <p className="font-body1 text-gray-900">Promotion Price</p>
-                  </label>
-                  <input
-                    type="text"
-                    id="promotion"
-                    value={singleRoom.promotion_price}
-                    onChange={(e) => {
-                      if (inputEnabled) {
-                        setSingleRoom({
-                          ...singleRoom,
-                          promotion_price: e.target.value,
-                        });
-                      }
-                    }}
-                    name="bedType"
-                    placeholder=""
-                    className={`text-gray-900 Input focus:outline-none focus:border-orange-500 ${
-                      !inputEnabled ? "bg-gray-300 pointer-events-none" : ""
-                    }`} */}
-                  {/* /> */}
                 </div>
               </div>
               <div className="flex flex-col">
@@ -1064,53 +973,68 @@ function RoomAndProperty() {
                   e.preventDefault();
                 }}
               >
-                {Array.isArray(singleRoom.amenity) &&
-                  singleRoom.amenity.map((item, index) => (
-                    <div
-                      className="flex flex-row justify-evenly items-center w-full"
-                      key={index}
-                      onDragStart={(e) => amenityDragStart(e, index)}
-                      onDragEnter={(e) => amenityDragEnter(e, index)}
-                      onDragEnd={amenityDragEnd}
-                    >
-                      <div
-                        draggable="true"
-                        onDragStart={(e) => amenityDragStart(e, index)}
-                        onDragEnter={(e) => amenityDragEnter(e, index)}
-                        onDragEnd={amenityDragEnd}
-                        style={{
-                          cursor: "pointer",
-                        }}
-                      >
-                        <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/drag.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2RyYWcucG5nIiwiaWF0IjoxNjk1ODQyOTAzLCJleHAiOjE3MjczNzg5MDN9.e-e1SN8vjrz07Le_7zmeIVR5LR9iVnO0kk0c5APmfqE&t=2023-09-27T19%3A28%3A24.897Z" />
-                      </div>
-                      <div className="w-full">
-                        <label className="text-gray-900 text-body1 mb-2">
-                          Amenity *
-                        </label>
-                        <input
-                          type="text"
-                          className={`w-full text-gray-900 Input focus:outline-none focus:border-orange-500 focus:outline-none rounded-md mb-6`}
-                          value={item}
-                          onChange={(e) => {
-                            const updatedItems = [...singleRoom.amenity];
-                            updatedItems[index] = e.target.value;
-                            setSingleRoom({
-                              ...singleRoom,
-                              amenity: updatedItems,
-                            });
-                          }}
-                        />
-                      </div>
+                <div>
+                  <DragDropContext onDragEnd={onDragEnd}>
+                    <Droppable droppableId="amenities">
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                        >
+                          {Array.isArray(singleRoom.amenity) &&
+                            singleRoom.amenity.map((item, index) => (
+                              <Draggable
+                                key={index}
+                                draggableId={`amenity-${index}`}
+                                index={index}
+                              >
+                                {(provided) => (
+                                  <div
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    className="flex flex-row justify-evenly items-center w-full"
+                                  >
+                                    <div>
+                                      <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/drag.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2RyYWcucG5nIiwiaWF0IjoxNjk1ODkwMTQyLCJleHAiOjE3Mjc0MjYxNDJ9.bXiz7oxtgP-QE2dd2sm3wFXzWz1r2CWAlHsOQiRv-Ug&t=2023-09-28T08%3A35%3A43.063Z" />
+                                    </div>
+                                    <div className="w-full">
+                                      <label className="text-gray-900 text-body1 mb-2">
+                                        Amenity *
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className={`w-full text-gray-900 Input focus:outline-none focus:border-orange-500 focus:outline-none rounded-md mb-6`}
+                                        value={item}
+                                        onChange={(e) => {
+                                          const updatedItems = [
+                                            ...singleRoom.amenity,
+                                          ];
+                                          updatedItems[index] = e.target.value;
+                                          setSingleRoom({
+                                            ...singleRoom,
+                                            amenity: updatedItems,
+                                          });
+                                        }}
+                                      />
+                                    </div>
 
-                      <button
-                        className="font-prompt text-orange-500 text-fontHead5 ml-5"
-                        onClick={(e) => removeAmenity(e, index)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  ))}
+                                    <button
+                                      className="font-prompt text-orange-500 text-fontHead5 ml-5"
+                                      onClick={(e) => removeAmenity(e, index)}
+                                    >
+                                      Delete
+                                    </button>
+                                  </div>
+                                )}
+                              </Draggable>
+                            ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
+                </div>
 
                 <button
                   className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center  rounded-[5px] px-6 mt-5 "
