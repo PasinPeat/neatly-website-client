@@ -240,7 +240,7 @@ export default function CustomPaginationActionsTable() {
 
   return (
     <>
-      <div className="bg-gray-100 h-screen">
+      <div className="bg-gray-100 min-h-screen">
         {/* navbar field*/}
         <div className="bg-white h-20 min-w-[1295px] w-full flex flex-row items-center drop-shadow-md">
           <div className="flex flex-row w-full justify-between items-center pl-16 pr-7">
