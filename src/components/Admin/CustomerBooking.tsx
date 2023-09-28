@@ -1,7 +1,6 @@
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import Table from "@mui/material/Table";
+import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -18,6 +17,8 @@ import SearchAdmin from "./SearchAdmin";
 import PaginationAdmin from "./PaginationAdmin";
 import PageContext from "../../contexts/PageContext";
 import useFormattedDate from "../../hooks/useFormattedDate";
+import { StyledTableCell, StyledTableRow } from "./styledTable";
+import "../../responsive.css";
 
 export default function CustomPaginationActionsTable() {
   const [booking, setBooking] = useState([]);
@@ -68,37 +69,37 @@ export default function CustomPaginationActionsTable() {
     let timer;
     if (selectedByText) {
       if (sortBy === "all") {
-        let filteredData1 = filterByName(booking);
-        let filteredData2 = filterByRoomType(booking);
-        let combinedData = [...filteredData1, ...filteredData2];
+        const filteredData1 = filterByName(booking);
+        const filteredData2 = filterByRoomType(booking);
+        const combinedData = [...filteredData1, ...filteredData2];
         timer = setTimeout(() => {
           setFilterBookingList(combinedData);
         }, 400);
       } else if (sortBy === "checkedOut") {
-        let filteredData1 = filterByName(sortBookingState);
-        let filteredData2 = filterByRoomType(sortBookingState);
-        let combinedData = [...filteredData1, ...filteredData2];
+        const filteredData1 = filterByName(sortBookingState);
+        const filteredData2 = filterByRoomType(sortBookingState);
+        const combinedData = [...filteredData1, ...filteredData2];
         timer = setTimeout(() => {
           setFilterBookingList(combinedData);
         }, 400);
       } else if (sortBy === "cancelled") {
-        let filteredData1 = filterByName(sortBookingState);
-        let filteredData2 = filterByRoomType(sortBookingState);
-        let combinedData = [...filteredData1, ...filteredData2];
+        const filteredData1 = filterByName(sortBookingState);
+        const filteredData2 = filterByRoomType(sortBookingState);
+        const combinedData = [...filteredData1, ...filteredData2];
         timer = setTimeout(() => {
           setFilterBookingList(combinedData);
         }, 400);
       } else if (sortBy === "incoming") {
-        let filteredData1 = filterByName(sortBookingState);
-        let filteredData2 = filterByRoomType(sortBookingState);
-        let combinedData = [...filteredData1, ...filteredData2];
+        const filteredData1 = filterByName(sortBookingState);
+        const filteredData2 = filterByRoomType(sortBookingState);
+        const combinedData = [...filteredData1, ...filteredData2];
         timer = setTimeout(() => {
           setFilterBookingList(combinedData);
         }, 400);
       } else if (sortBy === "ongoing") {
-        let filteredData1 = filterByName(sortBookingState);
-        let filteredData2 = filterByRoomType(sortBookingState);
-        let combinedData = [...filteredData1, ...filteredData2];
+        const filteredData1 = filterByName(sortBookingState);
+        const filteredData2 = filterByRoomType(sortBookingState);
+        const combinedData = [...filteredData1, ...filteredData2];
         timer = setTimeout(() => {
           setFilterBookingList(combinedData);
         }, 400);
@@ -250,30 +251,6 @@ export default function CustomPaginationActionsTable() {
     setComplete(newCompleteValue);
   };
 
-  /*style table*/
-  const StyledTableCell = styled(TableCell)(() => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#E4E6ED",
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Inter",
-      padding: "10px 16px",
-      color: "#424C6B",
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 16,
-      fontFamily: "Inter",
-      borderColor: "none",
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(() => ({
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
-
   /*style status*/
   const statusTheme = createTheme({
     palette: {
@@ -320,7 +297,7 @@ export default function CustomPaginationActionsTable() {
             </div>
           </NavbarAdmin>
 
-          <div className="px-24 py-12">
+          <div className="table-padding m-auto">
             <Paper sx={{ overflow: "hidden" }}>
               <TableContainer component={Paper}>
                 <Table aria-label="custom pagination table">
@@ -350,28 +327,28 @@ export default function CustomPaginationActionsTable() {
                         onClick={() => handleRowClick(row.book_id)}
                         className="hover:bg-gray-200 hover:cursor-pointer"
                       >
-                        <StyledTableCell className="w-[17%]">
+                        <StyledTableCell className="w-[13%]">
                           {row.customerName}
                         </StyledTableCell>
                         <StyledTableCell className="w-[8%]">
                           {row.guest}
                         </StyledTableCell>
-                        <StyledTableCell className="w-[17%]">
+                        <StyledTableCell className="w-[18%]">
                           {row.roomType}
                         </StyledTableCell>
                         <StyledTableCell className="w-[8%]">
                           {row.amount}
                         </StyledTableCell>
                         <StyledTableCell className="w-[12.5%]">
-                          {row.bedType}
+                          {row.bedType.slice(2)}
                         </StyledTableCell>
-                        <StyledTableCell className="w-[12.5%]">
+                        <StyledTableCell className="w-[14.5%]">
                           {useFormattedDate(row.checkIn)}
                         </StyledTableCell>
-                        <StyledTableCell className="w-[12.5%]">
+                        <StyledTableCell className="w-[14.5%]">
                           {useFormattedDate(row.checkOut)}
                         </StyledTableCell>
-                        <StyledTableCell className="w-[12.5%]">
+                        <StyledTableCell className="w-[11.5%]">
                           <span
                             className="Input-status"
                             style={{
@@ -395,7 +372,7 @@ export default function CustomPaginationActionsTable() {
                   </TableBody>
 
                   <TableFooter>
-                    <PaginationAdmin rows={rows} />
+                    <PaginationAdmin rows={rows} colSpan={5} />
                   </TableFooter>
                 </Table>
               </TableContainer>

@@ -1,7 +1,6 @@
-import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -14,6 +13,7 @@ import PaginationAdmin from "./PaginationAdmin";
 import PageContext from "../../contexts/PageContext";
 import NavbarAdmin from "./NavbarAdmin";
 import SearchAdmin from "./SearchAdmin";
+import { StyledTableCell, StyledTableRow } from "./styledTable";
 
 interface BookingType {
   room_avaliable_id: number;
@@ -105,46 +105,19 @@ export default function CustomPaginationActionsTable() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  /*style table*/
-  const StyledTableCell = styled(TableCell)(() => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#E4E6ED",
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Inter",
-      color: "#424C6B",
-      padding: "10px 16px",
-    },
-    [`&.${tableCellClasses.body}`]: {
-      backgroundColor: "white",
-      fontSize: 16,
-      fontFamily: "Inter",
-      color: "black",
-      borderColor: "#E4E6ED",
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(() => ({
-    backgroundColor: "#000000",
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
-
   return (
     <>
       <div className="bg-gray-100 min-h-screen">
         {/* navbar field*/}
         <NavbarAdmin>
           <p className="text-black font-bold">Room Management</p>
-          <div className="flex gap-10">
+          <div className="flex">
             <SearchAdmin value={selectedByText} onChange={handleInputChange} />
           </div>
         </NavbarAdmin>
 
         {/* table field*/}
-        <div className="px-24 py-12">
+        <div className="table-padding m-auto">
           <Paper
             sx={{
               overflow: "hidden",
@@ -154,10 +127,10 @@ export default function CustomPaginationActionsTable() {
               <Table aria-label="custom pagination table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell className="w-[20%]">
+                    <StyledTableCell className="w-[15%]">
                       Room no.
                     </StyledTableCell>
-                    <StyledTableCell className="w-[20%]">
+                    <StyledTableCell className="w-[25%]">
                       Room type
                     </StyledTableCell>
                     <StyledTableCell className="w-[35%]">
@@ -200,13 +173,12 @@ export default function CustomPaginationActionsTable() {
                   })}
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 55.8 * emptyRows }}>
-                      <TableCell colSpan={4} />
+                      <TableCell colSpan={8} />
                     </TableRow>
                   )}
                 </TableBody>
-
                 <TableFooter>
-                  <PaginationAdmin rows={rows} />
+                  <PaginationAdmin rows={rows} colSpan={3} />
                 </TableFooter>
               </Table>
             </TableContainer>

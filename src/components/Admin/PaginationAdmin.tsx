@@ -30,6 +30,7 @@ interface RowData {
 interface PaginationAdminProps {
   rows: RowData[];
   rowsPerPageOptions?: number[];
+  colSpan: number;
 }
 
 function TablePaginationActions(props: TablePaginationActionsProps) {
@@ -105,6 +106,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 function PaginationAdmin({
   rows,
   rowsPerPageOptions = [10],
+  colSpan = 5,
 }: PaginationAdminProps) {
   const { page, setPage, rowsPerPage, setRowsPerPage } =
     useContext(PageContext);
@@ -127,7 +129,7 @@ function PaginationAdmin({
   return (
     <TablePagination
       rowsPerPageOptions={rowsPerPageOptions}
-      colSpan={5}
+      colSpan={colSpan}
       count={rows.length}
       rowsPerPage={rowsPerPage}
       page={page}
