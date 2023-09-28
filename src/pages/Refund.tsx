@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import "../App.css";
 import RefundSuccess from "../components/Refund/RefundSuccess";
-import dayjs from "dayjs";
+import useFormattedPrice from "./../hooks/useFormattedPrice";
+import useFormattedDate from "../hooks/useFormattedDate";
 
 function Refund() {
   const [complete, setComplete] = useState(false);
@@ -61,14 +62,6 @@ function Refund() {
     getData();
   }, [bookId]);
 
-  // fomat total price
-  const formattedTotalPrice = parseFloat(
-    cancelBooking.total_price_add_reqs
-  ).toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-
   //check user
   const fetchAuth = async () => {
     const token = localStorage.getItem("token");
@@ -118,9 +111,7 @@ function Refund() {
                         </h2>
                         <p className="text-gray-600 text-body1">
                           Booking date:{" "}
-                          {dayjs(cancelBooking.booking_date).format(
-                            "ddd, D MMM YYYY"
-                          )}
+                          {useFormattedDate(cancelBooking.booking_date)}
                         </p>
                       </div>
                       <div className="flex justify-between">
@@ -128,15 +119,11 @@ function Refund() {
                           <div>
                             <div>
                               <span>
-                                {dayjs(cancelBooking.check_in).format(
-                                  "ddd, D MMM YYYY"
-                                )}{" "}
+                                {useFormattedDate(cancelBooking.check_in)}
                               </span>
                               <span className="px-2">-</span>
                               <span>
-                                {dayjs(cancelBooking.check_out).format(
-                                  "ddd, D MMM YYYY"
-                                )}{" "}
+                                {useFormattedDate(cancelBooking.check_out)}
                               </span>
                             </div>
                             <div className="mt-2">
@@ -154,7 +141,10 @@ function Refund() {
                             </div>
                             <div className="mt-2">
                               <span className="text-headline5 text-gray-900">
-                                THB {formattedTotalPrice}
+                                THB{" "}
+                                {useFormattedPrice(
+                                  cancelBooking.total_price_add_reqs
+                                )}
                               </span>
                             </div>
                           </div>

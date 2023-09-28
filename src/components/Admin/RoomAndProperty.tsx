@@ -1,43 +1,18 @@
-import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import NavbarAdmin from "./NavbarAdmin";
 import SearchAdmin from "./SearchAdmin";
-import { ClassNames } from "@emotion/react";
+import useFormattedPrice from "../../hooks/useFormattedPrice";
+import { StyledTableCell, StyledTableRow } from "./styledTable";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-
-const StyledTableCell = styled(TableCell)(() => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#E4E6ED",
-    fontSize: 14,
-    fontWeight: 500,
-    fontFamily: "Inter",
-    color: "#424C6B",
-    padding: "10px 16px",
-  },
-  [`&.${tableCellClasses.body}`]: {
-    backgroundColor: "white",
-    fontSize: 16,
-    fontFamily: "Inter",
-    color: "black",
-    borderColor: "#E4E6ED",
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(() => ({
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
 
 function createData(
   image: string,
@@ -366,19 +341,10 @@ function RoomAndProperty() {
                     </StyledTableCell>
                     <StyledTableCell>{row.type}</StyledTableCell>
                     <StyledTableCell>
-                      {" "}
-                      {parseFloat(row.price).toLocaleString("en-US", {
-                        style: "decimal",
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
+                      {useFormattedPrice(row.price)}
                     </StyledTableCell>
                     <StyledTableCell>
-                      {parseFloat(row.promotion).toLocaleString("en-US", {
-                        style: "decimal",
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
+                      {useFormattedPrice(row.promotion)}
                     </StyledTableCell>
                     <StyledTableCell>{row.guest}</StyledTableCell>
                     <StyledTableCell>{row.bedType}</StyledTableCell>

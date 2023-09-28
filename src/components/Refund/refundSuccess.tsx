@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import App from "../../App";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
-// import Navbar from "../Navbar";
+import useFormattedPrice from "../../hooks/useFormattedPrice";
+import useFormattedDate from "../../hooks/useFormattedDate";
 
 function RefundSuccess() {
-  // const navigate = useNavigate();
   const { bookId } = useParams();
   const [checkUser, setCheckUser] = useState(null);
 
@@ -39,13 +38,6 @@ function RefundSuccess() {
   useEffect(() => {
     getData();
   }, [bookId]);
-
-  // fomat total price
-  const formattedTotalPrice = parseFloat(
-    cancelBooking.total_price_add_reqs
-  ).toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-  });
 
   //check user
   const fetchAuth = async () => {
@@ -87,11 +79,11 @@ function RefundSuccess() {
           </p>
           <div className="flex flex-row pb-1 text-white  mt-4">
             <p className=" text-base font-semibold">
-              {dayjs(cancelBooking.check_in).format("ddd, D MMM YYYY")}
+              {useFormattedDate(cancelBooking.check_in)}
             </p>
             <span className="px-2 text-body1">-</span>
             <p className=" text-base font-semibold">
-              {dayjs(cancelBooking.check_out).format("ddd, D MMM YYYY")}
+              {useFormattedDate(cancelBooking.check_out)}
             </p>
           </div>
           <p className="text-white text-body1 py-1 ">
@@ -100,12 +92,10 @@ function RefundSuccess() {
           </p>
           <div className="flex flex-col text-body1 text-green-300 mt-10">
             <p className=" py-1 ">
-              Booking date:{" "}
-              {dayjs(cancelBooking.booking_date).format("ddd, D MMM YYYY")}
+              Booking date: {useFormattedDate(cancelBooking.booking_date)}
             </p>
             <p className=" py-1 ">
-              Cancellation date:{" "}
-              {dayjs(cancelBooking.cancel_date).format("ddd, D MMM YYYY")}
+              Cancellation date: {useFormattedDate(cancelBooking.cancel_date)}
             </p>
           </div>
         </div>
@@ -116,7 +106,7 @@ function RefundSuccess() {
           </p>
           <p className="text-white text-headline5">
             {" "}
-            THB {formattedTotalPrice}
+            THB {useFormattedPrice(cancelBooking.total_price_add_reqs)}
           </p>
         </div>
       </div>

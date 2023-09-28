@@ -330,13 +330,13 @@ export default function CustomPaginationActionsTable() {
                         <StyledTableCell className="w-[13%]">
                           {row.customerName}
                         </StyledTableCell>
-                        <StyledTableCell className="w-[8%]">
+                        <StyledTableCell className="w-[8%]" align="center">
                           {row.guest}
                         </StyledTableCell>
                         <StyledTableCell className="w-[18%]">
                           {row.roomType}
                         </StyledTableCell>
-                        <StyledTableCell className="w-[8%]">
+                        <StyledTableCell className="w-[8%]" align="center">
                           {row.amount}
                         </StyledTableCell>
                         <StyledTableCell className="w-[12.5%]">

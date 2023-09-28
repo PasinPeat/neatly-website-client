@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import "../App.css";
 import CancelSuccess from "../components/CancelBooking/CancelSuccess";
-import dayjs from "dayjs";
+import useFormattedDate from "./../hooks/useFormattedDate";
 
 function CancelBooking() {
   const [complete, setComplete] = useState(false);
@@ -107,26 +107,16 @@ function CancelBooking() {
                     </h2>
                     <p className="text-gray-600 text-body1">
                       Booking date:{" "}
-                      {dayjs(cancelBooking.booking_date).format(
-                        "ddd, D MMM YYYY"
-                      )}
+                      {useFormattedDate(cancelBooking.booking_date)}
                     </p>
                   </div>
 
                   <div className="flex flex-col mb-8 text-gray-700 text-body1">
                     <div>
                       <div>
-                        <span>
-                          {dayjs(cancelBooking.check_in).format(
-                            "ddd, D MMM YYYY"
-                          )}{" "}
-                        </span>
+                        <span>{useFormattedDate(cancelBooking.check_in)}</span>
                         <span className="px-2">-</span>
-                        <span>
-                          {dayjs(cancelBooking.check_out).format(
-                            "ddd, D MMM YYYY"
-                          )}{" "}
-                        </span>
+                        <span>{useFormattedDate(cancelBooking.check_out)}</span>
                       </div>
                       <div className="mt-2">
                         <span>{cancelBooking.amount_stay} Guests</span>

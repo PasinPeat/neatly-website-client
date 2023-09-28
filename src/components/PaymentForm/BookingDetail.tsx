@@ -1,19 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-// import { RoomsContext } from "../../App";
 import { PaymentContext } from "../../pages/Payment";
-// import useFormattedDate from "../../hooks/useFormattedDate";
+import useFormattedPrice from "../../hooks/useFormattedPrice";
 
 function BookingDetail() {
-  //  const formatdate = useFormattedDate(date);
-  // const roomsContext = useContext(RoomsContext);
-  // const userInput = roomsContext.userInput;
-  // const setUserInput = roomsContext.setUserInput;
-
-  // const checkInDate = userInput.checkInDate;
-  // const checkOutDate = userInput.checkOutDate;
   const [userInput, setUserInput] = useState({});
-  // const [checkInDate, setCheckInDate] = useState<Dayjs | null | string>(null);
-  // const [checkOutDate, setCheckOutDate] = useState<Dayjs | null | string>(null);
 
   const paymentContext = useContext(PaymentContext);
   const totalPriceAfterAddReqs = paymentContext.totalPriceAfterAddReqs;
@@ -33,7 +23,6 @@ function BookingDetail() {
         setUserInput(JSON.parse(storedUserInput));
       }
     } catch (error) {
-      // Handle JSON parsing error, e.g., log or set a default value
       console.error("Error parsing JSON:", error);
     }
   }, []);
@@ -110,9 +99,7 @@ function BookingDetail() {
                   )
                 </div>
                 <p className="text-base font-semibold">
-                  {parseFloat(userInput.totalPrice).toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                  })}
+                  {useFormattedPrice(userInput.totalPrice)}
                 </p>
               </div>
               {selectedStandard &&
@@ -162,10 +149,7 @@ function BookingDetail() {
           <div className="flex justify-between pt-6">
             <p className="text-body1 text-green-300">Total</p>
             <p className="text-headline5">
-              {parseFloat(totalPriceAfterAddReqs).toLocaleString("en-US", {
-                style: "currency",
-                currency: "THB",
-              })}
+              THB {useFormattedPrice(totalPriceAfterAddReqs)}
             </p>
           </div>
         </div>
