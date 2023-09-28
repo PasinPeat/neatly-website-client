@@ -1060,10 +1060,11 @@ function RoomAndProperty() {
               </button>
             </div>
             <dialog id="my_modal_1" className="modal">
-              <div className="modal-box bg-white">
-                <h3 className="font-bold text-[1.2rem] text-black">
+              <div className="modal-box bg-white rounded-sm">
+                <h3 className="font-bold text-[1.2rem] text-black font-inter">
                   Delete room
                 </h3>
+                <hr></hr>
                 <p className="py-4">
                   Are you sure you want to delete this room?
                 </p>
