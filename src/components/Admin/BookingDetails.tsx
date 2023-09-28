@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import PriceDetails from "./PriceDetails";
 import dayjs from "dayjs";
-
+import useFormattedDate from "../../hooks/useFormattedDate";
 function BookingDetails({ bookId, onCompleteChange }) {
   const [bookingDetails, setBookingDetails] = useState({
     room_details: {
@@ -97,14 +97,13 @@ function BookingDetails({ bookId, onCompleteChange }) {
         <div className="flex flex-col w-[880px] h-[58px]  mb-[38px] pb-1">
           <p className="text-headline5 text-gray-600">Check-in</p>
           <p className="text-body1 text-black ">
-            {dayjs(bookingDetails.check_in).format("ddd, D MMM YYYY")}
+            {useFormattedDate(bookingDetails.check_in)}
           </p>
         </div>
         <div className="flex flex-col w-[880px] h-[58px]  mb-[38px] pb-1">
           <p className="text-headline5 text-gray-600">Check-out</p>
           <p className="text-body1 text-black ">
-            {" "}
-            {dayjs(bookingDetails.check_out).format("ddd, D MMM YYYY")}
+            {useFormattedDate(bookingDetails.check_out)}
           </p>
         </div>
         <div className="flex flex-col w-[880px] h-[58px]  mb-[38px] pb-1">
@@ -116,7 +115,7 @@ function BookingDetails({ bookId, onCompleteChange }) {
         <div className="flex flex-col w-[880px] h-[58px]  mb-[38px] pb-1">
           <p className="text-headline5 text-gray-600">Booking date</p>
           <p className="text-body1 text-black ">
-            {dayjs(bookingDetails.booking_date).format("ddd, D MMM YYYY")}
+            {useFormattedDate(bookingDetails.booking_date)}
           </p>
         </div>
 
