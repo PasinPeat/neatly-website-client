@@ -1,7 +1,6 @@
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import Table from "@mui/material/Table";
+import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -18,6 +17,7 @@ import SearchAdmin from "./SearchAdmin";
 import PaginationAdmin from "./PaginationAdmin";
 import PageContext from "../../contexts/PageContext";
 import useFormattedDate from "../../hooks/useFormattedDate";
+import { StyledTableCell, StyledTableRow } from "./styledTable";
 
 export default function CustomPaginationActionsTable() {
   const [booking, setBooking] = useState([]);
@@ -250,30 +250,6 @@ export default function CustomPaginationActionsTable() {
     setComplete(newCompleteValue);
   };
 
-  /*style table*/
-  const StyledTableCell = styled(TableCell)(() => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#E4E6ED",
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Inter",
-      padding: "10px 16px",
-      color: "#424C6B",
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 16,
-      fontFamily: "Inter",
-      borderColor: "none",
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(() => ({
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
-
   /*style status*/
   const statusTheme = createTheme({
     palette: {
@@ -320,7 +296,7 @@ export default function CustomPaginationActionsTable() {
             </div>
           </NavbarAdmin>
 
-          <div className="px-24 py-12">
+          <div className="w-[1200px]">
             <Paper sx={{ overflow: "hidden" }}>
               <TableContainer component={Paper}>
                 <Table aria-label="custom pagination table">
