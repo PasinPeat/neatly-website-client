@@ -6,6 +6,7 @@ import "../App.css";
 import RefundSuccess from "../components/Refund/RefundSuccess";
 import dayjs from "dayjs";
 import useFormattedPrice from "../hooks/useFormattedPrice";
+import useFormattedDate from "../hooks/useFormattedDate";
 function Refund() {
   const [complete, setComplete] = useState(false);
   const navigate = useNavigate();
@@ -115,9 +116,7 @@ function Refund() {
                         </h2>
                         <p className="text-gray-600 text-body1">
                           Booking date:{" "}
-                          {dayjs(cancelBooking.booking_date).format(
-                            "ddd, D MMM YYYY"
-                          )}
+                          {useFormattedDate(cancelBooking.booking_date)}
                         </p>
                       </div>
                       <div className="flex justify-between">
@@ -125,15 +124,11 @@ function Refund() {
                           <div>
                             <div>
                               <span>
-                                {dayjs(cancelBooking.check_in).format(
-                                  "ddd, D MMM YYYY"
-                                )}{" "}
+                                {useFormattedDate(cancelBooking.check_in)}{" "}
                               </span>
                               <span className="px-2">-</span>
                               <span>
-                                {dayjs(cancelBooking.check_out).format(
-                                  "ddd, D MMM YYYY"
-                                )}{" "}
+                                {useFormattedDate(cancelBooking.check_out)}{" "}
                               </span>
                             </div>
                             <div className="mt-2">

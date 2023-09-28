@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import "../App.css";
 import CancelSuccess from "../components/CancelBooking/CancelSuccess";
 import dayjs from "dayjs";
+import useFormattedDate from "../hooks/useFormattedDate";
 
 function CancelBooking() {
   const [complete, setComplete] = useState(false);
@@ -107,9 +108,7 @@ function CancelBooking() {
                     </h2>
                     <p className="text-gray-600 text-body1">
                       Booking date:{" "}
-                      {dayjs(cancelBooking.booking_date).format(
-                        "ddd, D MMM YYYY"
-                      )}
+                      {useFormattedDate(cancelBooking.booking_date)}
                     </p>
                   </div>
 
@@ -117,15 +116,11 @@ function CancelBooking() {
                     <div>
                       <div>
                         <span>
-                          {dayjs(cancelBooking.check_in).format(
-                            "ddd, D MMM YYYY"
-                          )}{" "}
+                          {useFormattedDate(cancelBooking.check_in)}{" "}
                         </span>
                         <span className="px-2">-</span>
                         <span>
-                          {dayjs(cancelBooking.check_out).format(
-                            "ddd, D MMM YYYY"
-                          )}{" "}
+                          {useFormattedDate(cancelBooking.check_out)}{" "}
                         </span>
                       </div>
                       <div className="mt-2">
