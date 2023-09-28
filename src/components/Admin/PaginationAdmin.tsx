@@ -20,6 +20,18 @@ interface TablePaginationActionsProps {
   ) => void;
 }
 
+interface RowData {
+  roomNumber: number;
+  roomType: string;
+  bedType: string;
+  roomStatus: string;
+}
+
+interface PaginationAdminProps {
+  rows: RowData[];
+  rowsPerPageOptions?: number[];
+}
+
 function TablePaginationActions(props: TablePaginationActionsProps) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -90,7 +102,10 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
   );
 }
 
-function PaginationAdmin({ rows, rowsPerPageOptions = 10 }) {
+function PaginationAdmin({
+  rows,
+  rowsPerPageOptions = [10],
+}: PaginationAdminProps) {
   const { page, setPage, rowsPerPage, setRowsPerPage } =
     useContext(PageContext);
 
@@ -111,7 +126,7 @@ function PaginationAdmin({ rows, rowsPerPageOptions = 10 }) {
 
   return (
     <TablePagination
-      rowsPerPageOptions={[rowsPerPageOptions]}
+      rowsPerPageOptions={rowsPerPageOptions}
       colSpan={5}
       count={rows.length}
       rowsPerPage={rowsPerPage}
