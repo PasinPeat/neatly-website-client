@@ -9,10 +9,10 @@ import Paper from "@mui/material/Paper";
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import DropdownSearch from "./DropdownSearch";
-import NavbarAdmin from "./NavbarAdmin";
-import SearchAdmin from "./SearchAdmin";
 import PaginationAdmin from "./PaginationAdmin";
 import PageContext from "../../contexts/PageContext";
+import NavbarAdmin from "./NavbarAdmin";
+import SearchAdmin from "./SearchAdmin";
 import { StyledTableCell, StyledTableRow } from "./styledTable";
 
 interface BookingType {
@@ -86,14 +86,6 @@ export default function CustomPaginationActionsTable() {
     );
   });
 
-  /*page context*/
-  const { page, setPage, rowsPerPage, setRowsPerPage } =
-    useContext(PageContext);
-
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
   function createData(
     roomNumber: number,
     roomType: string,
@@ -102,38 +94,21 @@ export default function CustomPaginationActionsTable() {
   ) {
     return { roomNumber, roomType, bedType, roomStatus };
   }
+
+  /*sort by minNumber to higher*/
   const roomNumberArr = rows.map((row) => row.roomNumber);
   roomNumberArr.sort((a, b) => a - b);
-  // console.log(roomNumberArr);
+
+  /*page context*/
+  const { page, rowsPerPage } = useContext(PageContext);
+
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
     <>
       <div className="bg-gray-100 min-h-screen">
         {/* navbar field*/}
-        {/* <div className="bg-white h-20 min-w-[1295px] w-full flex flex-row items-center drop-shadow-md">
-          <div className="flex flex-row w-full justify-between items-center pl-16 pr-7">
-            <p className="text-black font-bold">Room Management</p>
-            <div>
-              <FormControl>
-                <OutlinedInput
-                  value={selectedByText}
-                  placeholder="Search…"
-                  onChange={handleInputChange}
-                  size="small"
-                  id="input-with-icon-adornment"
-                  inputProps={{
-                    "aria-label": "weight",
-                  }}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </div>
-          </div>
-        </div> */}
         <NavbarAdmin>
           <p className="text-black font-bold">Room Management</p>
           <div className="flex">
@@ -189,7 +164,7 @@ export default function CustomPaginationActionsTable() {
                         <StyledTableCell>{row.bedType}</StyledTableCell>
                         <StyledTableCell>
                           <DropdownSearch
-                            roomNumber={roomNumber}
+                            roomNumber={row.roomNumber}
                             roomStatus={row.roomStatus}
                           />
                         </StyledTableCell>

@@ -1,9 +1,16 @@
 import { createContext } from "react";
-import React from "react";
+import React, { ReactNode } from "react";
 
-const PageContext = createContext();
+interface PageContextType {
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  rowsPerPage: number;
+  setRowsPerPage: React.Dispatch<React.SetStateAction<number>>;
+}
 
-export function PageProvider({ children }: any) {
+const PageContext = createContext<PageContextType>();
+
+export function PageProvider({ children }: { children: ReactNode }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 

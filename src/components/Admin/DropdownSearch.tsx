@@ -1,6 +1,6 @@
 import * as React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme } from "@mui/system";
 import axios from "axios";
 
 const status: string[] = [
@@ -11,56 +11,13 @@ const status: string[] = [
   "Out of Service",
 ];
 
-interface theme {
-  palette: palette;
+interface RoomInfo {
+  roomNumber: number;
+  roomStatus: string;
 }
 
-interface palette {
-  status: {
-    Vacant: status;
-    Occupied: status;
-    "Assign Clean": status;
-    "Assign Dirty": status;
-    "Out of Service": status;
-  };
-}
-
-interface status {
-  main: string;
-  contrastText: string;
-}
-
-const theme = createTheme({
-  palette: {
-    status: {
-      Vacant: {
-        main: "#F0F2F8",
-        contrastText: "#006753",
-      },
-      Occupied: {
-        main: "#E4ECFF",
-        contrastText: "#084BAF",
-      },
-      "Assign Clean": {
-        main: "#E5FFFA",
-        contrastText: "#006753",
-      },
-      "Assign Dirty": {
-        main: "#FFE5E5",
-        contrastText: "#A50606",
-      },
-      "Out of Service": {
-        main: "#F0F1F8",
-        contrastText: "#6E7288",
-      },
-    },
-  },
-});
-
-export default function UseAutocomplete(roomNumber, roomStatus) {
-  const [selectedStatus, setSelectedStatus] = React.useState<string | null>(
-    null
-  );
+export default function UseAutocomplete({ roomNumber, roomStatus }: RoomInfo) {
+  const [selectedStatus, setSelectedStatus] = React.useState<string>("");
   const [open, setOpen] = React.useState<boolean>(false);
 
   const getStatusStyle = (status: string) => {
@@ -74,9 +31,9 @@ export default function UseAutocomplete(roomNumber, roomStatus) {
     setOpen(!open);
   };
 
-  // PUT: Update Room Status
+  /*PUT: Update Room Status*/
   const updateStatusInDatabase = async (
-    roomNumber: number,
+    roomNumber: RoomInfo,
     selectedStatus: string
   ) => {
     const room_avaliable_id = roomNumber.roomNumber;
@@ -97,8 +54,8 @@ export default function UseAutocomplete(roomNumber, roomStatus) {
   };
 
   const handleInputChange = async (
-    event: React.ChangeEvent,
-    newValue: string | null
+    event: React.ChangeEvent<HTMLInputElement>,
+    newValue: string
   ) => {
     console.log(newValue);
     if (!newValue) {
@@ -106,6 +63,34 @@ export default function UseAutocomplete(roomNumber, roomStatus) {
     }
     updateStatusInDatabase(roomNumber, newValue);
   };
+
+  /*style status*/
+  const theme = createTheme({
+    palette: {
+      status: {
+        Vacant: {
+          main: "#F0F2F8",
+          contrastText: "#006753",
+        },
+        Occupied: {
+          main: "#E4ECFF",
+          contrastText: "#084BAF",
+        },
+        "Assign Clean": {
+          main: "#E5FFFA",
+          contrastText: "#006753",
+        },
+        "Assign Dirty": {
+          main: "#FFE5E5",
+          contrastText: "#A50606",
+        },
+        "Out of Service": {
+          main: "#F0F1F8",
+          contrastText: "#6E7288",
+        },
+      },
+    },
+  });
 
   return (
     <>
@@ -115,46 +100,50 @@ export default function UseAutocomplete(roomNumber, roomStatus) {
         style={{
           color:
             theme.palette.status[selectedStatus]?.contrastText ||
-            theme.palette.status[roomNumber.roomStatus]?.contrastText ||
+            theme.palette.status[roomStatus]?.contrastText ||
             "inherit",
           backgroundColor:
             theme.palette.status[selectedStatus]?.main ||
-            theme.palette.status[roomNumber.roomStatus]?.main ||
+            theme.palette.status[roomStatus]?.main ||
             "inherit",
         }}
       >
-        {selectedStatus ? `${selectedStatus}` : `${roomNumber.roomStatus}`}
+        {selectedStatus ? `${selectedStatus}` : `${roomStatus}`}
       </button>
-      <ThemeProvider theme={theme}>
-        <div style={{ position: "relative" }}>
-          <Autocomplete
-            options={status}
-            value={selectedStatus}
-            onChange={(event: React.ChangeEvent, newValue: string | null) => {
-              setSelectedStatus(newValue);
-              setOpen(false);
-              handleInputChange(event, newValue);
-            }}
-            open={open}
-            style={{
-              display: "flex",
-            }}
-            className="focus:border-0 active:border-0 hover:border-0"
-            getOptionLabel={(option) => option}
-            renderInput={(params) => (
-              <div ref={params.InputProps.ref}>
-                <input
-                  type="text"
-                  {...params.inputProps}
-                  style={{
-                    display: open ? "block" : "none",
-                  }}
-                  placeholder="Search status..."
-                  className="w-[180px] h-[32px] px-4 py-3 rounded-t text-gray-600 text-body2 border-b-[1px] border-gray-400 shadow-md bg-white focus:border-0 active:border-0 hover:border-0"
-                />
-              </div>
-            )}
-            renderOption={(props, option) => (
+      <div className="relative">
+        <Autocomplete
+          options={status}
+          value={selectedStatus}
+          placeholder="Search status..."
+          onChange={(
+            event: React.SyntheticEvent<Element, Event>,
+            newValue: string | null
+          ) => {
+            setSelectedStatus(newValue || "");
+            setOpen(false);
+            handleInputChange(
+              event as React.ChangeEvent<HTMLInputElement>,
+              newValue || ""
+            );
+          }}
+          open={open}
+          className="w-[180px] focus:border-0 focus:ring-0 active:border-0 active:ring-0 hover:border-0 absolute top-[10px] left-0"
+          getOptionLabel={(option) => option}
+          renderInput={(params) => (
+            <div ref={params.InputProps.ref}>
+              <input
+                type="text"
+                {...params.inputProps}
+                style={{
+                  display: open ? "block" : "none",
+                }}
+                placeholder="Search status..."
+                className="w-[180px] h-[40px] px-4 py-3 rounded-t text-gray-600 text-body2 border-b-[1px] border-gray-400 shadow-md bg-white focus:border-0 focus:ring-0 active:border-0 active:ring-0 hover:border-0"
+              />
+            </div>
+          )}
+          renderOption={(props, option) => (
+            <ul className="flex">
               <li
                 {...props}
                 style={getStatusStyle(option)}
@@ -162,10 +151,10 @@ export default function UseAutocomplete(roomNumber, roomStatus) {
               >
                 {option}
               </li>
-            )}
-          />
-        </div>
-      </ThemeProvider>
+            </ul>
+          )}
+        />
+      </div>
     </>
   );
 }
