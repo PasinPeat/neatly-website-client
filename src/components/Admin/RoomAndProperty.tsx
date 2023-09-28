@@ -1113,13 +1113,17 @@ function RoomAndProperty() {
             </form>
           </div>
         </Paper>
-        <div
-          onClick={(e) => deleteRoomHandler(e, singleRoom.room_id)}
-          className="text-gray-700 flex justify-end mt-5"
-          style={{ cursor: "pointer" }}
-        >
-          Delete Room
-        </div>
+        {checkPage === "update" ? (
+          <>
+            <div
+              onClick={(e) => deleteRoomHandler(e, singleRoom.room_id)}
+              className="text-gray-700 flex justify-end mt-5"
+              style={{ cursor: "pointer" }}
+            >
+              Delete Room
+            </div>
+          </>
+        ) : null}
       </div>
     </>
   );
