@@ -18,6 +18,7 @@ import PaginationAdmin from "./PaginationAdmin";
 import PageContext from "../../contexts/PageContext";
 import useFormattedDate from "../../hooks/useFormattedDate";
 import { StyledTableCell, StyledTableRow } from "./styledTable";
+import "../../responsive.css";
 
 export default function CustomPaginationActionsTable() {
   const [booking, setBooking] = useState([]);
@@ -296,7 +297,7 @@ export default function CustomPaginationActionsTable() {
             </div>
           </NavbarAdmin>
 
-          <div className="w-[1200px]">
+          <div className="table-padding m-auto">
             <Paper sx={{ overflow: "hidden" }}>
               <TableContainer component={Paper}>
                 <Table aria-label="custom pagination table">
@@ -326,28 +327,28 @@ export default function CustomPaginationActionsTable() {
                         onClick={() => handleRowClick(row.book_id)}
                         className="hover:bg-gray-200 hover:cursor-pointer"
                       >
-                        <StyledTableCell className="w-[17%]">
+                        <StyledTableCell className="w-[13%]">
                           {row.customerName}
                         </StyledTableCell>
                         <StyledTableCell className="w-[8%]">
                           {row.guest}
                         </StyledTableCell>
-                        <StyledTableCell className="w-[17%]">
+                        <StyledTableCell className="w-[18%]">
                           {row.roomType}
                         </StyledTableCell>
                         <StyledTableCell className="w-[8%]">
                           {row.amount}
                         </StyledTableCell>
                         <StyledTableCell className="w-[12.5%]">
-                          {row.bedType}
+                          {row.bedType.slice(2)}
                         </StyledTableCell>
-                        <StyledTableCell className="w-[12.5%]">
+                        <StyledTableCell className="w-[14.5%]">
                           {useFormattedDate(row.checkIn)}
                         </StyledTableCell>
-                        <StyledTableCell className="w-[12.5%]">
+                        <StyledTableCell className="w-[14.5%]">
                           {useFormattedDate(row.checkOut)}
                         </StyledTableCell>
-                        <StyledTableCell className="w-[12.5%]">
+                        <StyledTableCell className="w-[11.5%]">
                           <span
                             className="Input-status"
                             style={{
