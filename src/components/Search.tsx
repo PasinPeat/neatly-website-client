@@ -136,7 +136,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
               fixedWeekNumber={6}
               defaultValue={checkInDate}
               value={checkInDate}
-              format="dd, DD-MM-YYYY"
+              format="ddd, D MMM YYYY"
               disablePast
               onChange={(newValue) => {
                 setCheckInDate(newValue);
@@ -167,7 +167,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
               fixedWeekNumber={6}
               defaultValue={checkOutDate}
               value={checkOutDate}
-              format="dd, DD-MM-YYYY"
+              format="ddd, D MMM YYYY"
               minDate={dayjs(checkInDate).add(1, "day")}
               disablePast
               onChange={(newValue) => setCheckOutDate(newValue)}

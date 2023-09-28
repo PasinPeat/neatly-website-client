@@ -4,6 +4,9 @@ import axios from "axios";
 import App from "../../App";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import useFormattedPrice from "../../hooks/useFormattedPrice";
+
+import useFormattedDate from "../../hooks/useFormattedDate";
 // import Navbar from "../Navbar";
 
 function RefundSuccess() {
@@ -40,13 +43,9 @@ function RefundSuccess() {
     getData();
   }, [bookId]);
 
-  // fomat total price
-  const formattedTotalPrice = parseFloat(
+  const formattedTotalPrice = useFormattedPrice(
     cancelBooking.total_price_add_reqs
-  ).toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-  });
-
+  );
   //check user
   const fetchAuth = async () => {
     const token = localStorage.getItem("token");
@@ -87,11 +86,11 @@ function RefundSuccess() {
           </p>
           <div className="flex flex-row pb-1 text-white  mt-4">
             <p className=" text-base font-semibold">
-              {dayjs(cancelBooking.check_in).format("ddd, D MMM YYYY")}
+              {useFormattedDate(cancelBooking.check_in)}
             </p>
             <span className="px-2 text-body1">-</span>
             <p className=" text-base font-semibold">
-              {dayjs(cancelBooking.check_out).format("ddd, D MMM YYYY")}
+              {useFormattedDate(cancelBooking.check_out)}
             </p>
           </div>
           <p className="text-white text-body1 py-1 ">
@@ -101,11 +100,11 @@ function RefundSuccess() {
           <div className="flex flex-col text-body1 text-green-300 mt-10">
             <p className=" py-1 ">
               Booking date:{" "}
-              {dayjs(cancelBooking.booking_date).format("ddd, D MMM YYYY")}
+              {useFormattedDate(cancelBooking.booking_date)}
             </p>
             <p className=" py-1 ">
               Cancellation date:{" "}
-              {dayjs(cancelBooking.cancel_date).format("ddd, D MMM YYYY")}
+              {useFormattedDate(cancelBooking.cancel_date)}
             </p>
           </div>
         </div>

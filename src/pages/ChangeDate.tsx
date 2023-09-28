@@ -9,7 +9,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { IoCloseOutline } from "react-icons/io5";
-
+import useFormattedDate from "../hooks/useFormattedDate";
 function ChangeDate() {
   const color: string = "#A0ACC3";
 
@@ -262,22 +262,15 @@ function ChangeDate() {
                         : "Loading..."}
                     </h2>
                     <p className="text-gray-600 text-body1">
-                      Booking date:{" "}
-                      {dayjs(bookingData.booking_date).format(
-                        "ddd, D MMM YYYY"
-                      )}
+                      Booking date: {useFormattedDate(bookingData.booking_date)}
                     </p>
                   </div>
                   <div className="mt-8 flex flex-col gap-1 ">
                     <p className="font-bold text-grey-800">Original Date</p>
                     <div>
-                      <span>
-                        {dayjs(bookingData.check_in).format("ddd, D MMM YYYY")}
-                      </span>
+                      <span>{useFormattedDate(bookingData.check_in)}</span>
                       <span className="px-2">-</span>
-                      <span>
-                        {dayjs(bookingData.check_out).format("ddd, D MMM YYYY")}
-                      </span>
+                      <span>{useFormattedDate(bookingData.check_out)}</span>
                     </div>
                   </div>
                   <div className="mt-8 p-4 bg-white">

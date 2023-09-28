@@ -13,6 +13,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import useFormattedPrice from "../../hooks/useFormattedPrice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -402,18 +403,10 @@ function RoomAndProperty() {
                     <StyledTableCell>{row.type}</StyledTableCell>
                     <StyledTableCell>
                       {" "}
-                      {parseFloat(row.price).toLocaleString("en-US", {
-                        style: "decimal",
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
+                      {useFormattedPrice(row.price)}
                     </StyledTableCell>
                     <StyledTableCell>
-                      {parseFloat(row.promotion).toLocaleString("en-US", {
-                        style: "decimal",
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
+                      {useFormattedPrice(row.promotion)}
                     </StyledTableCell>
                     <StyledTableCell>{row.guest}</StyledTableCell>
                     <StyledTableCell>{row.bedType}</StyledTableCell>
