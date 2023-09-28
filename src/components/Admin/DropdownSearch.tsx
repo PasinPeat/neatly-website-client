@@ -16,7 +16,7 @@ interface RoomInfo {
   roomStatus: string;
 }
 
-export default function UseAutocomplete(roomNumber: RoomInfo) {
+export default function UseAutocomplete({ roomNumber, roomStatus }: RoomInfo) {
   const [selectedStatus, setSelectedStatus] = React.useState<string>("");
   const [open, setOpen] = React.useState<boolean>(false);
 
@@ -100,15 +100,15 @@ export default function UseAutocomplete(roomNumber: RoomInfo) {
         style={{
           color:
             theme.palette.status[selectedStatus]?.contrastText ||
-            theme.palette.status[roomNumber.roomStatus]?.contrastText ||
+            theme.palette.status[roomStatus]?.contrastText ||
             "inherit",
           backgroundColor:
             theme.palette.status[selectedStatus]?.main ||
-            theme.palette.status[roomNumber.roomStatus]?.main ||
+            theme.palette.status[roomStatus]?.main ||
             "inherit",
         }}
       >
-        {selectedStatus ? `${selectedStatus}` : `${roomNumber.roomStatus}`}
+        {selectedStatus ? `${selectedStatus}` : `${roomStatus}`}
       </button>
       <div className="relative">
         <Autocomplete
