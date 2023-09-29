@@ -57,6 +57,10 @@ function RoomAndProperty() {
   const [filteredRooms, setFilteredRooms] = useState([]);
   const [rows, setRows] = useState([]);
 
+  //error
+  const [imageError, setImageError] = useState(false);
+  const [updateImageError, setUpdateImageError] = useState(false);
+
   const getRooms = async () => {
     try {
       const results = await axios(`http://localhost:4000/room/`);
@@ -87,6 +91,8 @@ function RoomAndProperty() {
     files,
     fileDragging,
     fileDropping,
+    imageError,
+    updateImageError,
   ]);
 
   useEffect(() => {
@@ -150,14 +156,19 @@ function RoomAndProperty() {
       formData.append("amenity", amen);
     }
 
-    try {
-      await axios.put(`http://localhost:4000/room/${id}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      setShowPage(InitialData);
-      location.reload();
-    } catch (error) {
-      console.log(error);
+    if (roomImagesFiles && roomImagesFiles.length < 4) {
+      setUpdateImageError(true);
+      return;
+    } else {
+      try {
+        await axios.put(`http://localhost:4000/room/${id}`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        setShowPage(InitialData);
+        location.reload();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -181,14 +192,19 @@ function RoomAndProperty() {
       formData.append("amenity", amen);
     }
 
-    try {
-      await axios.post(`http://localhost:4000/room/`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      setShowPage(InitialData);
-      location.reload();
-    } catch (error) {
-      console.log(error);
+    if (files && files.length < 4) {
+      setImageError(true);
+      return;
+    } else {
+      try {
+        await axios.post(`http://localhost:4000/room/`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        setShowPage(InitialData);
+        location.reload();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -415,7 +431,7 @@ function RoomAndProperty() {
     <>
       <p className="text-gray-600 text-headline5 pb-10">Room Image</p>
 
-      <div className="bg-white p-7 rounded w-[90%] mx-auto">
+      <div className="bg-white p-7 rounded w-[90%] mx-auto relative">
         <div className="relative flex flex-col p-4 text-gray-600 border border-gray-400 rounded hover:border-orange-500 focus:border-orange-500">
           <div className="relative flex flex-col text-gray-600 border border-gray-400 border-dashed rounded cursor-pointer hover:border-orange-500 focus:border-orange-500">
             <input
@@ -526,6 +542,9 @@ function RoomAndProperty() {
             </div>
           )}
         </div>
+        {imageError ? (
+          <div className="text-red absolute">At least 4 pictures *</div>
+        ) : null}
       </div>
     </>
   );
@@ -535,7 +554,7 @@ function RoomAndProperty() {
       <div className="border-b-[1px] border-gray-500 w-[100%] my-10"></div>
       <p className="text-gray-600 text-headline5 pb-10">Room Image</p>
 
-      <div className="bg-white p-7 rounded w-[90%] mx-auto">
+      <div className="bg-white p-7 rounded w-[90%] mx-auto relative">
         <div className="relative flex flex-col p-4 text-gray-600 border border-gray-400 rounded hover:border-orange-500 focus:border-orange-500">
           <div className="relative flex flex-col text-gray-600 border border-gray-400 border-dashed rounded cursor-pointer hover:border-orange-500 focus:border-orange-500">
             <input
@@ -647,6 +666,9 @@ function RoomAndProperty() {
             </div>
           )}
         </div>
+        {updateImageError ? (
+          <div className="text-red absolute">At least 4 pictures *</div>
+        ) : null}
       </div>
     </>
   );
