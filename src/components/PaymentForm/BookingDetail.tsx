@@ -1,19 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-// import { RoomsContext } from "../../App";
 import { PaymentContext } from "../../pages/Payment";
-// import useFormattedDate from "../../hooks/useFormattedDate";
 import useFormattedPrice from "../../hooks/useFormattedPrice";
-function BookingDetail() {
-  //  const formatdate = useFormattedDate(date);
-  // const roomsContext = useContext(RoomsContext);
-  // const userInput = roomsContext.userInput;
-  // const setUserInput = roomsContext.setUserInput;
 
-  // const checkInDate = userInput.checkInDate;
-  // const checkOutDate = userInput.checkOutDate;
+function BookingDetail() {
   const [userInput, setUserInput] = useState({});
-  // const [checkInDate, setCheckInDate] = useState<Dayjs | null | string>(null);
-  // const [checkOutDate, setCheckOutDate] = useState<Dayjs | null | string>(null);
 
   const paymentContext = useContext(PaymentContext);
   const totalPriceAfterAddReqs = paymentContext.totalPriceAfterAddReqs;
@@ -33,7 +23,6 @@ function BookingDetail() {
         setUserInput(JSON.parse(storedUserInput));
       }
     } catch (error) {
-      // Handle JSON parsing error, e.g., log or set a default value
       console.error("Error parsing JSON:", error);
     }
   }, []);

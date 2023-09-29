@@ -1,5 +1,4 @@
 import React from "react";
-import { useAuth } from "../../contexts/authen.jsx";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
@@ -7,6 +6,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
 import useFormattedPrice from "../../hooks/useFormattedPrice.js";
+
 function DropDownList({
   totalPrice,
   totalPriceAddReqs,
@@ -20,7 +20,6 @@ function DropDownList({
   threeCreditCardNum,
   night,
 }: any) {
-  const auth = useAuth();
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {

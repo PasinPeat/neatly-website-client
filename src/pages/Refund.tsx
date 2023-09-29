@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import "../App.css";
 import RefundSuccess from "../components/Refund/RefundSuccess";
-import dayjs from "dayjs";
-import useFormattedPrice from "../hooks/useFormattedPrice";
+import useFormattedPrice from "./../hooks/useFormattedPrice";
 import useFormattedDate from "../hooks/useFormattedDate";
+
 function Refund() {
   const [complete, setComplete] = useState(false);
   const navigate = useNavigate();
@@ -61,11 +61,6 @@ function Refund() {
   useEffect(() => {
     getData();
   }, [bookId]);
-
-  // fomat total price
-  const formattedTotalPrice = useFormattedPrice(
-    cancelBooking.total_price_add_reqs
-  );
 
   //check user
   const fetchAuth = async () => {
@@ -124,11 +119,11 @@ function Refund() {
                           <div>
                             <div>
                               <span>
-                                {useFormattedDate(cancelBooking.check_in)}{" "}
+                                {useFormattedDate(cancelBooking.check_in)}
                               </span>
                               <span className="px-2">-</span>
                               <span>
-                                {useFormattedDate(cancelBooking.check_out)}{" "}
+                                {useFormattedDate(cancelBooking.check_out)}
                               </span>
                             </div>
                             <div className="mt-2">
@@ -146,7 +141,10 @@ function Refund() {
                             </div>
                             <div className="mt-2">
                               <span className="text-headline5 text-gray-900">
-                                THB {formattedTotalPrice}
+                                THB{" "}
+                                {useFormattedPrice(
+                                  cancelBooking.total_price_add_reqs
+                                )}
                               </span>
                             </div>
                           </div>

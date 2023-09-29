@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import App from "../../App";
 import { Link } from "react-router-dom";
-import dayjs from "dayjs";
 import useFormattedPrice from "../../hooks/useFormattedPrice";
-
 import useFormattedDate from "../../hooks/useFormattedDate";
-// import Navbar from "../Navbar";
 
 function RefundSuccess() {
-  // const navigate = useNavigate();
   const { bookId } = useParams();
   const [checkUser, setCheckUser] = useState(null);
 
@@ -43,9 +38,6 @@ function RefundSuccess() {
     getData();
   }, [bookId]);
 
-  const formattedTotalPrice = useFormattedPrice(
-    cancelBooking.total_price_add_reqs
-  );
   //check user
   const fetchAuth = async () => {
     const token = localStorage.getItem("token");
@@ -99,12 +91,10 @@ function RefundSuccess() {
           </p>
           <div className="flex flex-col text-body1 text-green-300 mt-10">
             <p className=" py-1 ">
-              Booking date:{" "}
-              {useFormattedDate(cancelBooking.booking_date)}
+              Booking date: {useFormattedDate(cancelBooking.booking_date)}
             </p>
             <p className=" py-1 ">
-              Cancellation date:{" "}
-              {useFormattedDate(cancelBooking.cancel_date)}
+              Cancellation date: {useFormattedDate(cancelBooking.cancel_date)}
             </p>
           </div>
         </div>
@@ -114,8 +104,7 @@ function RefundSuccess() {
             Total Refund
           </p>
           <p className="text-white text-headline5">
-            {" "}
-            THB {formattedTotalPrice}
+            THB {useFormattedPrice(cancelBooking.total_price_add_reqs)}
           </p>
         </div>
       </div>

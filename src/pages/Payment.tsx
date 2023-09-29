@@ -6,7 +6,7 @@ import StepPayment from "../components/PaymentForm/StepPayment";
 import ReviewPayment from "../components/PaymentForm/ReviewPayment";
 import { useState, useContext, useEffect } from "react";
 import { RoomsContext } from "../App.tsx";
-import dayjs, { Dayjs } from "dayjs";
+import useFormattedDate from "./../hooks/useFormattedDate.tsx";
 export const PaymentContext = React.createContext();
 
 function Payment() {
@@ -37,16 +37,11 @@ function Payment() {
 
   useEffect(() => {
     if (userInput) {
-      setCheckInDate(formattedDate(userInput.checkInDate));
-      setCheckOutDate(formattedDate(userInput.checkOutDate));
+      setCheckInDate(useFormattedDate(userInput.checkInDate));
+      setCheckOutDate(useFormattedDate(userInput.checkOutDate));
       setTotalPrice(userInput.totalPrice);
     }
   }, [userInput]);
-
-  /*formatted date*/
-  function formattedDate(date: Dayjs | string) {
-    return date ? dayjs(date).format("dd, DD-MM-YYYY") : "";
-  }
 
   useEffect(() => {
     if (context) {
@@ -58,9 +53,6 @@ function Payment() {
       }
     }
   }, [context]);
-
-  //   setUserInput(JSON.parse(storedUserInput));
-  // }, []);
 
   const standard = [
     { name: "Early check-in", checked: false },

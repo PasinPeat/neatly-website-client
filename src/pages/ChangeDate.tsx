@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { IoCloseOutline } from "react-icons/io5";
 import useFormattedDate from "../hooks/useFormattedDate";
+
 function ChangeDate() {
   const color: string = "#A0ACC3";
 
@@ -290,7 +291,7 @@ function ChangeDate() {
                               fixedWeekNumber={6}
                               defaultValue={dayjs()}
                               value={dayjs(checkInDate)}
-                              format="ddd, D MMM YYYY"
+                              format="dd, D MMM YYYY"
                               minDate={dayjs().add(1, "day")}
                               disablePast
                               shouldDisableDate={
@@ -328,7 +329,7 @@ function ChangeDate() {
                               fixedWeekNumber={6}
                               defaultValue={dayjs()}
                               value={dayjs(checkOutDate)}
-                              format="ddd, D MMM YYYY"
+                              format="dd, D MMM YYYY"
                               maxDate={maxDate}
                               minDate={dayjs(checkInDate).add(1, "day")}
                               disablePast
