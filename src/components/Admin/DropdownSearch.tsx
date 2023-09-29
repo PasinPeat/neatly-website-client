@@ -14,21 +14,28 @@ const status: string[] = [
 interface RoomInfo {
   roomNumber: number;
   roomStatus: string;
+  currOpen: number;
+  setOpen: number;
 }
 
-export default function UseAutocomplete({ roomNumber, roomStatus }: RoomInfo) {
+export default function DropdownSearch({
+  roomNumber,
+  roomStatus,
+  currOpen,
+  setOpen,
+}: RoomInfo) {
   const [selectedStatus, setSelectedStatus] = React.useState<string>("");
-  const [open, setOpen] = React.useState<boolean>(false);
+
+  const isOpen = currOpen === roomNumber;
+  const handleButtonClick = () => {
+    setOpen(isOpen ? null : roomNumber);
+  };
 
   const getStatusStyle = (status: string) => {
     return {
       backgroundColor: theme.palette.status[status]?.main || "inherit",
       color: theme.palette.status[status]?.contrastText || "inherit",
     };
-  };
-
-  const handleButtonClick = () => {
-    setOpen(!open);
   };
 
   /*PUT: Update Room Status*/
@@ -120,13 +127,12 @@ export default function UseAutocomplete({ roomNumber, roomStatus }: RoomInfo) {
             newValue: string | null
           ) => {
             setSelectedStatus(newValue || "");
-            setOpen(false);
+            setOpen(null);
             handleInputChange(
               event as React.ChangeEvent<HTMLInputElement>,
               newValue || ""
             );
           }}
-          open={open}
           className="w-[180px] focus:border-0 focus:ring-0 active:border-0 active:ring-0 hover:border-0 absolute top-[10px] left-0"
           getOptionLabel={(option) => option}
           renderInput={(params) => (
@@ -135,7 +141,7 @@ export default function UseAutocomplete({ roomNumber, roomStatus }: RoomInfo) {
                 type="text"
                 {...params.inputProps}
                 style={{
-                  display: open ? "block" : "none",
+                  display: isOpen ? "block" : "none",
                 }}
                 placeholder="Search status..."
                 className="w-[180px] h-[40px] px-4 py-3 rounded-t text-gray-600 text-body2 border-b-[1px] border-gray-400 shadow-md bg-white focus:border-0 focus:ring-0 active:border-0 active:ring-0 hover:border-0"
