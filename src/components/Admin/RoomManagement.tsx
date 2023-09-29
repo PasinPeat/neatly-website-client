@@ -28,6 +28,7 @@ export default function CustomPaginationActionsTable() {
   const [booking, setBooking] = useState<BookingType[]>([]);
   const [filterBookingList, setFilterBookingList] = useState<BookingType[]>([]);
   const [selectedByText, setSelectedByText] = useState<string>("");
+  const [currOpen, setOpen] = React.useState<number>(null);
 
   const getBooking = async () => {
     try {
@@ -75,6 +76,7 @@ export default function CustomPaginationActionsTable() {
     if (!selectedByText) {
       setFilterBookingList(booking);
     }
+    setPage(0);
   }, [selectedByText]);
 
   const rows = filterBookingList.map((book) => {
@@ -100,7 +102,7 @@ export default function CustomPaginationActionsTable() {
   roomNumberArr.sort((a, b) => a - b);
 
   /*page context*/
-  const { page, rowsPerPage } = useContext(PageContext);
+  const { page, setPage, rowsPerPage } = useContext(PageContext);
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -166,6 +168,8 @@ export default function CustomPaginationActionsTable() {
                           <DropdownSearch
                             roomNumber={row.roomNumber}
                             roomStatus={row.roomStatus}
+                            currOpen={currOpen}
+                            setOpen={setOpen}
                           />
                         </StyledTableCell>
                       </StyledTableRow>
