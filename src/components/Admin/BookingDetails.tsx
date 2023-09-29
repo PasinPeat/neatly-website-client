@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import PriceDetails from "./PriceDetails";
-import dayjs from "dayjs";
 import useFormattedDate from "../../hooks/useFormattedDate";
+
 function BookingDetails({ bookId, onCompleteChange }) {
   const [bookingDetails, setBookingDetails] = useState({
     room_details: {

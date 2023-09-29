@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DropDownList from "./DropdownList.js";
-import dayjs from "dayjs";
 import useFormattedDate from "../../hooks/useFormattedDate.js";
+
 function HistoryCard({
   bookingsHistory,
   bookIds,
@@ -31,27 +31,6 @@ function HistoryCard({
   const [cancelVisible, setCancelVisible] = useState({});
 
   const navigate = useNavigate();
-  console.log();
-
-  // date format
-  // const checkInDate = new Date(`${checkIn}`);
-  // const checkOutDate = new Date(`${checkOut}`);
-  // const checkBookDate = new Date(`${bookDate}`);
-  // const checkCancelDate = new Date(`${cancel_date}`);
-  // const options = {
-  //   weekday: "short",
-  //   day: "numeric",
-  //   month: "short",
-  //   year: "numeric",
-  // };
-
-  // const formattedCheckIn = checkInDate.toLocaleDateString("en-US", options);
-  // const formattedCheckOut = checkOutDate.toLocaleDateString("en-US", options);
-  // const formattedBookDate = checkBookDate.toLocaleDateString("en-US", options);
-  // const formattedCancelDate = checkCancelDate.toLocaleDateString(
-  //   "en-US",
-  //   options
-  // );
 
   const backgroundImage = {
     backgroundImage: `url('${roomImages[2]}')`,

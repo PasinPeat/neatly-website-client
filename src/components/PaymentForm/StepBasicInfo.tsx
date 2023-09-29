@@ -79,15 +79,6 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
                 Date of Birth
               </p>
             </label>
-            {/* <input
-              type="date"
-              id="birthDate"
-              value={dateOfBirth}
-              name="birthDate"
-              className="w-full InputSuccess"
-              disabled
-            /> */}
-
             <DatePicker
               value={dayjs(dateOfBirth)}
               format="dd, DD MMMM YYYY"
