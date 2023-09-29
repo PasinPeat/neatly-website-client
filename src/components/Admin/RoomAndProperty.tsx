@@ -724,359 +724,371 @@ function RoomAndProperty() {
 
       {/* table field*/}
       <div className="bg-gray-100 pt-12">
-        <Paper
-          sx={{
-            overflow: "hidden",
-            width: "1156px",
-            margin: "auto",
-          }}
-        >
-          <div className=" flex flex-col justify-center items-start p-20">
-            <p className="text-gray-600 text-headline5 pb-10">
-              Basic Information
-            </p>
-            <form className="w-full">
-              <div className="relative pb-5">
-                <label htmlFor="fname">
-                  <p className="font-body1 text-start">Room Type *</p>
-                </label>
-                <input
-                  onChange={(e) => {
-                    setSingleRoom({ ...singleRoom, room_type: e.target.value });
-                  }}
-                  type="text"
-                  id="type"
-                  value={singleRoom.room_type}
-                  name="type"
-                  placeholder=""
-                  className={`text-gray-900 w-full Input focus:outline-none focus:border-orange-500 "focus:outline-none"
-                  }`}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-10 w-[100%] pb-5">
-                <div className="relative">
-                  <label htmlFor="roomSize">
-                    <p className="font-body1 text-gray-900 text-start">
-                      Room size (sqm) *
-                    </p>
+        <div className="w-[1156px] m-auto">
+          <Paper
+            sx={{
+              overflow: "hidden",
+              // margin: "auto",
+            }}
+          >
+            <div className=" flex flex-col justify-center items-start p-20">
+              <p className="text-gray-600 text-headline5 pb-10">
+                Basic Information
+              </p>
+              <form className="w-full">
+                <div className="relative pb-5">
+                  <label htmlFor="fname">
+                    <p className="font-body1 text-start">Room Type *</p>
                   </label>
                   <input
-                    type="text"
-                    id="roomSize"
-                    name="roomSize"
-                    onChange={(e) => {
-                      setSingleRoom({ ...singleRoom, area: e.target.value });
-                    }}
-                    value={singleRoom.area}
-                    maxLength={2}
-                    placeholder=""
-                    className={`text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500 focus:outline-none"
-                }`}
-                    required
-                  />
-                </div>
-
-                <div className="relative">
-                  <label htmlFor="bedType">
-                    <p className="font-body1 text-gray-900 text-start">
-                      Bed type *
-                    </p>
-                  </label>
-                  <select
-                    name="bedType"
-                    id="bedType"
-                    value={singleRoom.bed_types}
                     onChange={(e) => {
                       setSingleRoom({
                         ...singleRoom,
-                        bed_types: e.target.value,
+                        room_type: e.target.value,
                       });
                     }}
-                    className={`text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500 focus:outline-none"
-                }`}
-                  >
-                    <option>2 Single bed</option>
-                    <option>1 Double bed</option>
-                    <option>2 Double bed</option>
-                  </select>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-10 w-[100%] pb-5">
-                <div className="relative">
-                  <label htmlFor="guest">
-                    <p className="font-body1 text-gray-900 text-start mb-[4px]">
-                      Guest(s) *
-                    </p>
-                  </label>
-                  <select
-                    name="guest"
-                    id="guest"
-                    value={singleRoom.person}
-                    onChange={(e) => {
-                      setSingleRoom({ ...singleRoom, person: e.target.value });
-                    }}
-                    className={` text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500"
-                }`}
-                  >
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                  </select>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-10 w-[100%] pb-5">
-                <div className="relative">
-                  <label htmlFor="price">
-                    <p className="font-body1 text-gray-900 text-start">
-                      Price per Night(THB) *
-                    </p>
-                  </label>
-                  <input
                     type="text"
-                    id="price"
-                    name="price"
-                    onChange={(e) => {
-                      setSingleRoom({ ...singleRoom, price: e.target.value });
-                    }}
-                    value={singleRoom.price}
+                    id="type"
+                    value={singleRoom.room_type}
+                    name="type"
                     placeholder=""
-                    className={`text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500 focus:outline-none"
+                    className={`text-gray-900 w-full Input focus:outline-none focus:border-orange-500 "focus:outline-none"
+                  }`}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-10 w-[100%] pb-5">
+                  <div className="relative">
+                    <label htmlFor="roomSize">
+                      <p className="font-body1 text-gray-900 text-start">
+                        Room size (sqm) *
+                      </p>
+                    </label>
+                    <input
+                      type="text"
+                      id="roomSize"
+                      name="roomSize"
+                      onChange={(e) => {
+                        setSingleRoom({ ...singleRoom, area: e.target.value });
+                      }}
+                      value={singleRoom.area}
+                      maxLength={2}
+                      placeholder=""
+                      className={`text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500 focus:outline-none"
                 }`}
-                    required
-                  />
-                </div>
+                      required
+                    />
+                  </div>
 
-                <div className="grid grid-cols-[6%,30%,64%] items-center mt-6">
-                  <input
-                    type="checkbox"
-                    id="enableInput"
-                    name="enableInput"
-                    className="hidden"
-                    onChange={() => {
-                      setInputEnabled(!inputEnabled);
-                    }}
-                  />
-                  <label
-                    htmlFor="enableInput"
-                    className="flex items-center cursor-pointer"
-                  >
-                    <div
-                      className={`h-5 w-5 rounded-[5px]  border-2 border-solid ${
-                        inputEnabled ? "bg-orange-500" : "bg-white"
-                      }`}
+                  <div className="relative">
+                    <label htmlFor="bedType">
+                      <p className="font-body1 text-gray-900 text-start">
+                        Bed type *
+                      </p>
+                    </label>
+                    <select
+                      name="bedType"
+                      id="bedType"
+                      value={singleRoom.bed_types}
+                      onChange={(e) => {
+                        setSingleRoom({
+                          ...singleRoom,
+                          bed_types: e.target.value,
+                        });
+                      }}
+                      className={`text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500 focus:outline-none"
+                }`}
                     >
-                      {inputEnabled && (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="100%"
-                          height="100%"
-                          viewBox="0 0 24 24"
-                          fill="white"
-                        >
-                          <path d="M0 12.116l2.053-1.897c2.401 1.162 3.924 2.045 6.622 3.969 5.073-5.757 8.426-8.678 14.657-12.555l.668 1.536c-5.139 4.484-8.902 9.479-14.321 19.198-3.343-3.936-5.574-6.446-9.679-10.251z" />
-                        </svg>
-                      )}
-                    </div>
-                  </label>
-                  {inputEnabled ? (
-                    <>
-                      <label htmlFor="bedType">
-                        <p className="font-body1 text-gray-900 w-[150px]">
-                          Promotion Price
-                        </p>
-                      </label>
-                      <input
-                        type="text"
-                        id="promotion"
-                        value={singleRoom.promotion_price}
-                        onChange={(e) => {
-                          if (inputEnabled) {
-                            setSingleRoom({
-                              ...singleRoom,
-                              promotion_price: e.target.value,
-                            });
-                          }
-                        }}
-                        name="bedType"
-                        placeholder=""
-                        className={`text-gray-900 Input focus:outline-none focus:border-orange-500`}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <label htmlFor="bedType">
-                        <p className="font-body1 text-gray-900">
-                          Promotion Price
-                        </p>
-                      </label>
-                      <input
-                        type="text"
-                        id="promotion"
-                        value={singleRoom.promotion_price}
-                        onChange={(e) => {
-                          if (inputEnabled) {
-                            setSingleRoom({
-                              ...singleRoom,
-                              promotion_price: e.target.value,
-                            });
-                          }
-                        }}
-                        name="bedType"
-                        placeholder=""
-                        className={`text-gray-900 Input focus:outline-none focus:border-orange-500"bg-gray-300 bg-gray-300 ${
-                          inputEnabled === true ? "" : "pointer-events-none"
+                      <option>2 Single bed</option>
+                      <option>1 Double bed</option>
+                      <option>2 Double bed</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-10 w-[100%] pb-5">
+                  <div className="relative">
+                    <label htmlFor="guest">
+                      <p className="font-body1 text-gray-900 text-start mb-[4px]">
+                        Guest(s) *
+                      </p>
+                    </label>
+                    <select
+                      name="guest"
+                      id="guest"
+                      value={singleRoom.person}
+                      onChange={(e) => {
+                        setSingleRoom({
+                          ...singleRoom,
+                          person: e.target.value,
+                        });
+                      }}
+                      className={` text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500"
+                }`}
+                    >
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-10 w-[100%] pb-5">
+                  <div className="relative">
+                    <label htmlFor="price">
+                      <p className="font-body1 text-gray-900 text-start">
+                        Price per Night(THB) *
+                      </p>
+                    </label>
+                    <input
+                      type="text"
+                      id="price"
+                      name="price"
+                      onChange={(e) => {
+                        setSingleRoom({ ...singleRoom, price: e.target.value });
+                      }}
+                      value={singleRoom.price}
+                      placeholder=""
+                      className={`text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500 focus:outline-none"
+                }`}
+                      required
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-[6%,30%,64%] items-center mt-6">
+                    <input
+                      type="checkbox"
+                      id="enableInput"
+                      name="enableInput"
+                      className="hidden"
+                      onChange={() => {
+                        setInputEnabled(!inputEnabled);
+                      }}
+                    />
+                    <label
+                      htmlFor="enableInput"
+                      className="flex items-center cursor-pointer"
+                    >
+                      <div
+                        className={`h-5 w-5 rounded-[5px]  border-2 border-solid ${
+                          inputEnabled ? "bg-orange-500" : "bg-white"
                         }`}
-                        disabled
-                      />
-                    </>
-                  )}
+                      >
+                        {inputEnabled && (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="100%"
+                            height="100%"
+                            viewBox="0 0 24 24"
+                            fill="white"
+                          >
+                            <path d="M0 12.116l2.053-1.897c2.401 1.162 3.924 2.045 6.622 3.969 5.073-5.757 8.426-8.678 14.657-12.555l.668 1.536c-5.139 4.484-8.902 9.479-14.321 19.198-3.343-3.936-5.574-6.446-9.679-10.251z" />
+                          </svg>
+                        )}
+                      </div>
+                    </label>
+                    {inputEnabled ? (
+                      <>
+                        <label htmlFor="bedType">
+                          <p className="font-body1 text-gray-900 w-[150px]">
+                            Promotion Price
+                          </p>
+                        </label>
+                        <input
+                          type="text"
+                          id="promotion"
+                          value={singleRoom.promotion_price}
+                          onChange={(e) => {
+                            if (inputEnabled) {
+                              setSingleRoom({
+                                ...singleRoom,
+                                promotion_price: e.target.value,
+                              });
+                            }
+                          }}
+                          name="bedType"
+                          placeholder=""
+                          className={`text-gray-900 Input focus:outline-none focus:border-orange-500`}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <label htmlFor="bedType">
+                          <p className="font-body1 text-gray-900">
+                            Promotion Price
+                          </p>
+                        </label>
+                        <input
+                          type="text"
+                          id="promotion"
+                          value={singleRoom.promotion_price}
+                          onChange={(e) => {
+                            if (inputEnabled) {
+                              setSingleRoom({
+                                ...singleRoom,
+                                promotion_price: e.target.value,
+                              });
+                            }
+                          }}
+                          name="bedType"
+                          placeholder=""
+                          className={`text-gray-900 Input focus:outline-none focus:border-orange-500"bg-gray-300 bg-gray-300 ${
+                            inputEnabled === true ? "" : "pointer-events-none"
+                          }`}
+                          disabled
+                        />
+                      </>
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div className="flex flex-col">
-                <label
-                  htmlFor="additionRequest"
-                  className="text-gray-900 text-body1"
-                >
-                  Room Description *
-                </label>
-                <textarea
-                  name="additionRequest"
-                  id="additionRequest"
-                  value={singleRoom.description}
-                  onChange={(e) => {
-                    setSingleRoom({
-                      ...singleRoom,
-                      description: e.target.value,
-                    });
+                <div className="flex flex-col">
+                  <label
+                    htmlFor="additionRequest"
+                    className="text-gray-900 text-body1"
+                  >
+                    Room Description *
+                  </label>
+                  <textarea
+                    name="additionRequest"
+                    id="additionRequest"
+                    value={singleRoom.description}
+                    onChange={(e) => {
+                      setSingleRoom({
+                        ...singleRoom,
+                        description: e.target.value,
+                      });
+                    }}
+                    className="h-26 w-full pt-3 px-3 pb-10  rounded bg-white border-2 border-gray-400 resize-none hover:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 "
+                  ></textarea>
+                </div>
+
+                {checkPage === "create" ? imageUploadCreate : imageUploadUpdate}
+                <div className="border-b-[1px] border-gray-500 w-[100%] my-10"></div>
+                <p className="text-gray-600 text-headline5 pb-10">
+                  Room Amenity
+                </p>
+                <div
+                  className="w-full"
+                  onDragOver={(e) => {
+                    e.preventDefault();
                   }}
-                  className="h-26 w-full pt-3 px-3 pb-10  rounded bg-white border-2 border-gray-400 resize-none hover:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 "
-                ></textarea>
-              </div>
-
-              {checkPage === "create" ? imageUploadCreate : imageUploadUpdate}
-              <div className="border-b-[1px] border-gray-500 w-[100%] my-10"></div>
-              <p className="text-gray-600 text-headline5 pb-10">Room Amenity</p>
-              <div
-                className="w-full"
-                onDragOver={(e) => {
-                  e.preventDefault();
-                }}
-              >
-                <div>
-                  <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId="amenities">
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                        >
-                          {Array.isArray(singleRoom.amenity) &&
-                            singleRoom.amenity.map((item, index) => (
-                              <Draggable
-                                key={index}
-                                draggableId={`amenity-${index}`}
-                                index={index}
-                              >
-                                {(provided) => (
-                                  <div
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                    className="flex flex-row justify-evenly items-center w-full"
-                                  >
-                                    <div>
-                                      <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/drag.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2RyYWcucG5nIiwiaWF0IjoxNjk1ODkwMTQyLCJleHAiOjE3Mjc0MjYxNDJ9.bXiz7oxtgP-QE2dd2sm3wFXzWz1r2CWAlHsOQiRv-Ug&t=2023-09-28T08%3A35%3A43.063Z" />
-                                    </div>
-                                    <div className="w-full">
-                                      <label className="text-gray-900 text-body1 mb-2">
-                                        Amenity *
-                                      </label>
-                                      <input
-                                        type="text"
-                                        className={`w-full text-gray-900 Input focus:outline-none focus:border-orange-500 focus:outline-none rounded-md mb-6`}
-                                        value={item}
-                                        onChange={(e) => {
-                                          const updatedItems = [
-                                            ...singleRoom.amenity,
-                                          ];
-                                          updatedItems[index] = e.target.value;
-                                          setSingleRoom({
-                                            ...singleRoom,
-                                            amenity: updatedItems,
-                                          });
-                                        }}
-                                      />
-                                    </div>
-
-                                    <button
-                                      className="font-prompt text-orange-500 text-fontHead5 ml-5"
-                                      onClick={(e) => removeAmenity(e, index)}
-                                    >
-                                      Delete
-                                    </button>
-                                  </div>
-                                )}
-                              </Draggable>
-                            ))}
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>
-                  </DragDropContext>
-                </div>
-
-                <button
-                  className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center  rounded-[5px] px-6 mt-5 "
-                  onClick={(e) => addAmenity(e)}
                 >
-                  <span className="text-blue-600 font-prompt text-fontHead5">
-                    + Add Amenity
-                  </span>
+                  <div>
+                    <DragDropContext onDragEnd={onDragEnd}>
+                      <Droppable droppableId="amenities">
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                          >
+                            {Array.isArray(singleRoom.amenity) &&
+                              singleRoom.amenity.map((item, index) => (
+                                <Draggable
+                                  key={index}
+                                  draggableId={`amenity-${index}`}
+                                  index={index}
+                                >
+                                  {(provided) => (
+                                    <div
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                      className="flex flex-row justify-evenly items-center w-full"
+                                    >
+                                      <div>
+                                        <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/drag.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2RyYWcucG5nIiwiaWF0IjoxNjk1ODkwMTQyLCJleHAiOjE3Mjc0MjYxNDJ9.bXiz7oxtgP-QE2dd2sm3wFXzWz1r2CWAlHsOQiRv-Ug&t=2023-09-28T08%3A35%3A43.063Z" />
+                                      </div>
+                                      <div className="w-full">
+                                        <label className="text-gray-900 text-body1 mb-2">
+                                          Amenity *
+                                        </label>
+                                        <input
+                                          type="text"
+                                          className={`w-full text-gray-900 Input focus:outline-none focus:border-orange-500 focus:outline-none rounded-md mb-6`}
+                                          value={item}
+                                          onChange={(e) => {
+                                            const updatedItems = [
+                                              ...singleRoom.amenity,
+                                            ];
+                                            updatedItems[index] =
+                                              e.target.value;
+                                            setSingleRoom({
+                                              ...singleRoom,
+                                              amenity: updatedItems,
+                                            });
+                                          }}
+                                        />
+                                      </div>
+
+                                      <button
+                                        className="font-prompt text-orange-500 text-fontHead5 ml-5"
+                                        onClick={(e) => removeAmenity(e, index)}
+                                      >
+                                        Delete
+                                      </button>
+                                    </div>
+                                  )}
+                                </Draggable>
+                              ))}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                    </DragDropContext>
+                  </div>
+
+                  <button
+                    className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center  rounded-[5px] px-6 mt-5 "
+                    onClick={(e) => addAmenity(e)}
+                  >
+                    <span className="text-blue-600 font-prompt text-fontHead5">
+                      + Add Amenity
+                    </span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </Paper>
+          {checkPage === "update" ? (
+            <>
+              <div className="text-gray-700 flex justify-end mt-5 pb-5">
+                <button
+                  onClick={() =>
+                    document.getElementById("my_modal_1").showModal()
+                  }
+                >
+                  Delete Room
                 </button>
               </div>
-            </form>
-          </div>
-        </Paper>
-        {checkPage === "update" ? (
-          <>
-            <div className="text-gray-700 flex justify-end mt-5">
-              <button
-                onClick={() =>
-                  document.getElementById("my_modal_1").showModal()
-                }
-              >
-                Delete Room
-              </button>
-            </div>
-            <dialog id="my_modal_1" className="modal">
-              <div className="modal-box bg-white rounded-sm">
-                <h3 className="font-bold text-[1.2rem] text-black font-inter">
-                  Delete room
-                </h3>
-                <hr></hr>
-                <p className="py-4">
-                  Are you sure you want to delete this room?
-                </p>
-                <div className="modal-action">
-                  <form method="dialog">
-                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                      ✕
-                    </button>
-                    <button
-                      className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center ml-3 rounded-[5px] px-6"
-                      onClick={(e) => deleteRoomHandler(e, singleRoom.room_id)}
-                    >
-                      Yes, I want to delete
-                    </button>
-                    <button className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center  ml-3 rounded-[5px] px-6 ">
-                      No, I don't
-                    </button>
-                  </form>
+              <dialog id="my_modal_1" className="modal">
+                <div className="modal-box bg-white rounded-sm">
+                  <h3 className="font-bold text-[1.2rem] text-black font-inter">
+                    Delete room
+                  </h3>
+                  <hr></hr>
+                  <p className="py-4">
+                    Are you sure you want to delete this room?
+                  </p>
+                  <div className="modal-action">
+                    <form method="dialog">
+                      <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                        ✕
+                      </button>
+                      <button
+                        className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center ml-3 rounded-[5px] px-6"
+                        onClick={(e) =>
+                          deleteRoomHandler(e, singleRoom.room_id)
+                        }
+                      >
+                        Yes, I want to delete
+                      </button>
+                      <button className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center  ml-3 rounded-[5px] px-6 ">
+                        No, I don't
+                      </button>
+                    </form>
+                  </div>
                 </div>
-              </div>
-            </dialog>
-          </>
-        ) : null}
+              </dialog>
+            </>
+          ) : null}
+        </div>
       </div>
     </>
   );

@@ -42,7 +42,7 @@ function RoomDetailPageContent({
               <div className="flex justify-end">
                 <button
                   className="btn Button border-orange-600"
-                  onClick={() => navigate("/search")}
+                  onClick={() => navigate("/search#top")}
                 >
                   Find room
                 </button>
