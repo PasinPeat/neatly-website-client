@@ -14,29 +14,26 @@ const status: string[] = [
 interface RoomInfo {
   roomNumber: number;
   roomStatus: string;
-  currOpen: number;
-  setOpen: number;
 }
 
-export default function DropdownSearch({
-  roomNumber,
-  roomStatus,
+export default function UseAutocomplete(
+  roomNumber: RoomInfo,
   currOpen,
-  setOpen,
-}: RoomInfo) {
-
+  setOpen
+) {
   const [selectedStatus, setSelectedStatus] = React.useState<string>("");
-
+  // const [open, setOpen] = React.useState<boolean>(false);
   const isOpen = currOpen === roomNumber;
-  const handleButtonClick = () => {
-    setOpen(isOpen ? null : roomNumber);
-  };
 
   const getStatusStyle = (status: string) => {
     return {
       backgroundColor: theme.palette.status[status]?.main || "inherit",
       color: theme.palette.status[status]?.contrastText || "inherit",
     };
+  };
+
+  const handleButtonClick = () => {
+    setOpen(isOpen ? null : roomNumber);
   };
 
   /*PUT: Update Room Status*/
@@ -121,7 +118,6 @@ export default function DropdownSearch({
       <div className="relative">
         <Autocomplete
           options={status}
-          open={isOpen}
           value={selectedStatus}
           placeholder="Search status..."
           onChange={(
@@ -135,6 +131,7 @@ export default function DropdownSearch({
               newValue || ""
             );
           }}
+          open={isOpen}
           className="w-[180px] focus:border-0 focus:ring-0 active:border-0 active:ring-0 hover:border-0 absolute top-[10px] left-0"
           getOptionLabel={(option) => option}
           renderInput={(params) => (
