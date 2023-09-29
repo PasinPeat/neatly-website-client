@@ -846,7 +846,7 @@ function RoomAndProperty() {
                   />
                 </div>
 
-                <div className="grid grid-cols-[5%,20%,75%] items-center mt-6">
+                <div className="grid grid-cols-[6%,30%,64%] items-center mt-6">
                   <input
                     type="checkbox"
                     id="enableInput"
