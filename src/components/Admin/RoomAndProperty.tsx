@@ -471,6 +471,7 @@ function RoomAndProperty() {
 
   const imageUploadCreate = (
     <>
+      <div className="border-b-[1px] border-gray-500 w-[100%] my-10"></div>
       <p className="text-gray-600 text-headline5 pb-10">Room Image</p>
 
       <div className="bg-white p-7 rounded w-[90%] mx-auto relative">
@@ -1134,7 +1135,7 @@ function RoomAndProperty() {
             <>
               <div className="flex justify-end mt-6">
                 <button
-                  className="Button"
+                  className="Button py-3 px-6"
                   onClick={() =>
                     document.getElementById("my_modal_1").showModal()
                   }
