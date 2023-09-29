@@ -14,7 +14,7 @@ const status: string[] = [
 interface RoomInfo {
   roomNumber: number;
   roomStatus: string;
-  currOpen: number;
+  currOpen: number | null;
   setOpen: React.Dispatch<SetStateAction<number>>;
 }
 

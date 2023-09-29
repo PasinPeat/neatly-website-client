@@ -47,8 +47,11 @@ export default function CustomPaginationActionsTable() {
   const pattern = new RegExp(selectedByText, "i");
   const filterAllBookingList = (filteredData: BookingType[]) => {
     return filteredData.filter((book) => {
+      const roomNumber = String(book.room_avaliable_id);
+      const paddedRoomNumber =
+        roomNumber.length > 1 ? roomNumber : `0${roomNumber}`;
       return (
-        pattern.test(String(book.room_avaliable_id)) ||
+        pattern.test(paddedRoomNumber) ||
         pattern.test(book.room_details.room_type) ||
         pattern.test(book.room_status)
       );
@@ -129,16 +132,19 @@ export default function CustomPaginationActionsTable() {
               <Table aria-label="custom pagination table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell className="w-[15%]">
+                    <StyledTableCell className="w-[8%]">
                       Room no.
                     </StyledTableCell>
-                    <StyledTableCell className="w-[25%]">
+                    <StyledTableCell className="w-[8%]">{}</StyledTableCell>
+                    <StyledTableCell className="w-[5%]">{}</StyledTableCell>
+                    <StyledTableCell className="w-[20%]">
                       Room type
                     </StyledTableCell>
-                    <StyledTableCell className="w-[35%]">
+                    <StyledTableCell className="w-[20%]">
                       Bed type
                     </StyledTableCell>
-                    <StyledTableCell className="w-[35%]">
+                    <StyledTableCell className="w-[5%]">{}</StyledTableCell>
+                    <StyledTableCell className="w-[20%]">
                       Status
                     </StyledTableCell>
                   </TableRow>
@@ -158,12 +164,13 @@ export default function CustomPaginationActionsTable() {
                     return row ? (
                       <StyledTableRow key={index}>
                         <StyledTableCell>
-                          {roomNumber > 9
-                            ? `0${roomNumber}`
-                            : `00${roomNumber}`}
+                          {roomNumber > 9 ? `${roomNumber}` : `0${roomNumber}`}
                         </StyledTableCell>
+                        <StyledTableCell>{}</StyledTableCell>
+                        <StyledTableCell>{}</StyledTableCell>
                         <StyledTableCell>{row.roomType}</StyledTableCell>
                         <StyledTableCell>{row.bedType}</StyledTableCell>
+                        <StyledTableCell>{}</StyledTableCell>
                         <StyledTableCell>
                           <DropdownSearch
                             roomNumber={row.roomNumber}
@@ -182,7 +189,7 @@ export default function CustomPaginationActionsTable() {
                   )}
                 </TableBody>
                 <TableFooter>
-                  <PaginationAdmin rows={rows} colSpan={3} />
+                  <PaginationAdmin rows={rows} colSpan={4} />
                 </TableFooter>
               </Table>
             </TableContainer>
