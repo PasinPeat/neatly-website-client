@@ -287,7 +287,9 @@ export default function CustomPaginationActionsTable() {
       ) : (
         <div>
           <NavbarAdmin>
-            <p className="text-black font-bold">Customer Booking</p>
+            <p className="text-black font-bold text-headline5">
+              Customer Booking
+            </p>
             <div className="flex gap-10">
               <SelectSortBy onSortChange={handleSortChange} />
               <SearchAdmin

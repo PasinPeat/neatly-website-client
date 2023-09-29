@@ -112,7 +112,7 @@ export default function CustomPaginationActionsTable() {
       <div className="bg-gray-100 min-h-screen">
         {/* navbar field*/}
         <NavbarAdmin>
-          <p className="text-black font-bold">Room Management</p>
+          <p className="text-black font-bold text-headline5">Room Management</p>
           <div className="flex">
             <SearchAdmin value={selectedByText} onChange={handleInputChange} />
           </div>

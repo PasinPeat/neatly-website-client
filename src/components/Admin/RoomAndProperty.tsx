@@ -335,7 +335,9 @@ function RoomAndProperty() {
     <>
       <div className="bg-gray-100 min-h-screen">
         <NavbarAdmin>
-          <p className=" text-black font-bold">Room & Property</p>
+          <p className=" text-black font-bold text-headline5">
+            Room & Property
+          </p>
           <div className="flex flex-row">
             <SearchAdmin
               value={selectByText}
@@ -348,7 +350,7 @@ function RoomAndProperty() {
                 });
                 setCheckPage("create");
               }}
-              className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center drop-shadow-md ml-3 rounded-md px-4 "
+              className="font-inter text-body2 rounded-[4px] text-white bg-orange-600 h-[40px] justify-between items-center drop-shadow-md ml-3 px-4 "
             >
               + Created Room
             </button>
@@ -384,7 +386,7 @@ function RoomAndProperty() {
                       <StyledTableCell component="th" scope="row">
                         <img
                           src={row.image}
-                          className="w-[120px] h-[72px] rounded-md"
+                          className="w-[120px] h-[72px] rounded-md object-cover"
                         ></img>
                       </StyledTableCell>
                       <StyledTableCell>{row.type}</StyledTableCell>
@@ -651,9 +653,7 @@ function RoomAndProperty() {
 
   const createButtons = (
     <>
-      <div className="bg-white h-20 flex flex-row justify-between items-center px-16">
-        <p className=" text-black font-bold">Create New Room</p>
-      </div>
+      <p className="text-black font-bold text-headline5">Create New Room</p>
       <div>
         <button
           onClick={() => {
@@ -661,7 +661,7 @@ function RoomAndProperty() {
             setCheckPage("init");
             setInputEnabled(false);
           }}
-          className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center ml-3 rounded-[5px] px-6 "
+          className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center ml-3 rounded-[4px] px-6 "
         >
           Cancel
         </button>
@@ -669,7 +669,7 @@ function RoomAndProperty() {
           onClick={() => {
             createRoomHandler();
           }}
-          className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center  ml-3 rounded-[5px] px-6 "
+          className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center  ml-3 rounded-[4px] px-6 "
         >
           Create
         </button>
@@ -679,7 +679,7 @@ function RoomAndProperty() {
 
   const updateButtons = (
     <>
-      <p className=" text-black font-bold flex flex-row">
+      <p className=" text-black font-bold flex flex-row text-headline5">
         <button
           onClick={() => {
             setShowPage(InitialData);
@@ -696,7 +696,7 @@ function RoomAndProperty() {
           onClick={() => {
             updateRoomHandler(singleRoom.room_id);
           }}
-          className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center drop-shadow-md ml-3 rounded-[5px] px-6 "
+          className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center drop-shadow-md ml-3 rounded-[4px] px-6 "
         >
           Update
         </button>
@@ -723,12 +723,11 @@ function RoomAndProperty() {
       </NavbarAdmin>
 
       {/* table field*/}
-      <div className="bg-gray-100 pt-12">
+      <div className="bg-gray-100 pt-12 pb-12">
         <div className="w-[1156px] m-auto">
           <Paper
             sx={{
               overflow: "hidden",
-              // margin: "auto",
             }}
           >
             <div className=" flex flex-col justify-center items-start p-20">
@@ -798,6 +797,9 @@ function RoomAndProperty() {
                       className={`text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500 focus:outline-none"
                 }`}
                     >
+                      <option selected disabled>
+                        Select bed type...
+                      </option>
                       <option>2 Single bed</option>
                       <option>1 Double bed</option>
                       <option>2 Double bed</option>
@@ -824,6 +826,9 @@ function RoomAndProperty() {
                       className={` text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500"
                 }`}
                     >
+                      <option selected disabled>
+                        Select guest amount...
+                      </option>
                       <option>2</option>
                       <option>3</option>
                       <option>4</option>
@@ -867,7 +872,7 @@ function RoomAndProperty() {
                       className="flex items-center cursor-pointer"
                     >
                       <div
-                        className={`h-5 w-5 rounded-[5px]  border-2 border-solid ${
+                        className={`h-5 w-5 rounded-[4px]  border-2 border-solid ${
                           inputEnabled ? "bg-orange-500" : "bg-white"
                         }`}
                       >
@@ -1035,7 +1040,7 @@ function RoomAndProperty() {
                   </div>
 
                   <button
-                    className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center  rounded-[5px] px-6 mt-5 "
+                    className="font-inter text-body2 text-orange-500 bg-white border border-orange-500 justify-between items-center rounded-[4px] px-6 py-3 mt-5"
                     onClick={(e) => addAmenity(e)}
                   >
                     <span className="text-blue-600 font-prompt text-fontHead5">
@@ -1048,8 +1053,9 @@ function RoomAndProperty() {
           </Paper>
           {checkPage === "update" ? (
             <>
-              <div className="text-gray-700 flex justify-end mt-5 pb-5">
+              <div className="flex justify-end mt-6">
                 <button
+                  className="Button"
                   onClick={() =>
                     document.getElementById("my_modal_1").showModal()
                   }
@@ -1072,14 +1078,14 @@ function RoomAndProperty() {
                         ✕
                       </button>
                       <button
-                        className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center ml-3 rounded-[5px] px-6"
+                        className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center ml-3 rounded-[4px] px-6"
                         onClick={(e) =>
                           deleteRoomHandler(e, singleRoom.room_id)
                         }
                       >
                         Yes, I want to delete
                       </button>
-                      <button className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center  ml-3 rounded-[5px] px-6 ">
+                      <button className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center  ml-3 rounded-[4px] px-6 ">
                         No, I don't
                       </button>
                     </form>
