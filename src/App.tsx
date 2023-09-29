@@ -130,6 +130,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Admin />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/BookingDetails/:bookId" element={<BookingDetails />} />
       </Routes>
     </>
