@@ -317,6 +317,7 @@ function PaymentMethod() {
                 className="btn w-[200px] h-[50px] bg-green-600 rounded  hover:bg-green-500 font-noto-serif-display text-[28px]  text-white "
                 onClick={() => {
                   setIsModalOpen(false);
+                  navigate("/");
                 }}
               >
                 CLOSE

@@ -61,6 +61,8 @@ function RoomAndProperty() {
   const [imageError, setImageError] = useState(false);
   const [updateImageError, setUpdateImageError] = useState(false);
 
+  const [sendDataError, setSendDataError] = useState(false);
+
   const getRooms = async () => {
     try {
       const results = await axios(`http://localhost:4000/room/`);
@@ -141,11 +143,27 @@ function RoomAndProperty() {
   const updateRoomHandler = async (id) => {
     const formData = new FormData();
     formData.append("room_type", singleRoom.room_type);
-    formData.append("price", singleRoom.price);
-    formData.append("promotion_price", singleRoom.promotion_price);
+    formData.append(
+      "price",
+      singleRoom.price !== undefined && singleRoom.price !== null
+        ? singleRoom.price
+        : 0
+    );
+    formData.append(
+      "promotion_price",
+      singleRoom.promotion_price !== undefined &&
+        singleRoom.promotion_price !== null
+        ? singleRoom.promotion_price
+        : 0
+    );
     formData.append("person", singleRoom.person);
     formData.append("bed_types", singleRoom.bed_types);
-    formData.append("area", singleRoom.area);
+    formData.append(
+      "area",
+      singleRoom.area !== undefined && singleRoom.area !== null
+        ? singleRoom.area
+        : 0
+    );
     formData.append("description", singleRoom.description);
 
     for (const file of roomImagesFiles) {
@@ -177,11 +195,27 @@ function RoomAndProperty() {
     const bedType = singleRoom.bed_types;
     const formData = new FormData();
     formData.append("room_type", singleRoom.room_type);
-    formData.append("price", singleRoom.price);
-    formData.append("promotion_price", singleRoom.promotion_price);
+    formData.append(
+      "price",
+      singleRoom.price !== undefined && singleRoom.price !== null
+        ? singleRoom.price
+        : 0
+    );
+    formData.append(
+      "promotion_price",
+      singleRoom.promotion_price !== undefined &&
+        singleRoom.promotion_price !== null
+        ? singleRoom.promotion_price
+        : 0
+    );
     formData.append("person", singleRoom.person);
     formData.append("bed_types", bedType);
-    formData.append("area", singleRoom.area);
+    formData.append(
+      "area",
+      singleRoom.area !== undefined && singleRoom.area !== null
+        ? singleRoom.area
+        : 0
+    );
     formData.append("description", description);
 
     for (const file of files) {
@@ -197,10 +231,18 @@ function RoomAndProperty() {
       return;
     } else {
       try {
-        await axios.post(`http://localhost:4000/room/`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        const results = await axios.post(
+          `http://localhost:4000/room/`,
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
         setShowPage(InitialData);
+        console.log(results);
+        if (results.status === 500) {
+          console.log(false);
+        }
         location.reload();
       } catch (error) {
         console.log(error);
@@ -865,17 +907,24 @@ function RoomAndProperty() {
                       </p>
                     </label>
                     <input
-                      type="text"
+                      type="text" // Use type="text" to remove the up and down arrows
                       id="price"
                       name="price"
                       onChange={(e) => {
-                        setSingleRoom({ ...singleRoom, price: e.target.value });
+                        const numericValue = e.target.value.replace(
+                          /[^0-9]/g,
+                          ""
+                        );
+                        setSingleRoom({
+                          ...singleRoom,
+                          price: numericValue === "" ? "" : numericValue,
+                        });
                       }}
                       value={singleRoom.price}
                       placeholder=""
+                      required
                       className={`text-gray-900 w-[100%] Input focus:outline-none focus:border-orange-500 focus:outline-none"
                 }`}
-                      required
                     />
                   </div>
 
@@ -919,18 +968,22 @@ function RoomAndProperty() {
                           </p>
                         </label>
                         <input
+                          required
                           type="text"
                           id="promotion"
                           value={singleRoom.promotion_price}
                           onChange={(e) => {
-                            if (inputEnabled) {
-                              setSingleRoom({
-                                ...singleRoom,
-                                promotion_price: e.target.value,
-                              });
-                            }
+                            const numericValue = e.target.value.replace(
+                              /[^0-9]/g,
+                              ""
+                            );
+                            setSingleRoom({
+                              ...singleRoom,
+                              promotion_price:
+                                numericValue === "" ? "" : numericValue,
+                            });
                           }}
-                          name="bedType"
+                          name="promotion"
                           placeholder=""
                           className={`text-gray-900 Input focus:outline-none focus:border-orange-500`}
                         />
@@ -943,18 +996,22 @@ function RoomAndProperty() {
                           </p>
                         </label>
                         <input
+                          required
                           type="text"
                           id="promotion"
                           value={singleRoom.promotion_price}
                           onChange={(e) => {
-                            if (inputEnabled) {
-                              setSingleRoom({
-                                ...singleRoom,
-                                promotion_price: e.target.value,
-                              });
-                            }
+                            const numericValue = e.target.value.replace(
+                              /[^0-9]/g,
+                              ""
+                            );
+                            setSingleRoom({
+                              ...singleRoom,
+                              promotion_price:
+                                numericValue === "" ? "" : numericValue,
+                            });
                           }}
-                          name="bedType"
+                          name="promotion"
                           placeholder=""
                           className={`text-gray-900 Input focus:outline-none focus:border-orange-500"bg-gray-300 bg-gray-300 ${
                             inputEnabled === true ? "" : "pointer-events-none"
