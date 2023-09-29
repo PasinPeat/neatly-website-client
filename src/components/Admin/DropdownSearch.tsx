@@ -66,7 +66,7 @@ export default function DropdownSearch({
   ) => {
     console.log(newValue);
     if (!newValue) {
-      setOpen(false);
+      setOpen(null);
     }
     updateStatusInDatabase(roomNumber, newValue);
   };
@@ -120,6 +120,7 @@ export default function DropdownSearch({
       <div className="relative">
         <Autocomplete
           options={status}
+          open={isOpen}
           value={selectedStatus}
           placeholder="Search status..."
           onChange={(
