@@ -15,7 +15,7 @@ interface RoomInfo {
   roomNumber: number;
   roomStatus: string;
   currOpen: number;
-  setOpen: number;
+  setOpen: React.Dispatch<SetStateAction<number>>;
 }
 
 export default function DropdownSearch({
@@ -24,7 +24,6 @@ export default function DropdownSearch({
   currOpen,
   setOpen,
 }: RoomInfo) {
-
   const [selectedStatus, setSelectedStatus] = React.useState<string>("");
 
   const isOpen = currOpen === roomNumber;
@@ -44,7 +43,7 @@ export default function DropdownSearch({
     roomNumber: number,
     selectedStatus: string
   ) => {
-    const room_avaliable_id = roomNumber.roomNumber;
+    const room_avaliable_id = roomNumber;
     try {
       const response = await axios.put(
         `http://localhost:4000/avaliable/admin/admin/${room_avaliable_id}`,
@@ -108,15 +107,15 @@ export default function DropdownSearch({
         style={{
           color:
             theme.palette.status[selectedStatus]?.contrastText ||
-            theme.palette.status[roomNumber.roomStatus]?.contrastText ||
+            theme.palette.status[roomStatus]?.contrastText ||
             "inherit",
           backgroundColor:
             theme.palette.status[selectedStatus]?.main ||
-            theme.palette.status[roomNumber.roomStatus]?.main ||
+            theme.palette.status[roomStatus]?.main ||
             "inherit",
         }}
       >
-        {selectedStatus ? `${selectedStatus}` : `${roomNumber.roomStatus}`}
+        {selectedStatus ? `${selectedStatus}` : `${roomStatus}`}
       </button>
       <div className="relative">
         <Autocomplete

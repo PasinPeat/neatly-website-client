@@ -28,7 +28,7 @@ export default function CustomPaginationActionsTable() {
   const [booking, setBooking] = useState<BookingType[]>([]);
   const [filterBookingList, setFilterBookingList] = useState<BookingType[]>([]);
   const [selectedByText, setSelectedByText] = useState<string>("");
-  const [currOpen, setOpen] = React.useState<number>(null);
+  const [currOpen, setOpen] = React.useState<number | null>(null);
 
   const getBooking = async () => {
     try {
