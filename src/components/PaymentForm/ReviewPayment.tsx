@@ -26,7 +26,7 @@ function ReviewPayment({ selectedPayment, lastThreeCardNumber }) {
   return (
     <div className="w-[738px] flex flex-col">
       {/* Header */}
-      <div className="bg-green-800 px-6 py-10 text-center">
+      <div className="bg-green-800 px-6 py-10 rounded-t text-center">
         <p className="font-noto-serif-display text-white text-[44px] font-medium">
           Thank you for booking
         </p>
@@ -37,7 +37,7 @@ function ReviewPayment({ selectedPayment, lastThreeCardNumber }) {
         </p>
       </div>
       {/* body */}
-      <div className="bg-green-700 flex flex-col px-10 pb-10">
+      <div className="bg-green-700 flex flex-col rounded-b px-10 pb-10">
         <div className="bg-green-600 flex justify-between rounded mt-6 p-5 text-white">
           <div>
             <div className="flex">
@@ -154,7 +154,6 @@ function ReviewPayment({ selectedPayment, lastThreeCardNumber }) {
           <div className="flex justify-between pt-6">
             <p>Total</p>
             <p className="text-white text-headline5">
-              
               THB {useFormattedPrice(totalPriceAfterAddReqs)}
             </p>
           </div>

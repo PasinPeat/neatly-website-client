@@ -78,7 +78,7 @@ function StepPayment({
 
   return (
     <div className="flex gap-6">
-      <div className="w-[740px] bg-white border border-gray-300 p-10">
+      <div className="w-[740px] bg-white rounded border border-gray-300 p-10">
         <div className="flex gap-4 justify-center">
           <ButtonPayment {...creditButtonProps} />
           <ButtonPayment {...cashButtonProps} />
