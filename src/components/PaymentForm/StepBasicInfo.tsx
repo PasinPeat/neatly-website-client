@@ -26,7 +26,7 @@ function BasicInfo({ steps, activeStep, setActiveStep }) {
 
   return (
     <div className="flex gap-6">
-      <div className="w-[740px] bg-white border border-gray-300 p-10">
+      <div className="w-[740px] bg-white rounded border border-gray-300 p-10">
         <p className="text-gray-600 text-headline5 pb-10">Basic Information</p>
         <form className="flex flex-col gap-10">
           <div>
