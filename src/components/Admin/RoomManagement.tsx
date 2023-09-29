@@ -166,7 +166,6 @@ export default function CustomPaginationActionsTable() {
                         <StyledTableCell>
                           <DropdownSearch
                             roomNumber={row.roomNumber}
-                            roomStatus={row.roomStatus}
                             currOpen={currOpen}
                             setOpen={setOpen}
                           />
