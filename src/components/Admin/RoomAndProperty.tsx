@@ -1,10 +1,8 @@
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import NavbarAdmin from "./NavbarAdmin";
 import { StyledTableCell, StyledTableRow } from "./styledTable";
 import Paper from "@mui/material/Paper";
 import { useState, useEffect } from "react";
@@ -12,6 +10,7 @@ import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import useFormattedPrice from "../../hooks/useFormattedPrice";
 import SearchAdmin from "./SearchAdmin";
+import NavbarAdmin from "./NavbarAdmin";
 
 function createData(
   image: string,
@@ -719,14 +718,20 @@ function RoomAndProperty() {
 
   const updateRoom = (
     <>
-      <div className="bg-white h-20 flex flex-row justify-between items-center drop-shadow-md px-16">
+      <NavbarAdmin>
         {checkPage === "create" ? createButtons : updateButtons}
-      </div>
+      </NavbarAdmin>
+
       {/* table field*/}
-      <div className="bg-gray-100 px-16 py-12">
-        {" "}
-        <Paper sx={{ overflow: "hidden" }}>
-          <div className=" flex flex-col justify-center items-start p-20 ">
+      <div className="bg-gray-100 pt-12">
+        <Paper
+          sx={{
+            overflow: "hidden",
+            width: "1156px",
+            margin: "auto",
+          }}
+        >
+          <div className=" flex flex-col justify-center items-start p-20">
             <p className="text-gray-600 text-headline5 pb-10">
               Basic Information
             </p>
@@ -876,7 +881,7 @@ function RoomAndProperty() {
                   {inputEnabled ? (
                     <>
                       <label htmlFor="bedType">
-                        <p className="font-body1 text-gray-900">
+                        <p className="font-body1 text-gray-900 w-[150px]">
                           Promotion Price
                         </p>
                       </label>
