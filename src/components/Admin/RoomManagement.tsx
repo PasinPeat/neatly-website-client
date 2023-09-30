@@ -29,6 +29,8 @@ export default function CustomPaginationActionsTable() {
   const [filterBookingList, setFilterBookingList] = useState<BookingType[]>([]);
   const [selectedByText, setSelectedByText] = useState<string>("");
   const [currOpen, setOpen] = React.useState<number | null>(null);
+  /*page context*/
+  const { page, setPage, rowsPerPage } = useContext(PageContext);
 
   const getBooking = async () => {
     try {
@@ -60,6 +62,8 @@ export default function CustomPaginationActionsTable() {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedByText(event.target.value);
+    setPage(0)
+    
   };
 
   useEffect(() => {
@@ -104,8 +108,7 @@ export default function CustomPaginationActionsTable() {
   const roomNumberArr = rows.map((row) => row.roomNumber);
   roomNumberArr.sort((a, b) => a - b);
 
-  /*page context*/
-  const { page, setPage, rowsPerPage } = useContext(PageContext);
+  
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;

@@ -28,6 +28,8 @@ export default function CustomPaginationActionsTable() {
   const [sortBookingState, setSortBookingState] = useState(booking);
   const [complete, setComplete] = useState(false);
 
+  const { page, setPage, rowsPerPage, setRowsPerPage } =
+    useContext(PageContext);
   /*get all booking*/
   const getBooking = async () => {
     try {
@@ -58,7 +60,9 @@ export default function CustomPaginationActionsTable() {
   };
 
   const handleInputChange = (event: Event) => {
+    
     setSelectedByText(event.target.value);
+    setPage(0)
   };
 
   useEffect(() => {
@@ -186,8 +190,7 @@ export default function CustomPaginationActionsTable() {
   }
 
   /*page context*/
-  const { page, setPage, rowsPerPage, setRowsPerPage } =
-    useContext(PageContext);
+  
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
