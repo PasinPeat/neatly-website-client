@@ -433,7 +433,7 @@ function RoomAndProperty() {
                 <TableBody>
                   {rows.map((row) => (
                     <StyledTableRow
-                      className="cursor-pointer"
+                      className="cursor-pointer hover:bg-gray-200"
                       onClick={() => {
                         setCheckPage("update");
                         setShowPage(updateRoom);
