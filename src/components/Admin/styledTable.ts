@@ -1,6 +1,7 @@
 import { styled } from "@mui/material/styles";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
+import { TableContainer, Table } from "@mui/material";
 
 /*style table*/
 export const StyledTableCell = styled(TableCell)(() => ({
@@ -32,5 +33,32 @@ const styledTable = {
   StyledTableCell,
   StyledTableRow,
 };
+
+export const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
+  "&::-webkit-scrollbar": {
+    width: "3px",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "#C8CCDB",
+    borderRadius: "6px",
+    zIndex: "0 !important",
+  },
+  "&::-webkit-scrollbar-thumb:hover": {
+    backgroundColor: "darkorange",
+  },
+  "&::-webkit-scrollbar-track": {
+    backgroundColor: "#E4E6ED",
+  },
+}));
+
+export const StyledTable = styled(Table)({
+  "& .MuiTableHead-root": {
+    backgroundColor: "white",
+    width: "calc(100% - 17px)",
+  },
+  "& .MuiTableHead-root .MuiTableRow-root": {
+    width: "100%",
+  },
+});
 
 export default styledTable;

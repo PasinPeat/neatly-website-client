@@ -3,7 +3,12 @@ import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { StyledTableCell, StyledTableRow } from "./styledTable";
+import {
+  StyledTableCell,
+  StyledTableRow,
+  StyledTableContainer,
+  StyledTable,
+} from "./styledTable";
 import Paper from "@mui/material/Paper";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -11,6 +16,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import useFormattedPrice from "../../hooks/useFormattedPrice";
 import SearchAdmin from "./SearchAdmin";
 import NavbarAdmin from "./NavbarAdmin";
+import Stack from "@mui/material/Stack";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function createData(
   image: string,
@@ -60,8 +67,9 @@ function RoomAndProperty() {
   //error
   const [imageError, setImageError] = useState(false);
   const [updateImageError, setUpdateImageError] = useState(false);
-
-  const [sendDataError, setSendDataError] = useState(false);
+  const [amenityError, setAmenityError] = useState(false);
+  const [formError, setFormError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const getRooms = async () => {
     try {
@@ -95,6 +103,9 @@ function RoomAndProperty() {
     fileDropping,
     imageError,
     updateImageError,
+    amenityError,
+    formError,
+    loading,
   ]);
 
   useEffect(() => {
@@ -177,7 +188,36 @@ function RoomAndProperty() {
     if (roomImagesFiles && roomImagesFiles.length < 4) {
       setUpdateImageError(true);
       return;
+    }
+    if (
+      singleRoom.bed_types === undefined ||
+      singleRoom.bed_types === "" ||
+      singleRoom.room_type === undefined ||
+      singleRoom.room_type === "" ||
+      singleRoom.price === 0 ||
+      singleRoom.price === "" ||
+      singleRoom.person === undefined ||
+      singleRoom.person === "" ||
+      singleRoom.area === 0 ||
+      singleRoom.area === ""
+    ) {
+      console.log("form error");
+      setFormError(true);
+      return;
+    }
+    if (
+      singleRoom.amenity.length < 2 ||
+      singleRoom.amenity == "" ||
+      singleRoom.amenity == undefined ||
+      !singleRoom.amenity
+    ) {
+      setAmenityError(true);
+      return;
+    } else if (singleRoom.amenity.length < 2) {
+      setAmenityError(true);
+      return;
     } else {
+      setLoading(true);
       try {
         await axios.put(`http://localhost:4000/room/${id}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -227,9 +267,32 @@ function RoomAndProperty() {
     }
 
     if (files && files.length < 4) {
+      console.log(files.length);
+      console.log(files);
       setImageError(true);
       return;
+    }
+    if (
+      singleRoom.bed_types === undefined ||
+      singleRoom.room_type === undefined ||
+      singleRoom.price === 0 ||
+      singleRoom.person === undefined ||
+      singleRoom.area === 0
+    ) {
+      console.log("form error");
+      setFormError(true);
+      return;
+    }
+    if (
+      singleRoom.amenity.length < 2 ||
+      singleRoom.amenity == "" ||
+      singleRoom.amenity == undefined ||
+      !singleRoom.amenity
+    ) {
+      setAmenityError(true);
+      return;
     } else {
+      setLoading(true);
       try {
         const results = await axios.post(
           `http://localhost:4000/room/`,
@@ -417,9 +480,16 @@ function RoomAndProperty() {
         {/* table field*/}
         <div className="table-padding m-auto">
           <Paper sx={{ overflow: "hidden" }}>
-            <TableContainer component={Paper}>
-              <Table sx={{ maxHeight: 1000 }} aria-label="customized table ">
-                <TableHead>
+            <StyledTableContainer component={Paper} sx={{ maxHeight: 780 }}>
+              <StyledTable>
+                <TableHead
+                  style={{
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 1,
+                    backgroundColor: "white",
+                  }}
+                >
                   <TableRow>
                     <StyledTableCell>Image</StyledTableCell>
                     <StyledTableCell>Room type</StyledTableCell>
@@ -461,8 +531,8 @@ function RoomAndProperty() {
                     </StyledTableRow>
                   ))}
                 </TableBody>
-              </Table>
-            </TableContainer>
+              </StyledTable>
+            </StyledTableContainer>
           </Paper>
         </div>
       </div>
@@ -781,6 +851,10 @@ function RoomAndProperty() {
     });
   };
 
+  const formErrorHandler = () => {
+    setAmenityError(false);
+  };
+
   const updateRoom = (
     <>
       <NavbarAdmin>
@@ -1046,9 +1120,11 @@ function RoomAndProperty() {
 
                 {checkPage === "create" ? imageUploadCreate : imageUploadUpdate}
                 <div className="border-b-[1px] border-gray-500 w-[100%] my-10"></div>
+
                 <p className="text-gray-600 text-headline5 pb-10">
-                  Room Amenity
+                  Room Amenity{" "}
                 </p>
+
                 <div
                   className="w-full"
                   onDragOver={(e) => {
@@ -1118,7 +1194,9 @@ function RoomAndProperty() {
                       </Droppable>
                     </DragDropContext>
                   </div>
-
+                  {!amenityError ? null : (
+                    <div className="text-red">At least 2 amenities *</div>
+                  )}
                   <button
                     className="font-inter text-body2 text-orange-500 bg-white border hover:text-orange-400 border-orange-500 justify-between items-center rounded-[4px] px-6 py-3 mt-5"
                     onClick={(e) => addAmenity(e)}
@@ -1129,6 +1207,38 @@ function RoomAndProperty() {
                   </button>
                 </div>
               </form>
+              {!formError ? null : (
+                <div
+                  className={`fixed inset-0 flex justify-center items-center bg-opacity-25 bg-gray-900 z-50 transition-opacity duration-300 ease-in-out ${
+                    formError ? "opacity-100" : "opacity-0 pointer-events-none"
+                  }`}
+                >
+                  <div className="w-[600px] h-[150px] bg-white flex flex-col font-inter z-60 modal-fade-in active rounded-md relative">
+                    <div className="flex justify-start items-center text-headline5 text-black pl-6 mt-3 mb-3 relative"></div>
+                    <div className="flex justify-center mt-5">
+                      <p className="text-red">
+                        Please fill in all the required room information before
+                        proceeding.
+                      </p>
+                    </div>
+                    <button
+                      className="font-inter text-body2 text-white bg-orange-600 h-[40px] w-[100px] justify-between items-center   rounded-[4px] px-6 absolute bottom-5 left-1/2 transform -translate-x-1/2"
+                      onClick={() => setFormError(false)}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              )}
+              {!loading ? null : (
+                <div
+                  className={`fixed inset-0 flex justify-center items-center bg-opacity-25 bg-gray-900 z-50 transition-opacity duration-300 ease-in-out`}
+                >
+                  <Stack sx={{ color: "grey.500" }} spacing={2} direction="row">
+                    <CircularProgress color="warning" />
+                  </Stack>
+                </div>
+              )}
             </div>
           </Paper>
           {checkPage === "update" ? (
