@@ -408,7 +408,7 @@ function RoomAndProperty() {
                 });
                 setCheckPage("create");
               }}
-              className="font-inter text-body2 rounded-[4px] text-white bg-orange-600 h-[40px] justify-between items-center drop-shadow-md ml-3 px-4 "
+              className="font-inter text-body2 rounded-[4px] text-white bg-orange-600 hover:bg-orange-500 h-[40px] justify-between items-center drop-shadow-md ml-3 px-4 "
             >
               + Created Room
             </button>
@@ -726,7 +726,7 @@ function RoomAndProperty() {
             setCheckPage("init");
             setInputEnabled(false);
           }}
-          className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center ml-3 rounded-[4px] px-6 "
+          className="font-inter text-body2 text-orange-500 hover:text-orange-400 bg-white h-[40px] border border-orange-500 justify-between items-center ml-3 rounded-[4px] px-6 "
         >
           Cancel
         </button>
@@ -734,7 +734,7 @@ function RoomAndProperty() {
           onClick={() => {
             createRoomHandler();
           }}
-          className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center  ml-3 rounded-[4px] px-6 "
+          className="font-inter text-body2 text-white bg-orange-600 hover:bg-orange-500 h-[40px] justify-between items-center  ml-3 rounded-[4px] px-6 "
         >
           Create
         </button>
