@@ -761,7 +761,7 @@ function RoomAndProperty() {
           onClick={() => {
             updateRoomHandler(singleRoom.room_id);
           }}
-          className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center drop-shadow-md ml-3 rounded-[4px] px-6 "
+          className="font-inter text-body2 text-white bg-orange-600 h-[40px] hover:bg-orange-500 justify-between items-center drop-shadow-md ml-3 rounded-[4px] px-6 "
         >
           Update
         </button>
@@ -1077,7 +1077,7 @@ function RoomAndProperty() {
                                       {...provided.dragHandleProps}
                                       className="flex flex-row justify-evenly items-center w-full"
                                     >
-                                      <div>
+                                      <div className="mr-5">
                                         <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/drag.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2RyYWcucG5nIiwiaWF0IjoxNjk1ODkwMTQyLCJleHAiOjE3Mjc0MjYxNDJ9.bXiz7oxtgP-QE2dd2sm3wFXzWz1r2CWAlHsOQiRv-Ug&t=2023-09-28T08%3A35%3A43.063Z" />
                                       </div>
                                       <div className="w-full">
@@ -1103,7 +1103,7 @@ function RoomAndProperty() {
                                       </div>
 
                                       <button
-                                        className="font-prompt text-orange-500 text-fontHead5 ml-5"
+                                        className="font-prompt text-orange-500 text-fontHead5 ml-5 hover:text-orange-400"
                                         onClick={(e) => removeAmenity(e, index)}
                                       >
                                         Delete
@@ -1120,7 +1120,7 @@ function RoomAndProperty() {
                   </div>
 
                   <button
-                    className="font-inter text-body2 text-orange-500 bg-white border border-orange-500 justify-between items-center rounded-[4px] px-6 py-3 mt-5"
+                    className="font-inter text-body2 text-orange-500 bg-white border hover:text-orange-400 border-orange-500 justify-between items-center rounded-[4px] px-6 py-3 mt-5"
                     onClick={(e) => addAmenity(e)}
                   >
                     <span className="text-blue-600 font-prompt text-fontHead5">
