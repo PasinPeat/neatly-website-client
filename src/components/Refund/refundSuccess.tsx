@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import useFormattedPrice from "../../hooks/useFormattedPrice";
@@ -8,6 +8,7 @@ import useFormattedDate from "../../hooks/useFormattedDate";
 function RefundSuccess() {
   const { bookId } = useParams();
   const [checkUser, setCheckUser] = useState(null);
+  const navigate = useNavigate();
 
   const [cancelBooking, setCancelBooking] = useState({
     room_details: {
@@ -111,11 +112,15 @@ function RefundSuccess() {
 
       {/* Button */}
 
-      <Link to="/">
-        <button className="btn Button  w-[180px] h-[48px] mb-[330px]">
-          Back to Home
-        </button>
-      </Link>
+      <button
+        className="btn Button  w-[180px] h-[48px] mb-[330px]"
+        onClick={() => {
+          navigate("/");
+          window.location.reload();
+        }}
+      >
+        Back to Home
+      </button>
     </div>
   );
 }

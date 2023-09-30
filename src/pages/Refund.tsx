@@ -6,6 +6,7 @@ import "../App.css";
 import RefundSuccess from "../components/Refund/RefundSuccess";
 import useFormattedPrice from "./../hooks/useFormattedPrice";
 import useFormattedDate from "../hooks/useFormattedDate";
+import jwtDecode from "jwt-decode";
 
 function Refund() {
   const [complete, setComplete] = useState(false);
@@ -26,6 +27,7 @@ function Refund() {
     room_avaliable: {
       room_avaliable_id: "",
     },
+    user_id: null,
   });
 
   const getData = async () => {
@@ -33,19 +35,19 @@ function Refund() {
       const response = await axios.get(
         `http://localhost:4000/booking/${bookId}`
       );
-      console.log(response.data.data);
+
       const data = response.data.data;
       setCancelBooking(data);
+      setCheckUser(data);
     } catch (error) {
       console.error(error);
     }
   };
-
   const updateData = async () => {
     try {
       const response = await axios.put(
         `http://localhost:4000/booking/cancel/${bookId}`,
-        { ...cancelBooking }
+        { ...cancelBooking, refund: true }
       );
       console.log(response.data);
     } catch (error) {
@@ -70,12 +72,11 @@ function Refund() {
       const result = await axios.get(
         `http://localhost:4000/validUser/${userDataFromToken.user_id}`
       );
-      setCheckUser(result);
+      setCheckUser(result.data.user_id);
     } else {
       navigate("/");
     }
   };
-
   useEffect(() => {
     fetchAuth();
   }, []);

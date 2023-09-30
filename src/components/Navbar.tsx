@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
 import { useAuth } from "../contexts/authen.jsx";
+import { useEffect } from "react";
 
 function Navbar() {
   //@ts-ignore
@@ -10,16 +11,19 @@ function Navbar() {
   const { logout } = useAuth();
 
   let userProfileImage;
+  let notification;
   const blankUserProfileImage =
     "https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/images/Profile.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvUHJvZmlsZS5qcGciLCJpYXQiOjE2OTUyNzE4MjUsImV4cCI6MTcyNjgwNzgyNX0.dvTq9W3yfIv7bAc8y45BRbKT-2UXvggmbuY_YOVl6Zc&t=2023-09-21T04%3A50%3A25.510Z";
-
   if (auth.isAuthenticated && auth.state.userData) {
     if (auth.state.userData.profile_image === null) {
       userProfileImage = blankUserProfileImage;
     } else {
       userProfileImage = auth.state.userData.profile_image;
+      notification = auth.state.userData.notification;
+      console.log(notification);
     }
   }
+
   const linkHomePage = () => {
     navigate("/");
   };
@@ -67,7 +71,59 @@ function Navbar() {
         {auth.isAuthenticated ? (
           <div className="flex items-center relative">
             <div className="dropdown dropdown-end z-20">
-              <label tabIndex={0} className="hover:cursor-pointer">
+              <label
+                tabIndex={0}
+                className={`${
+                  Array.isArray(notification) && notification.length > 0
+                    ? "hover:cursor-pointer"
+                    : ""
+                } flex flex-row`}
+              >
+                <div
+                  className={`flex justify-center items-center w-12 h-12 rounded-full bg-gray-100 mr-4 relative border ${
+                    Array.isArray(notification) && notification.length > 0
+                      ? "hover:border-orange-500"
+                      : null
+                  }`}
+                >
+                  <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/Frame.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL0ZyYW1lLnBuZyIsImlhdCI6MTY5NjA2OTE4OCwiZXhwIjoxNzI3NjA1MTg4fQ.8XKGfs9tibHfNFCfwJt7FdZfLlmTxt-DYtYcSRyExl8&t=2023-09-30T10%3A19%3A48.642Z"></img>
+                  {Array.isArray(notification) && notification.length > 0 ? (
+                    <>
+                      <div className="flex bg-orange-500 w-4 h-4 absolute bottom-0 right-0 rounded-lg justify-center items-center text-[12px] text-white font-noto-serif-display">
+                        <p>!</p>
+                      </div>
+                    </>
+                  ) : null}
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="dropdown-content absolute top-[70px] rounded-[4px] w-[350px] z-10 drop-shadow-lg bg-white px-2 overflow-y-auto max-h-[200px]"
+              >
+                {Array.isArray(notification) && notification.length > 0
+                  ? notification.map((noti, index) => (
+                      <li
+                        key={index}
+                        className="text-[14px] px-2 py-1 hover:bg-gray-200"
+                      >
+                        <div className="flex flex-row justify-between items-center hover:cursor-default">
+                          <img
+                            className="w-10 h-10 mr-5"
+                            src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/noti-image.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL25vdGktaW1hZ2UucG5nIiwiaWF0IjoxNjk2MDcwMjE1LCJleHAiOjE3Mjc2MDYyMTV9.wZ3upw5bmvD3c2eUDazWYX7qlixRc7y5hZtBSiQlq7A&t=2023-09-30T10%3A36%3A55.588Z"
+                          ></img>
+                          <span className="text-gray-700 ">{noti}</span>
+                        </div>
+                        <hr className="mt-2 border-gray-400  mb-1"></hr>
+                      </li>
+                    ))
+                  : null}
+              </ul>
+            </div>
+            <div className="dropdown dropdown-end z-20">
+              <label
+                tabIndex={0}
+                className="hover:cursor-pointer flex flex-row"
+              >
                 <div
                   className="bg-cover bg-center w-12 h-12 rounded-full"
                   style={{ backgroundImage: `url(${userProfileImage})` }}
@@ -75,7 +131,7 @@ function Navbar() {
               </label>
               <ul
                 tabIndex={0}
-                className=" menu dropdown-content absolute top-[70px] -left-20 rounded-[4px] z-10 drop-shadow-lg bg-white w-52 mt-4 px-2 [&_li>*]:rounded-[4px]"
+                className=" menu dropdown-content absolute top-[70px] -left-20 rounded-[4px] z-10 drop-shadow-lg bg-white w-52  px-2 [&_li>*]:rounded-[4px]"
               >
                 <li>
                   <button
@@ -209,7 +265,59 @@ function Navbar() {
         {auth.isAuthenticated ? (
           <div className="flex items-center relative">
             <div className="dropdown dropdown-end z-20">
-              <label tabIndex={0} className="hover:cursor-pointer">
+              <label
+                tabIndex={0}
+                className={`${
+                  Array.isArray(notification) && notification.length > 0
+                    ? "hover:cursor-pointer"
+                    : ""
+                } flex flex-row`}
+              >
+                <div
+                  className={`flex justify-center items-center w-12 h-12 rounded-full bg-gray-100 mr-4 relative border ${
+                    Array.isArray(notification) && notification.length > 0
+                      ? "hover:border-orange-500"
+                      : null
+                  }`}
+                >
+                  <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/Frame.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL0ZyYW1lLnBuZyIsImlhdCI6MTY5NjA2OTE4OCwiZXhwIjoxNzI3NjA1MTg4fQ.8XKGfs9tibHfNFCfwJt7FdZfLlmTxt-DYtYcSRyExl8&t=2023-09-30T10%3A19%3A48.642Z"></img>
+                  {Array.isArray(notification) && notification.length > 0 ? (
+                    <>
+                      <div className="flex bg-orange-500 w-4 h-4 absolute bottom-0 right-0 rounded-lg justify-center items-center text-[12px] text-white font-noto-serif-display">
+                        <p>!</p>
+                      </div>
+                    </>
+                  ) : null}
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="dropdown-content absolute top-[70px] rounded-[4px] w-[350px] z-10 drop-shadow-lg bg-white px-2 overflow-y-auto max-h-[200px]"
+              >
+                {Array.isArray(notification) && notification.length > 0
+                  ? notification.map((noti, index) => (
+                      <li
+                        key={index}
+                        className="text-[14px] px-2 py-1 hover:bg-gray-200"
+                      >
+                        <div className="flex flex-row justify-between items-center hover:cursor-default">
+                          <img
+                            className="w-10 h-10 mr-5"
+                            src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/noti-image.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL25vdGktaW1hZ2UucG5nIiwiaWF0IjoxNjk2MDcwMjE1LCJleHAiOjE3Mjc2MDYyMTV9.wZ3upw5bmvD3c2eUDazWYX7qlixRc7y5hZtBSiQlq7A&t=2023-09-30T10%3A36%3A55.588Z"
+                          ></img>
+                          <span className="text-gray-700 ">{noti}</span>
+                        </div>
+                        <hr className="mt-2 border-gray-400  mb-1"></hr>
+                      </li>
+                    ))
+                  : null}
+              </ul>
+            </div>
+            <div className="dropdown dropdown-end z-20">
+              <label
+                tabIndex={0}
+                className="hover:cursor-pointer flex flex-row"
+              >
                 <div
                   className="bg-cover bg-center w-12 h-12 rounded-full"
                   style={{ backgroundImage: `url(${userProfileImage})` }}
