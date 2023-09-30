@@ -17,11 +17,11 @@ import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { RoomsProps } from "./interfaces/RoomsProps.tsx";
 import BookingHistory from "./pages/BookingHistory.tsx";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "./contexts/authen.jsx";
 import { BookingsProvider } from "./contexts/BookingContext.jsx";
 import Admin from "./pages/Admin.tsx";
 import BookingDetails from "./components/Admin/BookingDetails.tsx";
+import jwtDecode from "jwt-decode";
+
 export const RoomsContext = React.createContext();
 
 function App() {
