@@ -1,7 +1,6 @@
 import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../contexts/authen";
 import jwtDecode from "jwt-decode";
@@ -78,23 +77,6 @@ function Profile() {
     const age = currentDate.getFullYear() - dob.getFullYear();
 
     return age >= 18;
-  };
-
-  // สร้างฟังก์ชันเพื่อตรวจสอบ ID Number
-  // const validateIDNumber = () => {
-  //   if (!/^\d{13}$/.test(user.idNumber)) {
-  //     setIdNumberError(true);
-  //   } else {
-  //     setIdNumberError(false);
-  //   }
-  // };
-
-  const validateIDNumber = () => {
-    if (user.idNumber.length !== 13) {
-      setIdNumberError(true);
-    } else {
-      setIdNumberError(false);
-    }
   };
 
   // ฟังก์ชันเช็ค country ว่าถูกเลือกหรือไม่
@@ -192,9 +174,6 @@ function Profile() {
     // Check full name
     validateFullName(user.fullName);
 
-    // Validate ID Number
-    // validateIDNumber();
-
     if (!/^\d{13}$/.test(user.idNumber)) {
       setIdNumberError(true);
       setIsLoading(false);
@@ -202,14 +181,6 @@ function Profile() {
     } else {
       setIdNumberError(false);
     }
-
-    // if (user.idNumber.length !== 13) {
-    //   setIdNumberError(true);
-    //   setIsLoading(false);
-    //   return;
-    // } else {
-    //   setIdNumberError(false);
-    // }
 
     validateCountry();
 
@@ -297,7 +268,6 @@ function Profile() {
           setIsModalOpen(true);
           console.log(response.data);
         } catch (error) {
-          // setIsLoading(false);
           setIsModalOpen(false);
           console.error(error);
         }
@@ -307,16 +277,6 @@ function Profile() {
       setIsLoading(false);
     }
   };
-
-  // const handleChange = (
-  //   e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  // ) => {
-  //   const { name, value } = e.target;
-  //   setUser({
-  //     ...user,
-  //     [name]: value,
-  //   });
-  // };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> | string,
@@ -379,7 +339,6 @@ function Profile() {
             </h1>
             <button
               className="btn Button  w-[258px] h-[48px] "
-              // onClick={() => setIsModalOpen(true)}
               type="submit"
               disabled={isLoading}
             >
@@ -444,7 +403,6 @@ function Profile() {
                   emailError ? "border-[#B61515]" : "focus:outline-none"
                 }`}
                 value={user.email}
-                // onChange={handleChange}
                 onChange={(e) => handleChange(e, "email")}
                 required
               />
@@ -550,7 +508,6 @@ function Profile() {
                     : "focus:outline-none"
                 }`}
                 value={user.idNumber}
-                // onChange={handleChange}
                 onChange={(e) => handleChange(e, "idNumber")}
                 required
               />
@@ -735,6 +692,7 @@ function Profile() {
                   className="btn w-[200px] h-[50px] rounded  bg-green-600  hover:bg-green-500 font-noto-serif-display text-[28px]  text-white "
                   onClick={() => {
                     setIsModalOpen(false);
+                    navigate("/");
                   }}
                 >
                   CLOSE

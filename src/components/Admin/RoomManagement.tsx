@@ -135,19 +135,19 @@ export default function CustomPaginationActionsTable() {
               <Table aria-label="custom pagination table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell className="w-[8%]">
+                    <StyledTableCell className="w-[27%]">
                       Room no.
                     </StyledTableCell>
-                    <StyledTableCell className="w-[8%]">{}</StyledTableCell>
-                    <StyledTableCell className="w-[5%]">{}</StyledTableCell>
-                    <StyledTableCell className="w-[20%]">
+                    <StyledTableCell className="w-[24%]">
                       Room type
                     </StyledTableCell>
-                    <StyledTableCell className="w-[20%]">
+                    <StyledTableCell className="w-[3%]">{}</StyledTableCell>
+                    <StyledTableCell className="w-[2%]">{}</StyledTableCell>
+                    <StyledTableCell className="w-[1%]">{}</StyledTableCell>
+                    <StyledTableCell className="w-[26%]">
                       Bed type
                     </StyledTableCell>
-                    <StyledTableCell className="w-[5%]">{}</StyledTableCell>
-                    <StyledTableCell className="w-[20%]">
+                    <StyledTableCell className="w-[17%]">
                       Status
                     </StyledTableCell>
                   </TableRow>
@@ -169,11 +169,11 @@ export default function CustomPaginationActionsTable() {
                         <StyledTableCell>
                           {roomNumber > 9 ? `${roomNumber}` : `0${roomNumber}`}
                         </StyledTableCell>
-                        <StyledTableCell>{}</StyledTableCell>
-                        <StyledTableCell>{}</StyledTableCell>
                         <StyledTableCell>{row.roomType}</StyledTableCell>
-                        <StyledTableCell>{row.bedType}</StyledTableCell>
                         <StyledTableCell>{}</StyledTableCell>
+                        <StyledTableCell>{}</StyledTableCell>
+                        <StyledTableCell>{}</StyledTableCell>
+                        <StyledTableCell>{row.bedType}</StyledTableCell>
                         <StyledTableCell>
                           <DropdownSearch
                             roomNumber={row.roomNumber}

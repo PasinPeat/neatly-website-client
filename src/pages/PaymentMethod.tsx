@@ -1,7 +1,6 @@
 import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../contexts/authen";
 import jwtDecode from "jwt-decode";
@@ -106,7 +105,6 @@ function PaymentMethod() {
         setIsModalOpen(true);
       } catch (error) {
         console.error(error);
-        setIsLoading(false);
         setIsModalOpen(false);
       }
     } else {
@@ -174,7 +172,6 @@ function PaymentMethod() {
             </h1>
             <button
               className="btn Button  w-[258px] h-[48px]"
-              // onClick={() => setIsModalOpen(true)}
               type="submit"
               disabled={isLoading}
             >

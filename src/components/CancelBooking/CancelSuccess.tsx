@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import useFormattedDate from "../../hooks/useFormattedDate";
+import jwtDecode from "jwt-decode";
 
 function CancelSuccess() {
   const { bookId } = useParams();
   const [checkUser, setCheckUser] = useState(null);
+  const navigate = useNavigate();
 
   const [cancelBooking, setCancelBooking] = useState({
     room_details: {
@@ -57,7 +59,6 @@ function CancelSuccess() {
 
   return (
     <div className="flex flex-col items-center  bg-bg">
-      {/* <Navbar /> */}
       {/* Header */}
       <div className="flex flex-col justify-center bg-green-800 rounded-t  w-[738px] h-[189px] mt-[80px] text-center">
         <p className="font-noto-serif-display text-white text-[44px] font-medium">
