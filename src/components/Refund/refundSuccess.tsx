@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import useFormattedPrice from "../../hooks/useFormattedPrice";
 import useFormattedDate from "../../hooks/useFormattedDate";
+import jwtDecode from "jwt-decode";
 
 function RefundSuccess() {
   const { bookId } = useParams();
@@ -59,7 +59,6 @@ function RefundSuccess() {
 
   return (
     <div className="flex flex-col items-center  bg-bg">
-      {/* <Navbar /> */}
       {/* Header */}
       <div className="flex flex-col justify-center bg-green-800 rounded-t  w-[800px] h-[189px] mt-[80px] text-center">
         <p className="font-noto-serif-display text-white text-[44px] font-medium">
@@ -101,9 +100,7 @@ function RefundSuccess() {
         </div>
         <hr className=" w-[720px] mt-10 border-green-600 border-solid border-t-2" />
         <div className="flex flex-row justify-between items-end mt-7 mb-10 w-[720px] ">
-          <p className="text-green-300 text-body1 text-gray-900">
-            Total Refund
-          </p>
+          <p className="text-green-300 ">Total Refund</p>
           <p className="text-white text-headline5">
             THB {useFormattedPrice(cancelBooking.total_price_add_reqs)}
           </p>
@@ -111,12 +108,10 @@ function RefundSuccess() {
       </div>
 
       {/* Button */}
-
       <button
         className="btn Button  w-[180px] h-[48px] mb-[330px]"
         onClick={() => {
           navigate("/");
-          window.location.reload();
         }}
       >
         Back to Home

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import "../App.css";
-import RefundSuccess from "../components/Refund/RefundSuccess";
+import RefundSuccess from "../components/Refund/refundSuccess.tsx";
 import useFormattedPrice from "./../hooks/useFormattedPrice";
 import useFormattedDate from "../hooks/useFormattedDate";
 import jwtDecode from "jwt-decode";

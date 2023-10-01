@@ -3,8 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import "../App.css";
-import CancelSuccess from "../components/CancelBooking/CancelSuccess";
+import CancelSuccess from "../components/CancelBooking/CancelSuccess.tsx";
 import useFormattedDate from "./../hooks/useFormattedDate";
+import jwtDecode from "jwt-decode";
 
 function CancelBooking() {
   const [complete, setComplete] = useState(false);
