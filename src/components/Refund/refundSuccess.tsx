@@ -20,6 +20,7 @@ function RefundSuccess() {
     total_price_add_reqs: "",
     amount_stay: "",
     cancel_date: "",
+    amount_room: "",
   });
 
   const getData = async () => {
@@ -102,7 +103,10 @@ function RefundSuccess() {
         <div className="flex flex-row justify-between items-end mt-7 mb-10 w-[720px] ">
           <p className="text-green-300 ">Total Refund</p>
           <p className="text-white text-headline5">
-            THB {useFormattedPrice(cancelBooking.total_price_add_reqs)}
+            THB{" "}
+            {useFormattedPrice(
+              cancelBooking.total_price_add_reqs / cancelBooking.amount_room
+            )}
           </p>
         </div>
       </div>

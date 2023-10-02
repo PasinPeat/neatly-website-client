@@ -250,8 +250,12 @@ function ChangeDate() {
           <div className="flex flex-col gap-12 py-10">
             <div className="w-full flex justify-between">
               <div>
-                <div className="w-[357px] h-[210px] rounded bg-cover bg-center">
-                  <img src={bookingData.room_details.room_images[0]} />
+                <div>
+                  <img
+                    src={bookingData.room_details.room_images[0]}
+                    alt="Room"
+                    className="rounded w-[357px] h-[210px] object-cover"
+                  />
                 </div>
               </div>
               <div className="flex flex-col justify-between">

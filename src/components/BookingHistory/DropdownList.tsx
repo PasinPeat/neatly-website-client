@@ -25,7 +25,6 @@ function DropDownList({
   const handleClick = () => {
     setOpen(!open);
   };
-  console.log(totalPriceAddReqs);
 
   function addSpecialReqPrice(req: string) {
     switch (req) {
@@ -86,15 +85,9 @@ function DropDownList({
             </List>
             <List component="div" disablePadding sx={{ px: 4, py: 1 }}>
               <div className="flex justify-between items-end w-full">
-                <div>
-                  <p className="text-body1">{roomType}</p>
-                  <p>
-                    ({roomAmount} room<span className="px-2">x</span>
-                    {night} night)
-                  </p>
-                </div>
+                <p className="text-body1">{roomType}</p>
                 <p className="text-body1 font-bold text-black">
-                  {useFormattedPrice(totalPrice)}
+                  {useFormattedPrice(totalPrice / roomAmount)}
                 </p>
               </div>
             </List>
@@ -102,13 +95,9 @@ function DropDownList({
               {special &&
                 special.map((item: string, index: number) => (
                   <div className="flex justify-between w-full py-2" key={index}>
-                    <p className="text-body1">
-                      {roomAmount}
-                      <span className="px-2">x</span>
-                      {item}
-                    </p>
+                    <p className="text-body1">{item}</p>
                     <p className="text-body1 font-bold text-black">
-                      {useFormattedPrice(addSpecialReqPrice(item) * roomAmount)}
+                      {useFormattedPrice(addSpecialReqPrice(item))}
                     </p>
                   </div>
                 ))}
@@ -135,7 +124,7 @@ function DropDownList({
               <div className="flex justify-between w-full border-t-[2px] border-green-300 py-4">
                 <p className="text-body1">Total</p>
                 <p className=" text-headline5 font-bold text-black">
-                  THB {useFormattedPrice(totalPriceAddReqs)}
+                  THB {useFormattedPrice(totalPriceAddReqs / roomAmount)}
                 </p>
               </div>
             </List>
