@@ -134,7 +134,7 @@ export default function DropdownSearch({
               newValue || ""
             );
           }}
-          className="w-[180px] focus:border-0 focus:ring-0 active:border-0 active:ring-0 hover:border-0 absolute top-[10px] left-0"
+          className="w-[160px] focus:border-0 focus:ring-0 active:border-0 active:ring-0 hover:border-0 absolute top-[10px] left-0"
           getOptionLabel={(option) => option}
           renderInput={(params) => (
             <div ref={params.InputProps.ref}>
@@ -145,7 +145,7 @@ export default function DropdownSearch({
                   display: isOpen ? "block" : "none",
                 }}
                 placeholder="Search status..."
-                className="w-[180px] h-[40px] px-4 py-3 rounded-t text-gray-600 text-body2 border-b-[1px] border-gray-400 shadow-md bg-white focus:border-0 focus:ring-0 active:border-0 active:ring-0 hover:border-0"
+                className="w-[160px] h-[40px] px-4 py-3 rounded-t text-gray-600 text-body2 border-b-[1px] border-gray-400 shadow-md bg-white focus:border-0 focus:ring-0 active:border-0 active:ring-0 hover:border-0"
               />
             </div>
           )}
