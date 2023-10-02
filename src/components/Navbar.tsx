@@ -206,6 +206,16 @@ function Navbar() {
               className="btn Button"
               onClick={(e) => {
                 e.preventDefault();
+                  const userInput = {
+                    checkInDate: "",
+                    checkOutDate: "",
+                    room: 1,
+                    person: 2,
+                    night: 1
+                  };
+                  
+                  // Convert the object to a JSON string before storing it
+                  localStorage.setItem("userInput", JSON.stringify(userInput));
                 navigate("/search");
               }}
             >
@@ -402,6 +412,16 @@ function Navbar() {
                 to="#book"
                 onClick={(e) => {
                   e.preventDefault();
+                    const userInput = {
+                      checkInDate: "",
+                      checkOutDate: "",
+                      room: 1,
+                      person: 2,
+                      night: 1
+                    };
+                    
+                    // Convert the object to a JSON string before storing it
+                    localStorage.setItem("userInput", JSON.stringify(userInput));
                   navigate("/search");
                 }}
               >

@@ -26,9 +26,7 @@ function SearchResult({
   useEffect(() => {
     if (userInput) {
       setRoomResult(context.rooms);
-    } else {
-      navigate("/");
-    }
+    } 
   }, []);
 
   /*render all room cards*/
