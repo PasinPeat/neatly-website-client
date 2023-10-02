@@ -47,9 +47,12 @@
     @apply relative w-4 h-4 bg-white text-orange-500  rounded-full border border-solid border-orange-500;
   }
   .Disabled-select {
-    @apply rounded p-3 bg-white border-gray-400 cursor-not-allowed text-body1 w-full; /* Change this to your desired text color */
+    @apply rounded p-3 bg-white border-gray-400 cursor-not-allowed text-body1 w-full;
   }
   .Input-status {
     @apply px-3 py-1 m-2 rounded text-body2 w-[212px] focus:border-none active:border-none;
+  }
+  .modal-box {
+    @apply p-0;
   }
 }

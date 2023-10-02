@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { Stack } from "@mui/material";
+import Loader from "../components/Loader";
 // import { TextField } from "@mui/material";
 
 function Register() {
@@ -842,7 +843,7 @@ function Register() {
                 disabled={isLoading}
               >
                 {isLoading ? (
-                  <span className="loading loading-spinner w-7 bg-orange-600"></span>
+                  <Loader size={7} color={`orange-600`} />
                 ) : (
                   "Register"
                 )}

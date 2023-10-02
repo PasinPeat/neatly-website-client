@@ -471,7 +471,7 @@ function RoomAndProperty() {
                 });
                 setCheckPage("create");
               }}
-              className="font-inter text-body2 rounded-[4px] text-white bg-orange-600 hover:bg-orange-500 h-[40px] justify-between items-center drop-shadow-md ml-3 px-4 "
+              className="font-inter text-body2 rounded-[4px] text-white bg-orange-600 hover:bg-orange-500 h-[40px] justify-between items-center drop-shadow-md ml-3 px-6"
             >
               + Created Room
             </button>
@@ -480,7 +480,7 @@ function RoomAndProperty() {
         {/* table field*/}
         <div className="table-padding m-auto">
           <Paper sx={{ overflow: "hidden" }}>
-            <StyledTableContainer component={Paper} sx={{ maxHeight: 780 }}>
+            <StyledTableContainer component={Paper} sx={{ maxHeight: 699 }}>
               <StyledTable>
                 <TableHead
                   style={{
@@ -1255,30 +1255,32 @@ function RoomAndProperty() {
               </div>
               <dialog id="my_modal_1" className="modal">
                 <div className="modal-box bg-white rounded-sm">
-                  <h3 className="font-bold text-[1.2rem] text-black font-inter">
+                  <h3 className="font-bold text-[1.2rem] text-black font-inter px-6 pt-4 pb-4">
                     Delete room
                   </h3>
                   <hr></hr>
-                  <p className="py-4">
-                    Are you sure you want to delete this room?
-                  </p>
-                  <div className="modal-action">
-                    <form method="dialog">
-                      <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                        ✕
-                      </button>
-                      <button
-                        className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center ml-3 rounded-[4px] px-6"
-                        onClick={(e) =>
-                          deleteRoomHandler(e, singleRoom.room_id)
-                        }
-                      >
-                        Yes, I want to delete
-                      </button>
-                      <button className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center  ml-3 rounded-[4px] px-6 ">
-                        No, I don't
-                      </button>
-                    </form>
+                  <div className="px-6 pb-6">
+                    <p className="py-4">
+                      Are you sure you want to delete this room?
+                    </p>
+                    <div className="modal-action">
+                      <form method="dialog">
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                          ✕
+                        </button>
+                        <button
+                          className="font-inter text-body2 text-orange-500 bg-white h-[40px] border border-orange-500 justify-between items-center ml-3 rounded-[4px] px-6"
+                          onClick={(e) =>
+                            deleteRoomHandler(e, singleRoom.room_id)
+                          }
+                        >
+                          Yes, I want to delete
+                        </button>
+                        <button className="font-inter text-body2 text-white bg-orange-600 h-[40px] justify-between items-center  ml-3 rounded-[4px] px-6 ">
+                          No, I don't
+                        </button>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </dialog>

@@ -13,6 +13,7 @@ import PaginationAdmin from "./PaginationAdmin";
 import PageContext from "../../contexts/PageContext";
 import NavbarAdmin from "./NavbarAdmin";
 import SearchAdmin from "./SearchAdmin";
+import Loader from "../Loader";
 import { StyledTableCell, StyledTableRow } from "./styledTable";
 
 interface BookingType {
@@ -29,11 +30,14 @@ export default function CustomPaginationActionsTable() {
   const [filterBookingList, setFilterBookingList] = useState<BookingType[]>([]);
   const [selectedByText, setSelectedByText] = useState<string>("");
   const [currOpen, setOpen] = React.useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   /*page context*/
   const { page, setPage, rowsPerPage } = useContext(PageContext);
 
   const getBooking = async () => {
     try {
+      setIsLoading(true);
       const results = await axios(
         `http://localhost:4000/avaliable/admin/admin`
       );
@@ -41,6 +45,7 @@ export default function CustomPaginationActionsTable() {
       setBooking(results.data);
       setFilterBookingList(results.data);
       console.log(results.data);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching room data:", error);
     }
@@ -62,8 +67,7 @@ export default function CustomPaginationActionsTable() {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedByText(event.target.value);
-    setPage(0)
-    
+    setPage(0);
   };
 
   useEffect(() => {
@@ -108,8 +112,6 @@ export default function CustomPaginationActionsTable() {
   const roomNumberArr = rows.map((row) => row.roomNumber);
   roomNumberArr.sort((a, b) => a - b);
 
-  
-
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -125,79 +127,85 @@ export default function CustomPaginationActionsTable() {
         </NavbarAdmin>
 
         {/* table field*/}
-        <div className="table-padding m-auto">
-          <Paper
-            sx={{
-              overflow: "hidden",
-            }}
-          >
-            <TableContainer component={Paper}>
-              <Table aria-label="custom pagination table">
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell className="w-[27%]">
-                      Room no.
-                    </StyledTableCell>
-                    <StyledTableCell className="w-[24%]">
-                      Room type
-                    </StyledTableCell>
-                    <StyledTableCell className="w-[3%]">{}</StyledTableCell>
-                    <StyledTableCell className="w-[2%]">{}</StyledTableCell>
-                    <StyledTableCell className="w-[1%]">{}</StyledTableCell>
-                    <StyledTableCell className="w-[26%]">
-                      Bed type
-                    </StyledTableCell>
-                    <StyledTableCell className="w-[17%]">
-                      Status
-                    </StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {(rowsPerPage > 0
-                    ? roomNumberArr.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                    : roomNumberArr
-                  ).map((roomNumber, index) => {
-                    const row = rows.find(
-                      (row) => row.roomNumber === roomNumber
-                    );
-
-                    return row ? (
-                      <StyledTableRow key={index}>
-                        <StyledTableCell>
-                          {roomNumber > 9 ? `${roomNumber}` : `0${roomNumber}`}
-                        </StyledTableCell>
-                        <StyledTableCell>{row.roomType}</StyledTableCell>
-                        <StyledTableCell>{}</StyledTableCell>
-                        <StyledTableCell>{}</StyledTableCell>
-                        <StyledTableCell>{}</StyledTableCell>
-                        <StyledTableCell>{row.bedType}</StyledTableCell>
-                        <StyledTableCell>
-                          <DropdownSearch
-                            roomNumber={row.roomNumber}
-                            roomStatus={row.roomStatus}
-                            currOpen={currOpen}
-                            setOpen={setOpen}
-                          />
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    ) : null;
-                  })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 55.8 * emptyRows }}>
-                      <TableCell colSpan={8} />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="table-padding m-auto">
+            <Paper
+              sx={{
+                overflow: "hidden",
+              }}
+            >
+              <TableContainer component={Paper}>
+                <Table aria-label="custom pagination table">
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell className="w-[27%]">
+                        Room no.
+                      </StyledTableCell>
+                      <StyledTableCell className="w-[24%]">
+                        Room type
+                      </StyledTableCell>
+                      <StyledTableCell className="w-[3%]">{}</StyledTableCell>
+                      <StyledTableCell className="w-[2%]">{}</StyledTableCell>
+                      <StyledTableCell className="w-[1%]">{}</StyledTableCell>
+                      <StyledTableCell className="w-[26%]">
+                        Bed type
+                      </StyledTableCell>
+                      <StyledTableCell className="w-[17%]">
+                        Status
+                      </StyledTableCell>
                     </TableRow>
-                  )}
-                </TableBody>
-                <TableFooter>
-                  <PaginationAdmin rows={rows} colSpan={4} />
-                </TableFooter>
-              </Table>
-            </TableContainer>
-          </Paper>
-        </div>
+                  </TableHead>
+                  <TableBody>
+                    {(rowsPerPage > 0
+                      ? roomNumberArr.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
+                        )
+                      : roomNumberArr
+                    ).map((roomNumber, index) => {
+                      const row = rows.find(
+                        (row) => row.roomNumber === roomNumber
+                      );
+
+                      return row ? (
+                        <StyledTableRow key={index}>
+                          <StyledTableCell>
+                            {roomNumber > 9
+                              ? `${roomNumber}`
+                              : `0${roomNumber}`}
+                          </StyledTableCell>
+                          <StyledTableCell>{row.roomType}</StyledTableCell>
+                          <StyledTableCell>{}</StyledTableCell>
+                          <StyledTableCell>{}</StyledTableCell>
+                          <StyledTableCell>{}</StyledTableCell>
+                          <StyledTableCell>{row.bedType}</StyledTableCell>
+                          <StyledTableCell>
+                            <DropdownSearch
+                              roomNumber={row.roomNumber}
+                              roomStatus={row.roomStatus}
+                              currOpen={currOpen}
+                              setOpen={setOpen}
+                            />
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      ) : null;
+                    })}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 65.8 * emptyRows }}>
+                        <TableCell colSpan={8} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                  <TableFooter>
+                    <PaginationAdmin rows={rows} colSpan={4} />
+                  </TableFooter>
+                </Table>
+              </TableContainer>
+            </Paper>
+          </div>
+        )}
       </div>
     </>
   );

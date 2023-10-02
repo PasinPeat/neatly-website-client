@@ -10,6 +10,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { RoomsContext } from "../App.tsx";
 import axios from "axios";
+import Loader from "../components/Loader.tsx";
 
 function RoomDetail() {
   const [roomDetail, setRoomDetail] = useState<RoomsProps | null>(null);
@@ -61,16 +62,16 @@ function RoomDetail() {
   }, [roomDetail, context.rooms, params.roomId]);
 
   if (roomDetail === null || !roomDetail.room_type) {
-    return <div className="flex justify-center">Loading...</div>;
+    return <Loader />;
   }
 
   return (
     <>
       <Navbar />
       <div className="pt-20 bg-gray-200">
-
-      <RoomDetailSlidebar roomImages={roomDetail.room_images} />
+        <RoomDetailSlidebar roomImages={roomDetail.room_images} />
       </div>
+
       <RoomDetailPageContent
         roomType={roomDetail.room_type}
         bedType={roomDetail.bed_types}
