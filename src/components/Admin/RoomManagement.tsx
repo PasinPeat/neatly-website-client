@@ -136,7 +136,12 @@ export default function CustomPaginationActionsTable() {
                 overflow: "hidden",
               }}
             >
-              <TableContainer component={Paper}>
+              <TableContainer
+                component={Paper}
+                sx={{
+                  overflow: "hidden",
+                }}
+              >
                 <Table aria-label="custom pagination table">
                   <TableHead>
                     <TableRow>
