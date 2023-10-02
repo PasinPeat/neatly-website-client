@@ -131,11 +131,11 @@ function Navbar() {
               </label>
               <ul
                 tabIndex={0}
-                className=" menu dropdown-content absolute top-[70px] -left-20 rounded-[4px] z-10 drop-shadow-lg bg-white w-52  px-2 [&_li>*]:rounded-[4px]"
+                className=" menu dropdown-content absolute top-[70px] -left-20 rounded-[4px] z-10 drop-shadow-lg bg-white w-52 [&_li>*]:rounded-[4px]"
               >
                 <li>
                   <button
-                    className="py-2"
+                    className="py-2 px-2"
                     onClick={() =>
                       navigate(`/profile/${auth.state.userData.id}`)
                     }
@@ -149,7 +149,7 @@ function Navbar() {
                 </li>
                 <li>
                   <button
-                    className="py-2"
+                    className="py-2 px-2"
                     onClick={() =>
                       navigate(
                         `/paymentmethod/${auth.state.userData.credit_card_id}`
@@ -165,7 +165,7 @@ function Navbar() {
                 </li>
                 <li>
                   <button
-                    className="py-2"
+                    className="py-2 px-2"
                     onClick={() => {
                       navigate(`/booking/user/${auth.state.userData.id}`);
                       window.location.reload();
@@ -180,7 +180,10 @@ function Navbar() {
                 </li>
                 <hr className="mt-2 border-gray-400"></hr>
                 <li>
-                  <button className="py-2" onClick={() => logoutAndNavigate()}>
+                  <button
+                    className="py-2 px-2"
+                    onClick={() => logoutAndNavigate()}
+                  >
                     <img
                       className="w-4 h-4"
                       src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/logout.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2xvZ291dC5zdmciLCJpYXQiOjE2OTQ0MDUyMjcsImV4cCI6MTcyNTk0MTIyN30.QQWg08pQQG_UXibP0RzqSxor94ssvDnTFV7t5oh56QE&t=2023-09-11T04%3A07%3A05.943Z"

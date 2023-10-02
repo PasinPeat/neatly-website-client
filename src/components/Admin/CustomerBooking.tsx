@@ -19,6 +19,7 @@ import PageContext from "../../contexts/PageContext";
 import useFormattedDate from "../../hooks/useFormattedDate";
 import { StyledTableCell, StyledTableRow } from "./styledTable";
 import "../../responsive.css";
+import Loader from "../Loader";
 
 export default function CustomPaginationActionsTable() {
   const [booking, setBooking] = useState([]);
@@ -27,17 +28,18 @@ export default function CustomPaginationActionsTable() {
   const [sortBy, setSortBy] = useState("all");
   const [sortBookingState, setSortBookingState] = useState(booking);
   const [complete, setComplete] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { page, setPage, rowsPerPage, setRowsPerPage } =
-    useContext(PageContext);
+  const { page, setPage, rowsPerPage } = useContext(PageContext);
   /*get all booking*/
   const getBooking = async () => {
     try {
+      setIsLoading(true);
       const results = await axios(`http://localhost:4000/booking/admin/admin`);
-
       setBooking(results.data);
       setFilterBookingList(results.data);
       console.log(results.data);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching room data:", error);
     }
@@ -60,9 +62,8 @@ export default function CustomPaginationActionsTable() {
   };
 
   const handleInputChange = (event: Event) => {
-    
     setSelectedByText(event.target.value);
-    setPage(0)
+    setPage(0);
   };
 
   useEffect(() => {
@@ -190,7 +191,6 @@ export default function CustomPaginationActionsTable() {
   }
 
   /*page context*/
-  
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -293,7 +293,7 @@ export default function CustomPaginationActionsTable() {
             <p className="text-black font-bold text-headline5">
               Customer Booking
             </p>
-            <div className="flex gap-10">
+            <div className="flex gap-3">
               <SelectSortBy onSortChange={handleSortChange} />
               <SearchAdmin
                 value={selectedByText}
@@ -302,87 +302,91 @@ export default function CustomPaginationActionsTable() {
             </div>
           </NavbarAdmin>
 
-          <div className="table-padding m-auto">
-            <Paper sx={{ overflow: "hidden" }}>
-              <TableContainer component={Paper}>
-                <Table aria-label="custom pagination table">
-                  <TableHead>
-                    <TableRow>
-                      <StyledTableCell>Customer</StyledTableCell>
-                      <StyledTableCell>Guest(s)</StyledTableCell>
-                      <StyledTableCell>Room type</StyledTableCell>
-                      <StyledTableCell>Amount</StyledTableCell>
-                      <StyledTableCell>Bed type</StyledTableCell>
-                      <StyledTableCell>Check-in</StyledTableCell>
-                      <StyledTableCell>Check-out</StyledTableCell>
-                      <StyledTableCell>Status</StyledTableCell>
-                    </TableRow>
-                  </TableHead>
-
-                  <TableBody>
-                    {(rowsPerPage > 0
-                      ? rows.slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage
-                        )
-                      : rows
-                    ).map((row, index) => (
-                      <StyledTableRow
-                        key={index}
-                        onClick={() => handleRowClick(row.book_id)}
-                        className="hover:bg-gray-200 hover:cursor-pointer"
-                      >
-                        <StyledTableCell className="w-[13%]">
-                          {row.customerName}
-                        </StyledTableCell>
-                        <StyledTableCell className="w-[8%]" align="center">
-                          {row.guest}
-                        </StyledTableCell>
-                        <StyledTableCell className="w-[18%]">
-                          {row.roomType}
-                        </StyledTableCell>
-                        <StyledTableCell className="w-[8%]" align="center">
-                          {row.amount}
-                        </StyledTableCell>
-                        <StyledTableCell className="w-[12.5%]">
-                          {row.bedType.slice(2)}
-                        </StyledTableCell>
-                        <StyledTableCell className="w-[14.5%]">
-                          {useFormattedDate(row.checkIn)}
-                        </StyledTableCell>
-                        <StyledTableCell className="w-[14.5%]">
-                          {useFormattedDate(row.checkOut)}
-                        </StyledTableCell>
-                        <StyledTableCell className="w-[11.5%]">
-                          <span
-                            className="Input-status"
-                            style={{
-                              color:
-                                statusTheme.palette.status[row.status]
-                                  .contrastText,
-                              backgroundColor:
-                                statusTheme.palette.status[row.status].main,
-                            }}
-                          >
-                            {row.status}
-                          </span>
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    ))}
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: 55.8 * emptyRows }}>
-                        <TableCell colSpan={8} />
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <div className="table-padding m-auto">
+              <Paper sx={{ overflow: "hidden" }}>
+                <TableContainer component={Paper}>
+                  <Table aria-label="custom pagination table">
+                    <TableHead>
+                      <TableRow>
+                        <StyledTableCell>Customer</StyledTableCell>
+                        <StyledTableCell>Guest(s)</StyledTableCell>
+                        <StyledTableCell>Room type</StyledTableCell>
+                        <StyledTableCell>Amount</StyledTableCell>
+                        <StyledTableCell>Bed type</StyledTableCell>
+                        <StyledTableCell>Check-in</StyledTableCell>
+                        <StyledTableCell>Check-out</StyledTableCell>
+                        <StyledTableCell>Status</StyledTableCell>
                       </TableRow>
-                    )}
-                  </TableBody>
+                    </TableHead>
 
-                  <TableFooter>
-                    <PaginationAdmin rows={rows} colSpan={5} />
-                  </TableFooter>
-                </Table>
-              </TableContainer>
-            </Paper>
-          </div>
+                    <TableBody>
+                      {(rowsPerPage > 0
+                        ? rows.slice(
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage
+                          )
+                        : rows
+                      ).map((row, index) => (
+                        <StyledTableRow
+                          key={index}
+                          onClick={() => handleRowClick(row.book_id)}
+                          className="hover:bg-gray-200 hover:cursor-pointer"
+                        >
+                          <StyledTableCell className="w-[13%]">
+                            {row.customerName}
+                          </StyledTableCell>
+                          <StyledTableCell className="w-[7%]" align="center">
+                            {row.guest}
+                          </StyledTableCell>
+                          <StyledTableCell className="w-[18%]">
+                            {row.roomType}
+                          </StyledTableCell>
+                          <StyledTableCell className="w-[7%]" align="center">
+                            {row.amount}
+                          </StyledTableCell>
+                          <StyledTableCell className="w-[11.5%]">
+                            {row.bedType.slice(2)}
+                          </StyledTableCell>
+                          <StyledTableCell className="w-[14.5%]">
+                            {useFormattedDate(row.checkIn)}
+                          </StyledTableCell>
+                          <StyledTableCell className="w-[14.5%]">
+                            {useFormattedDate(row.checkOut)}
+                          </StyledTableCell>
+                          <StyledTableCell className="w-[14.5%]">
+                            <span
+                              className="Input-status"
+                              style={{
+                                color:
+                                  statusTheme.palette.status[row.status]
+                                    .contrastText,
+                                backgroundColor:
+                                  statusTheme.palette.status[row.status].main,
+                              }}
+                            >
+                              {row.status}
+                            </span>
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      ))}
+                      {emptyRows > 0 && (
+                        <TableRow style={{ height: 59.8 * emptyRows }}>
+                          <TableCell colSpan={8} />
+                        </TableRow>
+                      )}
+                    </TableBody>
+
+                    <TableFooter>
+                      <PaginationAdmin rows={rows} colSpan={5} />
+                    </TableFooter>
+                  </Table>
+                </TableContainer>
+              </Paper>
+            </div>
+          )}
         </div>
       )}
     </div>

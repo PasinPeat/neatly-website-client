@@ -99,6 +99,7 @@ function BookingHistory() {
           />
         ))}
       </div>
+
       <Footer />
     </div>
   );

@@ -36,7 +36,7 @@ const styledTable = {
 
 export const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
   "&::-webkit-scrollbar": {
-    width: "3px",
+    width: "4px",
   },
   "&::-webkit-scrollbar-thumb": {
     backgroundColor: "#C8CCDB",
