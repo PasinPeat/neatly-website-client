@@ -42,19 +42,22 @@ function RoomDetailPageContent({
               <div className="flex justify-end">
                 <button
                   className="btn Button border-orange-600"
-                  
                   onClick={() => {
                     const userInput = {
                       checkInDate: "",
                       checkOutDate: "",
                       room: 1,
                       person: 2,
-                      night: 1
+                      night: 1,
                     };
-                    
+
                     // Convert the object to a JSON string before storing it
-                    localStorage.setItem("userInput", JSON.stringify(userInput));
-                    navigate("/search#top")}}
+                    localStorage.setItem(
+                      "userInput",
+                      JSON.stringify(userInput)
+                    );
+                    navigate("/search#top");
+                  }}
                 >
                   Find room
                 </button>

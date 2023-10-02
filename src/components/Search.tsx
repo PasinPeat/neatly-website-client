@@ -6,23 +6,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import dayjs from "dayjs";
 import "../App.css";
-
-// const useStyles = makeStyles((theme) => ({
-//   customDatePicker: {
-//     '& .MuiPickersModal-dialog': {
-//       // Custom styles for the date picker dialog
-//       backgroundColor: 'lightblue',
-//     },
-//     '& .MuiPickersDay-day': {
-//       // Custom styles for individual date cells
-//       color: 'green',
-//       '&.MuiPickersDay-daySelected': {
-//         backgroundColor: 'blue',
-//         color: 'white',
-//       },
-//     },
-//   },
-// }));
 import useToggleState from "../hooks/useToggleState";
 
 function Search({ seachResultBtn, onSearchResult, setUserInput }) {
@@ -32,7 +15,6 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
 
   const color: string = "#A0ACC3";
 
-  // const classes = useStyles();
   const theme = createTheme({
     components: {
       MuiIconButton: {
@@ -97,9 +79,6 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
   let [room, setRoom] = useState(initialState.room);
   let [person, setPerson] = useState(initialState.person);
   const [showDropdown, setShowDropdown] = useToggleState(false);
-
-  // const [isOpen, setIsOpen] = useState(false);
-  // let onlyDate = e.$d.toISOString();
 
   function handleSubmit(newValue) {
     newValue.preventDefault();
