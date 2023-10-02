@@ -72,7 +72,7 @@ export default function CustomPaginationActionsTable() {
 
   useEffect(() => {
     let timer;
-    if (selectedByText) {
+    if (selectedByText.length > 2) {
       if (sortBy === "all") {
         const filteredData1 = filterByName(booking);
         const filteredData2 = filterByRoomType(booking);
