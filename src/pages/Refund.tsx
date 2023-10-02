@@ -100,7 +100,7 @@ function Refund() {
                       <img
                         src={cancelBooking.room_details.room_images[2]}
                         alt="Room"
-                        className="rounded w-[357px] h-[210px]"
+                        className="rounded w-[357px] h-[210px] object-cover"
                       />
                     </div>
                   </div>
