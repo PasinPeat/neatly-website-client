@@ -296,28 +296,29 @@ function PaymentMethod() {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="modal-box flex flex-col rounded  items-center  shadow-xl w-[400px] h-[440px]">
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-20 w-screen h-screen">
+          <div className="modal-box flex flex-col items-center justify-center rounded shadow-xl w-[400px] h-[460px] bg-white">
             <img
               src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/check-mark-600.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NoZWNrLW1hcmstNjAwLnBuZyIsImlhdCI6MTY5NTg5OTA0OCwiZXhwIjoxNzI3NDM1MDQ4fQ.VhlmEajz9lcOHnjyCP7t3jYbFEYu-JGzQpq18PcC22Y&t=2023-09-28T11%3A04%3A08.587Z"
               alt="Check-Mark"
-              className="h-[150px] w-[150px]"
+              className="h-[150px] w-[150px] color-green-400"
             />
-            <h1 className="font-noto-serif-display text-[40px] font-semibold text-green-600">
-              Success!
+            <h1 className="font-noto-serif-display font-semibold text-[40px] text-green-600">
+              Success
             </h1>
-            <p className="py-4 font-bold text-[20px]  text-center">
-              Your payment details have <br /> been updated successfully. <br />
+            <p className="py-4 font-bold text-[20px] text-center">
+              Your profile details have <br /> been updated successfully
+              <br />
             </p>
             <div className="modal-action">
               <button
-                className="btn w-[200px] h-[50px] bg-green-600 rounded  hover:bg-green-500 font-noto-serif-display text-[28px]  text-white "
+                className="w-[200px] h-[50px] rounded-md bg-green-600 border-none hover:bg-green-500 text-[24px] active:bg-green-700 text-white"
                 onClick={() => {
                   setIsModalOpen(false);
                   navigate("/");
                 }}
               >
-                CLOSE
+                Close
               </button>
             </div>
           </div>
