@@ -93,11 +93,11 @@ function CancelBooking() {
             </h1>
             <div className=" mt-10 mb-12">
               <div className="flex flex-row justify-between ">
-                <div className="w-[357px] h-[210px]  bg-cover bg-center">
+                <div>
                   <img
                     src={cancelBooking.room_details.room_images[2]}
                     alt="Room"
-                    className="rounded w-[357px] h-[210px]"
+                    className="rounded w-[357px] h-[210px] object-cover"
                   />
                 </div>
 

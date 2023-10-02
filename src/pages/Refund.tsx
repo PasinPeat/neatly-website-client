@@ -28,6 +28,7 @@ function Refund() {
       room_avaliable_id: "",
     },
     user_id: null,
+    amount_room: "",
   });
 
   const getData = async () => {
@@ -96,7 +97,7 @@ function Refund() {
               <div className="flex flex-col gap-12 py-10">
                 <div className="w-full flex justify-between mb-2">
                   <div>
-                    <div className="w-[357px] h-[210px] rounded bg-cover bg-center">
+                    <div>
                       <img
                         src={cancelBooking.room_details.room_images[2]}
                         alt="Room"
@@ -144,7 +145,8 @@ function Refund() {
                               <span className="text-headline5 text-gray-900">
                                 THB{" "}
                                 {useFormattedPrice(
-                                  cancelBooking.total_price_add_reqs
+                                  cancelBooking.total_price_add_reqs /
+                                    cancelBooking.amount_room
                                 )}
                               </span>
                             </div>
