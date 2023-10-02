@@ -338,16 +338,16 @@ export default function CustomPaginationActionsTable() {
                           <StyledTableCell className="w-[13%]">
                             {row.customerName}
                           </StyledTableCell>
-                          <StyledTableCell className="w-[8%]" align="center">
+                          <StyledTableCell className="w-[7%]" align="center">
                             {row.guest}
                           </StyledTableCell>
                           <StyledTableCell className="w-[18%]">
                             {row.roomType}
                           </StyledTableCell>
-                          <StyledTableCell className="w-[8%]" align="center">
+                          <StyledTableCell className="w-[7%]" align="center">
                             {row.amount}
                           </StyledTableCell>
-                          <StyledTableCell className="w-[12.5%]">
+                          <StyledTableCell className="w-[11.5%]">
                             {row.bedType.slice(2)}
                           </StyledTableCell>
                           <StyledTableCell className="w-[14.5%]">
@@ -356,7 +356,7 @@ export default function CustomPaginationActionsTable() {
                           <StyledTableCell className="w-[14.5%]">
                             {useFormattedDate(row.checkOut)}
                           </StyledTableCell>
-                          <StyledTableCell className="w-[11.5%]">
+                          <StyledTableCell className="w-[14.5%]">
                             <span
                               className="Input-status"
                               style={{
