@@ -62,7 +62,7 @@ function RoomDetailPopup({
               </p>
               <ul className="columns-2 pl-6 list-disc break-inside-avoid-column">
                 {amenity.map((item) => {
-                  return <li>{item}</li>;
+                  return <li className="max-w-[300px]">{item}</li>;
                 })}
               </ul>
             </div>

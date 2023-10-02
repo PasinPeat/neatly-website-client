@@ -71,12 +71,12 @@ function RoomDetailPageContent({
           </div>
           <div className="">
             <ul
-              className={` list-disc grid grid-cols-1  gap-2 ${
+              className={` list-disc ml-6 grid grid-cols-1 gap-2 ${
                 amenity.length > 8 ? "md:grid-cols-2" : "md:grid-cols-1"
               }`}
             >
               {amenity.map((item) => {
-                return <li>{item}</li>;
+                return <li className="max-w-[300px]">{item}</li>;
               })}
             </ul>
           </div>

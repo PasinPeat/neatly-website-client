@@ -333,7 +333,7 @@ function Register() {
   });
 
   return (
-    <div className="flex flex-col items-center w-screen bg-coverRegister bg-cover">
+    <div className="flex flex-col items-center bg-coverRegister bg-cover">
       <Navbar />
 
       <div className="w-[1000px] flex flex-col justify-center items-start p-20 my-[90px] bg-bg shadow-md rounded">
