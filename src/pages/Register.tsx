@@ -843,7 +843,7 @@ function Register() {
                 disabled={isLoading}
               >
                 {isLoading ? (
-                  <Loader size={7} color={`orange-600`} />
+                  <span className="loading loading-spinner w-7 bg-orange-600"></span>
                 ) : (
                   "Register"
                 )}

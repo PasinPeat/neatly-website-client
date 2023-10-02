@@ -1,7 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
 import { useAuth } from "../contexts/authen.jsx";
-import { useEffect } from "react";
 
 function Navbar() {
   //@ts-ignore

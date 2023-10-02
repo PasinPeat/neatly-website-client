@@ -42,6 +42,7 @@ function RoomDetailPageContent({
               <div className="flex justify-end">
                 <button
                   className="btn Button border-orange-600"
+<<<<<<< Updated upstream
                   
                   onClick={() => {
                     const userInput = {
@@ -55,6 +56,9 @@ function RoomDetailPageContent({
                     // Convert the object to a JSON string before storing it
                     localStorage.setItem("userInput", JSON.stringify(userInput));
                     navigate("/search#top")}}
+=======
+                  onClick={() => navigate("/search")}
+>>>>>>> Stashed changes
                 >
                   Find room
                 </button>
