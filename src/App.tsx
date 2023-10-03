@@ -13,7 +13,7 @@ import ChangeDate from "./pages/ChangeDate.tsx";
 import Refund from "./pages/Refund.tsx";
 import CancleBooking from "./pages/CancelBooking.tsx";
 import axios from "axios";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { RoomsProps } from "./interfaces/RoomsProps.tsx";
 import BookingHistory from "./pages/BookingHistory.tsx";
@@ -132,9 +132,9 @@ function App() {
     <>
       <Routes>
         <Route path="/admin" element={<Admin />}>
-          <Route  path="/admin/customerBooking" element={<CustomerBooking />} />
-          <Route  path="/admin/RoomManagement" element={<RoomManagement />} />
-          <Route  path="/admin/RoomAndProperty" element={<RoomAndProperty />} />
+          <Route  path="/admin/customerBooking" element={[<Admin />,<CustomerBooking />]} />
+          <Route  path="/admin/RoomManagement" element={[<Admin />,<RoomManagement />]} />
+          <Route  path="/admin/RoomAndProperty" element={[<Admin />,<RoomAndProperty />]} />
         </Route>
 
         <Route path="/login" element={<Login />} />
