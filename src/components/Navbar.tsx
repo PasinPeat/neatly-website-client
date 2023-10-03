@@ -85,16 +85,14 @@ function Navbar() {
                 } flex flex-row`}
               >
                 <div
+                  onClick={toggleDropdown}
                   className={`flex justify-center items-center w-12 h-12 rounded-full bg-gray-100 mr-4 relative border ${
                     Array.isArray(notification) && notification.length > 0
                       ? "hover:border-orange-500"
                       : null
                   }`}
                 >
-                  <img
-                    onClick={toggleDropdown}
-                    src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/Frame.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL0ZyYW1lLnBuZyIsImlhdCI6MTY5NjA2OTE4OCwiZXhwIjoxNzI3NjA1MTg4fQ.8XKGfs9tibHfNFCfwJt7FdZfLlmTxt-DYtYcSRyExl8&t=2023-09-30T10%3A19%3A48.642Z"
-                  ></img>
+                  <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/Frame.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL0ZyYW1lLnBuZyIsImlhdCI6MTY5NjA2OTE4OCwiZXhwIjoxNzI3NjA1MTg4fQ.8XKGfs9tibHfNFCfwJt7FdZfLlmTxt-DYtYcSRyExl8&t=2023-09-30T10%3A19%3A48.642Z"></img>
                   {Array.isArray(notification) && notification.length > 0 ? (
                     <>
                       <div className="flex bg-orange-500 w-4 h-4 absolute bottom-0 right-0 rounded-lg justify-center items-center text-[12px] text-white font-noto-serif-display">
@@ -300,16 +298,14 @@ function Navbar() {
                 } flex flex-row`}
               >
                 <div
+                  onClick={toggleDropdown}
                   className={`flex justify-center items-center w-12 h-12 rounded-full bg-gray-100 mr-4 relative border ${
                     Array.isArray(notification) && notification.length > 0
                       ? "hover:border-orange-500"
                       : null
                   }`}
                 >
-                  <img
-                    onClick={toggleDropdown}
-                    src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/Frame.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL0ZyYW1lLnBuZyIsImlhdCI6MTY5NjA2OTE4OCwiZXhwIjoxNzI3NjA1MTg4fQ.8XKGfs9tibHfNFCfwJt7FdZfLlmTxt-DYtYcSRyExl8&t=2023-09-30T10%3A19%3A48.642Z"
-                  ></img>
+                  <img src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/Frame.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL0ZyYW1lLnBuZyIsImlhdCI6MTY5NjA2OTE4OCwiZXhwIjoxNzI3NjA1MTg4fQ.8XKGfs9tibHfNFCfwJt7FdZfLlmTxt-DYtYcSRyExl8&t=2023-09-30T10%3A19%3A48.642Z"></img>
                   {Array.isArray(notification) && notification.length > 0 ? (
                     <>
                       <div className="flex bg-orange-500 w-4 h-4 absolute bottom-0 right-0 rounded-lg justify-center items-center text-[12px] text-white font-noto-serif-display">

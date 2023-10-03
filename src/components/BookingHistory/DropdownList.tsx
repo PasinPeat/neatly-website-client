@@ -47,7 +47,12 @@ function DropDownList({
     <>
       <div className=" pt-5 ">
         <List
-          sx={{ padding: "0px", width: "100%", bgcolor: "#F1F2F6" }}
+          sx={{
+            padding: "0px",
+            width: "100%",
+            bgcolor: "#F1F2F6",
+            borderRadius: "4px",
+          }}
           component="nav"
           aria-labelledby="nested-list-subheader"
         >
@@ -131,7 +136,13 @@ function DropDownList({
             <List
               component="div"
               disablePadding
-              sx={{ px: 4, py: 1, bgcolor: "#E4E6ED" }}
+              sx={{
+                px: 4,
+                py: 1,
+                bgcolor: "#E4E6ED",
+                borderBottomRightRadius: "4px",
+                borderBottomLeftRadius: "4px",
+              }}
             >
               <div className="flex flex-col justify-between w-full py-4">
                 <p className="text-body1 font-bold">Additional Request</p>
