@@ -162,9 +162,9 @@ function PaymentMethod() {
   };
 
   return (
-    <div className="flex flex-col items-center w-screen bg-bg">
+    <div className="flex flex-col items-center h-screen w-screen bg-bg">
       <Navbar />
-      <div className="flex flex-col w-[930px] mb-[480px] ">
+      <div className="flex flex-col">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-row justify-between mt-20 items-center">
             <h1 className="font-noto-serif-display text-[68px] font-medium mb-[25px] text-green-800">

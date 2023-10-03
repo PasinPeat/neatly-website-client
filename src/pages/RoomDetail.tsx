@@ -1,4 +1,3 @@
-import React from "react";
 import Navbar from "../components/Navbar";
 import RoomDetailSlidebar from "../components/RoomDetail/RoomDetailSlidebar";
 import RoomDetailPageContent from "../components/RoomDetail/RoomDetailPageContent";
@@ -80,6 +79,7 @@ function RoomDetail() {
         price={roomDetail.price}
         promotionPrice={roomDetail.promotion_price}
         amenity={roomDetail.amenity}
+        person={roomDetail.person}
       />
       <RoomDetailPageOtherRoom otherRooms={otherRooms} />
       <Footer />

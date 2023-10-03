@@ -10,6 +10,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ function Login() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     const data = {
       loginIdentifier,
       password,
@@ -127,8 +129,13 @@ function Login() {
               <button
                 className="btn Button w-full border-none mb-4"
                 type="submit"
+                disabled={isLoading}
               >
-                Log In
+                {isLoading ? (
+                  <span className="loading loading-spinner w-7 bg-orange-600"></span>
+                ) : (
+                  "Log In"
+                )}
               </button>
             </div>
             <p className="text-gray-700 font-body1 text-start">

@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
 import { useAuth } from "../contexts/authen.jsx";
+import { useState } from "react";
 
 function Navbar() {
   //@ts-ignore
@@ -35,6 +36,11 @@ function Navbar() {
     logout();
     navigate("/login");
   }
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   if (location.pathname === "/") {
     return (
@@ -79,6 +85,7 @@ function Navbar() {
                 } flex flex-row`}
               >
                 <div
+                  onClick={toggleDropdown}
                   className={`flex justify-center items-center w-12 h-12 rounded-full bg-gray-100 mr-4 relative border ${
                     Array.isArray(notification) && notification.length > 0
                       ? "hover:border-orange-500"
@@ -95,28 +102,30 @@ function Navbar() {
                   ) : null}
                 </div>
               </label>
-              <ul
-                tabIndex={0}
-                className="dropdown-content absolute top-[70px] rounded-[4px] w-[350px] z-10 drop-shadow-lg bg-white px-2 overflow-y-auto max-h-[200px]"
-              >
-                {Array.isArray(notification) && notification.length > 0
-                  ? notification.map((noti, index) => (
-                      <li
-                        key={index}
-                        className="text-[14px] px-2 py-1 hover:bg-gray-200"
-                      >
-                        <div className="flex flex-row justify-between items-center hover:cursor-default">
-                          <img
-                            className="w-10 h-10 mr-5"
-                            src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/noti-image.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL25vdGktaW1hZ2UucG5nIiwiaWF0IjoxNjk2MDcwMjE1LCJleHAiOjE3Mjc2MDYyMTV9.wZ3upw5bmvD3c2eUDazWYX7qlixRc7y5hZtBSiQlq7A&t=2023-09-30T10%3A36%3A55.588Z"
-                          ></img>
-                          <span className="text-gray-700 ">{noti}</span>
-                        </div>
-                        <hr className="mt-2 border-gray-400  mb-1"></hr>
-                      </li>
-                    ))
-                  : null}
-              </ul>
+              {isDropdownOpen && (
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content absolute top-[82px] rounded w-[350px] z-10 drop-shadow-lg bg-white px-2 overflow-y-auto max-h-[200px]"
+                >
+                  {Array.isArray(notification) && notification.length > 0
+                    ? notification.map((noti, index) => (
+                        <li
+                          key={index}
+                          className="text-[14px] px-2 py-1 hover:bg-gray-200"
+                        >
+                          <div className="flex flex-row justify-between items-center hover:cursor-default">
+                            <img
+                              className="w-10 h-10 mr-5"
+                              src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/noti-image.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL25vdGktaW1hZ2UucG5nIiwiaWF0IjoxNjk2MDcwMjE1LCJleHAiOjE3Mjc2MDYyMTV9.wZ3upw5bmvD3c2eUDazWYX7qlixRc7y5hZtBSiQlq7A&t=2023-09-30T10%3A36%3A55.588Z"
+                            ></img>
+                            <span className="text-gray-700 ">{noti}</span>
+                          </div>
+                          <hr className="mt-2 border-gray-400  mb-1"></hr>
+                        </li>
+                      ))
+                    : null}
+                </ul>
+              )}
             </div>
             <div className="dropdown dropdown-end z-20">
               <label
@@ -126,71 +135,74 @@ function Navbar() {
                 <div
                   className="bg-cover bg-center w-12 h-12 rounded-full"
                   style={{ backgroundImage: `url(${userProfileImage})` }}
+                  onClick={toggleDropdown}
                 ></div>
               </label>
-              <ul
-                tabIndex={0}
-                className=" menu dropdown-content absolute top-[70px] -left-20 rounded-[4px] z-10 drop-shadow-lg bg-white w-52 [&_li>*]:rounded-[4px]"
-              >
-                <li>
-                  <button
-                    className="py-2 px-2"
-                    onClick={() =>
-                      navigate(`/profile/${auth.state.userData.id}`)
-                    }
-                  >
-                    <img
-                      className="w-4 h-4"
-                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/profile.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL3Byb2ZpbGUuc3ZnIiwiaWF0IjoxNjk0NDA0NTg3LCJleHAiOjE3MjU5NDA1ODd9.vDd8aSTyukskfIfkrxEkLxUXT4FmUzE-tprRpxC3Y2Y&t=2023-09-11T03%3A56%3A25.801Z"
-                    ></img>
-                    <span className="text-gray-700">Profile</span>
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="py-2 px-2"
-                    onClick={() =>
-                      navigate(
-                        `/paymentmethod/${auth.state.userData.credit_card_id}`
-                      )
-                    }
-                  >
-                    <img
-                      className="w-4 h-4"
-                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/credit.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NyZWRpdC5zdmciLCJpYXQiOjE2OTQ0MDU3MDUsImV4cCI6MTcyNTk0MTcwNX0.wwSq3XrBgaEqb4U3QeRXYhQjKItIn7FSStx40IDj7jE&t=2023-09-11T04%3A15%3A04.217Z"
-                    ></img>
-                    <span className="text-gray-700">Payment Method</span>
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="py-2 px-2"
-                    onClick={() => {
-                      navigate(`/booking/user/${auth.state.userData.id}`);
-                      window.location.reload();
-                    }}
-                  >
-                    <img
-                      className="w-4 h-4"
-                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/booking_history.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2Jvb2tpbmdfaGlzdG9yeS5zdmciLCJpYXQiOjE2OTQ0MDU3MzksImV4cCI6MTcyNTk0MTczOX0.8Fjox_ROepJ6S3GYITg9FKlG2s1Wzk6ahtnEXYmWnI8&t=2023-09-11T04%3A15%3A38.237Z"
-                    ></img>
-                    <span className="text-gray-700">Booking History</span>
-                  </button>
-                </li>
-                <hr className="mt-2 border-gray-400"></hr>
-                <li>
-                  <button
-                    className="py-2 px-2"
-                    onClick={() => logoutAndNavigate()}
-                  >
-                    <img
-                      className="w-4 h-4"
-                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/logout.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2xvZ291dC5zdmciLCJpYXQiOjE2OTQ0MDUyMjcsImV4cCI6MTcyNTk0MTIyN30.QQWg08pQQG_UXibP0RzqSxor94ssvDnTFV7t5oh56QE&t=2023-09-11T04%3A07%3A05.943Z"
-                    ></img>
-                    <span className="text-gray-700">Log Out</span>
-                  </button>
-                </li>
-              </ul>
+              {isDropdownOpen && (
+                <ul
+                  tabIndex={0}
+                  className="menu dropdown-content absolute top-[82px] -left-20 rounded-[4px] z-10 drop-shadow-lg bg-white w-52 [&_li>*]:rounded-[4px]"
+                >
+                  <li>
+                    <button
+                      className="py-2 px-2"
+                      onClick={() =>
+                        navigate(`/profile/${auth.state.userData.id}`)
+                      }
+                    >
+                      <img
+                        className="w-4 h-4"
+                        src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/profile.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL3Byb2ZpbGUuc3ZnIiwiaWF0IjoxNjk0NDA0NTg3LCJleHAiOjE3MjU5NDA1ODd9.vDd8aSTyukskfIfkrxEkLxUXT4FmUzE-tprRpxC3Y2Y&t=2023-09-11T03%3A56%3A25.801Z"
+                      ></img>
+                      <span className="text-gray-700">Profile</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="py-2 px-2"
+                      onClick={() =>
+                        navigate(
+                          `/paymentmethod/${auth.state.userData.credit_card_id}`
+                        )
+                      }
+                    >
+                      <img
+                        className="w-4 h-4"
+                        src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/credit.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NyZWRpdC5zdmciLCJpYXQiOjE2OTQ0MDU3MDUsImV4cCI6MTcyNTk0MTcwNX0.wwSq3XrBgaEqb4U3QeRXYhQjKItIn7FSStx40IDj7jE&t=2023-09-11T04%3A15%3A04.217Z"
+                      ></img>
+                      <span className="text-gray-700">Payment Method</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="py-2 px-2"
+                      onClick={() => {
+                        navigate(`/booking/user/${auth.state.userData.id}`);
+                        window.location.reload();
+                      }}
+                    >
+                      <img
+                        className="w-4 h-4"
+                        src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/booking_history.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2Jvb2tpbmdfaGlzdG9yeS5zdmciLCJpYXQiOjE2OTQ0MDU3MzksImV4cCI6MTcyNTk0MTczOX0.8Fjox_ROepJ6S3GYITg9FKlG2s1Wzk6ahtnEXYmWnI8&t=2023-09-11T04%3A15%3A38.237Z"
+                      ></img>
+                      <span className="text-gray-700">Booking History</span>
+                    </button>
+                  </li>
+                  <hr className="mt-2 border-gray-400"></hr>
+                  <li>
+                    <button
+                      className="py-2 px-2"
+                      onClick={() => logoutAndNavigate()}
+                    >
+                      <img
+                        className="w-4 h-4"
+                        src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/logout.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2xvZ291dC5zdmciLCJpYXQiOjE2OTQ0MDUyMjcsImV4cCI6MTcyNTk0MTIyN30.QQWg08pQQG_UXibP0RzqSxor94ssvDnTFV7t5oh56QE&t=2023-09-11T04%3A07%3A05.943Z"
+                      ></img>
+                      <span className="text-gray-700">Log Out</span>
+                    </button>
+                  </li>
+                </ul>
+              )}
             </div>
           </div>
         ) : (
@@ -205,16 +217,16 @@ function Navbar() {
               className="btn Button"
               onClick={(e) => {
                 e.preventDefault();
-                  const userInput = {
-                    checkInDate: "",
-                    checkOutDate: "",
-                    room: 1,
-                    person: 2,
-                    night: 1
-                  };
-                  
-                  // Convert the object to a JSON string before storing it
-                  localStorage.setItem("userInput", JSON.stringify(userInput));
+                const userInput = {
+                  checkInDate: "",
+                  checkOutDate: "",
+                  room: 1,
+                  person: 2,
+                  night: 1,
+                };
+
+                // Convert the object to a JSON string before storing it
+                localStorage.setItem("userInput", JSON.stringify(userInput));
                 navigate("/search");
               }}
             >
@@ -286,6 +298,7 @@ function Navbar() {
                 } flex flex-row`}
               >
                 <div
+                  onClick={toggleDropdown}
                   className={`flex justify-center items-center w-12 h-12 rounded-full bg-gray-100 mr-4 relative border ${
                     Array.isArray(notification) && notification.length > 0
                       ? "hover:border-orange-500"
@@ -302,28 +315,30 @@ function Navbar() {
                   ) : null}
                 </div>
               </label>
-              <ul
-                tabIndex={0}
-                className="dropdown-content absolute top-[70px] rounded-[4px] w-[350px] z-10 drop-shadow-lg bg-white px-2 overflow-y-auto max-h-[200px]"
-              >
-                {Array.isArray(notification) && notification.length > 0
-                  ? notification.map((noti, index) => (
-                      <li
-                        key={index}
-                        className="text-[14px] px-2 py-1 hover:bg-gray-200"
-                      >
-                        <div className="flex flex-row justify-between items-center hover:cursor-default">
-                          <img
-                            className="w-10 h-10 mr-5"
-                            src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/noti-image.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL25vdGktaW1hZ2UucG5nIiwiaWF0IjoxNjk2MDcwMjE1LCJleHAiOjE3Mjc2MDYyMTV9.wZ3upw5bmvD3c2eUDazWYX7qlixRc7y5hZtBSiQlq7A&t=2023-09-30T10%3A36%3A55.588Z"
-                          ></img>
-                          <span className="text-gray-700 ">{noti}</span>
-                        </div>
-                        <hr className="mt-2 border-gray-400  mb-1"></hr>
-                      </li>
-                    ))
-                  : null}
-              </ul>
+              {isDropdownOpen && (
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content absolute top-[82px] rounded w-[350px] z-10 drop-shadow-lg bg-white px-2 overflow-y-auto max-h-[200px]"
+                >
+                  {Array.isArray(notification) && notification.length > 0
+                    ? notification.map((noti, index) => (
+                        <li
+                          key={index}
+                          className="text-[14px] px-2 py-1 hover:bg-gray-200"
+                        >
+                          <div className="flex flex-row justify-between items-center hover:cursor-default">
+                            <img
+                              className="w-10 h-10 mr-5"
+                              src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/noti-image.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL25vdGktaW1hZ2UucG5nIiwiaWF0IjoxNjk2MDcwMjE1LCJleHAiOjE3Mjc2MDYyMTV9.wZ3upw5bmvD3c2eUDazWYX7qlixRc7y5hZtBSiQlq7A&t=2023-09-30T10%3A36%3A55.588Z"
+                            ></img>
+                            <span className="text-gray-700 ">{noti}</span>
+                          </div>
+                          <hr className="mt-2 border-gray-400 mb-1"></hr>
+                        </li>
+                      ))
+                    : null}
+                </ul>
+              )}
             </div>
             <div className="dropdown dropdown-end z-20">
               <label
@@ -333,68 +348,74 @@ function Navbar() {
                 <div
                   className="bg-cover bg-center w-12 h-12 rounded-full"
                   style={{ backgroundImage: `url(${userProfileImage})` }}
+                  onClick={toggleDropdown}
                 ></div>
               </label>
-              <ul
-                tabIndex={0}
-                className="menu dropdown-content absolute top-[65px] -left-20 rounded-[4px] z-[1] drop-shadow-lg w-52 mt-4 px-2 [&_li>*]:rounded-[4px] bg-white"
-              >
-                <li>
-                  <button
-                    className="py-2"
-                    onClick={() =>
-                      navigate(`/profile/${auth.state.userData.id}`)
-                    }
-                  >
-                    <img
-                      className="w-4 h-4"
-                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/profile.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL3Byb2ZpbGUuc3ZnIiwiaWF0IjoxNjk0NDA0NTg3LCJleHAiOjE3MjU5NDA1ODd9.vDd8aSTyukskfIfkrxEkLxUXT4FmUzE-tprRpxC3Y2Y&t=2023-09-11T03%3A56%3A25.801Z"
-                    ></img>
-                    <span className="text-gray-700">Profile</span>
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="py-2"
-                    onClick={() =>
-                      navigate(
-                        `/paymentmethod/${auth.state.userData.credit_card_id}`
-                      )
-                    }
-                  >
-                    <img
-                      className="w-4 h-4"
-                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/credit.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NyZWRpdC5zdmciLCJpYXQiOjE2OTUwMTY3OTYsImV4cCI6MTcyNjU1Mjc5Nn0.-yf1cXPo7kI1UmUzqxlNKB52Ljq-haxosjubFwsuWX4&t=2023-09-18T05%3A59%3A58.024Z"
-                    ></img>
-                    <span className="text-gray-700">Payment Method</span>
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="py-2"
-                    onClick={() => {
-                      navigate(`/booking/user/${auth.state.userData.id}`);
-                      window.location.reload();
-                    }}
-                  >
-                    <img
-                      className="w-4 h-4"
-                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/booking_history.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2Jvb2tpbmdfaGlzdG9yeS5zdmciLCJpYXQiOjE2OTQ0MDU3MzksImV4cCI6MTcyNTk0MTczOX0.8Fjox_ROepJ6S3GYITg9FKlG2s1Wzk6ahtnEXYmWnI8&t=2023-09-11T04%3A15%3A38.237Z"
-                    ></img>
-                    <span className="text-gray-700">Booking History</span>
-                  </button>
-                </li>
-                <hr className="mt-2 border-gray-400"></hr>
-                <li>
-                  <button className="py-2" onClick={() => logoutAndNavigate()}>
-                    <img
-                      className="w-4 h-4"
-                      src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/logout.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2xvZ291dC5zdmciLCJpYXQiOjE2OTQ0MDUyMjcsImV4cCI6MTcyNTk0MTIyN30.QQWg08pQQG_UXibP0RzqSxor94ssvDnTFV7t5oh56QE&t=2023-09-11T04%3A07%3A05.943Z"
-                    ></img>
-                    <span className="text-gray-700">Log Out</span>
-                  </button>
-                </li>
-              </ul>
+              {isDropdownOpen && (
+                <ul
+                  tabIndex={0}
+                  className="menu dropdown-content absolute top-[65px] -left-20 rounded-[4px] z-[1] drop-shadow-lg w-52 mt-4 px-2 [&_li>*]:rounded-[4px] bg-white"
+                >
+                  <li>
+                    <button
+                      className="py-2"
+                      onClick={() =>
+                        navigate(`/profile/${auth.state.userData.id}`)
+                      }
+                    >
+                      <img
+                        className="w-4 h-4"
+                        src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/profile.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL3Byb2ZpbGUuc3ZnIiwiaWF0IjoxNjk0NDA0NTg3LCJleHAiOjE3MjU5NDA1ODd9.vDd8aSTyukskfIfkrxEkLxUXT4FmUzE-tprRpxC3Y2Y&t=2023-09-11T03%3A56%3A25.801Z"
+                      ></img>
+                      <span className="text-gray-700">Profile</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="py-2"
+                      onClick={() =>
+                        navigate(
+                          `/paymentmethod/${auth.state.userData.credit_card_id}`
+                        )
+                      }
+                    >
+                      <img
+                        className="w-4 h-4"
+                        src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/credit.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2NyZWRpdC5zdmciLCJpYXQiOjE2OTUwMTY3OTYsImV4cCI6MTcyNjU1Mjc5Nn0.-yf1cXPo7kI1UmUzqxlNKB52Ljq-haxosjubFwsuWX4&t=2023-09-18T05%3A59%3A58.024Z"
+                      ></img>
+                      <span className="text-gray-700">Payment Method</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="py-2"
+                      onClick={() => {
+                        navigate(`/booking/user/${auth.state.userData.id}`);
+                        window.location.reload();
+                      }}
+                    >
+                      <img
+                        className="w-4 h-4"
+                        src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/booking_history.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2Jvb2tpbmdfaGlzdG9yeS5zdmciLCJpYXQiOjE2OTQ0MDU3MzksImV4cCI6MTcyNTk0MTczOX0.8Fjox_ROepJ6S3GYITg9FKlG2s1Wzk6ahtnEXYmWnI8&t=2023-09-11T04%3A15%3A38.237Z"
+                      ></img>
+                      <span className="text-gray-700">Booking History</span>
+                    </button>
+                  </li>
+                  <hr className="mt-2 border-gray-400"></hr>
+                  <li>
+                    <button
+                      className="py-2"
+                      onClick={() => logoutAndNavigate()}
+                    >
+                      <img
+                        className="w-4 h-4"
+                        src="https://kewjjbauwpznfmeqbdpp.supabase.co/storage/v1/object/sign/dev-storage/icon/logout.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2xvZ291dC5zdmciLCJpYXQiOjE2OTQ0MDUyMjcsImV4cCI6MTcyNTk0MTIyN30.QQWg08pQQG_UXibP0RzqSxor94ssvDnTFV7t5oh56QE&t=2023-09-11T04%3A07%3A05.943Z"
+                      ></img>
+                      <span className="text-gray-700">Log Out</span>
+                    </button>
+                  </li>
+                </ul>
+              )}
             </div>
           </div>
         ) : (
@@ -411,16 +432,16 @@ function Navbar() {
                 to="#book"
                 onClick={(e) => {
                   e.preventDefault();
-                    const userInput = {
-                      checkInDate: "",
-                      checkOutDate: "",
-                      room: 1,
-                      person: 2,
-                      night: 1
-                    };
-                    
-                    // Convert the object to a JSON string before storing it
-                    localStorage.setItem("userInput", JSON.stringify(userInput));
+                  const userInput = {
+                    checkInDate: "",
+                    checkOutDate: "",
+                    room: 1,
+                    person: 2,
+                    night: 1,
+                  };
+
+                  // Convert the object to a JSON string before storing it
+                  localStorage.setItem("userInput", JSON.stringify(userInput));
                   navigate("/search");
                 }}
               >
