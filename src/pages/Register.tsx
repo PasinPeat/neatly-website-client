@@ -850,7 +850,7 @@ function Register() {
               </button>
 
               <span className="text-gray-700 font-body1">
-                Already have an account?
+                Already have an account?{" "}
                 <a
                   href="/login"
                   className="text-orange-500 font-semibold hover:underline"
