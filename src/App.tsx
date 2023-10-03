@@ -13,13 +13,15 @@ import ChangeDate from "./pages/ChangeDate.tsx";
 import Refund from "./pages/Refund.tsx";
 import CancleBooking from "./pages/CancelBooking.tsx";
 import axios from "axios";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { RoomsProps } from "./interfaces/RoomsProps.tsx";
 import BookingHistory from "./pages/BookingHistory.tsx";
 import { BookingsProvider } from "./contexts/BookingContext.jsx";
 import Admin from "./pages/Admin.tsx";
-import BookingDetails from "./components/Admin/BookingDetails.tsx";
+import CustomerBooking from "./components/Admin/CustomerBooking.tsx";
+import RoomManagement from "./components/Admin/RoomManagement.tsx";
+import RoomAndProperty from "./components/Admin/RoomAndProperty.tsx";
 import jwtDecode from "jwt-decode";
 
 export const RoomsContext = React.createContext();
@@ -129,7 +131,12 @@ function App() {
   const adminRoutes = (
     <>
       <Routes>
-        <Route path="/" element={<Admin />} />
+        <Route path="/admin" element={<Admin />}>
+          <Route  path="/admin/customerBooking" element={<CustomerBooking />} />
+          <Route  path="/admin/RoomManagement" element={<RoomManagement />} />
+          <Route  path="/admin/RoomAndProperty" element={<RoomAndProperty />} />
+        </Route>
+
         <Route path="/login" element={<Login />} />
       </Routes>
     </>

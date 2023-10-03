@@ -25,7 +25,7 @@ interface BookingType {
   room_status: string;
 }
 
-export default function CustomPaginationActionsTable() {
+function RoomManagement() {
   const [booking, setBooking] = useState<BookingType[]>([]);
   const [filterBookingList, setFilterBookingList] = useState<BookingType[]>([]);
   const [selectedByText, setSelectedByText] = useState<string>("");
@@ -215,3 +215,4 @@ export default function CustomPaginationActionsTable() {
     </>
   );
 }
+export default RoomManagement

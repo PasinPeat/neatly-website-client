@@ -121,7 +121,7 @@ function AuthProvider(props) {
       const userDataFromToken = jwtDecode(token);
       setState({ ...state, user: userDataFromToken, userData: userData });
       if (role === "admin") {
-        navigate("/");
+        navigate("/admin");
         window.location.reload();
       } else {
         navigate("/");

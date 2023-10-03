@@ -36,33 +36,29 @@ function Admin() {
 
   const [customerBooking, setCustomerBooking] = useState(true);
   const [roomManage, setRoomManage] = useState(false);
-  const [hotelInfo, setHotelInfo] = useState(false);
+
   const [roomandProperty, setRoomandProperty] = useState(false);
 
   const handleCustomerBooking = () => {
     setCustomerBooking(true);
     setRoomManage(false);
-    setHotelInfo(false);
     setRoomandProperty(false);
   };
   const handleRoomManage = () => {
     setCustomerBooking(false);
     setRoomManage(true);
-    setHotelInfo(false);
     setRoomandProperty(false);
   };
 
   const handleHotelInfo = () => {
     setCustomerBooking(false);
     setRoomManage(false);
-    setHotelInfo(true);
     setRoomandProperty(false);
   };
 
   const handleRoomandProperty = () => {
     setCustomerBooking(false);
     setRoomManage(false);
-    setHotelInfo(false);
     setRoomandProperty(true);
   };
 
@@ -94,7 +90,6 @@ function Admin() {
               <SidebarItems
                 customerBooking={customerBooking}
                 roomManage={roomManage}
-                hotelInfo={hotelInfo}
                 roomandProperty={roomandProperty}
                 handleCustomerBooking={handleCustomerBooking}
                 handleRoomManage={handleRoomManage}
@@ -107,7 +102,6 @@ function Admin() {
         <div className="w-[100vw-240px] ml-[240px] min-h-screen">
           {customerBooking && <CustomerBooking />}
           {roomManage && <RoomManagement />}
-          {hotelInfo && <HotelInformation />}
           {roomandProperty && <RoomAndProperty />}
         </div>
       </div>

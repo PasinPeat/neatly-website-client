@@ -18,7 +18,7 @@ import SearchAdmin from "./SearchAdmin";
 import NavbarAdmin from "./NavbarAdmin";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { useNavigate } from "react-router-dom";
 function createData(
   image: string,
   type: string,
@@ -70,7 +70,7 @@ function RoomAndProperty() {
   const [amenityError, setAmenityError] = useState(false);
   const [formError, setFormError] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
   const getRooms = async () => {
     try {
       const results = await axios(`http://localhost:4000/room/`);
@@ -222,8 +222,12 @@ function RoomAndProperty() {
         await axios.put(`http://localhost:4000/room/${id}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
+        
         setShowPage(InitialData);
-        location.reload();
+      
+        
+        navigate("/admin/RoomAndProperty")
+        
       } catch (error) {
         console.log(error);
       }
@@ -306,7 +310,8 @@ function RoomAndProperty() {
         if (results.status === 500) {
           console.log(false);
         }
-        location.reload();
+        navigate("/admin/RoomAndProperty")
+        // location.reload();
       } catch (error) {
         console.log(error);
       }
@@ -318,7 +323,8 @@ function RoomAndProperty() {
     try {
       await axios.delete(`http://localhost:4000/room/${id}`);
       setShowPage(InitialData);
-      location.reload();
+      navigate("/admin/RoomAndProperty")
+      // location.reload();
     } catch (error) {
       console.log(error);
     }
