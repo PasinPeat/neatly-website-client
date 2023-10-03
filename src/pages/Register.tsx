@@ -360,7 +360,7 @@ function Register() {
                 setFullName(e.target.value);
               }}
               placeholder="Enter your name and last name"
-              className={`w-full Input focus:outline-none focus:border-orange-500 ${
+              className={`w-full Input ${
                 fullNameError ? "border-[#B61515]" : "focus:outline-none"
               }`}
             />
@@ -395,7 +395,7 @@ function Register() {
                   setUsername(e.target.value);
                 }}
                 placeholder="Enter your username"
-                className={`w-[400px] Input focus:outline-none focus:border-orange-500 ${
+                className={`w-[400px] Input ${
                   usernameError ? "border-[#B61515]" : "focus:outline-none"
                 }`}
                 required
@@ -429,7 +429,7 @@ function Register() {
                   setPassword(e.target.value);
                 }}
                 placeholder="Enter your Password"
-                className={`w-[100%] Input focus:outline-none focus:border-orange-500 ${
+                className={`w-[100%] Input ${
                   passwordError ? "border-[#B61515]" : "focus:outline-none"
                 }`}
                 required
@@ -530,7 +530,7 @@ function Register() {
                   setEmail(e.target.value);
                 }}
                 placeholder="Enter your Email"
-                className={`w-[400px] Input focus:outline-none focus:border-orange-500 ${
+                className={`w-[400px] Input ${
                   emailError ? "border-[#B61515]" : "focus:outline-none"
                 }`}
                 required
@@ -568,7 +568,7 @@ function Register() {
                 pattern="\d*"
                 maxLength={13}
                 placeholder="Enter your ID Number"
-                className={`w-[100%] Input focus:outline-none focus:border-orange-500 ${
+                className={`w-[100%] Input ${
                   idNumberError || idNumberValidError
                     ? "border-[#B61515]"
                     : "focus:outline-none"
@@ -619,11 +619,11 @@ function Register() {
                 onChange={(e) => {
                   setCountry(e.target.value);
                 }}
-                className={`w-[100%] Input focus:outline-none focus:border-orange-500 ${
+                className={`w-[100%] Input ${
                   countriesError ? "border-[#B61515]" : "focus:outline-none"
                 }`}
               >
-                <option value="">Select your country</option>{" "}
+                <option value="">Select your country</option>
                 {countries.map((country) => (
                   <option key={country.value} value={country.value}>
                     {country.label}
@@ -649,7 +649,7 @@ function Register() {
               <div>
                 <label htmlFor="upload">
                   <div
-                    className={`w-[197px] h-[167px] bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center border-2 hover:border-orange-500 active:border-orange-700 ${
+                    className={`w-[197px] h-[167px] bg-gray-200 rounded mb-[25px] flex flex-col justify-center items-center cursor-pointer border-2 hover:border-orange-500 active:border-orange-700 ${
                       invalidFile ? "border-[#B61515]" : "focus:outline-none"
                     }`}
                   >
@@ -734,7 +734,7 @@ function Register() {
                 }}
                 maxLength={19}
                 placeholder="Enter your card number"
-                className={`w-[400px] Input focus:outline-none focus:border-orange-500 ${
+                className={`w-[400px] Input ${
                   creditCardError ? "border-[#B61515]" : "focus:outline-none"
                 }`}
                 required
@@ -770,7 +770,7 @@ function Register() {
                 name="expried"
                 maxLength={5}
                 placeholder="MM/YY"
-                className="w-[100%] Input focus:outline-none focus:border-orange-500"
+                className="w-[100%] Input"
                 required
               />
             </div>
@@ -790,7 +790,7 @@ function Register() {
                 }}
                 name="cardOwner"
                 placeholder="Enter your name"
-                className={`w-[400px] Input focus:outline-none focus:border-orange-500 ${
+                className={`w-[400px] Input ${
                   fullNameErrorCredit
                     ? "border-[#B61515]"
                     : "focus:outline-none"
@@ -829,7 +829,7 @@ function Register() {
                 pattern="\d*"
                 maxLength={3}
                 placeholder="CVC/CVV"
-                className="w-[100%] Input focus:outline-none focus:border-orange-500"
+                className="w-[100%] Input"
                 required
               />
             </div>
@@ -850,7 +850,7 @@ function Register() {
               </button>
 
               <span className="text-gray-700 font-body1">
-                Already have an account?{" "}
+                Already have an account?
                 <a
                   href="/login"
                   className="text-orange-500 font-semibold hover:underline"

@@ -1,5 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import useFormattedPrice from "../../hooks/useFormattedPrice";
+
+interface RoomDetailPageContentProps {
+  roomType: string;
+  bedType: string;
+  description: string;
+  area: string;
+  price: number;
+  promotionPrice: number;
+  amenity: string[];
+  person: number;
+}
+
 function RoomDetailPageContent({
   roomType,
   bedType,
@@ -8,11 +20,12 @@ function RoomDetailPageContent({
   price,
   promotionPrice,
   amenity,
-}) {
+  person,
+}: RoomDetailPageContentProps) {
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-center bg-gray-200 pb-[222px] pt-[80px]">
+    <div className="flex justify-center bg-gray-200 pb-[222px] pt-[80px] text-gray-700">
       <div>
         <div className="w-[738px] flex flex-col gap-14 pb-20 border-b-2 border-indigo-500">
           <h1 className="text-green-800 text-headline2 text-left font-noto-serif-display">
@@ -22,10 +35,11 @@ function RoomDetailPageContent({
             <div className="flex flex-col items-start gap-14">
               <div className="w-96 text-left ">{description}</div>
               <div className="">
-                <span>2 Person</span>
-                <span> | </span>
+                <span>{person}</span>
+                <span> Person</span>
+                <span className="text-gray-500"> | </span>
                 <span>{bedType}</span>
-                <span> | </span>
+                <span className="text-gray-500"> | </span>
                 <span>{area}</span>
                 <span> sqm </span>
               </div>

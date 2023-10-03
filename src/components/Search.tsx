@@ -171,7 +171,7 @@ function Search({ seachResultBtn, onSearchResult, setUserInput }) {
         {showDropdown ? (
           <div
             className={
-              "px-3 w-60 h-12 flex items-center justify-between rounded-[4px] border border-solid border-orange-500 text-gray-600 text-body1"
+              "px-3 w-60 h-12 flex items-center justify-between rounded-[4px] border-2 border-solid border-orange-500 text-gray-600 text-body1"
             }
             onClick={setShowDropdown}
           >
