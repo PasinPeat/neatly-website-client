@@ -19,11 +19,33 @@ import { RoomsProps } from "./interfaces/RoomsProps.tsx";
 import BookingHistory from "./pages/BookingHistory.tsx";
 import { BookingsProvider } from "./contexts/BookingContext.jsx";
 import Admin from "./pages/Admin.tsx";
-import BookingDetails from "./components/Admin/BookingDetails.tsx";
+import CustomerBooking from "./components/Admin/CustomerBooking.tsx";
+import RoomManagement from "./components/Admin/RoomManagement.tsx";
+import RoomAndProperty from "./components/Admin/RoomAndProperty.tsx";
 import jwtDecode from "jwt-decode";
 
 export const RoomsContext = React.createContext();
 
+const onlyAdminRoutes = [
+  {
+    path: "/",
+    element: <Admin />,
+    children: [
+      {
+        path: "/", // This corresponds to / in the parent route
+        element: <CustomerBooking />,
+      },
+      {
+        path: "/RoomManagement",
+        element: <RoomManagement />,
+      },
+      {
+        path: "/RoomAndProperty",
+        element: <RoomAndProperty />,
+      },
+    ],
+  },
+];
 function App() {
   const [rooms, setRooms] = useState<RoomsProps[]>([]);
   const [roomResult, setRoomResult] = useState<RoomsProps[]>([]);
@@ -128,10 +150,51 @@ function App() {
 
   const adminRoutes = (
     <>
-      <Routes>
-        <Route path="/" element={<Admin />} />
-        <Route path="/login" element={<Login />} />
+      {/* <Routes>
+        {onlyAdminRoutes.map(({ path, sidebar }) => (
+          <Route key={path} path={path} element={sidebar} />
+        ))}
       </Routes>
+      <Routes>
+        {onlyAdminRoutes.map(({ path, mainContent }) => (
+          <Route key={path} path={path} element={mainContent} />
+        ))}
+      </Routes> */}
+
+      <Routes>
+      <Route path="/login" element={<Login />} />
+        {onlyAdminRoutes.map(({ path, element, children }) => (
+          <Route key={path} path={path} element={element}>
+            {children &&
+              children.map(({ path: childPath, element: childElement }) => (
+                <Route
+                  key={childPath}
+                  path={childPath}
+                  element={childElement}
+                />
+              ))}
+          </Route>
+        ))}
+        
+      </Routes>
+      {/* <Routes>
+        <Route path="/admin" element={<Admin />}>
+          <Route
+            path="/admin/customerBooking"
+            element={[<Admin />, <CustomerBooking />]}
+          />
+          <Route
+            path="/admin/RoomManagement"
+            element={[<Admin />, <RoomManagement />]}
+          />
+          <Route
+            path="/admin/RoomAndProperty"
+            element={[<Admin />, <RoomAndProperty />]}
+          />
+        </Route>
+
+        <Route path="/login" element={<Login />} />
+      </Routes> */}
     </>
   );
 

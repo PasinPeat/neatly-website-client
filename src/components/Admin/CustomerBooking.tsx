@@ -21,7 +21,7 @@ import { StyledTableCell, StyledTableRow } from "./styledTable";
 import "../../responsive.css";
 import Loader from "../Loader";
 
-export default function CustomPaginationActionsTable() {
+function CustomerBooking({handleCustomerBooking}) {
   const [booking, setBooking] = useState([]);
   const [filterBookingList, setFilterBookingList] = useState(booking);
   const [selectedByText, setSelectedByText] = useState("");
@@ -67,6 +67,7 @@ export default function CustomPaginationActionsTable() {
   };
 
   useEffect(() => {
+    handleCustomerBooking()
     getBooking();
   }, []);
 
@@ -392,3 +393,5 @@ export default function CustomPaginationActionsTable() {
     </div>
   );
 }
+
+export default CustomerBooking

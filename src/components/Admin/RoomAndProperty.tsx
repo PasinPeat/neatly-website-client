@@ -18,7 +18,7 @@ import SearchAdmin from "./SearchAdmin";
 import NavbarAdmin from "./NavbarAdmin";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { useNavigate } from "react-router-dom";
 function createData(
   image: string,
   type: string,
@@ -43,7 +43,7 @@ function createData(
   };
 }
 
-function RoomAndProperty() {
+function RoomAndProperty({handleRoomandProperty}) {
   const [rooms, setRooms] = useState([]);
 
   const [showPage, setShowPage] = useState(null);
@@ -70,7 +70,7 @@ function RoomAndProperty() {
   const [amenityError, setAmenityError] = useState(false);
   const [formError, setFormError] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
   const getRooms = async () => {
     try {
       const results = await axios(`http://localhost:4000/room/`);
@@ -81,6 +81,7 @@ function RoomAndProperty() {
   };
 
   useEffect(() => {
+    handleRoomandProperty()
     getRooms();
   }, []);
 
@@ -222,8 +223,13 @@ function RoomAndProperty() {
         await axios.put(`http://localhost:4000/room/${id}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
+        
         setShowPage(InitialData);
+      
+        
+        // navigate("/admin/RoomAndProperty")
         location.reload();
+        
       } catch (error) {
         console.log(error);
       }
@@ -306,6 +312,7 @@ function RoomAndProperty() {
         if (results.status === 500) {
           console.log(false);
         }
+        // navigate("/admin/RoomAndProperty")
         location.reload();
       } catch (error) {
         console.log(error);
@@ -318,6 +325,7 @@ function RoomAndProperty() {
     try {
       await axios.delete(`http://localhost:4000/room/${id}`);
       setShowPage(InitialData);
+      // navigate("/admin/RoomAndProperty")
       location.reload();
     } catch (error) {
       console.log(error);

@@ -7,9 +7,12 @@ import SidebarItems from "../components/Admin/SidebarItems";
 import Divider from "@mui/material/Divider";
 import MuiDrawer from "@mui/material/Drawer";
 import { PageProvider } from "../contexts/PageContext";
+import { Routes, Route } from "react-router-dom";
 import List from "@mui/material/List";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
+
+
 
 function Admin() {
   const Drawer = styled(MuiDrawer)(({ theme }) => ({
@@ -36,35 +39,64 @@ function Admin() {
 
   const [customerBooking, setCustomerBooking] = useState(true);
   const [roomManage, setRoomManage] = useState(false);
-  const [hotelInfo, setHotelInfo] = useState(false);
+
   const [roomandProperty, setRoomandProperty] = useState(false);
 
   const handleCustomerBooking = () => {
     setCustomerBooking(true);
     setRoomManage(false);
-    setHotelInfo(false);
     setRoomandProperty(false);
   };
   const handleRoomManage = () => {
     setCustomerBooking(false);
     setRoomManage(true);
-    setHotelInfo(false);
     setRoomandProperty(false);
   };
 
   const handleHotelInfo = () => {
     setCustomerBooking(false);
     setRoomManage(false);
-    setHotelInfo(true);
     setRoomandProperty(false);
   };
 
   const handleRoomandProperty = () => {
     setCustomerBooking(false);
     setRoomManage(false);
-    setHotelInfo(false);
     setRoomandProperty(true);
   };
+
+  const onlyAdminRoutes = [
+    // {
+    //   path: "/",
+    //   element: <Admin />,
+    //   children: [
+    //     {
+    //       path: "/", // This corresponds to / in the parent route
+    //       element: <CustomerBooking />,
+    //     },
+    //     {
+    //       path: "/RoomManagement",
+    //       element: <RoomManagement />,
+    //     },
+    //     {
+    //       path: "/RoomAndProperty",
+    //       element: <RoomAndProperty />,
+    //     },
+    //   ],
+    // },
+    {
+      path: "/",
+      main: () => <CustomerBooking handleCustomerBooking={handleCustomerBooking}  /> 
+    },
+    {
+      path: "/RoomManagement",
+      main: () => <RoomManagement handleRoomManage={handleRoomManage} /> 
+    },
+    {
+      path: "/RoomAndProperty",
+      main: () => <RoomAndProperty handleRoomandProperty={handleRoomandProperty} /> 
+    },
+  ];
 
   const DrawerSx = {
     bgcolor: "#2F3E35",
@@ -94,7 +126,6 @@ function Admin() {
               <SidebarItems
                 customerBooking={customerBooking}
                 roomManage={roomManage}
-                hotelInfo={hotelInfo}
                 roomandProperty={roomandProperty}
                 handleCustomerBooking={handleCustomerBooking}
                 handleRoomManage={handleRoomManage}
@@ -105,11 +136,16 @@ function Admin() {
           </Drawer>
         </div>
         <div className="w-[100vw-240px] ml-[240px] min-h-screen">
-          {customerBooking && <CustomerBooking />}
+          {/* {customerBooking && <CustomerBooking />}
           {roomManage && <RoomManagement />}
-          {hotelInfo && <HotelInformation />}
-          {roomandProperty && <RoomAndProperty />}
+          {roomandProperty && <RoomAndProperty />} */}
+          <Routes>
+          {onlyAdminRoutes.map(({ path, main }) => (
+            <Route key={path} path={path} element={main()} />
+          ))}
+        </Routes>
         </div>
+        
       </div>
     </PageProvider>
   );
