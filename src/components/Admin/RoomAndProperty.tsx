@@ -43,7 +43,7 @@ function createData(
   };
 }
 
-function RoomAndProperty() {
+function RoomAndProperty({handleRoomandProperty}) {
   const [rooms, setRooms] = useState([]);
 
   const [showPage, setShowPage] = useState(null);
@@ -81,6 +81,7 @@ function RoomAndProperty() {
   };
 
   useEffect(() => {
+    handleRoomandProperty()
     getRooms();
   }, []);
 
@@ -226,7 +227,8 @@ function RoomAndProperty() {
         setShowPage(InitialData);
       
         
-        navigate("/admin/RoomAndProperty")
+        // navigate("/admin/RoomAndProperty")
+        location.reload();
         
       } catch (error) {
         console.log(error);
@@ -310,8 +312,8 @@ function RoomAndProperty() {
         if (results.status === 500) {
           console.log(false);
         }
-        navigate("/admin/RoomAndProperty")
-        // location.reload();
+        // navigate("/admin/RoomAndProperty")
+        location.reload();
       } catch (error) {
         console.log(error);
       }
@@ -323,8 +325,8 @@ function RoomAndProperty() {
     try {
       await axios.delete(`http://localhost:4000/room/${id}`);
       setShowPage(InitialData);
-      navigate("/admin/RoomAndProperty")
-      // location.reload();
+      // navigate("/admin/RoomAndProperty")
+      location.reload();
     } catch (error) {
       console.log(error);
     }

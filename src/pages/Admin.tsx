@@ -86,15 +86,15 @@ function Admin() {
     // },
     {
       path: "/",
-      main: () => <CustomerBooking /> 
+      main: () => <CustomerBooking handleCustomerBooking={handleCustomerBooking}  /> 
     },
     {
       path: "/RoomManagement",
-      main: () => <RoomManagement />,
+      main: () => <RoomManagement handleRoomManage={handleRoomManage} /> 
     },
     {
       path: "/RoomAndProperty",
-      main: () => <RoomAndProperty />,
+      main: () => <RoomAndProperty handleRoomandProperty={handleRoomandProperty} /> 
     },
   ];
 

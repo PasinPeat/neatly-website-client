@@ -25,7 +25,7 @@ interface BookingType {
   room_status: string;
 }
 
-function RoomManagement() {
+function RoomManagement({handleRoomManage}) {
   const [booking, setBooking] = useState<BookingType[]>([]);
   const [filterBookingList, setFilterBookingList] = useState<BookingType[]>([]);
   const [selectedByText, setSelectedByText] = useState<string>("");
@@ -71,6 +71,7 @@ function RoomManagement() {
   };
 
   useEffect(() => {
+    handleRoomManage()
     getBooking();
   }, []);
 

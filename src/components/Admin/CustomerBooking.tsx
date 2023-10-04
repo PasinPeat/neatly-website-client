@@ -21,7 +21,7 @@ import { StyledTableCell, StyledTableRow } from "./styledTable";
 import "../../responsive.css";
 import Loader from "../Loader";
 
-function CustomerBooking() {
+function CustomerBooking({handleCustomerBooking}) {
   const [booking, setBooking] = useState([]);
   const [filterBookingList, setFilterBookingList] = useState(booking);
   const [selectedByText, setSelectedByText] = useState("");
@@ -67,6 +67,7 @@ function CustomerBooking() {
   };
 
   useEffect(() => {
+    handleCustomerBooking()
     getBooking();
   }, []);
 
