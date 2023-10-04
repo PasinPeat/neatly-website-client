@@ -7,9 +7,12 @@ import SidebarItems from "../components/Admin/SidebarItems";
 import Divider from "@mui/material/Divider";
 import MuiDrawer from "@mui/material/Drawer";
 import { PageProvider } from "../contexts/PageContext";
+import { Routes, Route } from "react-router-dom";
 import List from "@mui/material/List";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
+
+
 
 function Admin() {
   const Drawer = styled(MuiDrawer)(({ theme }) => ({
@@ -62,6 +65,39 @@ function Admin() {
     setRoomandProperty(true);
   };
 
+  const onlyAdminRoutes = [
+    // {
+    //   path: "/",
+    //   element: <Admin />,
+    //   children: [
+    //     {
+    //       path: "/", // This corresponds to / in the parent route
+    //       element: <CustomerBooking />,
+    //     },
+    //     {
+    //       path: "/RoomManagement",
+    //       element: <RoomManagement />,
+    //     },
+    //     {
+    //       path: "/RoomAndProperty",
+    //       element: <RoomAndProperty />,
+    //     },
+    //   ],
+    // },
+    {
+      path: "/",
+      main: () => <CustomerBooking /> 
+    },
+    {
+      path: "/RoomManagement",
+      main: () => <RoomManagement />,
+    },
+    {
+      path: "/RoomAndProperty",
+      main: () => <RoomAndProperty />,
+    },
+  ];
+
   const DrawerSx = {
     bgcolor: "#2F3E35",
 
@@ -99,11 +135,17 @@ function Admin() {
             </List>
           </Drawer>
         </div>
-        {/* <div className="w-[100vw-240px] ml-[240px] min-h-screen">
-          {customerBooking && <CustomerBooking />}
+        <div className="w-[100vw-240px] ml-[240px] min-h-screen">
+          {/* {customerBooking && <CustomerBooking />}
           {roomManage && <RoomManagement />}
-          {roomandProperty && <RoomAndProperty />}
-        </div> */}
+          {roomandProperty && <RoomAndProperty />} */}
+          <Routes>
+          {onlyAdminRoutes.map(({ path, main }) => (
+            <Route key={path} path={path} element={main()} />
+          ))}
+        </Routes>
+        </div>
+        
       </div>
     </PageProvider>
   );

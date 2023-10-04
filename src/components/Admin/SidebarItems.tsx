@@ -47,7 +47,7 @@ function SidebarItems(props) {
   return (
     <React.Fragment>
       <Stack spacing={0.4}>
-        <Link to="/admin/customerBooking">
+        <Link to="/">
           <ListItemButton
             sx={props.customerBooking ? ButtonSxHilight : ButtonSx}
             onClick={props.handleCustomerBooking}
@@ -58,7 +58,7 @@ function SidebarItems(props) {
             <ListItemText sx={TextSx} primary="Customer Booking" />
           </ListItemButton>
         </Link>
-        <Link to="/admin/RoomManagement">
+        <Link to="RoomManagement">
 
         
         <ListItemButton
@@ -72,7 +72,7 @@ function SidebarItems(props) {
         </ListItemButton>
         </Link>
 
-        <Link to="/admin/RoomAndProperty">
+        <Link to="RoomAndProperty">
 
         <ListItemButton
           sx={props.roomandProperty ? ButtonSxHilight : ButtonSx}

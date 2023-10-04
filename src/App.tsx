@@ -36,11 +36,11 @@ const onlyAdminRoutes = [
         element: <CustomerBooking />,
       },
       {
-        path: "RoomManagement",
+        path: "/RoomManagement",
         element: <RoomManagement />,
       },
       {
-        path: "RoomAndProperty",
+        path: "/RoomAndProperty",
         element: <RoomAndProperty />,
       },
     ],
@@ -161,7 +161,7 @@ function App() {
         ))}
       </Routes> */}
 
-      {/* <Routes>
+      <Routes>
       <Route path="/login" element={<Login />} />
         {onlyAdminRoutes.map(({ path, element, children }) => (
           <Route key={path} path={path} element={element}>
@@ -176,8 +176,8 @@ function App() {
           </Route>
         ))}
         
-      </Routes> */}
-      <Routes>
+      </Routes>
+      {/* <Routes>
         <Route path="/admin" element={<Admin />}>
           <Route
             path="/admin/customerBooking"
@@ -194,7 +194,7 @@ function App() {
         </Route>
 
         <Route path="/login" element={<Login />} />
-      </Routes>
+      </Routes> */}
     </>
   );
 
