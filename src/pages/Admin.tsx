@@ -99,11 +99,11 @@ function Admin() {
             </List>
           </Drawer>
         </div>
-        <div className="w-[100vw-240px] ml-[240px] min-h-screen">
+        {/* <div className="w-[100vw-240px] ml-[240px] min-h-screen">
           {customerBooking && <CustomerBooking />}
           {roomManage && <RoomManagement />}
           {roomandProperty && <RoomAndProperty />}
-        </div>
+        </div> */}
       </div>
     </PageProvider>
   );
