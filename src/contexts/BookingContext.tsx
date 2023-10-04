@@ -1,14 +1,13 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "./authen";
-import Loader from "../components/Loader";
 
 const BookingsContext = createContext();
 
 export function BookingsProvider({ children }: any) {
   const [bookingsHistory, setBookingsHistory] = useState([]);
   const auth = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
+
   // console.log(bookingsHistory);
 
   const getBookingsHistory = async () => {
@@ -26,14 +25,12 @@ export function BookingsProvider({ children }: any) {
   };
 
   useEffect(() => {
-    getBookingsHistory().then(() => {
-      setIsLoading(false);
-    });
+    getBookingsHistory();
   }, [auth.state.userData]);
 
   return (
     <BookingsContext.Provider value={{ bookingsHistory }}>
-      {isLoading ? <Loader /> : <>{children}</>}
+      {children}
     </BookingsContext.Provider>
   );
 }
